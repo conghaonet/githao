@@ -1,4 +1,4 @@
-# githao
+# GitHao
 
 An open-source GitHub Flutter client app
 

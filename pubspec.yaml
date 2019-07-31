@@ -19,6 +19,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  fluttertoast: ^3.1.0
+  shared_preferences: ^0.5.3+4
+  json_annotation: ^2.4.0
+  stack_trace: ^1.9.3
+  dio: ^2.1.13
+  logging: ^0.11.3+2
+  intl: ^0.15.8
+  connectivity: ^0.4.3+6
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -27,6 +37,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: ^1.6.5
+  json_serializable: ^3.1.0
 
 
 # For information on the generic Dart part of this file, see the
@@ -44,6 +56,9 @@ flutter:
   # assets:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
+  assets:
+    - res/values/
+    - images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,0 +1,9 @@
+{
+  "appTitle": "GitHao",
+  "login": "Login",
+  "email": "Email",
+  "loginUsernameHint": "GitHub username",
+  "loginPasswordHint": "GitHub password",
+  "loginUsernameCanNotEmpty": "The username cannot be empty",
+  "loginPasswordCanNotEmpty": "The password cannot be empty"
+}

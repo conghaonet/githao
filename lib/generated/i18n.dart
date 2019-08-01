@@ -19,6 +19,13 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
+  String get appTitle => "GitHao";
+  String get email => "Email";
+  String get login => "Login";
+  String get loginPasswordCanNotEmpty => "The password cannot be empty";
+  String get loginPasswordHint => "GitHub password";
+  String get loginUsernameCanNotEmpty => "The username cannot be empty";
+  String get loginUsernameHint => "GitHub username";
 }
 
 class $en extends S {

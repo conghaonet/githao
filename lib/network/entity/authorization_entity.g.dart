@@ -1,16 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'authorizations.dart';
+part of 'authorization_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Authorizations _$AuthorizationsFromJson(Map<String, dynamic> json) {
-  return Authorizations(
+AuthorizationEntity _$AuthorizationEntityFromJson(Map<String, dynamic> json) {
+  return AuthorizationEntity(
     app: json['app'] == null
         ? null
-        : AuthorizationsApp.fromJson(json['app'] as Map<String, dynamic>),
+        : AuthorizationApp.fromJson(json['app'] as Map<String, dynamic>),
     hashedToken: json['hashed_token'] as String,
     note: json['note'],
     noteUrl: json['note_url'] as String,
@@ -25,7 +25,8 @@ Authorizations _$AuthorizationsFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AuthorizationsToJson(Authorizations instance) =>
+Map<String, dynamic> _$AuthorizationEntityToJson(
+        AuthorizationEntity instance) =>
     <String, dynamic>{
       'app': instance.app,
       'hashed_token': instance.hashedToken,
@@ -41,15 +42,15 @@ Map<String, dynamic> _$AuthorizationsToJson(Authorizations instance) =>
       'token': instance.token,
     };
 
-AuthorizationsApp _$AuthorizationsAppFromJson(Map<String, dynamic> json) {
-  return AuthorizationsApp(
+AuthorizationApp _$AuthorizationAppFromJson(Map<String, dynamic> json) {
+  return AuthorizationApp(
     name: json['name'] as String,
     url: json['url'] as String,
     clientId: json['client_id'] as String,
   );
 }
 
-Map<String, dynamic> _$AuthorizationsAppToJson(AuthorizationsApp instance) =>
+Map<String, dynamic> _$AuthorizationAppToJson(AuthorizationApp instance) =>
     <String, dynamic>{
       'name': instance.name,
       'url': instance.url,

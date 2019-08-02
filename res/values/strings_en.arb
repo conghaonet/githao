@@ -6,5 +6,6 @@
   "loginPasswordHint": "GitHub password",
   "loginUsernameCanNotEmpty": "The username cannot be empty",
   "loginPasswordCanNotEmpty": "The password cannot be empty",
-  "ignore": "Ignore"
+  "ignore": "Ignore",
+  "myRepos": "My repos"
 }

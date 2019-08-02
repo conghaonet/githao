@@ -33,6 +33,7 @@ class _SplashPageState extends State<SplashPage> {
     timer = Timer(const Duration(seconds: ANIMATION_SECONDS + 1), () {
       hasLogin();
     });
+    //界面渲染第一帧时的监听，仅监听一次。
     WidgetsBinding.instance.addPostFrameCallback((_){
       print("Frame has been rendered");
       setState(() {

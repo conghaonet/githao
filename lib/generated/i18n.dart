@@ -21,6 +21,7 @@ class S implements WidgetsLocalizations {
 
   String get appTitle => "GitHao";
   String get email => "Email";
+  String get ignore => "Ignore";
   String get login => "Login";
   String get loginPasswordCanNotEmpty => "The password cannot be empty";
   String get loginPasswordHint => "GitHub password";

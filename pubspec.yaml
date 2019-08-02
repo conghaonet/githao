@@ -82,5 +82,9 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+    - family: AGENCYR # Agency FB
+      fonts:
+        - asset: fonts/AGENCYR.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -8,7 +8,10 @@ import 'package:githao/utils/shared_preferences.dart';
 import 'package:githao/utils/util.dart';
 import 'dart:convert';
 
+import 'home.dart';
+
 class LoginPage extends StatefulWidget {
+  static const ROUTE_NAME = "/login";
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -39,11 +42,7 @@ class _LoginPageState extends State<LoginPage> {
       spUtil.putString(SharedPreferencesKeys.userName, this.username);
       spUtil.putString(SharedPreferencesKeys.gitHubAuthorizationBasic, authBasic);
       spUtil.putString(SharedPreferencesKeys.gitHubAuthorizationToken, 'token ${authorizationEntity.token}');
-      return;
-    }).then<UserEntity>((_) {
-      return ApiService.getUser();
-    }).then((user){
-      Util.showToast('user.created_at = ${user.createdAt}');
+      Navigator.of(context).pushReplacementNamed(HomePage.ROUTE_NAME);
     }).catchError((e) {
       Util.showToast('登录失败：${e.toString()}');
     });
@@ -63,9 +62,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).appTitle),
-      ),
       body: ListView(
         children: <Widget>[
           Stack(
@@ -152,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                             elevation: 0,
                             borderRadius: BorderRadius.all(Radius.circular(30)),
                             child: Icon(
-                              Icons.email,
+                              Icons.account_circle,
                               color: Colors.red,
                             ),
                           ),
@@ -224,8 +220,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   onPressed: () {
                     if(_loginFormKey.currentState.validate()) {
-//                      doLogin();
-                      getCurrentUser();
+                      doLogin();
+//                      getCurrentUser();
                     }
                   },
                 ),

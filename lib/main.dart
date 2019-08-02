@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:githao/pages/home.dart';
 import 'package:githao/pages/login.dart';
+import 'package:githao/pages/splash.dart';
+import 'package:githao/routes/app_route.dart';
+import 'package:githao/utils/shared_preferences.dart';
 
 import 'generated/i18n.dart';
 
@@ -15,17 +19,40 @@ void main() {
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  /// 验证用户是否已登录
+/*
+  Future<bool> hasLogin() async {
+    var spUtil = await SpUtil.getInstance();
+    var auth = spUtil.getString(SharedPreferencesKeys.gitHubAuthorizationBasic);
+    return auth != null && auth.isNotEmpty;
+  }
+*/
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // 定义静态路由，不能传递参数
+      routes: appRoute.routes,
+      //动态路由，可传递参数
+      onGenerateRoute: appRoute.generateRoute,
+      navigatorObservers: [
+        appRoute,
+      ],
+      // 国际化设置
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate
       ],
       supportedLocales: S.delegate.supportedLocales,
-//      localeResolutionCallback: S.delegate.resolution(fallback: const Locale('en', '')),
+      //指定默认语言
+      //localeResolutionCallback: S.delegate.resolution(fallback: const Locale('en', '')),
       title: 'githao',
       onGenerateTitle: (context) => S.of(context).appTitle,
       theme: ThemeData(
@@ -35,7 +62,7 @@ class MyApp extends StatelessWidget {
         cursorColor: Colors.deepOrange, //光标颜色
 //        accentColor: Colors.deepOrangeAccent,
       ),
-      home: LoginPage(),
+      home: SplashPage(),
     );
   }
 }

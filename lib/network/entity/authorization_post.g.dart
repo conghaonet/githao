@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'authorizations_post.dart';
+part of 'authorization_post.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-AuthorizationsPost _$AuthorizationsPostFromJson(Map<String, dynamic> json) {
-  return AuthorizationsPost(
+AuthorizationPost _$AuthorizationPostFromJson(Map<String, dynamic> json) {
+  return AuthorizationPost(
     clientId: json['client_id'] as String,
     clientSecret: json['client_secret'] as String,
     appName: json['appName'] as String,
@@ -16,7 +16,7 @@ AuthorizationsPost _$AuthorizationsPostFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AuthorizationsPostToJson(AuthorizationsPost instance) =>
+Map<String, dynamic> _$AuthorizationPostToJson(AuthorizationPost instance) =>
     <String, dynamic>{
       'client_id': instance.clientId,
       'client_secret': instance.clientSecret,

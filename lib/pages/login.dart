@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
-import 'package:githao/network/bean/authorizations.dart';
-import 'package:githao/network/bean/user.dart';
+import 'package:githao/network/entity/authorization_entity.dart';
+import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/utils/data_util.dart';
 import 'package:githao/utils/shared_preferences.dart';
 import 'package:githao/utils/util.dart';
 import 'dart:convert';
@@ -31,25 +32,26 @@ class _LoginPageState extends State<LoginPage> {
       isLoading = true;
     });
     String authBasic = getCredentialsBasic(username, password);
-    ApiService.login(authBasic)
-        .then<Authorizations>((Authorizations auth) async {
-          SpUtil spUtil = await SpUtil.getInstance();
-          spUtil.putString(SharedPreferencesKeys.userName, this.username);
-          spUtil.putString(SharedPreferencesKeys.gitHubAuthorizationBasic, authBasic);
-          spUtil.putString(SharedPreferencesKeys.gitHubAuthorizationToken, 'token ${auth.token}');
-          return auth;
-    }).then<User>((auth) {
+    DataUtil.clearLoginData().then<AuthorizationEntity>((_) {
+      return ApiService.login(authBasic);
+    }).then((authorizationEntity) async {
+      SpUtil spUtil = await SpUtil.getInstance();
+      spUtil.putString(SharedPreferencesKeys.userName, this.username);
+      spUtil.putString(SharedPreferencesKeys.gitHubAuthorizationBasic, authBasic);
+      spUtil.putString(SharedPreferencesKeys.gitHubAuthorizationToken, 'token ${authorizationEntity.token}');
+      return;
+    }).then<UserEntity>((_) {
       return ApiService.getUser();
     }).then((user){
-      Util.showToast('user.created_at = ${user.created_at}');
+      Util.showToast('user.created_at = ${user.createdAt}');
     }).catchError((e) {
       Util.showToast('登录失败：${e.toString()}');
     });
   }
 
   getCurrentUser() async {
-    User user = await ApiService.getUser();
-    Util.showToast('user.html_url = ${user.html_url}');
+    UserEntity user = await ApiService.getUser();
+    Util.showToast('user.html_url = ${user.htmlUrl}');
   }
 
   String getCredentialsBasic(String username, String password) {
@@ -222,8 +224,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   onPressed: () {
                     if(_loginFormKey.currentState.validate()) {
-                      doLogin();
-//                      getCurrentUser();
+//                      doLogin();
+                      getCurrentUser();
                     }
                   },
                 ),

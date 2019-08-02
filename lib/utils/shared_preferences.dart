@@ -3,9 +3,8 @@ import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-//export 'package:flutter_go/resources/shared_preferences_keys.dart';
-
 export 'package:githao/resources/shared_preferences_keys.dart';
+
 /// 用来做shared_preferences的存储
 class SpUtil {
   static SpUtil _instance;
@@ -53,7 +52,7 @@ class SpUtil {
     return _spf.get(key);
   }
 
-  getString(String key) {
+  String getString(String key) {
     if (_beforeCheck()) return null;
     return _spf.getString(key);
   }

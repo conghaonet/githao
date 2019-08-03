@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:githao/pages/home.dart';
-import 'package:githao/pages/login.dart';
 import 'package:githao/pages/splash.dart';
+import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/app_route.dart';
-import 'package:githao/utils/shared_preferences.dart';
+import 'package:provide/provide.dart';
 
 import 'generated/i18n.dart';
 
 void main() {
-  runApp(MyApp());
+  final providers = Providers()
+    ..provide(Provider.function((context) => UserProvide()));
+  runApp(ProviderNode(
+    providers: providers,
+    child: MyApp(),
+  ));
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.deepOrange, //状态栏背景色
     statusBarIconBrightness: Brightness.light, //状态栏图标颜色，白色：Brightness.light，黑色：Brightness.dark

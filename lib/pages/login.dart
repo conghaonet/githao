@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:githao/biz/user_biz.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/provide/user_provide.dart';
 import 'package:githao/utils/util.dart';
+import 'package:provide/provide.dart';
 import 'dart:convert';
 
 import 'home.dart';
@@ -43,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
       return UserBiz.login(username, password);
     }).then((userEntity) async {
       if(userEntity != null ) {
+        Provide.value<UserProvide>(context).updateUser(userEntity);
         Navigator.of(context).pushReplacementNamed(HomePage.ROUTE_NAME);
       } else {
         throw Exception("获取用户信息出错！");

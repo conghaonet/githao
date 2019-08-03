@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:githao/biz/user_biz.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/provide/user_provide.dart';
+import 'package:provide/provide.dart';
 
 import 'home.dart';
 import 'login.dart';
@@ -22,6 +24,7 @@ class _SplashPageState extends State<SplashPage> {
   Future hasLogin() async {
     UserEntity userEntity = await UserBiz.getUser();
     if (userEntity != null) {
+      Provide.value<UserProvide>(context).updateUser(userEntity);
       Navigator.of(context).pushReplacementNamed(HomePage.ROUTE_NAME);
     } else {
       Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);

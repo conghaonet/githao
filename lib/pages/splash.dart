@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:githao/utils/shared_preferences.dart';
+import 'package:githao/biz/user_biz.dart';
+import 'package:githao/network/entity/user_entity.dart';
 
 import 'home.dart';
 import 'login.dart';
@@ -19,9 +20,8 @@ class _SplashPageState extends State<SplashPage> {
   Timer timer;
   /// 验证用户是否已登录
   Future hasLogin() async {
-    var spUtil = await SpUtil.getInstance();
-    var auth = spUtil.getString(SharedPreferencesKeys.gitHubAuthorizationBasic);
-    if (auth != null && auth.isNotEmpty) {
+    UserEntity userEntity = await UserBiz.getUser();
+    if (userEntity != null) {
       Navigator.of(context).pushReplacementNamed(HomePage.ROUTE_NAME);
     } else {
       Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);

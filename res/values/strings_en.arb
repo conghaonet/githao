@@ -16,6 +16,7 @@
   "search": "Search",
   "trending": "Trending",
   "settings": "Settings",
-  "about": "About"
+  "about": "About",
+  "logout": "Logout"
 
 }

@@ -10,7 +10,7 @@ class AuthorizationPost {
   static const CLIENT_SECRET  = "b341fe1eb154f1d78b4f8f58288106d95bce3bf0";
   static const APPLICATION_NAME = "HaoGitHub";
   static const CALLBACK_URL = "https://github.com/conghaonet/HaoGitHub/callback";
-  static const List<String> SCOPES = ["user", "repo", "gist", "notifications"];
+  static const List<String> SCOPES = ["user", "repo", "gist", "notifications", "write:discussion"];
 
   @JsonKey(name: 'client_id')
   String clientId;

@@ -13,7 +13,7 @@ class SharedPreferencesKeys {
   static String userName = 'userName';
   static String gitHubAuthorizationBasic = 'gitHubAuthorizationBasic';
   static String gitHubAuthorizationToken = 'gitHubAuthorizationToken';
-  static String userInfo = 'userInfo';
   static String userEntity = 'userEntity';
+//  static String loginTimeMilliseconds = "loginTimeMilliseconds";
 }
 

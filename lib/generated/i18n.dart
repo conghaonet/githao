@@ -28,6 +28,7 @@ class S implements WidgetsLocalizations {
   String get loginPasswordHint => "GitHub password";
   String get loginUsernameCanNotEmpty => "The username cannot be empty";
   String get loginUsernameHint => "GitHub username";
+  String get logout => "Logout";
   String get myRepos => "My repos";
   String get news => "News";
   String get notifications => "Notifications";

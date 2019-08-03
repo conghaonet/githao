@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:githao/biz/user_biz.dart';
 import 'package:githao/generated/i18n.dart';
-import 'package:githao/network/api_service.dart';
-import 'package:githao/network/entity/authorization_entity.dart';
 import 'package:githao/network/entity/user_entity.dart';
-import 'package:githao/utils/data_util.dart';
-import 'package:githao/utils/shared_preferences.dart';
 import 'package:githao/utils/util.dart';
 import 'dart:convert';
 
@@ -41,27 +38,22 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       isLoading = true;
     });
-    SpUtil spUtil;
-    String authBasic = getCredentialsBasic(username, password);
-    DataUtil.clearLoginData().then<AuthorizationEntity>((_) {
-      return ApiService.login(authBasic);
-    }).then((authorizationEntity) async {
-      spUtil = await SpUtil.getInstance();
-      spUtil.putString(SharedPreferencesKeys.userName, this.username);
-      spUtil.putString(SharedPreferencesKeys.gitHubAuthorizationBasic, authBasic);
-      spUtil.putString(SharedPreferencesKeys.gitHubAuthorizationToken, 'token ${authorizationEntity.token}');
-      Navigator.of(context).pushReplacementNamed(HomePage.ROUTE_NAME);
-    }).then<UserEntity>((_){
-      return ApiService.getAuthenticatedUser();
-    }).then((userEntity){
-      spUtil.putString(SharedPreferencesKeys.userEntity, jsonEncode(userEntity));
+    //登录前，先移除之前保存的登录信息。
+    UserBiz.logout().then<UserEntity>((_) {
+      return UserBiz.login(username, password);
+    }).then((userEntity) async {
+      if(userEntity != null ) {
+        Navigator.of(context).pushReplacementNamed(HomePage.ROUTE_NAME);
+      } else {
+        throw Exception("获取用户信息出错！");
+      }
     }).catchError((e) {
       Util.showToast('登录失败：${e.toString()}');
     });
   }
 
   getCurrentUser() async {
-    UserEntity user = await ApiService.getAuthenticatedUser();
+    UserEntity user = await UserBiz.getUser();
     Util.showToast('user.html_url = ${user.htmlUrl}');
   }
 

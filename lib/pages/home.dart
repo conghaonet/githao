@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:githao/biz/user_biz.dart';
 
 import 'package:githao/generated/i18n.dart';
+
+import 'login.dart';
 class HomePage extends StatefulWidget {
   static const ROUTE_NAME = "/home";
   @override
@@ -61,7 +64,7 @@ class _HomePageState extends State<HomePage> {
           child: ListTile(
             leading: Icon(Icons.storage,),
             title: Text(S.of(context).myRepos,),
-            onTap: () => {},
+            onTap: () {},
             selected: true,
           ),
         ),
@@ -70,8 +73,7 @@ class _HomePageState extends State<HomePage> {
           child: ListTile(
             leading: Icon(Icons.star,),
             title: Text(S.of(context).starredRepos,),
-            onTap: () => {
-            },
+            onTap: () {},
           ),
         ),
         Material(
@@ -79,8 +81,7 @@ class _HomePageState extends State<HomePage> {
           child: ListTile(
             leading: Icon(Icons.trending_up,),
             title: Text(S.of(context).trending,),
-            onTap: () => {
-            },
+            onTap: () {},
           ),
         ),
         Divider(height: 1, color: Theme.of(context).primaryColor,),
@@ -89,7 +90,17 @@ class _HomePageState extends State<HomePage> {
           child: ListTile(
             leading: Icon(Icons.settings,),
             title: Text(S.of(context).settings,),
-            onTap: () => {
+            onTap: () {},
+          ),
+        ),
+        Material(
+          color: Colors.white,
+          child: ListTile(
+            leading: Icon(Icons.exit_to_app,),
+            title: Text(S.of(context).logout,),
+            onTap: () {
+              UserBiz.logout();
+              Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
             },
           ),
         ),
@@ -98,8 +109,7 @@ class _HomePageState extends State<HomePage> {
           child: ListTile(
             leading: Icon(Icons.info,),
             title: Text(S.of(context).about,),
-            onTap: () => {
-            },
+            onTap: () {},
           ),
         ),
       ]),

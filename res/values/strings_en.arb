@@ -17,6 +17,6 @@
   "trending": "Trending",
   "settings": "Settings",
   "about": "About",
-  "logout": "Logout"
-
+  "logout": "Logout",
+  "refreshFailedCheckNetwork": "Refresh failed, please check your network connection."
 }

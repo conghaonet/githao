@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:githao/biz/user_biz.dart';
 
 import 'package:githao/generated/i18n.dart';
+import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/provide/user_provide.dart';
+import 'package:githao/utils/util.dart';
 import 'package:provide/provide.dart';
 
 import 'login.dart';
@@ -119,21 +121,29 @@ class _HomePageState extends State<HomePage> {
   }
 
   static Widget _drawerHeader() {
-    return UserAccountsDrawerHeader(
-      accountName: Provide<UserProvide>(
-        builder: (context, child, userProvide) => Text('${userProvide.user.login}'),
-      ),
-      accountEmail: Provide<UserProvide>(
-        builder: (context, child, userProvide) => Text('${userProvide.user.email}'),
-      ),
-      currentAccountPicture:  Provide<UserProvide>(
-        builder: (context, child, userProvide) {
-          return CircleAvatar(
+    return Provide<UserProvide>(
+      builder: (context, child, userProvide) {
+        return UserAccountsDrawerHeader(
+          accountName: Text('${userProvide.user.login}'),
+          accountEmail: Text('${userProvide.user.email}'),
+          currentAccountPicture:  CircleAvatar(
             backgroundImage: NetworkImage(userProvide.user.avatarUrl),
-          );
-        },
-      ),
-//      onDetailsPressed: () {},
+          ),
+          otherAccountsPictures: <Widget>[
+            IconButton(
+              icon: Icon(Icons.refresh, color: Colors.white,),
+              onPressed: () async {
+                UserEntity userEntity = await UserBiz.getUser(forceRefresh: true);
+                if(userEntity != null) {
+                  Provide.value<UserProvide>(context).updateUser(userEntity);
+                } else {
+                  Util.showToast(S.of(context).refreshFailedCheckNetwork);
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -33,6 +33,7 @@ class S implements WidgetsLocalizations {
   String get news => "News";
   String get notifications => "Notifications";
   String get profile => "Profile";
+  String get refreshFailedCheckNetwork => "Refresh failed, please check your network connection.";
   String get search => "Search";
   String get settings => "Settings";
   String get skip => "Skip";

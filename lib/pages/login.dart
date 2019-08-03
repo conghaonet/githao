@@ -41,22 +41,27 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       isLoading = true;
     });
+    SpUtil spUtil;
     String authBasic = getCredentialsBasic(username, password);
     DataUtil.clearLoginData().then<AuthorizationEntity>((_) {
       return ApiService.login(authBasic);
     }).then((authorizationEntity) async {
-      SpUtil spUtil = await SpUtil.getInstance();
+      spUtil = await SpUtil.getInstance();
       spUtil.putString(SharedPreferencesKeys.userName, this.username);
       spUtil.putString(SharedPreferencesKeys.gitHubAuthorizationBasic, authBasic);
       spUtil.putString(SharedPreferencesKeys.gitHubAuthorizationToken, 'token ${authorizationEntity.token}');
       Navigator.of(context).pushReplacementNamed(HomePage.ROUTE_NAME);
+    }).then<UserEntity>((_){
+      return ApiService.getAuthenticatedUser();
+    }).then((userEntity){
+      spUtil.putString(SharedPreferencesKeys.userEntity, jsonEncode(userEntity));
     }).catchError((e) {
       Util.showToast('登录失败：${e.toString()}');
     });
   }
 
   getCurrentUser() async {
-    UserEntity user = await ApiService.getUser();
+    UserEntity user = await ApiService.getAuthenticatedUser();
     Util.showToast('user.html_url = ${user.htmlUrl}');
   }
 

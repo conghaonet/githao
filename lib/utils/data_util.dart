@@ -6,5 +6,6 @@ class DataUtil {
     spUtil.remove(SharedPreferencesKeys.userName);
     spUtil.remove(SharedPreferencesKeys.gitHubAuthorizationBasic);
     spUtil.remove(SharedPreferencesKeys.gitHubAuthorizationToken);
+    spUtil.remove(SharedPreferencesKeys.userEntity);
   }
 }

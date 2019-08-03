@@ -12,7 +12,13 @@ class ApiService {
     Response<Map<String, dynamic>> response = await dioClient.dio.post("/authorizations", data: AuthorizationPost().toJson(), options: options);
     return AuthorizationEntity.fromJson(response.data);
   }
-  static Future<UserEntity> getUser({String username}) async {
+
+  static Future<UserEntity> getUser(String username) async {
+    Response<Map<String, dynamic>> response = await dioClient.dio.get("/users/$username");
+    return UserEntity.fromJson(response.data);
+  }
+
+  static Future<UserEntity> getAuthenticatedUser() async {
     Response<Map<String, dynamic>> response = await dioClient.dio.get("/user");
     return UserEntity.fromJson(response.data);
   }

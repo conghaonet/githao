@@ -6,6 +6,16 @@
   "loginPasswordHint": "GitHub password",
   "loginUsernameCanNotEmpty": "The username cannot be empty",
   "loginPasswordCanNotEmpty": "The password cannot be empty",
-  "ignore": "Ignore",
-  "myRepos": "My repos"
+  "skip": "Skip",
+  "myRepos": "My repos",
+  "profile": "Profile",
+  "notifications": "Notifications",
+  "news": "News",
+  "issues": "Issues",
+  "starredRepos": "Starred repos",
+  "search": "Search",
+  "trending": "Trending",
+  "settings": "Settings",
+  "about": "About"
+
 }

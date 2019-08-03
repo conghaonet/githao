@@ -18,10 +18,17 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormState> _loginFormKey = new GlobalKey();
+  FocusNode passwordFocusNode, loginFocusNode;
   bool isShowPassWord = false;
   String username = '';
   String password = '';
   bool isLoading = false;
+  @override
+  void initState() {
+    super.initState();
+    passwordFocusNode = FocusNode();
+    loginFocusNode = FocusNode();
+  }
   /// 点击控制密码是否显示
   void showPassWord() {
     setState(() {
@@ -122,9 +129,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
-          SizedBox(
-            height: 30,
-          ),
+          SizedBox(height: 30,),
           //登录Form
           Form(
             key: _loginFormKey,
@@ -136,6 +141,9 @@ class _LoginPageState extends State<LoginPage> {
                     elevation: 2.0,
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                     child: TextFormField(
+                      autofocus: true,
+                      //点击完成按钮时，使password输入框自动获得焦点
+                      onEditingComplete: () => FocusScope.of(context).requestFocus(passwordFocusNode),
                       validator: (value) {
                         return value.isEmpty ? S.of(context).loginUsernameCanNotEmpty : null;
                       },
@@ -168,6 +176,9 @@ class _LoginPageState extends State<LoginPage> {
                     elevation: 2.0,
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                     child: TextFormField(
+                      focusNode: passwordFocusNode,
+                      //点击完成按钮时，使login按钮自动获得焦点
+                      onEditingComplete: () => FocusScope.of(context).requestFocus(loginFocusNode),
                       validator: (value) {
                         return value.isEmpty ? S.of(context).loginUsernameCanNotEmpty : null;
                       },
@@ -211,6 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                     borderRadius: BorderRadius.all(Radius.circular(100)),
                     color: Color(0xffff3a5a)),
                 child: FlatButton(
+                  focusNode: loginFocusNode,
                   child: Text(
                     S.of(context).login,
                     style: TextStyle(
@@ -221,7 +233,6 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     if(_loginFormKey.currentState.validate()) {
                       doLogin();
-//                      getCurrentUser();
                     }
                   },
                 ),
@@ -230,6 +241,12 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+  @override
+  void dispose() {
+    passwordFocusNode.dispose();
+    loginFocusNode.dispose();
+    super.dispose();
   }
 }
 

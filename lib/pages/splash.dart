@@ -70,7 +70,7 @@ class _SplashPageState extends State<SplashPage> {
               right: 16,
               child: FlatButton(
                 child: Text(
-                  S.of(context).ignore,
+                  S.of(context).skip,
                   style: TextStyle(color: Theme.of(context).accentColor, fontWeight: FontWeight.w800),
                 ),
                 onPressed:() {

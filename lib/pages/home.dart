@@ -11,7 +11,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: homeDrawer(),
+      drawer: _homeDrawer(),
       body: CustomScrollView(
         //cacheExtent: 30, //窗口在可见区域之前和之后有一个区域，用于缓存用户滚动时即将可见的项目。
         slivers: <Widget>[
@@ -50,63 +50,75 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  static Widget homeDrawer() {
+  Widget _homeDrawer() {
     return Container(
       width: 300,
       color: Colors.white,
       child: ListView(children: <Widget>[
         _drawerHeader(),
-        new ClipRect(
-          child: new ListTile(
-            leading: new CircleAvatar(child: new Text("A")),
-            title: new Text('Drawer item A'),
+        Material(
+          color: Colors.white,
+          child: ListTile(
+            leading: Icon(Icons.storage,),
+            title: Text(S.of(context).myRepos,),
             onTap: () => {},
+            selected: true,
           ),
         ),
-        new ListTile(
-          leading: new CircleAvatar(child: new Text("B")),
-          title: new Text('Drawer item B'),
-          subtitle: new Text("Drawer item B subtitle"),
-          onTap: () => {},
-        ),
-        new AboutListTile(
-          icon: new CircleAvatar(child: new Text("Ab")),
-          child: new Text("About"),
-          applicationName: "Test",
-          applicationVersion: "1.0",
-          applicationIcon: new Image.asset(
-            "images/ymj_jiayou.gif",
-            width: 64.0,
-            height: 64.0,
+        Material(
+          color: Colors.white,
+          child: ListTile(
+            leading: Icon(Icons.star,),
+            title: Text(S.of(context).starredRepos,),
+            onTap: () => {
+            },
           ),
-          applicationLegalese: "applicationLegalese",
-          aboutBoxChildren: <Widget>[
-            new Text("BoxChildren"),
-            new Text("box child 2")
-          ],
+        ),
+        Material(
+          color: Colors.white,
+          child: ListTile(
+            leading: Icon(Icons.trending_up,),
+            title: Text(S.of(context).trending,),
+            onTap: () => {
+            },
+          ),
+        ),
+        Divider(height: 1, color: Theme.of(context).primaryColor,),
+        Material(
+          color: Colors.white,
+          child: ListTile(
+            leading: Icon(Icons.settings,),
+            title: Text(S.of(context).settings,),
+            onTap: () => {
+            },
+          ),
+        ),
+        Material(
+          color: Colors.white,
+          child: ListTile(
+            leading: Icon(Icons.info,),
+            title: Text(S.of(context).about,),
+            onTap: () => {
+            },
+          ),
         ),
       ]),
     );
   }
 
   static Widget _drawerHeader() {
-    return new UserAccountsDrawerHeader(
+    return UserAccountsDrawerHeader(
 //      margin: EdgeInsets.zero,
-      accountName: new Text(
+      accountName: Text(
         "SuperLuo",
       ),
-      accountEmail: new Text(
+      accountEmail: Text(
         "super_luo@163.com",
       ),
-      currentAccountPicture: new CircleAvatar(
-        backgroundImage: new AssetImage("images/camera.png"),
+      currentAccountPicture: CircleAvatar(
+        backgroundImage: AssetImage("images/camera.png"),
       ),
-      onDetailsPressed: () {},
-      otherAccountsPictures: <Widget>[
-        new CircleAvatar(
-          backgroundImage: new AssetImage("images/camera2.png"),
-        ),
-      ],
+//      onDetailsPressed: () {},
     );
   }
 }

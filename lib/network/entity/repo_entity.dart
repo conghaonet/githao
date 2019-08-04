@@ -149,6 +149,12 @@ class RepoEntity {
 		this.assigneesUrl, this.openIssues, this.watchersCount, this.nodeId, this.homepage, this.forksCount});
 	factory RepoEntity.fromJson(Map<String, dynamic> json) => _$RepoEntityFromJson(json);
 	Map<String, dynamic> toJson() => _$RepoEntityToJson(this);
+
+	@override
+	String toString() {
+		return 'RepoEntity{stargazersCount: $stargazersCount, pushedAt: $pushedAt, subscriptionUrl: $subscriptionUrl, language: $language, branchesUrl: $branchesUrl, issueCommentUrl: $issueCommentUrl, labelsUrl: $labelsUrl, subscribersUrl: $subscribersUrl, permissions: $permissions, releasesUrl: $releasesUrl, svnUrl: $svnUrl, id: $id, forks: $forks, archiveUrl: $archiveUrl, gitRefsUrl: $gitRefsUrl, forksUrl: $forksUrl, statusesUrl: $statusesUrl, sshUrl: $sshUrl, license: $license, fullName: $fullName, size: $size, languagesUrl: $languagesUrl, htmlUrl: $htmlUrl, collaboratorsUrl: $collaboratorsUrl, cloneUrl: $cloneUrl, name: $name, pullsUrl: $pullsUrl, defaultBranch: $defaultBranch, hooksUrl: $hooksUrl, treesUrl: $treesUrl, tagsUrl: $tagsUrl, private: $private, contributorsUrl: $contributorsUrl, hasDownloads: $hasDownloads, notificationsUrl: $notificationsUrl, openIssuesCount: $openIssuesCount, description: $description, createdAt: $createdAt, watchers: $watchers, keysUrl: $keysUrl, deploymentsUrl: $deploymentsUrl, hasProjects: $hasProjects, archived: $archived, hasWiki: $hasWiki, updatedAt: $updatedAt, commentsUrl: $commentsUrl, stargazersUrl: $stargazersUrl, disabled: $disabled, gitUrl: $gitUrl, hasPages: $hasPages, owner: $owner, commitsUrl: $commitsUrl, compareUrl: $compareUrl, gitCommitsUrl: $gitCommitsUrl, blobsUrl: $blobsUrl, gitTagsUrl: $gitTagsUrl, mergesUrl: $mergesUrl, downloadsUrl: $downloadsUrl, hasIssues: $hasIssues, url: $url, contentsUrl: $contentsUrl, mirrorUrl: $mirrorUrl, milestonesUrl: $milestonesUrl, teamsUrl: $teamsUrl, fork: $fork, issuesUrl: $issuesUrl, eventsUrl: $eventsUrl, issueEventsUrl: $issueEventsUrl, assigneesUrl: $assigneesUrl, openIssues: $openIssues, watchersCount: $watchersCount, nodeId: $nodeId, homepage: $homepage, forksCount: $forksCount}';
+	}
+
 }
 
 @JsonSerializable()
@@ -159,6 +165,12 @@ class RepoPermissions {
 	RepoPermissions({this.pull, this.admin, this.push});
 	factory RepoPermissions.fromJson(Map<String, dynamic> json) => _$RepoPermissionsFromJson(json);
 	Map<String, dynamic> toJson() => _$RepoPermissionsToJson(this);
+
+	@override
+	String toString() {
+		return '{pull: $pull, admin: $admin, push: $push}';
+	}
+
 }
 
 @JsonSerializable()
@@ -172,6 +184,12 @@ class RepoLicense {
 	RepoLicense({this.name, this.spdxId, this.key, this.url, this.nodeId});
 	factory RepoLicense.fromJson(Map<String, dynamic> json) => _$RepoLicenseFromJson(json);
 	Map<String, dynamic> toJson() => _$RepoLicenseToJson(this);
+
+	@override
+	String toString() {
+		return '{name: $name, spdxId: $spdxId, key: $key, url: $url, nodeId: $nodeId}';
+	}
+
 }
 
 @JsonSerializable()
@@ -213,5 +231,10 @@ class RepoOwner {
 		this.nodeId, this.organizationsUrl});
 	factory RepoOwner.fromJson(Map<String, dynamic> json) => _$RepoOwnerFromJson(json);
 	Map<String, dynamic> toJson() => _$RepoOwnerToJson(this);
+
+	@override
+	String toString() {
+		return '{gistsUrl: $gistsUrl, reposUrl: $reposUrl, followingUrl: $followingUrl, starredUrl: $starredUrl, login: $login, followersUrl: $followersUrl, type: $type, url: $url, subscriptionsUrl: $subscriptionsUrl, receivedEventsUrl: $receivedEventsUrl, avatarUrl: $avatarUrl, eventsUrl: $eventsUrl, htmlUrl: $htmlUrl, siteAdmin: $siteAdmin, id: $id, gravatarId: $gravatarId, nodeId: $nodeId, organizationsUrl: $organizationsUrl}';
+	}
 
 }

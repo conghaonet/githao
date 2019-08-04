@@ -6,6 +6,7 @@ import 'package:githao/biz/user_biz.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/utils/util.dart';
+import 'package:githao/widgets/my_repos.dart';
 import 'package:provide/provide.dart';
 
 import 'login.dart';
@@ -24,14 +25,15 @@ class _HomePageState extends State<HomePage> {
         //cacheExtent: 30, //窗口在可见区域之前和之后有一个区域，用于缓存用户滚动时即将可见的项目。
         slivers: <Widget>[
           SliverAppBar(
-//              title: Text(S.of(context).myRepos),
-            expandedHeight: 240, // 展开的高度
-            titleSpacing: NavigationToolbar.kMiddleSpacing,
+              title: Text(S.of(context).myRepos),
+//            expandedHeight: 240, // 展开的高度
+            titleSpacing: NavigationToolbar.kMiddleSpacing, //标题四周间距
 //              primary: true,  //是否预留高度
             snap:false,   //与floating结合使用
-            floating: false,//是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
-            pinned: true,//为true时，SliverAppBar折叠后不消失
+            floating: true,//是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
+            pinned: false,//为true时，SliverAppBar折叠后不消失
             //性设置 SliverAppBar 的背景
+/*
             flexibleSpace: FlexibleSpaceBar(
               title: Text(S.of(context).myRepos),
               centerTitle: true,
@@ -41,7 +43,13 @@ class _HomePageState extends State<HomePage> {
                 fit: BoxFit.cover,
               ),
             ),
+*/
           ),
+          SliverToBoxAdapter(
+            child: MyRepos(shrinkWrap: true, primary: false,),
+          ),
+
+/*
           SliverFixedExtentList(
             itemExtent: 50.0,
             delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
@@ -53,6 +61,18 @@ class _HomePageState extends State<HomePage> {
             },
             ),
           ),
+*/
+/*
+          SliverList(
+            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+              return Container(
+                alignment: Alignment.center,
+                color: Colors.lightBlue[100 * (index % 9)],
+                child: Text('list item $index'),
+              );
+            },),
+          ),
+*/
         ],
       ),
     );

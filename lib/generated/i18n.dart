@@ -39,6 +39,7 @@ class S implements WidgetsLocalizations {
   String get skip => "Skip";
   String get starredRepos => "Starred repos";
   String get trending => "Trending";
+  String get userDataHasBeanRefreshed => "User data has been refreshed.";
 }
 
 class $en extends S {

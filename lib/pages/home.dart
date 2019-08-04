@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/biz/user_biz.dart';
 
@@ -18,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: _homeDrawer(),
+      drawer: HomeDrawer(),
       body: CustomScrollView(
         //cacheExtent: 30, //窗口在可见区域之前和之后有一个区域，用于缓存用户滚动时即将可见的项目。
         slivers: <Widget>[
@@ -56,8 +57,25 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
 
-  Widget _homeDrawer() {
+class HomeDrawer extends StatefulWidget{
+  @override
+  _HomeDrawerState createState() => _HomeDrawerState();
+}
+
+class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateMixin {
+  AnimationController _refreshController;
+  @override
+  void initState() {
+    super.initState();
+    _refreshController = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this, //vsync 会防止屏幕外动画（动画的UI不在当前屏幕时）消耗不必要的资源
+    );
+  }
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: 300,
       color: Colors.white,
@@ -119,8 +137,7 @@ class _HomePageState extends State<HomePage> {
       ]),
     );
   }
-
-  static Widget _drawerHeader() {
+  Widget _drawerHeader() {
     return Provide<UserProvide>(
       builder: (context, child, userProvide) {
         return UserAccountsDrawerHeader(
@@ -130,20 +147,41 @@ class _HomePageState extends State<HomePage> {
             backgroundImage: NetworkImage(userProvide.user.avatarUrl),
           ),
           otherAccountsPictures: <Widget>[
-            IconButton(
-              icon: Icon(Icons.refresh, color: Colors.white,),
-              onPressed: () async {
-                UserEntity userEntity = await UserBiz.getUser(forceRefresh: true);
-                if(userEntity != null) {
-                  Provide.value<UserProvide>(context).updateUser(userEntity);
-                } else {
-                  Util.showToast(S.of(context).refreshFailedCheckNetwork);
-                }
-              },
+            RotationTransition(
+              turns: _refreshController,
+              child: IconButton(
+                icon: Icon(Icons.refresh, color: Colors.white,),
+                onPressed: () async {
+                  _refreshController.repeat();
+                  UserBiz.getUser(forceRefresh: true)
+                      .then((userEntity) {
+                        _refreshController.stop(canceled: true);
+                        if(userEntity != null) {
+                          Provide.value<UserProvide>(context).updateUser(userEntity);
+                          Util.showToast(S.of(context).userDataHasBeanRefreshed);
+                        } else {
+                          Util.showToast(S.of(context).refreshFailedCheckNetwork);
+                        }
+                      })
+                      .catchError((e) {
+                        _refreshController.stop(canceled: true);
+                        Util.showToast((e as DioError).message);
+                      }, test: (e) => e is DioError)
+                      .catchError((e) {
+                        _refreshController.stop(canceled: true);
+                        Util.showToast(e.toString());
+                      });
+                },
+              ),
             ),
           ],
         );
       },
     );
+  }
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
   }
 }

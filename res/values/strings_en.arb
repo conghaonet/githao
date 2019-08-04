@@ -18,5 +18,6 @@
   "settings": "Settings",
   "about": "About",
   "logout": "Logout",
-  "refreshFailedCheckNetwork": "Refresh failed, please check your network connection."
+  "refreshFailedCheckNetwork": "Refresh failed, please check your network connection.",
+  "userDataHasBeanRefreshed": "User data has been refreshed."
 }

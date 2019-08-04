@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
               title: Text(S.of(context).myRepos),
 //            expandedHeight: 240, // 展开的高度
               titleSpacing: NavigationToolbar.kMiddleSpacing, //标题四周间距
-//              primary: true,  //是否预留高度
+              primary: true,  //是否预留高度
               snap:false,   //与floating结合使用
               floating: true,//是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
               pinned: false,//为true时，SliverAppBar折叠后不消失
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ];
         },
-        body: MyReposWidget(),
+        body: MyReposWidget(shrinkWrap: false, primary: false,),
       ),
     );
   }
@@ -57,7 +57,6 @@ class HomeDrawer extends StatefulWidget{
   @override
   _HomeDrawerState createState() => _HomeDrawerState();
 }
-
 class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateMixin {
   AnimationController _refreshController;
   @override

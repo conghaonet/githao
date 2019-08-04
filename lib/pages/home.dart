@@ -1,9 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/biz/user_biz.dart';
 
 import 'package:githao/generated/i18n.dart';
-import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/utils/util.dart';
 import 'package:provide/provide.dart';
@@ -74,6 +74,29 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
       vsync: this, //vsync 会防止屏幕外动画（动画的UI不在当前屏幕时）消耗不必要的资源
     );
   }
+
+  /// 手动刷新用户数据
+  void refreshUserData() {
+    _refreshController.repeat();
+    UserBiz.getUser(forceRefresh: true)
+        .then((userEntity) {
+          if(userEntity != null) {
+            Provide.value<UserProvide>(context).updateUser(userEntity);
+            Util.showToast(S.of(context).userDataHasBeanRefreshed);
+          } else {
+            Util.showToast(S.of(context).refreshFailedCheckNetwork);
+          }
+          _refreshController.stop(canceled: true);
+        })
+        .catchError((e) {
+          Util.showToast((e as DioError).message);
+          _refreshController.stop(canceled: true);
+        }, test: (e) => e is DioError)
+        .catchError((e) {
+          Util.showToast(e.toString());
+          _refreshController.stop(canceled: true);
+        });
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -141,36 +164,18 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
     return Provide<UserProvide>(
       builder: (context, child, userProvide) {
         return UserAccountsDrawerHeader(
+          currentAccountPicture: CircleAvatar(
+            backgroundImage: CachedNetworkImageProvider(userProvide.user.avatarUrl),
+          ),
           accountName: Text('${userProvide.user.login}'),
           accountEmail: Text('${userProvide.user.email}'),
-          currentAccountPicture:  CircleAvatar(
-            backgroundImage: NetworkImage(userProvide.user.avatarUrl),
-          ),
           otherAccountsPictures: <Widget>[
             RotationTransition(
               turns: _refreshController,
               child: IconButton(
                 icon: Icon(Icons.refresh, color: Colors.white,),
-                onPressed: () async {
-                  _refreshController.repeat();
-                  UserBiz.getUser(forceRefresh: true)
-                      .then((userEntity) {
-                        _refreshController.stop(canceled: true);
-                        if(userEntity != null) {
-                          Provide.value<UserProvide>(context).updateUser(userEntity);
-                          Util.showToast(S.of(context).userDataHasBeanRefreshed);
-                        } else {
-                          Util.showToast(S.of(context).refreshFailedCheckNetwork);
-                        }
-                      })
-                      .catchError((e) {
-                        _refreshController.stop(canceled: true);
-                        Util.showToast((e as DioError).message);
-                      }, test: (e) => e is DioError)
-                      .catchError((e) {
-                        _refreshController.stop(canceled: true);
-                        Util.showToast(e.toString());
-                      });
+                onPressed: () {
+                  refreshUserData();
                 },
               ),
             ),

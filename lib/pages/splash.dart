@@ -17,7 +17,7 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  static const ANIMATION_SECONDS = 3;
+  static const ANIMATION_SECONDS = 1;
   bool isShown = false;
   Timer timer;
   /// 验证用户是否已登录

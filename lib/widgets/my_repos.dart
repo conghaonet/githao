@@ -17,44 +17,44 @@ class MyReposWidget extends StatefulWidget{
 }
 
 class _MyReposWidgetState extends State<MyReposWidget> {
-  final List<RepoEntity> repos = [];
-  int page = 1;
-  bool isLoading = false;
-  bool expectHasMoreData = true;
+  final List<RepoEntity> _repos = [];
+  int _page = 1;
+  bool _isLoading = false;
+  bool _expectHasMoreData = true;
   @override
   void initState() {
     super.initState();
-    loadRepos(true);
+    _loadRepos(true);
   }
-  Future loadRepos(bool isReload) async {
-    if(isLoading) return null;
-    isLoading = true;
+  Future _loadRepos(bool isReload) async {
+    if(_isLoading) return null;
+    _isLoading = true;
     int expectationPage;
     if (isReload) {
       expectationPage = 1;
     } else {
-      expectationPage = page + 1;
+      expectationPage = _page + 1;
     }
     return ApiService.getRepos(page: expectationPage).then<bool>((list) {
       setState(() {
         if (isReload) { //初始加载或下拉刷新数据
-          this.repos
+          this._repos
             ..clear()
             ..addAll(list);
-          page = 1;
+          _page = 1;
         } else { //上拉加载更多数据
           if(list.isNotEmpty) {
-            this.repos.addAll(list);
-            ++page;
+            this._repos.addAll(list);
+            ++_page;
           }
         }
         //判断是否还有更多数据
-        this.expectHasMoreData = list.length >= widget.perPageRows;
-        this.isLoading = false;
+        this._expectHasMoreData = list.length >= widget.perPageRows;
+        this._isLoading = false;
       });
       return;
     }).catchError((e) {
-      this.isLoading = false;
+      this._isLoading = false;
       Util.showToast(e.toString());
       return;
     });
@@ -62,46 +62,50 @@ class _MyReposWidgetState extends State<MyReposWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: RefreshIndicator(
-        color: Colors.blue,
-        onRefresh: () async {
-          await loadRepos(true);
-        },
-        child: NotificationListener(
-          onNotification: (ScrollNotification notification) {
-            if(widget.needLoadMore && expectHasMoreData) { //是否需要实现加载更多特性
-              if(0 == notification.metrics.extentAfter) { //到达底部
-                loadRepos(false);
-              }
-            }
-            return false; //返回false，将事件传递给外层控件(RefreshIndicator)，否则外层RefreshIndicator无法监听到下拉手势
-          },
-          child: ListView.separated(
-            separatorBuilder: (context, index) {
-              return Divider(height: 4, color: Theme.of(context).primaryColor,);
+    return Stack(
+      children: <Widget>[
+        Container(
+          child: RefreshIndicator(
+            color: Colors.blue,
+            onRefresh: () async {
+              await _loadRepos(true);
             },
-            padding: EdgeInsets.all(0.0),
-            itemCount: (repos.length >= widget.perPageRows && widget.needLoadMore) ? repos.length+1 : repos.length,
-            itemBuilder: (context, index) {
-              if(index < repos.length) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('index：$index'),
-                    Text('name: ${repos[index].name}'),
-                    Text('language: ${repos[index].language}'),
-                    Text('description: ${repos[index].description}'),
-                    Text('pushedAt: ${repos[index].pushedAt}'),
-                  ],
-                );
-              } else {
-                return LoadMoreDataFooter(expectHasMoreData);
-              }
-            },
+            child: NotificationListener(
+              onNotification: (ScrollNotification notification) {
+                if(widget.needLoadMore && _expectHasMoreData) { //是否需要实现加载更多特性
+                  if(0 == notification.metrics.extentAfter) { //到达底部
+                    _loadRepos(false);
+                  }
+                }
+                return false; //返回false，将事件传递给外层控件(RefreshIndicator)，否则外层RefreshIndicator无法监听到下拉手势
+              },
+              child: ListView.separated(
+                separatorBuilder: (context, index) {
+                  return Divider(height: 4, color: Theme.of(context).primaryColor,);
+                },
+                padding: EdgeInsets.all(0.0),
+                itemCount: (_repos.length >= widget.perPageRows && widget.needLoadMore) ? _repos.length+1 : _repos.length,
+                itemBuilder: (context, index) {
+                  if(index < _repos.length) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('index：$index'),
+                        Text('name: ${_repos[index].name}'),
+                        Text('language: ${_repos[index].language}'),
+                        Text('description: ${_repos[index].description}'),
+                        Text('pushedAt: ${_repos[index].pushedAt}'),
+                      ],
+                    );
+                  } else {
+                    return LoadMoreDataFooter(_expectHasMoreData);
+                  }
+                },
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
   @override

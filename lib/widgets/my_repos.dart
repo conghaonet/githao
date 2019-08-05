@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
@@ -24,6 +25,7 @@ class _MyReposWidgetState extends State<MyReposWidget> {
   StateFlag _loadingState = StateFlag.idle;
   bool _expectHasMoreData = true;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+
   @override
   void initState() {
     super.initState();
@@ -70,7 +72,7 @@ class _MyReposWidgetState extends State<MyReposWidget> {
           this._loadingState = StateFlag.error;
         });
       }
-      Util.showToast(e.toString());
+      Util.showToast(e is DioError ? e.message : e.toString());
       return;
     });
   }

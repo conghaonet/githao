@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/biz/user_biz.dart';
 
 import 'package:githao/generated/i18n.dart';
+import 'package:githao/provide/theme_provide.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/my_repos.dart';
@@ -114,7 +115,11 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
           child: ListTile(
             leading: Icon(Icons.star,),
             title: Text(S.of(context).starredRepos,),
-            onTap: () {},
+            onTap: () {
+              setState(() {
+                Provide.value<ThemeProvide>(context).changeTheme(9);
+              });
+            },
           ),
         ),
         Material(

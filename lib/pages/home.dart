@@ -6,7 +6,7 @@ import 'package:githao/biz/user_biz.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/utils/util.dart';
-import 'package:githao/widgets/my_repos_widget.dart';
+import 'package:githao/widgets/my_repos.dart';
 import 'package:provide/provide.dart';
 
 import 'login.dart';

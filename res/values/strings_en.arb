@@ -19,5 +19,7 @@
   "about": "About",
   "logout": "Logout",
   "refreshFailedCheckNetwork": "Refresh failed, please check your network connection.",
-  "userDataHasBeanRefreshed": "User data has been refreshed."
+  "userDataHasBeanRefreshed": "User data has been refreshed.",
+  "loadingMoreData": "Loading more data...",
+  "noMoreData": "No more data"
 }

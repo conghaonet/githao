@@ -23,6 +23,7 @@ class S implements WidgetsLocalizations {
   String get appTitle => "GitHao";
   String get email => "Email";
   String get issues => "Issues";
+  String get loadingMoreData => "Loading more data...";
   String get login => "Login";
   String get loginPasswordCanNotEmpty => "The password cannot be empty";
   String get loginPasswordHint => "GitHub password";
@@ -31,6 +32,7 @@ class S implements WidgetsLocalizations {
   String get logout => "Logout";
   String get myRepos => "My repos";
   String get news => "News";
+  String get noMoreData => "No more data";
   String get notifications => "Notifications";
   String get profile => "Profile";
   String get refreshFailedCheckNetwork => "Refresh failed, please check your network connection.";

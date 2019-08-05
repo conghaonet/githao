@@ -21,6 +21,7 @@ class S implements WidgetsLocalizations {
 
   String get about => "About";
   String get appTitle => "GitHao";
+  String get chooseTheme => "Choose theme";
   String get email => "Email";
   String get empty => "Empty";
   String get issues => "Issues";

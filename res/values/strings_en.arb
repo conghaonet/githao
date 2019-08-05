@@ -24,5 +24,6 @@
   "noMoreData": "No more data",
   "empty": "Empty",
   "oopsWrong": "Oops wrong!",
-  "tapToRetry": "TAP TO RETRY"
+  "tapToRetry": "TAP TO RETRY",
+  "chooseTheme": "Choose theme"
 }

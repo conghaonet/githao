@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
 class ThemeProvide with ChangeNotifier {
-  int _themeIndex=5;
-  int get themeIndex => _themeIndex;
+  ThemeData _themeData = ThemeData.light();
+  ThemeData get themeData => _themeData;
   void changeTheme(int themeIndex) {
-    if(themeIndex <0 || themeIndex>=Colors.primaries.length) {
-      this._themeIndex = 0;
-    } else {
-      this._themeIndex = themeIndex;
+    if(themeIndex >=0 && themeIndex<Colors.primaries.length) {
+      this._themeData = ThemeData(
+        primarySwatch: Colors.primaries[themeIndex],
+        primaryColor: Colors.primaries[themeIndex],
+        cursorColor: Colors.primaries[themeIndex], //光标颜色
+        accentColor: Colors.primaries[themeIndex][700],
+        brightness: Brightness.light,
+      );
+      notifyListeners();
     }
-    notifyListeners();
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/pages/home.dart';
 import 'package:githao/pages/login.dart';
 import 'package:githao/pages/route_error_page.dart';
+import 'package:githao/pages/settings.dart';
 import 'package:githao/pages/splash.dart';
 
 class AppRoute extends NavigatorObserver {
@@ -15,6 +16,7 @@ class AppRoute extends NavigatorObserver {
     SplashPage.ROUTE_NAME: (_) => SplashPage(),
     LoginPage.ROUTE_NAME: (_) => LoginPage(),
     HomePage.ROUTE_NAME: (_) => HomePage(),
+    SettingsPage.ROUTE_NAME: (_) => SettingsPage(),
   };
   Map<String, WidgetBuilder> get routes => _routes;
 

@@ -11,8 +11,8 @@ import 'generated/i18n.dart';
 
 void main() {
   final providers = Providers()
-    ..provide(Provider.function((context) => UserProvide()))
-    ..provide(Provider.function((context) => ThemeProvide()));
+    ..provide(Provider.value(UserProvide()))
+    ..provide(Provider.value(ThemeProvide()));
   runApp(ProviderNode(
     providers: providers,
     child: MyApp(),

@@ -22,6 +22,7 @@ class S implements WidgetsLocalizations {
   String get about => "About";
   String get appTitle => "GitHao";
   String get email => "Email";
+  String get empty => "Empty";
   String get issues => "Issues";
   String get loadingMoreData => "Loading more data...";
   String get login => "Login";
@@ -34,12 +35,14 @@ class S implements WidgetsLocalizations {
   String get news => "News";
   String get noMoreData => "No more data";
   String get notifications => "Notifications";
+  String get oopsWrong => "Oops wrong!";
   String get profile => "Profile";
   String get refreshFailedCheckNetwork => "Refresh failed, please check your network connection.";
   String get search => "Search";
   String get settings => "Settings";
   String get skip => "Skip";
   String get starredRepos => "Starred repos";
+  String get tapToRetry => "TAP TO RETRY";
   String get trending => "Trending";
   String get userDataHasBeanRefreshed => "User data has been refreshed.";
 }

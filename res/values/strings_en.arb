@@ -21,5 +21,8 @@
   "refreshFailedCheckNetwork": "Refresh failed, please check your network connection.",
   "userDataHasBeanRefreshed": "User data has been refreshed.",
   "loadingMoreData": "Loading more data...",
-  "noMoreData": "No more data"
+  "noMoreData": "No more data",
+  "empty": "Empty",
+  "oopsWrong": "Oops wrong!",
+  "tapToRetry": "TAP TO RETRY"
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
+import 'package:githao/pages/home.dart';
 import 'package:githao/widgets/loading_state.dart';
 import 'package:githao/utils/util.dart';
 
@@ -13,8 +14,9 @@ import 'my_visibility.dart';
 /// [needLoadMore] 为true时，提供上拉加载更多特性；
 class MyReposWidget extends StatefulWidget{
   final perPageRows = 30;
-  final needLoadMore;
-  MyReposWidget({Key key, this.needLoadMore=true,}): super(key: key);
+  final bool needLoadMore;
+  final String homeDrawerMenu;
+  MyReposWidget({Key key, this.homeDrawerMenu, this.needLoadMore=true,}): super(key: key);
   @override
   _MyReposWidgetState createState() => _MyReposWidgetState();
 }
@@ -43,7 +45,13 @@ class _MyReposWidgetState extends State<MyReposWidget> {
     } else {
       expectationPage = _page + 1;
     }
-    return ApiService.getRepos(page: expectationPage).then<bool>((list) {
+    Future<List<RepoEntity>> future;
+    if(widget.homeDrawerMenu == HomeDrawer.MENU_MY_REPOS) {
+      future = ApiService.getRepos(page: expectationPage);
+    } else if(widget.homeDrawerMenu == HomeDrawer.MENU_STARRED_REPOS) {
+      future = ApiService.getStarredRepos(page: expectationPage);
+    }
+    return future.then<bool>((list) {
       setState(() {
         if (isReload) { //初始加载或下拉刷新数据
           this._repos

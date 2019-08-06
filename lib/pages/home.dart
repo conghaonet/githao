@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:githao/pages/settings.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/my_repos.dart';
+import 'package:githao/widgets/starred_repos.dart';
 import 'package:provide/provide.dart';
 
 import 'login.dart';
@@ -20,12 +23,23 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 //  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String _clickedDrawerMenu;
+  String _clickedDrawerMenu = HomeDrawer.MENU_MY_REPOS;
+  StreamController<String> _bodyController;
+
+  @override
+  void initState() {
+    super.initState();
+    _bodyController = StreamController<String>();
+  }
 
   void onClickDrawerMenu(String menuName) {
     setState(() {
       this._clickedDrawerMenu = menuName;
-      Util.showToast(menuName);
+      if(_clickedDrawerMenu == HomeDrawer.MENU_MY_REPOS) {
+        _bodyController.add(HomeDrawer.MENU_MY_REPOS);
+      } else if(_clickedDrawerMenu == HomeDrawer.MENU_STARRED_REPOS) {
+        _bodyController.add(HomeDrawer.MENU_STARRED_REPOS);
+      }
     });
   }
 
@@ -61,10 +75,25 @@ class _HomePageState extends State<HomePage> {
               ),
             ];
           },
-          body: MyReposWidget(),
+          body: StreamBuilder<String>(
+            stream: _bodyController.stream,
+            initialData: HomeDrawer.MENU_MY_REPOS,
+            builder: (context, snapshot) {
+              if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
+                return new StarredRepos(homeDrawerMenu: snapshot.data);
+              } else {
+                return new MyReposWidget(homeDrawerMenu: snapshot.data);
+              }
+            },
+          ),
         ),
       ),
     );
+  }
+  @override
+  void dispose() {
+    _bodyController.close();
+    super.dispose();
   }
 }
 
@@ -116,9 +145,11 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
         });
   }
   void onClickMenu(String menu) {
-    _clickedMenu = menu;
-    widget.callback(menu);
-    Navigator.pop(context);
+    if(menu != _clickedMenu) {
+      _clickedMenu = menu;
+      widget.callback(menu);
+    }
+    Navigator.of(context).pop();
   }
 
   @override

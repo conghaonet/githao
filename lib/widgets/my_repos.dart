@@ -52,35 +52,39 @@ class _MyReposWidgetState extends State<MyReposWidget> {
       future = ApiService.getStarredRepos(page: expectationPage);
     }
     return future.then<bool>((list) {
-      setState(() {
-        if (isReload) { //初始加载或下拉刷新数据
-          this._repos
-            ..clear()
-            ..addAll(list);
-          _page = 1;
-        } else { //上拉加载更多数据
-          if(list.isNotEmpty) {
-            this._repos.addAll(list);
-            ++_page;
-          }
-        }
-        //判断是否还有更多数据
-        this._expectHasMoreData = list.length >= widget.perPageRows;
-        if(isReload && list.isEmpty) {
-          this._loadingState = StateFlag.empty;
-        } else {
-          this._loadingState = StateFlag.complete;
-        }
-      });
-      return;
-    }).catchError((e) {
-      if(isReload) {
+      if(mounted) {
         setState(() {
-          _repos.clear();
-          this._loadingState = StateFlag.error;
+          if (isReload) { //初始加载或下拉刷新数据
+            this._repos
+              ..clear()
+              ..addAll(list);
+            _page = 1;
+          } else { //上拉加载更多数据
+            if(list.isNotEmpty) {
+              this._repos.addAll(list);
+              ++_page;
+            }
+          }
+          //判断是否还有更多数据
+          this._expectHasMoreData = list.length >= widget.perPageRows;
+          if(isReload && list.isEmpty) {
+            this._loadingState = StateFlag.empty;
+          } else {
+            this._loadingState = StateFlag.complete;
+          }
         });
       }
-      Util.showToast(e is DioError ? e.message : e.toString());
+      return;
+    }).catchError((e) {
+      if(mounted) {
+        if(isReload) {
+          setState(() {
+            _repos.clear();
+            this._loadingState = StateFlag.error;
+          });
+        }
+        Util.showToast(e is DioError ? e.message : e.toString());
+      }
       return;
     });
   }

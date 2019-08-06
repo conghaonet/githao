@@ -23,13 +23,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 //  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String _clickedDrawerMenu = HomeDrawer.MENU_MY_REPOS;
+  static final _defaultMenu = HomeDrawer.MENU_MY_REPOS;
+  String _clickedDrawerMenu = _defaultMenu;
   StreamController<String> _bodyController;
 
   @override
   void initState() {
     super.initState();
-    _bodyController = StreamController<String>();
+    _bodyController = StreamController<String>.broadcast();
   }
 
   void onClickDrawerMenu(String menuName) {
@@ -47,13 +48,22 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
 //      key: _scaffoldKey,
-      drawer: HomeDrawer(onClickDrawerMenu, _clickedDrawerMenu),
+      drawer: HomeDrawer(onClickDrawerMenu, _clickedDrawerMenu ?? _defaultMenu),
       body: SafeArea(
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                title: Text(S.of(context).myRepos),
+                title: StreamBuilder<String>(
+                  stream: _bodyController.stream,
+                  initialData: _defaultMenu,
+                  builder: (context, snapshot) {
+                    if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
+                      return Text(S.of(context).starredRepos);
+                    }
+                    return Text(S.of(context).myRepos);
+                  },
+                ),
                 titleSpacing: NavigationToolbar.kMiddleSpacing, //标题四周间距
                 primary: true,  //是否预留高度
                 snap:true,   //与floating结合使用
@@ -77,12 +87,12 @@ class _HomePageState extends State<HomePage> {
           },
           body: StreamBuilder<String>(
             stream: _bodyController.stream,
-            initialData: HomeDrawer.MENU_MY_REPOS,
+            initialData: _defaultMenu,
             builder: (context, snapshot) {
               if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
-                return new StarredRepos(homeDrawerMenu: snapshot.data);
+                return StarredRepos(homeDrawerMenu: snapshot.data);
               } else {
-                return new MyReposWidget(homeDrawerMenu: snapshot.data);
+                return MyReposWidget(homeDrawerMenu: snapshot.data);
               }
             },
           ),

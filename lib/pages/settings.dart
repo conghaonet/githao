@@ -41,8 +41,8 @@ class _SettingsPageState extends State<SettingsPage> {
           });
         },
         child: Container(
-          width: 50,
-          height: 50,
+          width: 55,
+          height: 55,
           decoration: BoxDecoration(
             color: Colors.primaries[i],
             border: Provide.value<ThemeProvide>(context).themeIndex == i ? _currentThemeBorder : null,

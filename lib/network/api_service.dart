@@ -32,4 +32,12 @@ class ApiService {
     Response<List<dynamic>> response = await dioClient.dio.get("/user/repos", queryParameters: parameters);
     return response.data.map((item) => RepoEntity.fromJson(item)).toList();
   }
+
+  /// [sort] One of created (when the repository was starred) or updated (when it was last pushed to). Default: created
+  /// [direction] Can be one of: asc or desc
+  static Future<List<RepoEntity>> getStarredRepos({int page=1, String sort='created', String direction='desc'}) async {
+    Map<String, dynamic> parameters = {'page': page, 'sort': sort, 'direction': direction};
+    Response<List<dynamic>> response = await dioClient.dio.get("/user/starred", queryParameters: parameters);
+    return response.data.map((item) => RepoEntity.fromJson(item)).toList();
+  }
 }

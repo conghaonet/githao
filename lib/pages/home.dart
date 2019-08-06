@@ -19,10 +19,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+//  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  String _clickedDrawerMenu;
+
+  void onClickDrawerMenu(String menuName) {
+    setState(() {
+      this._clickedDrawerMenu = menuName;
+      Util.showToast(menuName);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: HomeDrawer(),
+//      key: _scaffoldKey,
+      drawer: HomeDrawer(onClickDrawerMenu, _clickedDrawerMenu),
       body: SafeArea(
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -58,14 +69,24 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HomeDrawer extends StatefulWidget{
+  static const MENU_MY_REPOS = "MY_REPOS";
+  static const MENU_STARRED_REPOS = "STARRED_REPOS";
+  static const MENU_TRENDING_UP = "TRENDING_UP";
+  final Function(String) callback;
+  final String lastClickedMenu;
+  HomeDrawer(this.callback, this.lastClickedMenu, {Key key}): super(key: key);
+
   @override
   _HomeDrawerState createState() => _HomeDrawerState();
 }
 class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateMixin {
   AnimationController _refreshController;
+  String _clickedMenu;
+
   @override
   void initState() {
     super.initState();
+    this._clickedMenu = widget.lastClickedMenu;
     _refreshController = AnimationController(
       duration: const Duration(seconds: 1),
       vsync: this, //vsync 会防止屏幕外动画（动画的UI不在当前屏幕时）消耗不必要的资源
@@ -94,6 +115,12 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
           _refreshController.stop(canceled: true);
         });
   }
+  void onClickMenu(String menu) {
+    _clickedMenu = menu;
+    widget.callback(menu);
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -106,8 +133,10 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
           child: ListTile(
             leading: Icon(Icons.storage,),
             title: Text(S.of(context).myRepos,),
-            onTap: () {},
-            selected: true,
+            onTap: () {
+              onClickMenu(HomeDrawer.MENU_MY_REPOS);
+            },
+            selected: _clickedMenu == null || _clickedMenu == HomeDrawer.MENU_MY_REPOS,
           ),
         ),
         Material(
@@ -116,8 +145,9 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
             leading: Icon(Icons.star,),
             title: Text(S.of(context).starredRepos,),
             onTap: () {
-//              Provide.value<ThemeProvide>(context).changeTheme(9);
+              onClickMenu(HomeDrawer.MENU_STARRED_REPOS);
             },
+            selected: _clickedMenu == HomeDrawer.MENU_STARRED_REPOS,
           ),
         ),
         Material(
@@ -125,7 +155,10 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
           child: ListTile(
             leading: Icon(Icons.trending_up,),
             title: Text(S.of(context).trending,),
-            onTap: () {},
+            onTap: () {
+              onClickMenu(HomeDrawer.MENU_TRENDING_UP);
+            },
+            selected: _clickedMenu == HomeDrawer.MENU_TRENDING_UP,
           ),
         ),
         Divider(height: 1, color: Theme.of(context).primaryColor,),

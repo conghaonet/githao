@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:githao/pages/splash.dart';
 import 'package:githao/provide/theme_provide.dart';
@@ -41,13 +40,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Provide<ThemeProvide>(
       builder: (context, child, themeProvide) {
-        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-          statusBarColor: themeProvide.themeData.primaryColor, //状态栏背景色
-          statusBarIconBrightness: Brightness.dark,
-          statusBarBrightness: Brightness.dark,
-          systemNavigationBarColor: themeProvide.themeData.primaryColor, //系统导航栏（虚拟按键）背景色
-          systemNavigationBarIconBrightness: Brightness.dark,
-        ));
         return MaterialApp(
           // 定义静态路由，不能传递参数
           routes: appRoute.routes,

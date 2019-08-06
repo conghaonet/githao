@@ -32,8 +32,10 @@ class SpUtil {
   }
   // 判断是否存在数据
   bool hasKey(String key) {
-    Set keys = getKeys();
-    return keys.contains(key);
+//    Set keys = getKeys();
+//    return keys.contains(key);
+    if (_beforeCheck()) return null;
+    return _spf.containsKey(key);
   }
 
   Set<String> getKeys() {

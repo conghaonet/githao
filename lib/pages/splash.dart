@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:githao/biz/user_biz.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/provide/theme_provide.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:provide/provide.dart';
 
@@ -46,6 +48,8 @@ class _SplashPageState extends State<SplashPage> {
   }
   @override
   Widget build(BuildContext context) {
+    //修改主题后，需要在app的第一个页面设置状态栏。
+    SystemChrome.setSystemUIOverlayStyle(Provide.value<ThemeProvide>(context).overlayStyle);
     return Scaffold(
       body: Container(
         child: Stack(

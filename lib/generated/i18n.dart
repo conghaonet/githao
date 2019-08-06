@@ -39,6 +39,17 @@ class S implements WidgetsLocalizations {
   String get oopsWrong => "Oops wrong!";
   String get profile => "Profile";
   String get refreshFailedCheckNetwork => "Refresh failed, please check your network connection.";
+  String get reposFilterSort => "Sort";
+  String get reposFilterSortCreated => "Created";
+  String get reposFilterSortFullName => "Full name";
+  String get reposFilterSortPushed => "Pushed";
+  String get reposFilterSortUpdated => "Updated";
+  String get reposFilterType => "Type";
+  String get reposFilterTypeAll => "All";
+  String get reposFilterTypeMember => "Member";
+  String get reposFilterTypeOwner => "Owner";
+  String get reposFilterTypePrivate => "Private";
+  String get reposFilterTypePublic => "Public";
   String get search => "Search";
   String get settings => "Settings";
   String get skip => "Skip";

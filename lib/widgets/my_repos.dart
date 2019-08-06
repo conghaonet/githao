@@ -4,6 +4,7 @@ import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/home.dart';
+import 'package:githao/resources/repos_filter_parameters.dart';
 import 'package:githao/widgets/loading_state.dart';
 import 'package:githao/utils/util.dart';
 
@@ -26,6 +27,7 @@ class _MyReposWidgetState extends State<MyReposWidget> {
   int _page = 1;
   StateFlag _loadingState = StateFlag.idle;
   bool _expectHasMoreData = true;
+  int _groupTypeIndex = 0;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   @override
@@ -34,6 +36,14 @@ class _MyReposWidgetState extends State<MyReposWidget> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
   }
 
+  void onClickFilterCallback(String category, int index, bool isSelected) {
+    if(category == 'type') {
+      setState(() {
+        _groupTypeIndex = index;
+        print("_groupTypeIndex = ${_groupTypeIndex}");
+      });
+    }
+  }
   Future<void> _loadData({bool isReload=true}) async {
     if(_loadingState == StateFlag.loading) return null;
     setState(() {
@@ -136,6 +146,21 @@ class _MyReposWidgetState extends State<MyReposWidget> {
             ),
           ),
         ),
+        Positioned(
+          bottom: 12,
+          right: 16,
+          child: FloatingActionButton(
+            child: Icon(Icons.sort),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return BottomFilter(this._groupTypeIndex,ReposFilterParameters.getFilterTypeTextMap(context), onClickFilterCallback);
+                },
+              );
+            },
+          ),
+        ),
         LoadingState(_loadingState,
           onRetry: (){
             _refreshIndicatorKey.currentState.show();
@@ -144,8 +169,100 @@ class _MyReposWidgetState extends State<MyReposWidget> {
       ],
     );
   }
+
+/*
+  Widget getBottomContent() {
+    List<String> typeTexts = ReposFilterParameters.getFilterTypeTextMap(context);
+    List<String> sortTexts = ReposFilterParameters.getFilterSortTextMap(context);
+    String _groupValueFilterSort = ReposFilterParameters.filterSortValueMap[0][ReposFilterParameters.PARAMETER_NAME_SORT];
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(S.of(context).reposFilterType),
+        Wrap(
+          children: List<Widget>.generate(typeTexts.length, (int index) {
+            return ChoiceChip(
+              //未选定的时候背景
+              backgroundColor:Colors.red,
+              //被禁用得时候背景
+              disabledColor: Colors.blue,
+
+              label: Text(typeTexts[index]),
+              selected: _groupTypeIndex == index,
+              onSelected: (bool selected) {
+                setState(() {
+                  if(selected)
+//                  _groupTypeIndex = selected ? index : null;
+                    _groupTypeIndex = index;
+                });
+              },
+            );
+          }).toList(growable: false),
+        ),
+      ],
+    );
+  }
+*/
+  Widget getSortTitle(String title, bool isAsc) {
+    return Wrap(
+      children: <Widget>[
+        Text(title),
+        Icon(isAsc ? Icons.trending_up : Icons.trending_down),
+      ],
+    );
+  }
   @override
   void dispose() {
     super.dispose();
+  }
+}
+
+class BottomFilter extends StatefulWidget {
+  final List<String> typeTexts;
+  final int selectedTypeIndex;
+  final Function(String, int, bool) callback;
+  BottomFilter(this.selectedTypeIndex ,this.typeTexts, this.callback);
+  @override
+  _BottomFilterState createState() => _BottomFilterState();
+}
+
+class _BottomFilterState extends State<BottomFilter> {
+  int _selectedTypeIndex;
+//  List<String> sortTexts = ReposFilterParameters.getFilterSortTextMap(context);
+//  String _groupValueFilterSort = ReposFilterParameters.filterSortValueMap[0][ReposFilterParameters.PARAMETER_NAME_SORT];
+
+  @override
+  void initState() {
+    _selectedTypeIndex = widget.selectedTypeIndex;
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(S.of(context).reposFilterType),
+        Wrap(
+          children: List<Widget>.generate(widget.typeTexts.length, (int index) {
+            return ChoiceChip(
+              //未选定的时候背景
+              backgroundColor:Colors.red,
+              //被禁用得时候背景
+              disabledColor: Colors.blue,
+
+              label: Text(widget.typeTexts[index]),
+              selected: _selectedTypeIndex == index,
+              onSelected: (bool isSelected) {
+                _selectedTypeIndex = isSelected ? index : -1;
+                widget.callback('type', index, isSelected);
+                Navigator.pop(context);
+              },
+            );
+          }).toList(growable: false),
+        ),
+      ],
+    );
   }
 }

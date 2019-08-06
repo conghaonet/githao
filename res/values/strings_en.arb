@@ -25,5 +25,16 @@
   "empty": "Empty",
   "oopsWrong": "Oops wrong!",
   "tapToRetry": "TAP TO RETRY",
-  "chooseTheme": "Choose theme"
+  "chooseTheme": "Choose theme",
+  "reposFilterType": "Type",
+  "reposFilterTypeAll": "All",
+  "reposFilterTypeOwner": "Owner",
+  "reposFilterTypePublic": "Public",
+  "reposFilterTypePrivate": "Private",
+  "reposFilterTypeMember": "Member",
+  "reposFilterSort": "Sort",
+  "reposFilterSortFullName": "Full name",
+  "reposFilterSortCreated": "Created",
+  "reposFilterSortUpdated": "Updated",
+  "reposFilterSortPushed": "Pushed"
 }

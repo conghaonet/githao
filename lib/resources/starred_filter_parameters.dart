@@ -1,0 +1,28 @@
+import 'package:flutter/widgets.dart';
+import 'package:githao/generated/i18n.dart';
+class StarredFilterParameters {
+
+  static const PARAMETER_NAME_SORT = "sort";
+  static const PARAMETER_NAME_DIRECTION = "direction";
+  static const DIRECTION_ASC = "asc";
+  static const DIRECTION_DESC = "desc";
+
+  static const SORT_CREATED = "created";
+  static const SORT_UPDATED = "updated";
+
+  static final List<Map<String, String>> filterSortValueMap = [
+    {PARAMETER_NAME_SORT : SORT_CREATED, PARAMETER_NAME_DIRECTION : DIRECTION_DESC},
+    {PARAMETER_NAME_SORT : SORT_CREATED, PARAMETER_NAME_DIRECTION : DIRECTION_ASC},
+    {PARAMETER_NAME_SORT : SORT_UPDATED, PARAMETER_NAME_DIRECTION : DIRECTION_DESC},
+    {PARAMETER_NAME_SORT : SORT_UPDATED, PARAMETER_NAME_DIRECTION : DIRECTION_ASC},
+  ];
+
+  static List<String> getFilterSortTextMap(BuildContext context) {
+    return [
+      S.of(context).reposFilterSortCreated,
+      S.of(context).reposFilterSortCreated,
+      S.of(context).reposFilterSortUpdated,
+      S.of(context).reposFilterSortUpdated,
+    ];
+  }
+}

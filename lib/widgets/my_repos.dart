@@ -5,10 +5,13 @@ import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/home.dart';
 import 'package:githao/resources/repos_filter_parameters.dart';
+import 'package:githao/resources/starred_filter_parameters.dart';
 import 'package:githao/widgets/loading_state.dart';
 import 'package:githao/utils/util.dart';
+import 'package:githao/widgets/starred_repos_filter.dart';
 
 import 'load_more_data_footer.dart';
+import 'my_repos_filter.dart';
 import 'my_visibility.dart';
 
 /// [perPageRows] 每次请求期望返回的数据量，GitHub默认每次返回30条数据；
@@ -38,16 +41,25 @@ class _MyReposWidgetState extends State<MyReposWidget> {
   }
 
   void onClickFilterCallback(String group, int index) {
-    if(group == BottomFilter.GROUP_TYPE && _groupTypeIndex != index) {
-      setState(() {
-        _groupTypeIndex = index;
-      });
-      _refreshIndicatorKey.currentState.show();
-    } else if(group == BottomFilter.GROUP_SORT && _groupSortIndex != index) {
-      setState(() {
-        _groupSortIndex = index;
-      });
-      _refreshIndicatorKey.currentState.show();
+    if (widget.homeDrawerMenu == HomeDrawer.MENU_MY_REPOS && _groupTypeIndex != index) {
+      if(group == MyReposFilter.GROUP_TYPE) {
+        setState(() {
+          _groupTypeIndex = index;
+        });
+        _refreshIndicatorKey.currentState.show();
+      } else if(group == MyReposFilter.GROUP_SORT) {
+        setState(() {
+          _groupSortIndex = index;
+        });
+        _refreshIndicatorKey.currentState.show();
+      }
+    } else if (widget.homeDrawerMenu == HomeDrawer.MENU_STARRED_REPOS && _groupSortIndex != index) {
+      if(group == StarredReposFilter.GROUP_SORT) {
+        setState(() {
+          _groupSortIndex = index;
+        });
+        _refreshIndicatorKey.currentState.show();
+      }
     }
   }
   Future<void> _loadData({bool isReload=true}) async {
@@ -68,7 +80,9 @@ class _MyReposWidgetState extends State<MyReposWidget> {
       String _direction = ReposFilterParameters.filterSortValueMap[_groupSortIndex][ReposFilterParameters.PARAMETER_NAME_DIRECTION];
       future = ApiService.getRepos(page: expectationPage, type: _type, sort: _sort, direction: _direction);
     } else if(widget.homeDrawerMenu == HomeDrawer.MENU_STARRED_REPOS) {
-      future = ApiService.getStarredRepos(page: expectationPage);
+      String _sort = StarredFilterParameters.filterSortValueMap[_groupSortIndex][StarredFilterParameters.PARAMETER_NAME_SORT];
+      String _direction = StarredFilterParameters.filterSortValueMap[_groupSortIndex][StarredFilterParameters.PARAMETER_NAME_DIRECTION];
+      future = ApiService.getStarredRepos(page: expectationPage, sort: _sort, direction: _direction);
     }
     return future.then<bool>((list) {
       if(mounted) {
@@ -164,7 +178,12 @@ class _MyReposWidgetState extends State<MyReposWidget> {
               showModalBottomSheet(
                 context: context,
                 builder: (BuildContext context) {
-                  return BottomFilter(
+                  return widget.homeDrawerMenu == HomeDrawer.MENU_STARRED_REPOS
+                      ? StarredReposFilter(
+                      this._groupSortIndex,
+                      StarredFilterParameters.getFilterSortTextMap(context),
+                      onClickFilterCallback)
+                      : MyReposFilter(
                       this._groupTypeIndex,
                       ReposFilterParameters.getFilterTypeTextMap(context),
                       this._groupSortIndex,
@@ -186,116 +205,5 @@ class _MyReposWidgetState extends State<MyReposWidget> {
   @override
   void dispose() {
     super.dispose();
-  }
-}
-
-class BottomFilter extends StatefulWidget {
-  static const GROUP_TYPE = 'type';
-  static const GROUP_SORT = 'sort';
-  final List<String> typeTexts;
-  final List<String> sortTexts;
-  final int selectedTypeIndex;
-  final int selectedSortIndex;
-  final Function(String, int) callback;
-  BottomFilter(this.selectedTypeIndex ,this.typeTexts, this.selectedSortIndex, this.sortTexts, this.callback);
-  @override
-  _BottomFilterState createState() => _BottomFilterState();
-}
-
-class _BottomFilterState extends State<BottomFilter> {
-  int _selectedTypeIndex;
-  int _selectedSortIndex;
-  @override
-  void initState() {
-    _selectedTypeIndex = widget.selectedTypeIndex;
-    _selectedSortIndex = widget.selectedSortIndex;
-    super.initState();
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 0),
-            child: Text(
-              S.of(context).reposFilterType,
-              style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.w700),),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Wrap(
-              children: List<Widget>.generate(widget.typeTexts.length, (int index) {
-                return Padding(
-                  padding: EdgeInsets.only(right: 8, left: 8),
-                  child: ChoiceChip(
-                    label: Padding(
-                      padding: widget.typeTexts[index].length < 5 ? EdgeInsets.only(left: 12, right: 12,) : EdgeInsets.only(left: 4, right: 4,),
-                      child: Text(widget.typeTexts[index],
-                        style: TextStyle(color: _selectedTypeIndex == index ? Colors.white : Colors.black45),
-                      ),
-                    ),
-                    backgroundColor: Theme.of(context).primaryColorLight,
-                    selectedColor: Theme.of(context).primaryColorDark,
-                    selected: _selectedTypeIndex == index,
-                    onSelected: (bool isSelected) {
-                      _selectedTypeIndex = isSelected ? index : -1;
-                      widget.callback(BottomFilter.GROUP_TYPE, index);
-                      Navigator.pop(context);
-                    },
-                  ),
-                );
-              }).toList(growable: false),
-            ),
-          ),
-          Divider(),
-          Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 0),
-            child: Text(
-              S.of(context).reposFilterSort,
-              style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.w700),),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Wrap(
-              children: List<Widget>.generate(widget.sortTexts.length, (int index) {
-                return Padding(
-                  padding: EdgeInsets.only(right: 8, left: 8),
-                  child: ChoiceChip(
-                    label: Padding(
-                      padding: EdgeInsets.only(left: 4, right: 4),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Text(widget.sortTexts[index],
-                            style: TextStyle(color: _selectedSortIndex == index ? Colors.white : Colors.black45),
-                          ),
-                          Icon(ReposFilterParameters.filterSortValueMap[index][ReposFilterParameters.PARAMETER_NAME_DIRECTION] == ReposFilterParameters.DIRECTION_ASC
-                                  ? Icons.trending_up
-                                  : Icons.trending_down,
-                            color: _selectedSortIndex == index ? Colors.white : Colors.black45,),
-                        ],
-                      ),
-                    ),
-                    backgroundColor: Theme.of(context).primaryColorLight,
-                    selectedColor: Theme.of(context).primaryColorDark,
-                    selected: _selectedSortIndex == index,
-                    onSelected: (bool isSelected) {
-                      _selectedSortIndex = isSelected ? index : -1;
-                      widget.callback(BottomFilter.GROUP_SORT, index);
-                      Navigator.pop(context);
-                    },
-                  ),
-                );
-              }).toList(growable: false),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

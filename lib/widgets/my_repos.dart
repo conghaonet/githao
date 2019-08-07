@@ -239,30 +239,55 @@ class _BottomFilterState extends State<BottomFilter> {
   }
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(S.of(context).reposFilterType),
-        Wrap(
-          children: List<Widget>.generate(widget.typeTexts.length, (int index) {
-            return ChoiceChip(
-              //未选定的时候背景
-              backgroundColor:Colors.red,
-              //被禁用得时候背景
-              disabledColor: Colors.blue,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 0),
+            child: Text(
+              S.of(context).reposFilterType,
+              style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.w700),),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              children: List<Widget>.generate(widget.typeTexts.length, (int index) {
+                return Padding(
+                  padding: EdgeInsets.only(right: 8, left: 8),
+                  child: ChoiceChip(
+                    label: Padding(padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4), child: Text(
+                      widget.typeTexts[index],
+                      style: _selectedTypeIndex == index
+                          ? TextStyle(fontSize: 18, color: Colors.white)
+                          : TextStyle(fontSize: 18, color: Colors.black38),
+                    ),),
+                    backgroundColor: Theme.of(context).dividerColor,
+                    selectedColor: Theme.of(context).primaryColorDark,
 
-              label: Text(widget.typeTexts[index]),
-              selected: _selectedTypeIndex == index,
-              onSelected: (bool isSelected) {
-                _selectedTypeIndex = isSelected ? index : -1;
-                widget.callback('type', index, isSelected);
-                Navigator.pop(context);
-              },
-            );
-          }).toList(growable: false),
-        ),
-      ],
+                    selected: _selectedTypeIndex == index,
+                    onSelected: (bool isSelected) {
+                      _selectedTypeIndex = isSelected ? index : -1;
+                      widget.callback('type', index, isSelected);
+                      Navigator.pop(context);
+                    },
+                  ),
+                );
+              }).toList(growable: false),
+            ),
+          ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 0),
+            child: Text(
+              S.of(context).reposFilterSort,
+              style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.w700),),
+          ),
+
+        ],
+      ),
     );
   }
 }

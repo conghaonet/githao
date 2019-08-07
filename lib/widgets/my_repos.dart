@@ -41,20 +41,20 @@ class _MyReposWidgetState extends State<MyReposWidget> {
   }
 
   void onClickFilterCallback(String group, int index) {
-    if (widget.homeDrawerMenu == HomeDrawer.MENU_MY_REPOS && _groupTypeIndex != index) {
-      if(group == MyReposFilter.GROUP_TYPE) {
+    if (widget.homeDrawerMenu == HomeDrawer.MENU_MY_REPOS) {
+      if(group == MyReposFilter.GROUP_TYPE && _groupTypeIndex != index) {
         setState(() {
           _groupTypeIndex = index;
         });
         _refreshIndicatorKey.currentState.show();
-      } else if(group == MyReposFilter.GROUP_SORT) {
+      } else if(group == MyReposFilter.GROUP_SORT && _groupSortIndex != index) {
         setState(() {
           _groupSortIndex = index;
         });
         _refreshIndicatorKey.currentState.show();
       }
-    } else if (widget.homeDrawerMenu == HomeDrawer.MENU_STARRED_REPOS && _groupSortIndex != index) {
-      if(group == StarredReposFilter.GROUP_SORT) {
+    } else if (widget.homeDrawerMenu == HomeDrawer.MENU_STARRED_REPOS) {
+      if(group == StarredReposFilter.GROUP_SORT && _groupSortIndex != index) {
         setState(() {
           _groupSortIndex = index;
         });

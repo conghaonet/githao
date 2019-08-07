@@ -45,6 +45,7 @@ class DioClient {
           return options;
         }
     ));
+//    _dio.interceptors.add(LogInterceptor(responseBody: false)); //开启请求日志
   }
 
   /// 设置代理

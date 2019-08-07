@@ -1,5 +1,10 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:githao/network/dio_client.dart';
 import 'package:githao/pages/splash.dart';
 import 'package:githao/provide/theme_provide.dart';
 import 'package:githao/provide/user_provide.dart';
@@ -9,7 +14,20 @@ import 'package:provide/provide.dart';
 
 import 'generated/i18n.dart';
 
+// Must be top-level function
+_parseAndDecode(String response) {
+  return jsonDecode(response);
+}
+
+parseJson(String text) {
+  return compute(_parseAndDecode, text);
+}
+
+
 void main() {
+  //Custom jsonDecodeCallback
+  (dioClient.dio.transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
+
   final providers = Providers()
     ..provide(Provider.value(UserProvide()))
     ..provide(Provider.value(ThemeProvide()));

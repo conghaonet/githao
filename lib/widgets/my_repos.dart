@@ -64,11 +64,13 @@ class _MyReposWidgetState extends State<MyReposWidget> {
   }
   Future<void> _loadData({bool isReload=true}) async {
     if(_loadingState == StateFlag.loading) return null;
-    setState(() {
-      _loadingState = StateFlag.loading;
-    });
+    _loadingState = StateFlag.loading;
     int expectationPage;
     if (isReload) {
+      setState(() {
+        _repos.clear();
+        _page = 1;
+      });
       expectationPage = 1;
     } else {
       expectationPage = _page + 1;
@@ -87,14 +89,9 @@ class _MyReposWidgetState extends State<MyReposWidget> {
     return future.then<bool>((list) {
       if(mounted) {
         setState(() {
-          if (isReload) { //初始加载或下拉刷新数据
-            this._repos
-              ..clear()
-              ..addAll(list);
-            _page = 1;
-          } else { //上拉加载更多数据
-            if(list.isNotEmpty) {
-              this._repos.addAll(list);
+          if(list.isNotEmpty) {
+            this._repos.addAll(list);
+            if (!isReload) {
               ++_page;
             }
           }

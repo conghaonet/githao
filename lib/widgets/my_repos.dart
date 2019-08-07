@@ -37,15 +37,17 @@ class _MyReposWidgetState extends State<MyReposWidget> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
   }
 
-  void onClickFilterCallback(String category, int index, bool isSelected) {
-    if(category == 'type') {
+  void onClickFilterCallback(String group, int index) {
+    if(group == BottomFilter.GROUP_TYPE && _groupTypeIndex != index) {
       setState(() {
         _groupTypeIndex = index;
       });
-    } else if(category == 'sort') {
+      _refreshIndicatorKey.currentState.show();
+    } else if(group == BottomFilter.GROUP_SORT && _groupSortIndex != index) {
       setState(() {
         _groupSortIndex = index;
       });
+      _refreshIndicatorKey.currentState.show();
     }
   }
   Future<void> _loadData({bool isReload=true}) async {
@@ -61,7 +63,10 @@ class _MyReposWidgetState extends State<MyReposWidget> {
     }
     Future<List<RepoEntity>> future;
     if(widget.homeDrawerMenu == HomeDrawer.MENU_MY_REPOS) {
-      future = ApiService.getRepos(page: expectationPage);
+      String _type = ReposFilterParameters.filterTypeValueMap[_groupTypeIndex];
+      String _sort = ReposFilterParameters.filterSortValueMap[_groupSortIndex][ReposFilterParameters.PARAMETER_NAME_SORT];
+      String _direction = ReposFilterParameters.filterSortValueMap[_groupSortIndex][ReposFilterParameters.PARAMETER_NAME_DIRECTION];
+      future = ApiService.getRepos(page: expectationPage, type: _type, sort: _sort, direction: _direction);
     } else if(widget.homeDrawerMenu == HomeDrawer.MENU_STARRED_REPOS) {
       future = ApiService.getStarredRepos(page: expectationPage);
     }
@@ -178,49 +183,6 @@ class _MyReposWidgetState extends State<MyReposWidget> {
       ],
     );
   }
-
-/*
-  Widget getBottomContent() {
-    List<String> typeTexts = ReposFilterParameters.getFilterTypeTextMap(context);
-    List<String> sortTexts = ReposFilterParameters.getFilterSortTextMap(context);
-    String _groupValueFilterSort = ReposFilterParameters.filterSortValueMap[0][ReposFilterParameters.PARAMETER_NAME_SORT];
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(S.of(context).reposFilterType),
-        Wrap(
-          children: List<Widget>.generate(typeTexts.length, (int index) {
-            return ChoiceChip(
-              //未选定的时候背景
-              backgroundColor:Colors.red,
-              //被禁用得时候背景
-              disabledColor: Colors.blue,
-
-              label: Text(typeTexts[index]),
-              selected: _groupTypeIndex == index,
-              onSelected: (bool selected) {
-                setState(() {
-                  if(selected)
-//                  _groupTypeIndex = selected ? index : null;
-                    _groupTypeIndex = index;
-                });
-              },
-            );
-          }).toList(growable: false),
-        ),
-      ],
-    );
-  }
-*/
-  Widget getSortTitle(String title, bool isAsc) {
-    return Wrap(
-      children: <Widget>[
-        Text(title),
-        Icon(isAsc ? Icons.trending_up : Icons.trending_down),
-      ],
-    );
-  }
   @override
   void dispose() {
     super.dispose();
@@ -228,11 +190,13 @@ class _MyReposWidgetState extends State<MyReposWidget> {
 }
 
 class BottomFilter extends StatefulWidget {
+  static const GROUP_TYPE = 'type';
+  static const GROUP_SORT = 'sort';
   final List<String> typeTexts;
   final List<String> sortTexts;
   final int selectedTypeIndex;
   final int selectedSortIndex;
-  final Function(String, int, bool) callback;
+  final Function(String, int) callback;
   BottomFilter(this.selectedTypeIndex ,this.typeTexts, this.selectedSortIndex, this.sortTexts, this.callback);
   @override
   _BottomFilterState createState() => _BottomFilterState();
@@ -279,7 +243,7 @@ class _BottomFilterState extends State<BottomFilter> {
                     selected: _selectedTypeIndex == index,
                     onSelected: (bool isSelected) {
                       _selectedTypeIndex = isSelected ? index : -1;
-                      widget.callback('type', index, isSelected);
+                      widget.callback(BottomFilter.GROUP_TYPE, index);
                       Navigator.pop(context);
                     },
                   ),
@@ -310,8 +274,7 @@ class _BottomFilterState extends State<BottomFilter> {
                           Text(widget.sortTexts[index],
                             style: TextStyle(color: _selectedSortIndex == index ? Colors.white : Colors.black45),
                           ),
-                          Icon(
-                              ReposFilterParameters.filterSortValueMap[index][ReposFilterParameters.PARAMETER_NAME_DIRECTION] == ReposFilterParameters.DIRECTION_ASC
+                          Icon(ReposFilterParameters.filterSortValueMap[index][ReposFilterParameters.PARAMETER_NAME_DIRECTION] == ReposFilterParameters.DIRECTION_ASC
                                   ? Icons.trending_up
                                   : Icons.trending_down,
                             color: _selectedSortIndex == index ? Colors.white : Colors.black45,),
@@ -323,7 +286,7 @@ class _BottomFilterState extends State<BottomFilter> {
                     selected: _selectedSortIndex == index,
                     onSelected: (bool isSelected) {
                       _selectedSortIndex = isSelected ? index : -1;
-                      widget.callback('sort', index, isSelected);
+                      widget.callback(BottomFilter.GROUP_SORT, index);
                       Navigator.pop(context);
                     },
                   ),

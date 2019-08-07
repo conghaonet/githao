@@ -20,14 +20,7 @@ class ReposFilterParameters {
   static const DIRECTION_ASC = "asc";
   static const DIRECTION_DESC = "desc";
 
-  static final List<Map<String, String>> filterTypeValueMap = [
-    {PARAMETER_NAME_TYPE : TYPE_ALL},
-    {PARAMETER_NAME_TYPE : TYPE_OWNER},
-    {PARAMETER_NAME_TYPE : TYPE_PUBLIC},
-    {PARAMETER_NAME_TYPE : TYPE_PRIVATE},
-    {PARAMETER_NAME_TYPE : TYPE_MEMBER},
-  ];
-
+  static final List<String> filterTypeValueMap = [TYPE_ALL, TYPE_OWNER, TYPE_PUBLIC, TYPE_PRIVATE, TYPE_MEMBER];
   static List<String> getFilterTypeTextMap(BuildContext context) {
     return [
       S.of(context).reposFilterTypeAll,

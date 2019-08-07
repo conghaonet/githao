@@ -28,6 +28,7 @@ class _MyReposWidgetState extends State<MyReposWidget> {
   StateFlag _loadingState = StateFlag.idle;
   bool _expectHasMoreData = true;
   int _groupTypeIndex = 0;
+  int _groupSortIndex = 0;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   @override
@@ -40,7 +41,10 @@ class _MyReposWidgetState extends State<MyReposWidget> {
     if(category == 'type') {
       setState(() {
         _groupTypeIndex = index;
-        print("_groupTypeIndex = ${_groupTypeIndex}");
+      });
+    } else if(category == 'sort') {
+      setState(() {
+        _groupSortIndex = index;
       });
     }
   }
@@ -155,7 +159,12 @@ class _MyReposWidgetState extends State<MyReposWidget> {
               showModalBottomSheet(
                 context: context,
                 builder: (BuildContext context) {
-                  return BottomFilter(this._groupTypeIndex,ReposFilterParameters.getFilterTypeTextMap(context), onClickFilterCallback);
+                  return BottomFilter(
+                      this._groupTypeIndex,
+                      ReposFilterParameters.getFilterTypeTextMap(context),
+                      this._groupSortIndex,
+                      ReposFilterParameters.getFilterSortTextMap(context),
+                      onClickFilterCallback);
                 },
               );
             },
@@ -220,21 +229,22 @@ class _MyReposWidgetState extends State<MyReposWidget> {
 
 class BottomFilter extends StatefulWidget {
   final List<String> typeTexts;
+  final List<String> sortTexts;
   final int selectedTypeIndex;
+  final int selectedSortIndex;
   final Function(String, int, bool) callback;
-  BottomFilter(this.selectedTypeIndex ,this.typeTexts, this.callback);
+  BottomFilter(this.selectedTypeIndex ,this.typeTexts, this.selectedSortIndex, this.sortTexts, this.callback);
   @override
   _BottomFilterState createState() => _BottomFilterState();
 }
 
 class _BottomFilterState extends State<BottomFilter> {
   int _selectedTypeIndex;
-//  List<String> sortTexts = ReposFilterParameters.getFilterSortTextMap(context);
-//  String _groupValueFilterSort = ReposFilterParameters.filterSortValueMap[0][ReposFilterParameters.PARAMETER_NAME_SORT];
-
+  int _selectedSortIndex;
   @override
   void initState() {
     _selectedTypeIndex = widget.selectedTypeIndex;
+    _selectedSortIndex = widget.selectedSortIndex;
     super.initState();
   }
   @override
@@ -258,15 +268,14 @@ class _BottomFilterState extends State<BottomFilter> {
                 return Padding(
                   padding: EdgeInsets.only(right: 8, left: 8),
                   child: ChoiceChip(
-                    label: Padding(padding: EdgeInsets.only(left: 8, right: 8, top: 4, bottom: 4), child: Text(
-                      widget.typeTexts[index],
-                      style: _selectedTypeIndex == index
-                          ? TextStyle(fontSize: 18, color: Colors.white)
-                          : TextStyle(fontSize: 18, color: Colors.black38),
-                    ),),
-                    backgroundColor: Theme.of(context).dividerColor,
+                    label: Padding(
+                      padding: widget.typeTexts[index].length < 5 ? EdgeInsets.only(left: 12, right: 12,) : EdgeInsets.only(left: 4, right: 4,),
+                      child: Text(widget.typeTexts[index],
+                        style: TextStyle(color: _selectedTypeIndex == index ? Colors.white : Colors.black45),
+                      ),
+                    ),
+                    backgroundColor: Theme.of(context).primaryColorLight,
                     selectedColor: Theme.of(context).primaryColorDark,
-
                     selected: _selectedTypeIndex == index,
                     onSelected: (bool isSelected) {
                       _selectedTypeIndex = isSelected ? index : -1;
@@ -285,7 +294,43 @@ class _BottomFilterState extends State<BottomFilter> {
               S.of(context).reposFilterSort,
               style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.w700),),
           ),
-
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Wrap(
+              children: List<Widget>.generate(widget.sortTexts.length, (int index) {
+                return Padding(
+                  padding: EdgeInsets.only(right: 8, left: 8),
+                  child: ChoiceChip(
+                    label: Padding(
+                      padding: EdgeInsets.only(left: 4, right: 4),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text(widget.sortTexts[index],
+                            style: TextStyle(color: _selectedSortIndex == index ? Colors.white : Colors.black45),
+                          ),
+                          Icon(
+                              ReposFilterParameters.filterSortValueMap[index][ReposFilterParameters.PARAMETER_NAME_DIRECTION] == ReposFilterParameters.DIRECTION_ASC
+                                  ? Icons.trending_up
+                                  : Icons.trending_down,
+                            color: _selectedSortIndex == index ? Colors.white : Colors.black45,),
+                        ],
+                      ),
+                    ),
+                    backgroundColor: Theme.of(context).primaryColorLight,
+                    selectedColor: Theme.of(context).primaryColorDark,
+                    selected: _selectedSortIndex == index,
+                    onSelected: (bool isSelected) {
+                      _selectedSortIndex = isSelected ? index : -1;
+                      widget.callback('sort', index, isSelected);
+                      Navigator.pop(context);
+                    },
+                  ),
+                );
+              }).toList(growable: false),
+            ),
+          ),
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/home.dart';
+import 'package:githao/pages/profile.dart';
 import 'package:githao/resources/custom_icons_icons.dart';
 import 'package:githao/resources/lang_colors.dart';
 import 'package:githao/resources/repos_filter_parameters.dart';
@@ -200,8 +201,13 @@ class _MyReposWidgetState extends State<MyReposWidget> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            CircleAvatar(
-              backgroundImage: CachedNetworkImageProvider(_repos[index].owner.avatarUrl),
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, ProfilePage.ROUTE_NAME, arguments: _repos[index].owner.login);
+              },
+              child: CircleAvatar(
+                backgroundImage: CachedNetworkImageProvider(_repos[index].owner.avatarUrl),
+              ),
             ),
             SizedBox(width: 16,),
             Expanded(

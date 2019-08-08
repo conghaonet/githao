@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:githao/network/entity/user_entity.dart';
 
 import 'package:githao/pages/home.dart';
 import 'package:githao/pages/login.dart';
+import 'package:githao/pages/profile.dart';
 import 'package:githao/pages/route_error_page.dart';
 import 'package:githao/pages/settings.dart';
 import 'package:githao/pages/splash.dart';
@@ -17,22 +19,22 @@ class AppRoute extends NavigatorObserver {
     LoginPage.ROUTE_NAME: (_) => LoginPage(),
     HomePage.ROUTE_NAME: (_) => HomePage(),
     SettingsPage.ROUTE_NAME: (_) => SettingsPage(),
+//    ProfilePage.ROUTE_NAME: (_) => ProfilePage(),
   };
   Map<String, WidgetBuilder> get routes => _routes;
 
   /// 带参数路由
   Route<dynamic> generateRoute(RouteSettings settings) {
     MaterialPageRoute targetPage;
-/*
-    if(settings.name == SettingsPage.ROUTE_NAME) {
+    if(settings.name == ProfilePage.ROUTE_NAME) {
+      final String login = settings.arguments;
       targetPage = MaterialPageRoute(
         settings: settings,
         builder: (context) {
-          return SettingsPage();
+          return ProfilePage(login);
         },
       );
     }
-*/
     //无匹配路由时，跳转到默认错误页面（RouteErrorPage）
     return targetPage ?? MaterialPageRoute(builder: (context) {return RouteErrorPage(route: settings.name);});
   }

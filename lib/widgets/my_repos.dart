@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/home.dart';
@@ -242,7 +241,8 @@ class _MyReposWidgetState extends State<MyReposWidget> {
                     children: <Widget>[
                       _getOwner(_repos[index].owner.login),
                       _getIssues(_repos[index].openIssues),
-                      _getWatchers(_repos[index].watchers),
+                      //抓包发现watchers和stargazersCount数值完全一样，应该是GitHub的bug
+//                      _getWatchers(_repos[index].watchers),
                       _getStargazersCount(_repos[index].stargazersCount),
                       _getForks(_repos[index].forks),
                       _getLanguage(_repos[index].language),

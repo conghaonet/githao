@@ -6,7 +6,7 @@ part 'repo_entity.g.dart';
 /// 这个标注是告诉生成器，这个类是需要生成Model类的，[参考链接](https://flutterchina.club/json/)
 @JsonSerializable()
 class RepoEntity {
-	@JsonKey(name: 'stargazers_ount')
+	@JsonKey(name: 'stargazers_count')
 	int stargazersCount;
 	@JsonKey(name: 'pushed_at')
 	String pushedAt;

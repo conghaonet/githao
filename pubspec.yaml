@@ -88,5 +88,8 @@ flutter:
     - family: AGENCYR # Agency FB
       fonts:
         - asset: fonts/AGENCYR.ttf
+    - family: CustomIcons
+      fonts:
+        - asset: fonts/CustomIcons.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

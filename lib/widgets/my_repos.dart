@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/home.dart';
+import 'package:githao/resources/custom_icons_icons.dart';
 import 'package:githao/resources/lang_colors.dart';
 import 'package:githao/resources/repos_filter_parameters.dart';
 import 'package:githao/resources/starred_filter_parameters.dart';
@@ -127,6 +129,7 @@ class _MyReposWidgetState extends State<MyReposWidget> {
         MyVisibility(
           flag: this._loadingState != StateFlag.empty && this._loadingState != StateFlag.error ? MyVisibilityFlag.visible : MyVisibilityFlag.gone,
           child: Container(
+            color: Theme.of(context).primaryColorLight,
             child: RefreshIndicator(
               key: _refreshIndicatorKey,
               color: Colors.blue,
@@ -140,10 +143,7 @@ class _MyReposWidgetState extends State<MyReposWidget> {
                   }
                   return false; //返回false，将事件传递给外层控件(RefreshIndicator)，否则外层RefreshIndicator无法监听到下拉手势
                 },
-                child: ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return Divider(height: 4, color: Theme.of(context).primaryColor,);
-                  },
+                child: ListView.builder(
                   padding: EdgeInsets.all(0.0),
                   itemCount: (_repos.length >= widget.perPageRows && widget.needLoadMore) ? _repos.length+1 : _repos.length,
                   itemBuilder: (context, index) {
@@ -193,15 +193,69 @@ class _MyReposWidgetState extends State<MyReposWidget> {
   }
 
   Widget getRepoItem(int index) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text('index：$index'),
-        Text('name: ${_repos[index].name}'),
-        Text('language: ${_repos[index].language}'),
-        Text('description: ${_repos[index].description}'),
-        Text('pushedAt: ${_repos[index].pushedAt}'),
-      ],
+    return Card(
+      margin: EdgeInsets.only(left: 8, top: 8, right: 8, bottom: (index +1 == _repos.length) ? 8 : 0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              CircleAvatar(
+                backgroundImage: CachedNetworkImageProvider(_repos[index].owner.avatarUrl),
+              ),
+              SizedBox(width: 16,),
+              Expanded(
+                flex: 1,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(_repos[index].name,
+                      maxLines: 2,
+                      style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(height: 4,),
+                    MyVisibility(
+                      flag: _repos[index].description == null ? MyVisibilityFlag.gone : MyVisibilityFlag.visible,
+                      child: Text(_repos[index].description ?? '',
+                        maxLines: 4,
+                        softWrap: true,
+                        style: TextStyle(),
+                      ),
+                    ),
+                    SizedBox(height: 4,),
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.account_circle, color: Theme.of(context).primaryColor, size: 18,),
+                        Text(_repos[index].owner.login),
+                        SizedBox(width: 16,),
+                        Icon(Icons.stars, color: Theme.of(context).primaryColor, size: 18,),
+                        Text('${_repos[index].stargazersCount}'),
+                        SizedBox(width: 16,),
+                        Icon(CustomIcons.fork, color: Theme.of(context).primaryColor, size: 18,),
+                        Text('${_repos[index].forks}'),
+
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+/*
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text('index：$index'),
+            Text('name: ${_repos[index].name}'),
+            Text('language: ${_repos[index].language}'),
+            Text('description: ${_repos[index].description}'),
+            Text('pushedAt: ${_repos[index].pushedAt}'),
+          ],
+        ),
+*/
+      ),
     );
   }
   @override

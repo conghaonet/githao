@@ -8,7 +8,7 @@ part of 'repo_entity.dart';
 
 RepoEntity _$RepoEntityFromJson(Map<String, dynamic> json) {
   return RepoEntity(
-    stargazersCount: json['stargazers_ount'] as int,
+    stargazersCount: json['stargazers_count'] as int,
     pushedAt: json['pushed_at'] as String,
     subscriptionUrl: json['subscription_url'] as String,
     language: json['language'] as String,
@@ -93,7 +93,7 @@ RepoEntity _$RepoEntityFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$RepoEntityToJson(RepoEntity instance) =>
     <String, dynamic>{
-      'stargazers_ount': instance.stargazersCount,
+      'stargazers_count': instance.stargazersCount,
       'pushed_at': instance.pushedAt,
       'subscription_url': instance.subscriptionUrl,
       'language': instance.language,

@@ -151,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                         this.username = value;
                       },
                       decoration: InputDecoration(
-                          hintText: S.of(context).loginUsernameHint,
+                          hintText: S.of(context).loginAccountHint,
                           prefixIcon: Material(
                             elevation: 0,
                             borderRadius: BorderRadius.all(Radius.circular(30)),

@@ -29,10 +29,10 @@ class S implements WidgetsLocalizations {
   String get issues => "Issues";
   String get loadingMoreData => "Loading more data...";
   String get login => "Login";
+  String get loginAccountHint => "GitHub username or email";
   String get loginPasswordCanNotEmpty => "The password cannot be empty";
-  String get loginPasswordHint => "GitHub password";
-  String get loginUsernameCanNotEmpty => "The username cannot be empty";
-  String get loginUsernameHint => "GitHub username";
+  String get loginPasswordHint => "Password";
+  String get loginUsernameCanNotEmpty => "The username or email cannot be empty";
   String get logout => "Logout";
   String get myRepos => "My repos";
   String get news => "News";

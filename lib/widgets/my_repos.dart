@@ -4,6 +4,7 @@ import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/home.dart';
+import 'package:githao/resources/lang_colors.dart';
 import 'package:githao/resources/repos_filter_parameters.dart';
 import 'package:githao/resources/starred_filter_parameters.dart';
 import 'package:githao/widgets/loading_state.dart';
@@ -147,16 +148,7 @@ class _MyReposWidgetState extends State<MyReposWidget> {
                   itemCount: (_repos.length >= widget.perPageRows && widget.needLoadMore) ? _repos.length+1 : _repos.length,
                   itemBuilder: (context, index) {
                     if(index < _repos.length) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('index：$index'),
-                          Text('name: ${_repos[index].name}'),
-                          Text('language: ${_repos[index].language}'),
-                          Text('description: ${_repos[index].description}'),
-                          Text('pushedAt: ${_repos[index].pushedAt}'),
-                        ],
-                      );
+                      return getRepoItem(index);
                     } else {
                       return LoadMoreDataFooter(_expectHasMoreData);
                     }
@@ -196,6 +188,19 @@ class _MyReposWidgetState extends State<MyReposWidget> {
             _refreshIndicatorKey.currentState.show();
           },
         ),
+      ],
+    );
+  }
+
+  Widget getRepoItem(int index) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text('index：$index'),
+        Text('name: ${_repos[index].name}'),
+        Text('language: ${_repos[index].language}'),
+        Text('description: ${_repos[index].description}'),
+        Text('pushedAt: ${_repos[index].pushedAt}'),
       ],
     );
   }

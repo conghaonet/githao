@@ -19,16 +19,17 @@ class _ProfilePageState extends State<ProfilePage> {
 //            title: Text(widget.login),
 //            centerTitle: true,
             floating: true, //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
-            snap:true,   //与floating结合使用
+            snap:false,   //与floating结合使用
             pinned: true, //为true时，SliverAppBar折叠后不消失
             expandedHeight: 200,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(widget.login),
               centerTitle: true,
               collapseMode: CollapseMode.parallax, // 背景折叠动画
-              background: Image.asset(
-                'images/banner1.jpg',
+              background: Image.asset('images/banner1.jpg',
                 fit: BoxFit.cover,
+                color: Theme.of(context).primaryColor.withOpacity(0.9),
+                colorBlendMode: BlendMode.modulate,
               ),
             ),
           ),

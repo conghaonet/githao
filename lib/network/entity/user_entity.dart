@@ -10,8 +10,6 @@ class UserEntity {
 	String gistsUrl;
 	@JsonKey(name: 'repos_url')
 	String reposUrl;
-	@JsonKey(name: 'two_factor_authentication')
-	bool twoFactorAuthentication;
 	@JsonKey(name: 'following_url')
 	String followingUrl;
 	dynamic bio;
@@ -20,28 +18,18 @@ class UserEntity {
 	String login;
 	String type;
 	String blog;
-	@JsonKey(name: 'private_gists')
-	int privateGists;
-	@JsonKey(name: 'total_private_repos')
-	int totalPrivateRepos;
 	@JsonKey(name: 'subscriptions_url')
 	String subscriptionsUrl;
 	@JsonKey(name: 'updated_at')
 	String updatedAt;
 	@JsonKey(name: 'site_admin')
 	bool siteAdmin;
-	@JsonKey(name: 'disk_usage')
-	int diskUsage;
-	int collaborators;
 	dynamic company;
-	@JsonKey(name: 'owned_private_repos')
-	int ownedPrivateRepos;
 	int id;
 	@JsonKey(name: 'public_repos')
 	int publicRepos;
 	@JsonKey(name: 'gravatar_id')
 	String gravatarId;
-	UserPlan plan;
 	dynamic email;
 	@JsonKey(name: 'organizations_url')
 	String organizationsUrl;
@@ -65,6 +53,25 @@ class UserEntity {
 	dynamic name;
 	dynamic location;
 	String nodeId;
+	/// 已验证用户返回该字段
+	@JsonKey(name: 'private_gists')
+	int privateGists;
+	/// 已验证用户返回该字段
+	@JsonKey(name: 'total_private_repos')
+	int totalPrivateRepos;
+	/// 已验证用户返回该字段
+	@JsonKey(name: 'owned_private_repos')
+	int ownedPrivateRepos;
+	/// 已验证用户返回该字段
+	@JsonKey(name: 'disk_usage')
+	int diskUsage;
+	/// 已验证用户返回该字段
+	int collaborators;
+	/// 已验证用户返回该字段
+	@JsonKey(name: 'two_factor_authentication')
+	bool twoFactorAuthentication;
+	/// 已验证用户返回该字段
+	UserPlan plan;
 
 	UserEntity({this.gistsUrl, this.reposUrl, this.twoFactorAuthentication, this.followingUrl, this.bio, this.createdAt, this.login, this.type,
 		this.blog, this.privateGists, this.totalPrivateRepos, this.subscriptionsUrl, this.updatedAt, this.siteAdmin, this.diskUsage, this.collaborators,

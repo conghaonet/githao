@@ -1,5 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:githao/generated/i18n.dart';
+import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/provide/user_provide.dart';
+import 'package:intl/intl.dart';
+import 'package:provide/provide.dart';
 
 class ProfilePage extends StatefulWidget {
   static const ROUTE_NAME = '/profile';
@@ -10,8 +16,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  List<String> _tabTitles;
   TabController _tabController;
-  bool isAuthenticatedUser;
+  bool _isAuthenticatedUser = false;
+  UserEntity _userEntity;
   //要达到缓存目的，必须实现AutomaticKeepAliveClientMixin的wantKeepAlive为true。
   // 不会被销毁,占内存中
   @override
@@ -20,9 +28,16 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-
     _tabController.addListener(() {
+    });
 
+    ApiService.getUser(widget.login).then((user){
+      setState(() {
+        this._userEntity = user;
+        if(Provide.value<UserProvide>(context).user.login == widget.login) {
+          _isAuthenticatedUser = true;
+        }
+      });
     });
   }
   @override
@@ -33,8 +48,6 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
         child: NestedScrollView(
           headerSliverBuilder: (context, innerBoxScrolled) => [
             SliverAppBar(
-//            title: Text(widget.login),
-//            centerTitle: true,
               primary: true,
               floating: true, //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
               snap:false,   //与floating结合使用
@@ -44,35 +57,23 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                 title: Text(widget.login),
                 centerTitle: true,
                 collapseMode: CollapseMode.parallax, // 背景折叠动画
-                background: Image.asset('images/banner1.jpg',
-                  fit: BoxFit.cover,
-                  color: Theme.of(context).primaryColor.withOpacity(0.9),
-                  colorBlendMode: BlendMode.modulate,
-                ),
+                background: _appBarBackground(),
               ),
-/*
-              bottom: TabBar(
-                tabs: <Widget>[
-                  Tab(icon: Icon(Icons.cake), text: '左侧'),
-                  Tab(icon: Icon(Icons.timer), text: '中间'),
-                  Tab(icon: Icon(Icons.description), text: '右侧'),
-                ],
-                controller: _tabController,
-              ),
-*/
             ),
             SliverPersistentHeader(
               pinned: true,
               delegate: _SliverAppBarDelegate(
-                TabBar(
-                  labelColor: Colors.red,
-                  unselectedLabelColor: Colors.grey,
-                  controller: _tabController,
-                  tabs: [
-                    Tab(child: Text('child 左侧'),),
-                    Tab(child: Text('child 中间'),),
-                    Tab(child: Text('child 右侧'),),
-                  ],
+                Container(
+                  color: Theme.of(context).primaryColor,
+                  child: TabBar(
+                    indicatorColor: Theme.of(context).primaryColorLight,
+                    controller: _tabController,
+                    tabs: [
+                      Tab(child: Text(S.of(context).infoUppercase),),
+                      Tab(child: Text(S.of(context).activityUppercase),),
+                      Tab(child: Text(S.of(context).starredUppercase),),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -80,9 +81,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
           body: TabBarView(
             controller: _tabController,
             children: <Widget>[
-              Container(
-                child: Center(child: Text('tab1'),),
-              ),
+              _getInfoTabBarView(),
               Container(
                 child: Center(child: Text('tab1'),),
               ),
@@ -110,7 +109,208 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
     );
   }
 
+  Widget _appBarBackground() {
+    if(_userEntity == null) return Container();
+    else {
+      return Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          SizedBox(
+            width: double.infinity,
+            child: CachedNetworkImage(
+              imageUrl: _userEntity.avatarUrl,
+              fit: BoxFit.cover,
+              color: Colors.black.withOpacity(0.7),
+              colorBlendMode: BlendMode.srcOver,),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 32.0, right: 32.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(image: CachedNetworkImageProvider(this._userEntity.avatarUrl)),
+                  ),
+                ),
+                SizedBox(width: 16,),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Offstage(
+                        offstage: this._userEntity.name == null,
+                        child: Text(this._userEntity.name ?? '',
+                          style: TextStyle(color: Colors.white, fontSize: 18,),
+                        ),
+                      ),
+                      Offstage(
+                        offstage: this._userEntity.location == null,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Icon(Icons.location_on, color: Colors.white, size: 16,),
+                            Expanded(
+                              child: Text(this._userEntity.location ?? '',
+                                softWrap: true,
+                                maxLines: 3,
+                                style: TextStyle(color: Colors.white, fontSize: 16,),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+  }
 
+  Widget _getInfoTabBarView() {
+    if(_userEntity == null) {
+      return Container(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    } else {
+      DateTime createdAt = DateTime.parse(_userEntity.createdAt).toLocal();
+      DateTime updatedAt = DateTime.parse(_userEntity.updatedAt).toLocal();
+      DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+      return Container(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Offstage(
+                offstage: this._userEntity.name == null,
+                child: Text(this._userEntity.name ?? '',
+                  style: TextStyle(fontSize: 18,),
+                ),
+              ),
+              SizedBox(height: 8,),
+              Text(S.of(context).createdAt(dateFormat.format(createdAt)),
+                style: TextStyle(fontSize: 14, color: Colors.black54),
+              ),
+              SizedBox(height: 8,),
+              Text(S.of(context).updatedAt(dateFormat.format(updatedAt)),
+                style: TextStyle(fontSize: 14, color: Colors.black54),
+              ),
+              Offstage(
+                offstage: this._userEntity.email == null,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(Icons.email, color: Theme.of(context).primaryColorDark),
+                      SizedBox(width: 8,),
+                      Expanded(
+                        child: Text(this._userEntity.email ?? '',
+                          style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Offstage(
+                offstage: this._userEntity.blog == null,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(Icons.link, color: Theme.of(context).primaryColorDark),
+                      SizedBox(width: 8,),
+                      Expanded(
+                        child: Text(this._userEntity.blog ?? '',
+                          style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 16,),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                        child: Column(
+                          children: <Widget>[
+                            Text('${_userEntity.followers}', style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColorDark,fontWeight: FontWeight.bold,),),
+                            Text(S.of(context).followers, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){},
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                        child: Column(
+                          children: <Widget>[
+                            Text('${_userEntity.following}', style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColorDark,fontWeight: FontWeight.bold,),),
+                            Text(S.of(context).following, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){},
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                        child: Column(
+                          children: <Widget>[
+                            Text('${_userEntity.publicRepos}', style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColorDark,fontWeight: FontWeight.bold,),),
+                            Text(S.of(context).repositories, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){},
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                        child: Column(
+                          children: <Widget>[
+                            Text('${_userEntity.publicGists ?? 0}', style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.bold,),),
+                            Text(S.of(context).gists, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16,),
+              Text(_userEntity.bio == null ? '' : '${_userEntity.bio}', maxLines: 5, style: TextStyle(fontSize: 16),),
+            ],
+          )
+        ),
+      );
+    }
+  }
   void dispose() {
     _tabController.dispose();
     super.dispose();
@@ -118,21 +318,18 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar _tabBar;
+  final Container _tabBar;
   _SliverAppBarDelegate(this._tabBar);
-
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       child: _tabBar,
     );
   }
-
   @override
-  double get maxExtent => _tabBar.preferredSize.height;
-
+  double get maxExtent => 48;
   @override
-  double get minExtent => _tabBar.preferredSize.height;
+  double get minExtent => 48;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {

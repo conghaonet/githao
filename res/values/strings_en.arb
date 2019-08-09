@@ -39,5 +39,12 @@
   "reposFilterSortPushed": "Pushed",
   "infoUppercase": "INFO",
   "activityUppercase": "ACTIVITY",
-  "starredUppercase": "STARRED"
+  "starredUppercase": "STARRED",
+  "createdAt": "Created at ${dateTime}",
+  "updatedAt": "Updated at ${dateTime}",
+  "followers": "Followers",
+  "following": "Following",
+  "repositories": "Repositories",
+  "gists": "Gists"
+
 }

@@ -27,6 +27,9 @@ class S implements WidgetsLocalizations {
   String get chooseTheme => "Choose theme";
   String get email => "Email";
   String get empty => "Empty";
+  String get followers => "Followers";
+  String get following => "Following";
+  String get gists => "Gists";
   String get infoUppercase => "INFO";
   String get issues => "Issues";
   String get loadingMoreData => "Loading more data...";
@@ -54,6 +57,7 @@ class S implements WidgetsLocalizations {
   String get reposFilterTypeOwner => "Owner";
   String get reposFilterTypePrivate => "Private";
   String get reposFilterTypePublic => "Public";
+  String get repositories => "Repositories";
   String get search => "Search";
   String get settings => "Settings";
   String get skip => "Skip";
@@ -62,6 +66,8 @@ class S implements WidgetsLocalizations {
   String get tapToRetry => "TAP TO RETRY";
   String get trending => "Trending";
   String get userDataHasBeanRefreshed => "User data has been refreshed.";
+  String createdAt(String dateTime) => "Created at ${dateTime}";
+  String updatedAt(String dateTime) => "Updated at ${dateTime}";
 }
 
 class $en extends S {

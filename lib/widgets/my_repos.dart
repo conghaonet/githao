@@ -163,6 +163,7 @@ class _MyReposWidgetState extends State<MyReposWidget> {
           bottom: 12,
           right: 16,
           child: FloatingActionButton(
+            heroTag: null,
             child: Icon(Icons.sort),
             onPressed: () {
               showModalBottomSheet(
@@ -201,6 +202,14 @@ class _MyReposWidgetState extends State<MyReposWidget> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+/*
+            Hero(
+              //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
+              //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
+              tag: 'avatar',
+              child:
+            ),
+*/
             InkWell(
               onTap: () {
                 Navigator.pushNamed(context, ProfilePage.ROUTE_NAME, arguments: _repos[index].owner.login);

@@ -36,5 +36,8 @@
   "reposFilterSortFullName": "Full name",
   "reposFilterSortCreated": "Created",
   "reposFilterSortUpdated": "Updated",
-  "reposFilterSortPushed": "Pushed"
+  "reposFilterSortPushed": "Pushed",
+  "infoUppercase": "INFO",
+  "activityUppercase": "ACTIVITY",
+  "starredUppercase": "STARRED"
 }

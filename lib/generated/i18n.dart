@@ -22,10 +22,12 @@ class S implements WidgetsLocalizations {
   TextDirection get textDirection => TextDirection.ltr;
 
   String get about => "About";
+  String get activityUppercase => "ACTIVITY";
   String get appTitle => "GitHao";
   String get chooseTheme => "Choose theme";
   String get email => "Email";
   String get empty => "Empty";
+  String get infoUppercase => "INFO";
   String get issues => "Issues";
   String get loadingMoreData => "Loading more data...";
   String get login => "Login";
@@ -56,6 +58,7 @@ class S implements WidgetsLocalizations {
   String get settings => "Settings";
   String get skip => "Skip";
   String get starredRepos => "Starred repos";
+  String get starredUppercase => "STARRED";
   String get tapToRetry => "TAP TO RETRY";
   String get trending => "Trending";
   String get userDataHasBeanRefreshed => "User data has been refreshed.";

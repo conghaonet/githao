@@ -227,7 +227,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                 ),
               ),
               Offstage(
-                offstage: this._userEntity.blog == null,
+                offstage: this._userEntity.blog == null || this._userEntity.blog.isEmpty,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: Row(

@@ -9,6 +9,7 @@ import 'package:githao/generated/i18n.dart';
 import 'package:githao/pages/profile.dart';
 import 'package:githao/pages/settings.dart';
 import 'package:githao/provide/user_provide.dart';
+import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/my_repos.dart';
 import 'package:githao/widgets/starred_repos.dart';
@@ -240,14 +241,25 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
   Widget _drawerHeader() {
     return Provide<UserProvide>(
       builder: (context, child, userProvide) {
+        String heroTag = userProvide.user.login;
         return UserAccountsDrawerHeader(
           currentAccountPicture: InkWell(
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushNamed(context, ProfilePage.ROUTE_NAME, arguments: userProvide.user.login);
+              Navigator.pushNamed(
+                context, ProfilePage.ROUTE_NAME,
+                arguments: ProfilePageArgs(
+                  login: userProvide.user.login,
+                  avatarUrl: userProvide.user.avatarUrl,
+                  heroTag: heroTag,
+                ),
+              );
             },
-            child: CircleAvatar(
-              backgroundImage: CachedNetworkImageProvider(userProvide.user.avatarUrl),
+            child: Hero(
+              tag: heroTag,
+              child: CircleAvatar(
+                backgroundImage: CachedNetworkImageProvider(userProvide.user.avatarUrl),
+              ),
             ),
           ),
           accountName: Text('${userProvide.user.login}'),

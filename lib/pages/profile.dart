@@ -4,13 +4,14 @@ import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/provide/user_provide.dart';
+import 'package:githao/routes/profile_page_args.dart';
 import 'package:intl/intl.dart';
 import 'package:provide/provide.dart';
 
 class ProfilePage extends StatefulWidget {
   static const ROUTE_NAME = '/profile';
-  final String login;
-  ProfilePage(this.login, {Key key}): super(key: key);
+  final ProfilePageArgs args;
+  ProfilePage(this.args, {Key key}): super(key: key);
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -30,14 +31,15 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(() {
     });
-
-    ApiService.getUser(widget.login).then((user){
-      setState(() {
-        this._userEntity = user;
-        if(Provide.value<UserProvide>(context).user.login == widget.login) {
-          _isAuthenticatedUser = true;
-        }
-      });
+    ApiService.getUser(widget.args.login).then((user){
+      if(mounted) {
+        setState(() {
+          if(Provide.value<UserProvide>(context).user.login == widget.args.login) {
+            _isAuthenticatedUser = true;
+          }
+          this._userEntity = user;
+        });
+      }
     });
   }
   @override
@@ -54,7 +56,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
               pinned: false, //为true时，SliverAppBar折叠后不消失
               expandedHeight: 200,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text(widget.login),
+                title: Text(widget.args.login),
                 centerTitle: true,
                 collapseMode: CollapseMode.parallax, // 背景折叠动画
                 background: _appBarBackground(),
@@ -110,69 +112,69 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   }
 
   Widget _appBarBackground() {
-    if(_userEntity == null) return Container();
-    else {
-      return Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          SizedBox(
-            width: double.infinity,
-            child: CachedNetworkImage(
-              imageUrl: _userEntity.avatarUrl,
-              fit: BoxFit.cover,
-              color: Colors.black.withOpacity(0.7),
-              colorBlendMode: BlendMode.srcOver,),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 32.0, right: 32.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        SizedBox(
+          width: double.infinity,
+          child: CachedNetworkImage(
+            imageUrl: widget.args.avatarUrl,
+            fit: BoxFit.cover,
+            color: Colors.black.withOpacity(0.7),
+            colorBlendMode: BlendMode.srcOver,),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 32.0, right: 32.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Hero(
+                tag: widget.args.heroTag,
+                child: Container(
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(image: CachedNetworkImageProvider(this._userEntity.avatarUrl)),
+                    image: DecorationImage(image: CachedNetworkImageProvider(widget.args.avatarUrl)),
                   ),
                 ),
-                SizedBox(width: 16,),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Offstage(
-                        offstage: this._userEntity.name == null,
-                        child: Text(this._userEntity.name ?? '',
-                          style: TextStyle(color: Colors.white, fontSize: 18,),
-                        ),
+              ),
+              SizedBox(width: 16,),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Offstage(
+                      offstage: this._userEntity?.name == null,
+                      child: Text(this._userEntity?.name ?? '',
+                        style: TextStyle(color: Colors.white, fontSize: 18,),
                       ),
-                      Offstage(
-                        offstage: this._userEntity.location == null,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Icon(Icons.location_on, color: Colors.white, size: 16,),
-                            Expanded(
-                              child: Text(this._userEntity.location ?? '',
-                                softWrap: true,
-                                maxLines: 3,
-                                style: TextStyle(color: Colors.white, fontSize: 16,),
-                              ),
+                    ),
+                    Offstage(
+                      offstage: this._userEntity?.location == null,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Icon(Icons.location_on, color: Colors.white, size: 16,),
+                          Expanded(
+                            child: Text(this._userEntity?.location ?? '',
+                              softWrap: true,
+                              maxLines: 3,
+                              style: TextStyle(color: Colors.white, fontSize: 16,),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      );
-    }
+        ),
+      ],
+    );
   }
 
   Widget _getInfoTabBarView() {

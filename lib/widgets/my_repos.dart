@@ -9,6 +9,7 @@ import 'package:githao/resources/custom_icons_icons.dart';
 import 'package:githao/resources/lang_colors.dart';
 import 'package:githao/resources/repos_filter_parameters.dart';
 import 'package:githao/resources/starred_filter_parameters.dart';
+import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/widgets/loading_state.dart';
 import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/starred_repos_filter.dart';
@@ -163,7 +164,6 @@ class _MyReposWidgetState extends State<MyReposWidget> {
           bottom: 12,
           right: 16,
           child: FloatingActionButton(
-            heroTag: null,
             child: Icon(Icons.sort),
             onPressed: () {
               showModalBottomSheet(
@@ -195,6 +195,7 @@ class _MyReposWidgetState extends State<MyReposWidget> {
   }
 
   Widget _getRepoItem(int index) {
+    String heroTag = '${_repos[index].owner.login}$index';
     return Card(
       margin: EdgeInsets.only(left: 8, top: 8, right: 8, bottom: (index +1 == _repos.length) ? 8 : 0),
       child: Padding(
@@ -202,20 +203,25 @@ class _MyReposWidgetState extends State<MyReposWidget> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-/*
-            Hero(
-              //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
-              //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
-              tag: 'avatar',
-              child:
-            ),
-*/
             InkWell(
               onTap: () {
-                Navigator.pushNamed(context, ProfilePage.ROUTE_NAME, arguments: _repos[index].owner.login);
+                Navigator.pushNamed(
+                  context, ProfilePage.ROUTE_NAME,
+                  arguments: ProfilePageArgs(
+                    login: _repos[index].owner.login,
+                    avatarUrl: _repos[index].owner.avatarUrl,
+                    heroTag: heroTag
+                  ),
+                );
               },
-              child: CircleAvatar(
-                backgroundImage: CachedNetworkImageProvider(_repos[index].owner.avatarUrl),
+              child: Hero(
+                //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
+                //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
+                transitionOnUserGestures: true,
+                tag: heroTag,
+                child: CircleAvatar(
+                  backgroundImage: CachedNetworkImageProvider(_repos[index].owner.avatarUrl),
+                ),
               ),
             ),
             SizedBox(width: 16,),

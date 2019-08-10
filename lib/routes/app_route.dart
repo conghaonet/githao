@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:githao/network/entity/user_entity.dart';
 
 import 'package:githao/pages/home.dart';
 import 'package:githao/pages/login.dart';
@@ -7,6 +6,8 @@ import 'package:githao/pages/profile.dart';
 import 'package:githao/pages/route_error_page.dart';
 import 'package:githao/pages/settings.dart';
 import 'package:githao/pages/splash.dart';
+
+import 'profile_page_args.dart';
 
 class AppRoute extends NavigatorObserver {
   AppRoute._internal();
@@ -19,7 +20,6 @@ class AppRoute extends NavigatorObserver {
     LoginPage.ROUTE_NAME: (_) => LoginPage(),
     HomePage.ROUTE_NAME: (_) => HomePage(),
     SettingsPage.ROUTE_NAME: (_) => SettingsPage(),
-//    ProfilePage.ROUTE_NAME: (_) => ProfilePage(),
   };
   Map<String, WidgetBuilder> get routes => _routes;
 
@@ -27,11 +27,11 @@ class AppRoute extends NavigatorObserver {
   Route<dynamic> generateRoute(RouteSettings settings) {
     MaterialPageRoute targetPage;
     if(settings.name == ProfilePage.ROUTE_NAME) {
-      final String login = settings.arguments;
+      final ProfilePageArgs args = settings.arguments;
       targetPage = MaterialPageRoute(
         settings: settings,
         builder: (context) {
-          return ProfilePage(login);
+          return ProfilePage(args);
         },
       );
     }

@@ -83,6 +83,7 @@ class UserEntity {
 
 	Map<String, dynamic> toJson() => _$UserEntityToJson(this);
 
+	/// 判断用户类型，[type] 为 User时返回true，为Organization或其他时返回false。
 	bool get isUser => this.type == 'User';
 
 }

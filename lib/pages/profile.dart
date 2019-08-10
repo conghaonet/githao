@@ -18,63 +18,52 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  final List<String> _tabTitles = [];
-  final List<Widget> _tabViews = [];
   TabController _tabController;
   bool _isAuthenticatedUser = false;
   UserEntity _userEntity;
+
   //要达到缓存目的，必须实现AutomaticKeepAliveClientMixin的wantKeepAlive为true。
   // 不会被销毁,占内存中
   @override
   bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: widget.args.userEntity.isUser ? 3 : 2, vsync: this);
     _tabController.addListener(() {
     });
     ApiService.getUser(widget.args.userEntity.login).then((user){
       if(mounted) {
         setState(() {
-          if(Provide.value<UserProvide>(context).user.login == widget.args.userEntity.login) {
+          this._userEntity = user;
+          if(Provide.value<UserProvide>(context).user.login == _userEntity.login) {
             _isAuthenticatedUser = true;
           }
-          this._userEntity = user;
         });
       }
     });
   }
-  void initTabs(BuildContext context) {
-    if(_userEntity == null) {
-      if(Provide.value<UserProvide>(context).user.login == widget.args.userEntity.login) {
-        _isAuthenticatedUser = true;
-      }
-      _tabController = TabController(length: _tabTitles.length, vsync: this);
-      _tabController.addListener(() {
 
-      });
-      _tabTitles.addAll([S.of(context).infoUppercase, S.of(context).activityUppercase]);
-      _tabViews.clear();
-      _tabViews.addAll([_getInfoTabBarView(), _getActivityTabView()]);
-      if(widget.args.userEntity.isUser) {
-        _tabTitles.add(S.of(context).starredUppercase);
-        _tabViews.add(_getStarredTabView());
-      }
-    } else {
-      _tabViews.clear();
-      _tabViews.addAll([_getInfoTabBarView(), _getActivityTabView()]);
-      if(widget.args.userEntity.isUser) {
-        _tabTitles.add(S.of(context).starredUppercase);
-        _tabViews.add(_getStarredTabView());
-      }
+  List<String> _getTabTitles() {
+    List<String> titles = [S.current.infoUppercase, S.current.activityUppercase,];
+    if(widget.args.userEntity.isUser) {
+      titles.add(S.current.starredUppercase);
     }
+    return titles;
+  }
 
+  List<Widget> _getTabViews() {
+    List<Widget> widgets = [_getInfoTabBarView(), _getActivityTabView()];
+    if(widget.args.userEntity.isUser) {
+      widgets.add(_getStarredTabView());
+    }
+    return widgets;
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context); //混入AutomaticKeepAliveClientMixin后，必须添加
-//    initTabs(context);
     return Scaffold(
       body: SafeArea(
         child: NestedScrollView(
@@ -100,13 +89,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                   child: TabBar(
                     indicatorColor: Theme.of(context).primaryColorLight,
                     controller: _tabController,
-                    tabs: [
-                      Tab(child: Text(S.of(context).infoUppercase),),
-//                      Tab(child: Text(S.current.infoUppercase),),
-                      Tab(child: Text(S.current.activityUppercase),),
-                      Tab(child: Text(S.current.starredUppercase),),
-                    ],
-//                    tabs: _tabTitles.map((title) => Tab(child: Text(title),)).toList(growable: false),
+                    tabs: _getTabTitles().map((title) => Tab(child: Text(title),)).toList(growable: false),
                   ),
                 ),
               ),
@@ -114,11 +97,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
           ],
           body: TabBarView(
             controller: _tabController,
-            children: [
-              _getInfoTabBarView(),
-              _getActivityTabView(),
-              _getStarredTabView(),
-            ],
+            children: _getTabViews(),
           ),
         ),
       ),
@@ -367,6 +346,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   }
 }
 
+/// 定义tab栏高度
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final Container _tabBar;
   _SliverAppBarDelegate(this._tabBar);
@@ -380,7 +360,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => 48;
   @override
   double get minExtent => 48;
-
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
     return false;

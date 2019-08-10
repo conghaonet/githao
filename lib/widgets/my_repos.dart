@@ -208,8 +208,7 @@ class _MyReposWidgetState extends State<MyReposWidget> {
                 Navigator.pushNamed(
                   context, ProfilePage.ROUTE_NAME,
                   arguments: ProfilePageArgs(
-                    login: _repos[index].owner.login,
-                    avatarUrl: _repos[index].owner.avatarUrl,
+                    userEntity: _repos[index].owner,
                     heroTag: heroTag
                   ),
                 );

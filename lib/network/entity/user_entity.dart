@@ -78,8 +78,12 @@ class UserEntity {
 		this.company, this.ownedPrivateRepos, this.id, this.publicRepos, this.gravatarId, this.plan, this.email, this.organizationsUrl, this.hireable,
 		this.starredUrl, this.followersUrl, this.publicGists, this.url, this.receivedEventsUrl, this.followers, this.avatarUrl, this.eventsUrl,
 		this.htmlUrl, this.following, this.name, this.location, this.nodeId});
+
 	factory UserEntity.fromJson(Map<String, dynamic> json) => _$UserEntityFromJson(json);
+
 	Map<String, dynamic> toJson() => _$UserEntityToJson(this);
+
+	bool get isUser => this.type == 'User';
 
 }
 

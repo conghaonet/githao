@@ -1,3 +1,4 @@
+import 'package:githao/network/entity/user_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 /// .g.dart 将在我们运行生成命令后自动生成
@@ -94,7 +95,7 @@ class RepoEntity {
 	String gitUrl;
 	@JsonKey(name: 'has_pages')
 	bool hasPages;
-	RepoOwner owner;
+	UserEntity owner;
 	@JsonKey(name: 'commits_url')
 	String commitsUrl;
 	@JsonKey(name: 'compare_url')

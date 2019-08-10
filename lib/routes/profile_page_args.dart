@@ -1,8 +1,9 @@
+import 'package:githao/network/entity/user_entity.dart';
+
 class ProfilePageArgs {
-  final String login;
-  final String avatarUrl;
+  final UserEntity userEntity;
   final String heroTag;
 
-  ProfilePageArgs({this.login, this.avatarUrl, this.heroTag,});
+  ProfilePageArgs({this.userEntity, this.heroTag,});
 
 }

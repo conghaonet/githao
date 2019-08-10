@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/provide/locale_provide.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +18,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  List<String> _tabTitles;
+  final List<String> _tabTitles = [];
+  final List<Widget> _tabViews = [];
   TabController _tabController;
   bool _isAuthenticatedUser = false;
   UserEntity _userEntity;
@@ -31,10 +33,10 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(() {
     });
-    ApiService.getUser(widget.args.login).then((user){
+    ApiService.getUser(widget.args.userEntity.login).then((user){
       if(mounted) {
         setState(() {
-          if(Provide.value<UserProvide>(context).user.login == widget.args.login) {
+          if(Provide.value<UserProvide>(context).user.login == widget.args.userEntity.login) {
             _isAuthenticatedUser = true;
           }
           this._userEntity = user;
@@ -42,9 +44,37 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
       }
     });
   }
+  void initTabs(BuildContext context) {
+    if(_userEntity == null) {
+      if(Provide.value<UserProvide>(context).user.login == widget.args.userEntity.login) {
+        _isAuthenticatedUser = true;
+      }
+      _tabController = TabController(length: _tabTitles.length, vsync: this);
+      _tabController.addListener(() {
+
+      });
+      _tabTitles.addAll([S.of(context).infoUppercase, S.of(context).activityUppercase]);
+      _tabViews.clear();
+      _tabViews.addAll([_getInfoTabBarView(), _getActivityTabView()]);
+      if(widget.args.userEntity.isUser) {
+        _tabTitles.add(S.of(context).starredUppercase);
+        _tabViews.add(_getStarredTabView());
+      }
+    } else {
+      _tabViews.clear();
+      _tabViews.addAll([_getInfoTabBarView(), _getActivityTabView()]);
+      if(widget.args.userEntity.isUser) {
+        _tabTitles.add(S.of(context).starredUppercase);
+        _tabViews.add(_getStarredTabView());
+      }
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context); //混入AutomaticKeepAliveClientMixin后，必须添加
+//    initTabs(context);
     return Scaffold(
       body: SafeArea(
         child: NestedScrollView(
@@ -56,7 +86,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
               pinned: false, //为true时，SliverAppBar折叠后不消失
               expandedHeight: 200,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text(widget.args.login),
+                title: Text(widget.args.userEntity.login),
                 centerTitle: true,
                 collapseMode: CollapseMode.parallax, // 背景折叠动画
                 background: _appBarBackground(),
@@ -72,9 +102,11 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                     controller: _tabController,
                     tabs: [
                       Tab(child: Text(S.of(context).infoUppercase),),
-                      Tab(child: Text(S.of(context).activityUppercase),),
-                      Tab(child: Text(S.of(context).starredUppercase),),
+//                      Tab(child: Text(S.current.infoUppercase),),
+                      Tab(child: Text(S.current.activityUppercase),),
+                      Tab(child: Text(S.current.starredUppercase),),
                     ],
+//                    tabs: _tabTitles.map((title) => Tab(child: Text(title),)).toList(growable: false),
                   ),
                 ),
               ),
@@ -82,28 +114,10 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
           ],
           body: TabBarView(
             controller: _tabController,
-            children: <Widget>[
+            children: [
               _getInfoTabBarView(),
-              Container(
-                child: Center(child: Text('tab1'),),
-              ),
-              Container(
-                child: RefreshIndicator(
-                  onRefresh: () {
-                    return;
-                  },
-                  child: ListView.builder(
-                    itemCount: 99,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        width: double.infinity,
-                        height: 50,
-                        child: Text("index $index"),
-                      );
-                    },
-                  ),
-                ),
-              ),
+              _getActivityTabView(),
+              _getStarredTabView(),
             ],
           ),
         ),
@@ -118,7 +132,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
         SizedBox(
           width: double.infinity,
           child: CachedNetworkImage(
-            imageUrl: widget.args.avatarUrl,
+            imageUrl: widget.args.userEntity.avatarUrl,
             fit: BoxFit.cover,
             color: Colors.black.withOpacity(0.7),
             colorBlendMode: BlendMode.srcOver,),
@@ -135,7 +149,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                   height: 80,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(image: CachedNetworkImageProvider(widget.args.avatarUrl)),
+                    image: DecorationImage(image: CachedNetworkImageProvider(widget.args.userEntity.avatarUrl)),
                   ),
                 ),
               ),
@@ -218,8 +232,16 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                       Icon(Icons.email, color: Theme.of(context).primaryColorDark),
                       SizedBox(width: 8,),
                       Expanded(
-                        child: Text(this._userEntity.email ?? '',
-                          style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              //TODO：for debug
+                              Provide.value<LocaleProvide>(context).changeLocale(const Locale('en', ''));
+                            });
+                          },
+                          child: Text(this._userEntity.email ?? '',
+                            style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor),
+                          ),
                         ),
                       ),
                     ],
@@ -312,6 +334,32 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
         ),
       );
     }
+  }
+
+  Widget _getActivityTabView() {
+    return Container(
+      child: Center(child: Text('tab1'),),
+    );
+  }
+
+  Widget _getStarredTabView() {
+    return Container(
+      child: RefreshIndicator(
+        onRefresh: () {
+          return;
+        },
+        child: ListView.builder(
+          itemCount: 99,
+          itemBuilder: (context, index) {
+            return Container(
+              width: double.infinity,
+              height: 50,
+              child: Text("index $index"),
+            );
+          },
+        ),
+      ),
+    );
   }
   void dispose() {
     _tabController.dispose();

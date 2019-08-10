@@ -249,8 +249,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
               Navigator.pushNamed(
                 context, ProfilePage.ROUTE_NAME,
                 arguments: ProfilePageArgs(
-                  login: userProvide.user.login,
-                  avatarUrl: userProvide.user.avatarUrl,
+                  userEntity: userProvide.user,
                   heroTag: heroTag,
                 ),
               );

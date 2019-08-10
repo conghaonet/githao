@@ -64,7 +64,7 @@ RepoEntity _$RepoEntityFromJson(Map<String, dynamic> json) {
     hasPages: json['has_pages'] as bool,
     owner: json['owner'] == null
         ? null
-        : RepoOwner.fromJson(json['owner'] as Map<String, dynamic>),
+        : UserEntity.fromJson(json['owner'] as Map<String, dynamic>),
     commitsUrl: json['commits_url'] as String,
     compareUrl: json['compare_url'] as String,
     gitCommitsUrl: json['git_commits_url'] as String,

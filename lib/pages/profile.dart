@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/user_entity.dart';
-import 'package:githao/provide/locale_provide.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';
 import 'package:intl/intl.dart';

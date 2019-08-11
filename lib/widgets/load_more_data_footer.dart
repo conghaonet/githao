@@ -14,7 +14,7 @@ class LoadMoreDataFooter extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              S.of(context).loadingMoreData,
+              S.current.loadingMoreData,
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
             SizedBox(width: 8,),
@@ -34,7 +34,7 @@ class LoadMoreDataFooter extends StatelessWidget {
         alignment: Alignment.center,
         color: Colors.white,
         child: Text(
-          S.of(context).noMoreData,
+          S.current.noMoreData,
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
       );

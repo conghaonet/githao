@@ -23,11 +23,11 @@ class ReposFilterParameters {
   static final List<String> filterTypeValueMap = [TYPE_ALL, TYPE_OWNER, TYPE_PUBLIC, TYPE_PRIVATE, TYPE_MEMBER];
   static List<String> getFilterTypeTextMap(BuildContext context) {
     return [
-      S.of(context).reposFilterTypeAll,
-      S.of(context).reposFilterTypeOwner,
-      S.of(context).reposFilterTypePublic,
-      S.of(context).reposFilterTypePrivate,
-      S.of(context).reposFilterTypeMember,
+      S.current.reposFilterTypeAll,
+      S.current.reposFilterTypeOwner,
+      S.current.reposFilterTypePublic,
+      S.current.reposFilterTypePrivate,
+      S.current.reposFilterTypeMember,
     ];
   }
 
@@ -44,14 +44,14 @@ class ReposFilterParameters {
 
   static List<String> getFilterSortTextMap(BuildContext context) {
     return [
-      S.of(context).reposFilterSortFullName,
-      S.of(context).reposFilterSortFullName,
-      S.of(context).reposFilterSortCreated,
-      S.of(context).reposFilterSortCreated,
-      S.of(context).reposFilterSortUpdated,
-      S.of(context).reposFilterSortUpdated,
-      S.of(context).reposFilterSortPushed,
-      S.of(context).reposFilterSortPushed,
+      S.current.reposFilterSortFullName,
+      S.current.reposFilterSortFullName,
+      S.current.reposFilterSortCreated,
+      S.current.reposFilterSortCreated,
+      S.current.reposFilterSortUpdated,
+      S.current.reposFilterSortUpdated,
+      S.current.reposFilterSortPushed,
+      S.current.reposFilterSortPushed,
     ];
   }
 }

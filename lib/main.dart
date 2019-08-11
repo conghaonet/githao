@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
             //指定默认语言
 //            localeResolutionCallback: S.delegate.resolution(fallback: const Locale('en','')),
             title: 'githao',
-            onGenerateTitle: (context) => S.of(context).appTitle,
+            onGenerateTitle: (context) => S.current.appTitle,
             theme: themeProvide.themeData,
             home: SplashPage(),
           );

@@ -57,7 +57,7 @@ class _SplashPageState extends State<SplashPage> {
             Center(
               child: AnimatedDefaultTextStyle(
                 child: Text(
-                  S.of(context).appTitle,
+                  S.current.appTitle,
                 ),
                 style: isShown
                     ? TextStyle(
@@ -77,7 +77,7 @@ class _SplashPageState extends State<SplashPage> {
               right: 16,
               child: FlatButton(
                 child: Text(
-                  S.of(context).skip,
+                  S.current.skip,
                   style: TextStyle(color: Theme.of(context).accentColor, fontWeight: FontWeight.w800),
                 ),
                 onPressed:() {

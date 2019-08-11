@@ -17,7 +17,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).settings),
+        title: Text(S.current.settings),
       ),
       body: ListView(
         children: <Widget>[
@@ -52,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
     }
     return ExpansionTile(
       leading: Icon(Icons.palette),
-      title: Text(S.of(context).chooseTheme),
+      title: Text(S.current.chooseTheme),
       children: <Widget>[
         Wrap(
           children: themeChildren,),

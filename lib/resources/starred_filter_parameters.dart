@@ -19,10 +19,10 @@ class StarredFilterParameters {
 
   static List<String> getFilterSortTextMap(BuildContext context) {
     return [
-      S.of(context).reposFilterSortCreated,
-      S.of(context).reposFilterSortCreated,
-      S.of(context).reposFilterSortUpdated,
-      S.of(context).reposFilterSortUpdated,
+      S.current.reposFilterSortCreated,
+      S.current.reposFilterSortCreated,
+      S.current.reposFilterSortUpdated,
+      S.current.reposFilterSortUpdated,
     ];
   }
 }

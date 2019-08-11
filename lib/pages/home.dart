@@ -61,9 +61,9 @@ class _HomePageState extends State<HomePage> {
                   initialData: _defaultMenu,
                   builder: (context, snapshot) {
                     if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
-                      return Text(S.of(context).starredRepos);
+                      return Text(S.current.starredRepos);
                     }
-                    return Text(S.of(context).myRepos);
+                    return Text(S.current.myRepos);
                   },
                 ),
                 titleSpacing: NavigationToolbar.kMiddleSpacing, //标题四周间距
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                   expandedHeight: 0, // 展开的高度
                   //性设置 SliverAppBar 的背景
                   flexibleSpace: FlexibleSpaceBar(
-                    title: Text(S.of(context).myRepos),
+                    title: Text(S.current.myRepos),
                     centerTitle: true,
                     collapseMode: CollapseMode.parallax, // 背景折叠动画
                     background: Image.asset(
@@ -141,9 +141,9 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
         .then((userEntity) {
           if(userEntity != null) {
             Provide.value<UserProvide>(context).updateUser(userEntity);
-            Util.showToast(S.of(context).userDataHasBeanRefreshed);
+            Util.showToast(S.current.userDataHasBeanRefreshed);
           } else {
-            Util.showToast(S.of(context).refreshFailedCheckNetwork);
+            Util.showToast(S.current.refreshFailedCheckNetwork);
           }
           _refreshController.stop(canceled: true);
         })
@@ -175,7 +175,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
           color: Colors.white,
           child: ListTile(
             leading: Icon(Icons.storage,),
-            title: Text(S.of(context).myRepos,),
+            title: Text(S.current.myRepos,),
             onTap: () {
               onClickMenu(HomeDrawer.MENU_MY_REPOS);
             },
@@ -186,7 +186,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
           color: Colors.white,
           child: ListTile(
             leading: Icon(Icons.star,),
-            title: Text(S.of(context).starredRepos,),
+            title: Text(S.current.starredRepos,),
             onTap: () {
               onClickMenu(HomeDrawer.MENU_STARRED_REPOS);
             },
@@ -197,7 +197,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
           color: Colors.white,
           child: ListTile(
             leading: Icon(Icons.trending_up,),
-            title: Text(S.of(context).trending,),
+            title: Text(S.current.trending,),
             onTap: () {
               onClickMenu(HomeDrawer.MENU_TRENDING_UP);
             },
@@ -209,7 +209,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
           color: Colors.white,
           child: ListTile(
             leading: Icon(Icons.settings,),
-            title: Text(S.of(context).settings,),
+            title: Text(S.current.settings,),
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context).pushNamed(SettingsPage.ROUTE_NAME);
@@ -220,7 +220,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
           color: Colors.white,
           child: ListTile(
             leading: Icon(Icons.exit_to_app,),
-            title: Text(S.of(context).logout,),
+            title: Text(S.current.logout,),
             onTap: () {
               UserBiz.logout();
               Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
@@ -231,7 +231,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
           color: Colors.white,
           child: ListTile(
             leading: Icon(Icons.info,),
-            title: Text(S.of(context).about,),
+            title: Text(S.current.about,),
             onTap: () {},
           ),
         ),

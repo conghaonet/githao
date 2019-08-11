@@ -145,13 +145,13 @@ class _LoginPageState extends State<LoginPage> {
                       //点击完成按钮时，使password输入框自动获得焦点
                       onEditingComplete: () => FocusScope.of(context).requestFocus(passwordFocusNode),
                       validator: (value) {
-                        return value.isEmpty ? S.of(context).loginUsernameCanNotEmpty : null;
+                        return value.isEmpty ? S.current.loginUsernameCanNotEmpty : null;
                       },
                       onSaved: (value) {
                         this.username = value;
                       },
                       decoration: InputDecoration(
-                          hintText: S.of(context).loginAccountHint,
+                          hintText: S.current.loginAccountHint,
                           prefixIcon: Material(
                             elevation: 0,
                             borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -180,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                       //点击完成按钮时，使login按钮自动获得焦点
                       onEditingComplete: () => FocusScope.of(context).requestFocus(loginFocusNode),
                       validator: (value) {
-                        return value.isEmpty ? S.of(context).loginUsernameCanNotEmpty : null;
+                        return value.isEmpty ? S.current.loginUsernameCanNotEmpty : null;
                       },
                       onSaved: (value) {
                         this.password = value;
@@ -194,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                                 color: Colors.red,),
                               onPressed: () => showPassWord()
                           ),
-                          hintText: S.of(context).loginPasswordHint,
+                          hintText: S.current.loginPasswordHint,
                           prefixIcon: Material(
                             elevation: 0,
                             borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -224,7 +224,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: FlatButton(
                   focusNode: loginFocusNode,
                   child: Text(
-                    S.of(context).login,
+                    S.current.login,
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,

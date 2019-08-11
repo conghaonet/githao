@@ -18,9 +18,9 @@ class LoadingState extends StatelessWidget {
       if(this.message != null) _tipMsg = message;
       else {
         if(flag == StateFlag.empty) {
-          _tipMsg = S.of(context).empty;
+          _tipMsg = S.current.empty;
         } else if(flag == StateFlag.error) {
-          _tipMsg = S.of(context).oopsWrong;
+          _tipMsg = S.current.oopsWrong;
         }
       }
       return Container(
@@ -30,7 +30,7 @@ class LoadingState extends StatelessWidget {
             children: <Widget>[
               Text(_tipMsg),
               FlatButton(
-                child: Text(S.of(context).tapToRetry),
+                child: Text(S.current.tapToRetry),
                 onPressed: () => onRetry(),
               ),
             ],

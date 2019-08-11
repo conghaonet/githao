@@ -194,11 +194,11 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                 ),
               ),
               SizedBox(height: 8,),
-              Text(S.of(context).createdAt(dateFormat.format(createdAt)),
+              Text(S.current.createdAt(dateFormat.format(createdAt)),
                 style: TextStyle(fontSize: 14, color: Colors.black54),
               ),
               SizedBox(height: 8,),
-              Text(S.of(context).updatedAt(dateFormat.format(updatedAt)),
+              Text(S.current.updatedAt(dateFormat.format(updatedAt)),
                 style: TextStyle(fontSize: 14, color: Colors.black54),
               ),
               Offstage(
@@ -256,7 +256,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                         child: Column(
                           children: <Widget>[
                             Text('${_userEntity.followers}', style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColorDark,fontWeight: FontWeight.bold,),),
-                            Text(S.of(context).followers, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
+                            Text(S.current.followers, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
                           ],
                         ),
                       ),
@@ -270,7 +270,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                         child: Column(
                           children: <Widget>[
                             Text('${_userEntity.following}', style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColorDark,fontWeight: FontWeight.bold,),),
-                            Text(S.of(context).following, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
+                            Text(S.current.following, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
                           ],
                         ),
                       ),
@@ -284,7 +284,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                         child: Column(
                           children: <Widget>[
                             Text('${_userEntity.publicRepos}', style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColorDark,fontWeight: FontWeight.bold,),),
-                            Text(S.of(context).repositories, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
+                            Text(S.current.repositories, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
                           ],
                         ),
                       ),
@@ -298,7 +298,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                         child: Column(
                           children: <Widget>[
                             Text('${_userEntity.publicGists ?? 0}', style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.bold,),),
-                            Text(S.of(context).gists, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
+                            Text(S.current.gists, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
                           ],
                         ),
                       ),

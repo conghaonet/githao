@@ -72,10 +72,6 @@ class _MyReposWidgetState extends State<MyReposWidget> {
     _loadingState = StateFlag.loading;
     int expectationPage;
     if (isReload) {
-      setState(() {
-        _repos.clear();
-        _page = 1;
-      });
       expectationPage = 1;
     } else {
       expectationPage = _page + 1;
@@ -93,23 +89,33 @@ class _MyReposWidgetState extends State<MyReposWidget> {
     }
     return future.then<bool>((list) {
       if(mounted) {
-        setState(() {
-          if(list.isNotEmpty) {
-            this._repos.addAll(list);
-            if (!isReload) {
-              ++_page;
-            }
-          }
-          //判断是否还有更多数据
-          this._expectHasMoreData = list.length >= widget.perPageRows;
-          if(isReload && list.isEmpty) {
-            this._loadingState = StateFlag.empty;
-          } else {
-            this._loadingState = StateFlag.complete;
-          }
-        });
+        if(isReload) {
+          setState(() {
+            _repos.clear();
+            _page = 1;
+          });
+        }
       }
-      return;
+      return Future.delayed(const Duration(milliseconds: 100)).then((_) {
+        if(mounted) {
+          setState(() {
+            if(list.isNotEmpty) {
+              this._repos.addAll(list);
+              if (!isReload) {
+                ++_page;
+              }
+            }
+            //判断是否还有更多数据
+            this._expectHasMoreData = list.length >= widget.perPageRows;
+            if(isReload && list.isEmpty) {
+              this._loadingState = StateFlag.empty;
+            } else {
+              this._loadingState = StateFlag.complete;
+            }
+          });
+        }
+        return;
+      });
     }).catchError((e) {
       if(mounted) {
         if(isReload) {

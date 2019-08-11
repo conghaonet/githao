@@ -25,7 +25,7 @@
   "empty": "Empty",
   "oopsWrong": "Oops wrong!",
   "tapToRetry": "TAP TO RETRY",
-  "chooseTheme": "Choose theme",
+  "chooseTheme": "Choose Theme",
   "reposFilterType": "Type",
   "reposFilterTypeAll": "All",
   "reposFilterTypeOwner": "Owner",
@@ -45,6 +45,9 @@
   "followers": "Followers",
   "following": "Following",
   "repositories": "Repositories",
-  "gists": "Gists"
-
+  "gists": "Gists",
+  "language": "Language",
+  "systemDefault": "System Default",
+  "english": "English",
+  "chineseSimplified": "Chinese(Simplified)"
 }

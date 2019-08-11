@@ -24,14 +24,17 @@ class S implements WidgetsLocalizations {
   String get about => "About";
   String get activityUppercase => "ACTIVITY";
   String get appTitle => "GitHao";
-  String get chooseTheme => "Choose theme";
+  String get chineseSimplified => "Chinese(Simplified)";
+  String get chooseTheme => "Choose Theme";
   String get email => "Email";
   String get empty => "Empty";
+  String get english => "English";
   String get followers => "Followers";
   String get following => "Following";
   String get gists => "Gists";
   String get infoUppercase => "INFO";
   String get issues => "Issues";
+  String get language => "Language";
   String get loadingMoreData => "Loading more data...";
   String get login => "Login";
   String get loginAccountHint => "GitHub username or email";
@@ -63,6 +66,7 @@ class S implements WidgetsLocalizations {
   String get skip => "Skip";
   String get starredRepos => "Starred repos";
   String get starredUppercase => "STARRED";
+  String get systemDefault => "System Default";
   String get tapToRetry => "TAP TO RETRY";
   String get trending => "Trending";
   String get userDataHasBeanRefreshed => "User data has been refreshed.";

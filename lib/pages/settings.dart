@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/provide/theme_provide.dart';
 import 'package:githao/utils/shared_preferences.dart';
+import 'package:githao/utils/util.dart';
 import 'package:provide/provide.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -13,6 +14,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   static final Border _currentThemeBorder = Border.all(width: 2.0, color: Color(0x66000000));
+  String selectedLanguageTag = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,6 +24,52 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         children: <Widget>[
           _chooseTheme(),
+          ListTile(
+            leading: Icon(Icons.language),
+            title: Text(S.current.language),
+            onTap: () {
+              showDialog<void>(context: context, barrierDismissible: true, builder: (BuildContext context){
+                return AlertDialog(
+                  title: Text(S.current.language),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      RadioListTile(
+                        title: Text(S.current.systemDefault),
+                        value: '',
+                        groupValue: selectedLanguageTag,
+                        onChanged: (String languageTag) {
+                          selectedLanguageTag = languageTag;
+                          Util.showToast(languageTag);
+                          Navigator.pop(context);
+                        },
+                      ),
+                      RadioListTile(
+                        title: Text(S.current.english),
+                        value: S.delegate.supportedLocales[0].toLanguageTag(),
+                        groupValue: selectedLanguageTag,
+                        onChanged: (String languageTag) {
+                          selectedLanguageTag = languageTag;
+                          Util.showToast(languageTag);
+                          Navigator.pop(context);
+                        },
+                      ),
+                      RadioListTile(
+                        title: Text(S.current.chineseSimplified),
+                        value: S.delegate.supportedLocales[1].toLanguageTag(),
+                        groupValue: selectedLanguageTag,
+                        onChanged: (String languageTag) {
+                          selectedLanguageTag = languageTag;
+                          Util.showToast(languageTag);
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              });
+            },
+          ),
         ],
       ),
     );

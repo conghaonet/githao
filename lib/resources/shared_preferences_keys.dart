@@ -16,5 +16,6 @@ class SharedPreferencesKeys {
   static String userEntity = 'userEntity';
   static String themeIndex = 'themeIndex';
 //  static String loginTimeMilliseconds = "loginTimeMilliseconds";
+ static String language = 'language';
 }
 

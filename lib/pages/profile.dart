@@ -188,9 +188,15 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Offstage(
-                offstage: this._userEntity.name == null,
-                child: Text(this._userEntity.name ?? '',
-                  style: TextStyle(fontSize: 18,),
+                offstage: this._userEntity.login == null,
+                child: Wrap(
+                  children: <Widget>[
+                    Icon(this._userEntity.isUser ? Icons.account_circle : Icons.group),
+                    SizedBox(width: 4,),
+                    Text(this._userEntity.login ?? '',
+                      style: TextStyle(fontSize: 18,),
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 8,),
@@ -211,16 +217,8 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                       Icon(Icons.email, color: Theme.of(context).primaryColorDark),
                       SizedBox(width: 8,),
                       Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              //TODO：for debug
-                              Provide.value<LocaleProvide>(context).changeLocale(const Locale('en', ''));
-                            });
-                          },
-                          child: Text(this._userEntity.email ?? '',
-                            style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor),
-                          ),
+                        child: Text(this._userEntity.email ?? '',
+                          style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor),
                         ),
                       ),
                     ],

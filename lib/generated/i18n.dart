@@ -85,11 +85,23 @@ class $zh_CN extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
+  String get systemDefault => "系统默认";
+  @override
+  String get chineseSimplified => "中文简体";
+  @override
+  String get settings => "设置";
+  @override
   String get starredUppercase => "评星";
   @override
   String get activityUppercase => "活动";
   @override
+  String get english => "英语";
+  @override
   String get infoUppercase => "信息";
+  @override
+  String get language => "语言";
+  @override
+  String get chooseTheme => "选择主题颜色";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {

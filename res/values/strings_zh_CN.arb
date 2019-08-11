@@ -1,5 +1,12 @@
 {
   "infoUppercase": "信息",
   "activityUppercase": "活动",
-  "starredUppercase": "评星"
+  "starredUppercase": "评星",
+
+  "settings": "设置",
+  "chooseTheme": "选择主题颜色",
+  "language": "语言",
+  "systemDefault": "系统默认",
+  "english": "英语",
+  "chineseSimplified": "中文简体"
 }

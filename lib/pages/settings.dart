@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:githao/generated/i18n.dart';
+import 'package:githao/provide/locale_provide.dart';
 import 'package:githao/provide/theme_provide.dart';
 import 'package:githao/utils/shared_preferences.dart';
-import 'package:githao/utils/util.dart';
 import 'package:provide/provide.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -14,7 +14,31 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   static final Border _currentThemeBorder = Border.all(width: 2.0, color: Color(0x66000000));
-  String selectedLanguageTag = '';
+  String selectedLanguage = '';
+  @override
+  void initState() {
+    super.initState();
+    SpUtil.instance.then((sp){
+      String lang = sp.getString(SharedPreferencesKeys.language);
+      setState(() {
+        if(lang == null) {
+          selectedLanguage = '';
+        } else {
+          selectedLanguage = lang;
+        }
+      });
+    });
+  }
+  void _changeLanguage(String languageCode) {
+    setState(() {
+      selectedLanguage = languageCode;
+      SpUtil.instance.then((sp) {
+        sp.putString(SharedPreferencesKeys.language, selectedLanguage);
+      });
+      Locale locale = (selectedLanguage==null || selectedLanguage.isEmpty) ? null : Locale(languageCode);
+      Provide.value<LocaleProvide>(context).changeLocale(locale);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +50,8 @@ class _SettingsPageState extends State<SettingsPage> {
           _chooseTheme(),
           ListTile(
             leading: Icon(Icons.language),
-            title: Text(S.current.language),
+            title: Text(S.current.language, style: TextStyle(color: Theme.of(context).primaryColor),),
+            subtitle: Text(getLanguageUiString(selectedLanguage)),
             onTap: () {
               showDialog<void>(context: context, barrierDismissible: true, builder: (BuildContext context){
                 return AlertDialog(
@@ -35,32 +60,29 @@ class _SettingsPageState extends State<SettingsPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       RadioListTile(
-                        title: Text(S.current.systemDefault),
+                        title: Text(getLanguageUiString('')),
                         value: '',
-                        groupValue: selectedLanguageTag,
-                        onChanged: (String languageTag) {
-                          selectedLanguageTag = languageTag;
-                          Util.showToast(languageTag);
+                        groupValue: selectedLanguage,
+                        onChanged: (String languageCode) {
+                          _changeLanguage(languageCode);
                           Navigator.pop(context);
                         },
                       ),
                       RadioListTile(
-                        title: Text(S.current.english),
-                        value: S.delegate.supportedLocales[0].toLanguageTag(),
-                        groupValue: selectedLanguageTag,
-                        onChanged: (String languageTag) {
-                          selectedLanguageTag = languageTag;
-                          Util.showToast(languageTag);
+                        title: Text(getLanguageUiString(S.delegate.supportedLocales[0].languageCode)),
+                        value: S.delegate.supportedLocales[0].languageCode,
+                        groupValue: selectedLanguage,
+                        onChanged: (String languageCode) {
+                          _changeLanguage(languageCode);
                           Navigator.pop(context);
                         },
                       ),
                       RadioListTile(
-                        title: Text(S.current.chineseSimplified),
-                        value: S.delegate.supportedLocales[1].toLanguageTag(),
-                        groupValue: selectedLanguageTag,
-                        onChanged: (String languageTag) {
-                          selectedLanguageTag = languageTag;
-                          Util.showToast(languageTag);
+                        title: Text(getLanguageUiString(S.delegate.supportedLocales[1].languageCode)),
+                        value: S.delegate.supportedLocales[1].languageCode,
+                        groupValue: selectedLanguage,
+                        onChanged: (String languageCode) {
+                          _changeLanguage(languageCode);
                           Navigator.pop(context);
                         },
                       ),
@@ -73,6 +95,18 @@ class _SettingsPageState extends State<SettingsPage> {
         ],
       ),
     );
+  }
+  
+  String getLanguageUiString(String languageCode) {
+    String uiString = S.current.systemDefault;
+    switch(languageCode.toLowerCase()) {
+      case 'en':
+        uiString = S.current.english;
+        break;
+      case 'zh':
+        uiString = S.current.chineseSimplified;
+    }
+    return uiString;
   }
 
   ExpansionTile _chooseTheme() {
@@ -100,7 +134,7 @@ class _SettingsPageState extends State<SettingsPage> {
     }
     return ExpansionTile(
       leading: Icon(Icons.palette),
-      title: Text(S.current.chooseTheme),
+      title: Text(S.current.chooseTheme, style: TextStyle(color: Theme.of(context).primaryColor),),
       children: <Widget>[
         Wrap(
           children: themeChildren,),

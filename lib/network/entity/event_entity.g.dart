@@ -35,7 +35,7 @@ Map<String, dynamic> _$EventEntityToJson(EventEntity instance) =>
 
 EventActor _$EventActorFromJson(Map<String, dynamic> json) {
   return EventActor(
-    id: json['id'] as String,
+    id: json['id'] as int,
     login: json['login'] as String,
     displayLogin: json['display_login'] as String,
     gravatarId: json['gravatar_id'] as String,
@@ -56,7 +56,7 @@ Map<String, dynamic> _$EventActorToJson(EventActor instance) =>
 
 EventRepo _$EventRepoFromJson(Map<String, dynamic> json) {
   return EventRepo(
-    id: json['id'] as String,
+    id: json['id'] as int,
     name: json['name'] as String,
     url: json['url'] as String,
   );

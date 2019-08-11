@@ -2,9 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
+import 'package:githao/network/entity/event_entity.dart';
 import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';
+import 'package:githao/widgets/loading_state.dart';
 import 'package:intl/intl.dart';
 import 'package:provide/provide.dart';
 
@@ -53,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   }
 
   List<Widget> _getTabViews() {
-    List<Widget> widgets = [_getInfoTabBarView(), _getActivityTabView()];
+    List<Widget> widgets = [_getInfoTabBarView(), EventList(login: widget.args.userEntity.login)];
     if(widget.args.userEntity.isUser) {
       widgets.add(_getStarredTabView());
     }
@@ -361,5 +363,91 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
     return false;
   }
+}
 
+class EventList extends StatefulWidget {
+  final perPageRows = 30;
+  final bool needLoadMore;
+  final String login;
+
+  EventList({Key key, this.login, this.needLoadMore=true,}): super(key: key);
+  @override
+  _EventListState createState() => _EventListState();
+}
+
+class _EventListState extends State<EventList> {
+  final List<EventEntity> _results = [];
+  int _page = 1;
+  StateFlag _loadingState = StateFlag.idle;
+  bool _expectHasMoreData = true;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
+  }
+
+  Future<void> _loadData({bool isReload=true}) async {
+    if(_loadingState == StateFlag.loading) return null;
+    _loadingState = StateFlag.loading;
+    int expectationPage;
+    if (isReload) {
+      expectationPage = 1;
+    } else {
+      expectationPage = _page + 1;
+    }
+
+    return ApiService.getEvents(widget.login, page: expectationPage).then((list){
+      list.forEach((item) {
+        print('EVENT_TYPE = ${item.type}');
+      });
+      if(isReload) {
+        _results.clear();
+        _page = 1;
+      }
+      if(list.isNotEmpty) {
+        this._results.addAll(list);
+        if (!isReload) {
+          ++_page;
+        }
+      }
+      //判断是否还有更多数据
+      this._expectHasMoreData = list.length >= widget.perPageRows;
+      if(isReload && list.isEmpty) {
+        this._loadingState = StateFlag.empty;
+      } else {
+        this._loadingState = StateFlag.complete;
+      }
+      if(mounted) {
+        setState(() {
+        });
+      }
+      return;
+    });
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: RefreshIndicator(
+        key: _refreshIndicatorKey,
+        onRefresh: _loadData,
+        child: ListView.builder(
+          itemCount: _results.length,
+          itemBuilder: (context, index) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("index = $index"),
+                Text("type = ${_results[index].type}"),
+                Text("type = ${_results[index].repo.name}"),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
 }

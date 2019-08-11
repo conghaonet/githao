@@ -29,7 +29,7 @@ class EventEntity {
 
 @JsonSerializable()
 class EventActor {
-  String id;
+  int id;
   String login;
   @JsonKey(name: 'display_login')
   String displayLogin;
@@ -52,7 +52,7 @@ class EventActor {
 
 @JsonSerializable()
 class EventRepo {
-  String id;
+  int id;
   String name;
   String url;
 

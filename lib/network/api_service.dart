@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import 'package:githao/network/entity/authorization_entity.dart';
 import 'package:githao/network/entity/authorization_post.dart';
+import 'entity/event_entity.dart';
 import 'entity/repo_entity.dart';
 import 'entity/user_entity.dart';
 import 'dio_client.dart';
@@ -39,5 +40,10 @@ class ApiService {
     Map<String, dynamic> parameters = {'page': page, 'sort': sort, 'direction': direction};
     Response<List<dynamic>> response = await dioClient.dio.get("/user/starred", queryParameters: parameters);
     return response.data.map((item) => RepoEntity.fromJson(item)).toList();
+  }
+
+  static Future<List<EventEntity>> getEvents(String login, {int page=1}) async {
+    Response<List<dynamic>> response = await dioClient.dio.get("/users/$login/events?page=$page");
+    return response.data.map((item) => EventEntity.fromJson(item)).toList();
   }
 }

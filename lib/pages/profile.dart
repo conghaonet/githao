@@ -6,6 +6,7 @@ import 'package:githao/network/entity/event_entity.dart';
 import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';
+import 'package:githao/widgets/load_more_data_footer.dart';
 import 'package:githao/widgets/loading_state.dart';
 import 'package:intl/intl.dart';
 import 'package:provide/provide.dart';
@@ -314,12 +315,6 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
     }
   }
 
-  Widget _getActivityTabView() {
-    return Container(
-      child: Center(child: Text('tab1'),),
-    );
-  }
-
   Widget _getStarredTabView() {
     return Container(
       child: RefreshIndicator(
@@ -375,12 +370,17 @@ class EventList extends StatefulWidget {
   _EventListState createState() => _EventListState();
 }
 
-class _EventListState extends State<EventList> {
+class _EventListState extends State<EventList> with AutomaticKeepAliveClientMixin {
   final List<EventEntity> _results = [];
   int _page = 1;
   StateFlag _loadingState = StateFlag.idle;
-  bool _expectHasMoreData = true;
+  bool _expectHasMoreData = false;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+
+  //要达到缓存目的，必须实现AutomaticKeepAliveClientMixin的wantKeepAlive为true。
+  // 不会被销毁,占内存中
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -399,9 +399,6 @@ class _EventListState extends State<EventList> {
     }
 
     return ApiService.getEvents(widget.login, page: expectationPage).then((list){
-      list.forEach((item) {
-        print('EVENT_TYPE = ${item.type}');
-      });
       if(isReload) {
         _results.clear();
         _page = 1;
@@ -414,40 +411,51 @@ class _EventListState extends State<EventList> {
       }
       //判断是否还有更多数据
       this._expectHasMoreData = list.length >= widget.perPageRows;
-      if(isReload && list.isEmpty) {
-        this._loadingState = StateFlag.empty;
-      } else {
-        this._loadingState = StateFlag.complete;
-      }
       if(mounted) {
         setState(() {
+          if(isReload && list.isEmpty) {
+            this._loadingState = StateFlag.empty;
+          } else {
+            this._loadingState = StateFlag.complete;
+          }
         });
       }
       return;
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); //混入AutomaticKeepAliveClientMixin后，必须添加
     return Container(
       child: RefreshIndicator(
         key: _refreshIndicatorKey,
         onRefresh: _loadData,
         child: ListView.builder(
-          itemCount: _results.length,
+          itemCount: _expectHasMoreData ? _results.length+1 : _results.length,
           itemBuilder: (context, index) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("index = $index"),
-                Text("type = ${_results[index].type}"),
-                Text("type = ${_results[index].repo.name}"),
-              ],
-            );
+            if(index < _results.length) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("index = $index"),
+                  Text("type = ${_results[index].type}"),
+                  Text("type = ${_results[index].repo.name}"),
+                ],
+              );
+            } else {
+              Future.delayed(const Duration(milliseconds: 100)).then((_){
+                _loadData(isReload: false);
+              });
+              return LoadMoreDataFooter(_expectHasMoreData);
+            }
           },
         ),
       ),
     );
+  }
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

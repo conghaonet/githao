@@ -5,7 +5,7 @@ import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';
-import 'package:githao/widgets/events.dart';
+import 'package:githao/widgets/events/events.dart';
 import 'package:githao/widgets/profile_info_count_data.dart';
 import 'package:intl/intl.dart';
 import 'package:provide/provide.dart';

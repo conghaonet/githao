@@ -5,12 +5,16 @@ import 'package:githao/network/entity/event_entity.dart';
 import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/events/issue_comment_event.dart';
 import 'package:githao/widgets/events/issues_event.dart';
+import 'package:githao/widgets/events/pull_request_event.dart';
+import 'package:githao/widgets/events/pull_request_review_comment_event.dart';
 import 'package:githao/widgets/events/push_event.dart';
 
 import '../load_more_data_footer.dart';
 import '../loading_state.dart';
 import '../my_visibility.dart';
+import 'create_event.dart';
 import 'event_common_avatar.dart';
+import 'fork_event.dart';
 import 'only_action_event.dart';
 
 class EventList extends StatefulWidget {
@@ -106,6 +110,14 @@ class _EventListState extends State<EventList> with AutomaticKeepAliveClientMixi
                       return IssuesEventItem(_results[index], index);
                     } else if(_results[index].type == EventTypes.issueCommentEvent){
                       return IssueCommentEventItem(_results[index], index);
+                    } else if(_results[index].type == EventTypes.createEvent){
+                      return CreateEventItem(_results[index], index);
+                    } else if(_results[index].type == EventTypes.forkEvent){
+                      return ForkEventItem(_results[index], index);
+                    } else if(_results[index].type == EventTypes.pullRequestEvent){
+                      return PullRequestEventItem(_results[index], index);
+                    } else if(_results[index].type == EventTypes.pullRequestReviewCommentEvent){
+                      return PullRequestReviewCommentEventItem(_results[index], index);
                     } else if(_results[index].type == EventTypes.watchEvent){
                       return OnlyActionEventItem(_results[index], index);
                     } else {

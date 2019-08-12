@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:githao/network/entity/event_entity.dart';
-import 'package:githao/network/entity/event_issues_payload.dart';
-import 'package:githao/widgets/events/event_common_avatar.dart';
-class IssuesEventItem extends StatelessWidget {
+import 'package:githao/network/entity/event_pull_request_review_comment_palyoad.dart';
+
+import 'event_common_avatar.dart';
+
+class PullRequestReviewCommentEventItem extends StatelessWidget {
   final EventEntity entity;
   final int index;
-  IssuesEventItem(this.entity, this.index, {Key key}): super(key: key);
+  PullRequestReviewCommentEventItem(this.entity, this.index, {Key key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if(entity.type != EventTypes.issuesEvent) return Text('Not ${EventTypes.issuesEvent} !');
-    EventIssuesPayload payload = EventIssuesPayload.fromJson(entity.payload);
+    if(entity.type != EventTypes.pullRequestReviewCommentEvent) return Text('Not ${EventTypes.pullRequestReviewCommentEvent} !');
+    EventPullRequestReviewCommentPayload payload = EventPullRequestReviewCommentPayload.fromJson(entity.payload);
+
     return Card(
       margin: EdgeInsets.all(8),
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: EdgeInsets.all(12),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +34,7 @@ class IssuesEventItem extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
                   ),
                   TextSpan(
-                    text: ' issue #${payload.issue.number} in ',
+                    text: ' pull request review comment #${payload.pullRequest.number} at ',
                   ),
                   TextSpan(
                     text: entity.repo.name,
@@ -45,7 +48,7 @@ class IssuesEventItem extends StatelessWidget {
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
               text: TextSpan(
-                text: payload.issue.title,
+                text: payload.comment.body,
                 style: TextStyle(color: Colors.black54, fontSize: 16),
               ),
             ),

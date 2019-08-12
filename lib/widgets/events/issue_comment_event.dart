@@ -32,7 +32,7 @@ class IssueCommentEventItem extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
                   ),
                   TextSpan(
-                    text: ' comment on issue ${payload.issue.number} in ',
+                    text: ' comment on issue #${payload.issue.number} in ',
                   ),
                   TextSpan(
                     text: entity.repo.name,

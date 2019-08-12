@@ -28,9 +28,9 @@ class LoadingState extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(_tipMsg),
+              Text(_tipMsg, style: TextStyle(color: Theme.of(context).primaryColor),),
               FlatButton(
-                child: Text(S.current.tapToRetry),
+                child: Text(S.current.tapToRetry, style: TextStyle(color: Colors.red, fontWeight: FontWeight.w600),),
                 onPressed: () => onRetry(),
               ),
             ],

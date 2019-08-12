@@ -32,6 +32,7 @@ class MyReposWidget extends StatefulWidget{
 
 class _MyReposWidgetState extends State<MyReposWidget> {
   final List<RepoEntity> _repos = [];
+  bool _lastActionIsReload = true;
   int _page = 1;
   StateFlag _loadingState = StateFlag.idle;
   bool _expectHasMoreData = true;
@@ -67,8 +68,9 @@ class _MyReposWidgetState extends State<MyReposWidget> {
       }
     }
   }
-  Future<void> _loadData({bool isReload=true}) async {
+  Future<void> _loadData({bool isReload = true}) async {
     if(_loadingState == StateFlag.loading) return null;
+    _lastActionIsReload = isReload;
     _loadingState = StateFlag.loading;
     int expectationPage;
     if (isReload) {
@@ -88,44 +90,36 @@ class _MyReposWidgetState extends State<MyReposWidget> {
       future = ApiService.getStarredRepos(page: expectationPage, sort: _sort, direction: _direction);
     }
     return future.then<bool>((list) {
-      if(mounted) {
-        if(isReload) {
-          setState(() {
-            _repos.clear();
-            _page = 1;
-          });
-        }
+      if(isReload) {
+        _repos.clear();
+        _page = 1;
+        if(mounted) {setState(() {});}
       }
       return Future.delayed(const Duration(milliseconds: 100)).then((_) {
-        if(mounted) {
-          setState(() {
-            if(list.isNotEmpty) {
-              this._repos.addAll(list);
-              if (!isReload) {
-                ++_page;
-              }
-            }
-            //判断是否还有更多数据
-            this._expectHasMoreData = list.length >= widget.perPageRows;
-            if(isReload && list.isEmpty) {
-              this._loadingState = StateFlag.empty;
-            } else {
-              this._loadingState = StateFlag.complete;
-            }
-          });
+        if(list.isNotEmpty) {
+          this._repos.addAll(list);
+          if (!isReload) {
+            ++_page;
+          }
         }
+        //判断是否还有更多数据
+        this._expectHasMoreData = list.length >= widget.perPageRows;
+        if(isReload && list.isEmpty) {
+          this._loadingState = StateFlag.empty;
+        } else {
+          this._loadingState = StateFlag.complete;
+        }
+        if(mounted) {setState(() {});}
         return;
       });
     }).catchError((e) {
-      if(mounted) {
-        if(isReload) {
-          setState(() {
-            _repos.clear();
-            this._loadingState = StateFlag.error;
-          });
-        }
-        Util.showToast(e is DioError ? e.message : e.toString());
+      this._loadingState = StateFlag.error;
+      if(isReload) {
+        _page = 1;
+        _repos.clear();
       }
+      if(mounted) {setState(() {});}
+      Util.showToast(e is DioError ? e.message : e.toString());
       return;
     });
   }
@@ -134,14 +128,14 @@ class _MyReposWidgetState extends State<MyReposWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        MyVisibility(
-          flag: this._loadingState != StateFlag.empty && this._loadingState != StateFlag.error ? MyVisibilityFlag.visible : MyVisibilityFlag.gone,
-          child: Container(
-            color: Theme.of(context).primaryColorLight,
-            child: RefreshIndicator(
-              key: _refreshIndicatorKey,
-              color: Colors.blue,
-              onRefresh: _loadData,
+        Container(
+          color: this._loadingState == StateFlag.complete ? Theme.of(context).primaryColorLight : Colors.white,
+          child: RefreshIndicator(
+            key: _refreshIndicatorKey,
+            color: Colors.blue,
+            onRefresh: _loadData,
+            child: MyVisibility(
+              flag: this._lastActionIsReload && (this._loadingState == StateFlag.empty || this._loadingState == StateFlag.error) ? MyVisibilityFlag.invisible : MyVisibilityFlag.visible,
               child: NotificationListener<ScrollEndNotification>(
                 onNotification: (notification) {
                   if (notification.depth != 0) return false;
@@ -161,7 +155,9 @@ class _MyReposWidgetState extends State<MyReposWidget> {
                     if(index < _repos.length) {
                       return _getRepoItem(index);
                     } else {
-                      return LoadMoreDataFooter(_expectHasMoreData);
+                      return LoadMoreDataFooter(_expectHasMoreData, flag: _loadingState, onRetry: (){
+                        _loadData(isReload: false);
+                      },);
                     }
                   },
                 ),
@@ -194,7 +190,7 @@ class _MyReposWidgetState extends State<MyReposWidget> {
             },
           ),
         ),
-        LoadingState(_loadingState,
+        LoadingState(_lastActionIsReload ? _loadingState : StateFlag.idle,
           onRetry: (){
             _refreshIndicatorKey.currentState.show();
           },

@@ -8,7 +8,7 @@ part of 'event_push_payload.dart';
 
 EventPushPayload _$EventPushPayloadFromJson(Map<String, dynamic> json) {
   return EventPushPayload(
-    pushId: json['push_id'] as String,
+    pushId: json['push_id'] as int,
     size: json['size'] as int,
     distinctSize: json['distinct_size'] as int,
     ref: json['ref'] as String,

@@ -12,8 +12,8 @@ class DioClient {
   static const DEFAULT_CHARSET = "UTF-8";
   static BaseOptions baseOptions = BaseOptions(
     baseUrl: BASE_API,
-    connectTimeout: 15000,
-    receiveTimeout: 10000,
+    connectTimeout: 30000,
+    receiveTimeout: 20000,
     headers:{"Accept": API_VERSION, "Content-Type": CONTENT_TYPE},
   );
 
@@ -27,7 +27,7 @@ class DioClient {
   DioClient._internal() {
 
     //TODO：设置代理
-    setProxy("192.168.2.100", 8888);
+//    setProxy("192.168.2.100", 8888);
 
     //设置拦截器
     _dio.interceptors.add(InterceptorsWrapper(

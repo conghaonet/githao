@@ -19,7 +19,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  ScrollController _scrollController;
   TabController _tabController;
   bool _isAuthenticatedUser = false;
   UserEntity _userEntity;
@@ -32,14 +31,6 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener((){
-      print("NestedScrollView axisDirection === ${_scrollController.position.axisDirection}");
-
-      if(0 == _scrollController.position.extentAfter) {
-        print("NestedScrollView 滚动到底部");
-      }
-    });
     _tabController = TabController(length: widget.args.userEntity.isUser ? 3 : 2, vsync: this);
     _tabController.addListener(() {
     });
@@ -77,7 +68,6 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
     return Scaffold(
       body: SafeArea(
         child: NestedScrollView(
-          controller: _scrollController,
           headerSliverBuilder: (context, innerBoxScrolled) => [
             SliverAppBar(
               primary: true,

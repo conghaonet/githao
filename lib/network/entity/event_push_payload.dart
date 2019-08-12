@@ -7,7 +7,7 @@ part 'event_push_payload.g.dart';
 @JsonSerializable()
 class EventPushPayload {
   @JsonKey(name: 'push_id')
-  String pushId;
+  int pushId;
   int size;
   @JsonKey(name: 'distinct_size')
   int distinctSize;

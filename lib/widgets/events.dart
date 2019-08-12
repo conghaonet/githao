@@ -1,7 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/event_entity.dart';
+import 'package:githao/network/entity/event_push_payload.dart';
+import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/pages/profile.dart';
+import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/utils/util.dart';
 
 import 'load_more_data_footer.dart';
@@ -95,14 +100,18 @@ class _EventListState extends State<EventList> with AutomaticKeepAliveClientMixi
                 itemCount: (_results.length >= widget.perPageRows && widget.needLoadMore) ? _results.length+1 : _results.length,
                 itemBuilder: (context, index) {
                   if(index < _results.length) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("index = $index"),
-                        Text("type = ${_results[index].type}"),
-                        Text("type = ${_results[index].repo.name}"),
-                      ],
-                    );
+                    if(_results[index].type == EventTypes.pushEvent) {
+                      return _getPushItem(_results[index], index);
+                    } else {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text("index = $index"),
+                          Text("type = ${_results[index].type}"),
+                          Text("type = ${_results[index].repo.name}"),
+                        ],
+                      );
+                    }
                   } else {
                     if(_expectHasMoreData && _loadingState == StateFlag.complete) {
                       Future.delayed(const Duration(milliseconds: 100)).then((_){
@@ -124,6 +133,104 @@ class _EventListState extends State<EventList> with AutomaticKeepAliveClientMixi
           },
         ),
       ],
+    );
+  }
+
+  Widget _getPushItem(EventEntity entity, int index) {
+    if(entity.type != EventTypes.pushEvent) return Text('Not ${EventTypes.pushEvent} !');
+    String heroTag = 'events_${entity.actor.login}$index';
+    UserEntity _userEntity = UserEntity(login: entity.actor.login, avatarUrl: entity.actor.avatarUrl);
+    EventPushPayload payload = EventPushPayload.fromJson(entity.payload);
+
+    List<Widget> commits = [];
+    int maxLine = 4;
+    for(int i=0; i<payload.commits.length && i<maxLine; i++) {
+      RichText richText;
+      if(i < (maxLine - 1)) {
+        richText = RichText(
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          text: TextSpan(
+            text: '',
+            style: TextStyle(color: Colors.black54, fontSize: 16),
+            children: <TextSpan>[
+              TextSpan(
+                  text: '${payload.commits[i].sha.substring(0, 7)}  ',
+                  style: TextStyle(color: Theme.of(context).primaryColor)
+              ),
+              TextSpan(
+                text: payload.commits[i].message,
+              ),
+            ],
+          ),
+        );
+      } else if(i == (maxLine -1)) {
+        richText = RichText(text: TextSpan(
+          text: '...',
+          style: TextStyle(color: Colors.black54, fontSize: 16),
+        ));
+      }
+      commits.add(richText);
+    }
+
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context, ProfilePage.ROUTE_NAME,
+                    arguments: ProfilePageArgs(
+                        userEntity: _userEntity,
+                        heroTag: heroTag
+                    ),
+                  );
+                },
+                child: Hero(
+                  //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
+                  //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
+                  transitionOnUserGestures: true,
+                  tag: heroTag,
+                  child: CircleAvatar(
+                    backgroundImage: CachedNetworkImageProvider(entity.actor.avatarUrl),
+                  ),
+                ),
+              ),
+              SizedBox(width: 8,),
+              Text(entity.actor.login),
+              Spacer(),
+              Text(Util.getFriendlyDateTime(entity.createdAt)),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: RichText(text: TextSpan(
+                  text: '',
+                  style: TextStyle(color: Colors.black, fontSize: 18.0),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: EventTypes.pushEvent.replaceAll('Event', ''),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
+                    ),
+                    TextSpan(
+                      text: ' to ${payload.ref.replaceAll('refs/heads/', '')} at ',
+                    ),
+                    TextSpan(
+                        text: entity.repo.name,
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                  ]
+                ),),
+              ),
+            ],
+          ),
+        ]..addAll(commits),
+      ),
     );
   }
   @override

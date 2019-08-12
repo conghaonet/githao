@@ -359,44 +359,12 @@ class _MyReposWidgetState extends State<MyReposWidget> {
   }
 
   Widget _getPushedTime(String time) {
-    if(time == null) return Offstage(offstage: true,);
-    DateTime dateTime = DateTime.parse(time).toLocal();
-    DateTime now = DateTime.now();
-    Duration difference = dateTime.difference(now);
-    DateFormat uiFormat = DateFormat('yyyy-MM-dd HH:mm');
-    String strUiDatetime = uiFormat.format(dateTime);
-    if(difference.inMilliseconds < 0) {
-      difference = difference.abs();
-      if(dateTime.year != now.year) {
-        uiFormat = DateFormat('yyyy-MM-dd');
-        strUiDatetime = uiFormat.format(dateTime);
-      } else if(dateTime.month != now.month) {
-        uiFormat = DateFormat('MM-dd');
-        strUiDatetime = uiFormat.format(dateTime);
-      } else if(dateTime.day != now.day) {
-        int days = difference.inDays;
-        if(days == 0) ++days;
-        strUiDatetime = '$days days ago';
-      } else if(dateTime.hour != now.hour) {
-        int hours = difference.inHours;
-        if(hours == 0) ++hours;
-        strUiDatetime = '$hours hours ago';
-      } else if(dateTime.minute != now.minute) {
-        int minutes = difference.inMinutes;
-        if(minutes == 0) ++minutes;
-        strUiDatetime = '$minutes minutes ago';
-      } else if(dateTime.second != now.second) {
-        int seconds = difference.inSeconds;
-        if(seconds == 0) ++seconds;
-        strUiDatetime = '$seconds seconds ago';
-      }
-    }
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Icon(Icons.access_time, color: Theme.of(context).primaryColor, size: 18,),
         SizedBox(width: 2,),
-        Text('Pushed on $strUiDatetime'),
+        Text('Pushed on ${Util.getFriendlyDateTime(time) ?? ''}'),
       ],
     );
   }

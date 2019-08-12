@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+export 'package:githao/resources/event_types.dart';
 
 /// .g.dart 将在我们运行生成命令后自动生成
 part 'event_entity.g.dart';

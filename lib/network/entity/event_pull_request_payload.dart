@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import 'pull_request_entity.dart';
-import 'user_entity.dart';
+
 
 /// .g.dart 将在我们运行生成命令后自动生成
 part 'event_pull_request_payload.g.dart';

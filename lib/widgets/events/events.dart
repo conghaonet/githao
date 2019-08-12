@@ -104,33 +104,7 @@ class _EventListState extends State<EventList> with AutomaticKeepAliveClientMixi
                 itemCount: (_results.length >= widget.perPageRows && widget.needLoadMore) ? _results.length+1 : _results.length,
                 itemBuilder: (context, index) {
                   if(index < _results.length) {
-                    if(_results[index].type == EventTypes.pushEvent) {
-                      return PushEventItem(_results[index], index);
-                    } else if(_results[index].type == EventTypes.issuesEvent){
-                      return IssuesEventItem(_results[index], index);
-                    } else if(_results[index].type == EventTypes.issueCommentEvent){
-                      return IssueCommentEventItem(_results[index], index);
-                    } else if(_results[index].type == EventTypes.createEvent){
-                      return CreateEventItem(_results[index], index);
-                    } else if(_results[index].type == EventTypes.forkEvent){
-                      return ForkEventItem(_results[index], index);
-                    } else if(_results[index].type == EventTypes.pullRequestEvent){
-                      return PullRequestEventItem(_results[index], index);
-                    } else if(_results[index].type == EventTypes.pullRequestReviewCommentEvent){
-                      return PullRequestReviewCommentEventItem(_results[index], index);
-                    } else if(_results[index].type == EventTypes.watchEvent){
-                      return OnlyActionEventItem(_results[index], index);
-                    } else {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text("index = $index"),
-                          EventCommonAvatar(_results[index], index),
-                          Text("type = ${_results[index].type}"),
-                          Text("repo = ${_results[index].repo.name}"),
-                        ],
-                      );
-                    }
+                    return getItem(_results[index], index);
                   } else {
                     if(_expectHasMoreData && _loadingState == StateFlag.complete) {
                       Future.delayed(const Duration(milliseconds: 100)).then((_){
@@ -153,6 +127,38 @@ class _EventListState extends State<EventList> with AutomaticKeepAliveClientMixi
         ),
       ],
     );
+  }
+  
+  Widget getItem(EventEntity entity, int index) {
+    switch(entity.type) {
+      case EventTypes.pushEvent:
+        return PushEventItem(entity, index);
+      case EventTypes.issuesEvent:
+        return IssuesEventItem(entity, index);
+      case EventTypes.issueCommentEvent:
+        return IssueCommentEventItem(entity, index);
+      case EventTypes.createEvent:
+      case EventTypes.deleteEvent:
+        return CreateEventItem(entity, index);
+      case EventTypes.forkEvent:
+        return ForkEventItem(entity, index);
+      case EventTypes.pullRequestEvent:
+        return PullRequestEventItem(entity, index);
+      case EventTypes.pullRequestReviewCommentEvent:
+        return PullRequestReviewCommentEventItem(entity, index);
+      case EventTypes.watchEvent:
+        return OnlyActionEventItem(entity, index);
+      default:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text("index = $index"),
+            EventCommonAvatar(entity, index),
+            Text("type = ${entity.type}"),
+            Text("repo = ${entity.repo.name}"),
+          ],
+        );
+    }
   }
   @override
   void dispose() {

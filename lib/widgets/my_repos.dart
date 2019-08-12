@@ -13,7 +13,6 @@ import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/widgets/loading_state.dart';
 import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/starred_repos_filter.dart';
-import 'package:intl/intl.dart';
 
 import 'load_more_data_footer.dart';
 import 'my_repos_filter.dart';
@@ -300,17 +299,6 @@ class _MyReposWidgetState extends State<MyReposWidget> {
         Icon(Icons.info, color: Theme.of(context).primaryColor, size: 18,),
         SizedBox(width: 2,),
         Text('$issues'),
-      ],
-    );
-  }
-
-  Widget _getWatchers(int watchers) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Icon(Icons.remove_red_eye, color: Theme.of(context).primaryColor, size: 18,),
-        SizedBox(width: 2,),
-        Text('$watchers'),
       ],
     );
   }

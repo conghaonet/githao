@@ -142,11 +142,14 @@ class _MyReposWidgetState extends State<MyReposWidget> {
               key: _refreshIndicatorKey,
               color: Colors.blue,
               onRefresh: _loadData,
-              child: NotificationListener(
-                onNotification: (ScrollNotification notification) {
-                  if(widget.needLoadMore && _expectHasMoreData) { //是否需要实现加载更多特性
-                    if(0 == notification.metrics.extentAfter) { //到达底部
+              child: NotificationListener<ScrollEndNotification>(
+                onNotification: (notification) {
+                  if (notification.depth != 0) return false;
+                  if (notification.metrics.axisDirection != AxisDirection.down) return false;
+                  if(0 == notification.metrics.extentAfter) { //到达底部
+                    if(widget.needLoadMore && _expectHasMoreData) { //是否需要实现加载更多特性
                       _loadData(isReload: false);
+                      return true;
                     }
                   }
                   return false; //返回false，将事件传递给外层控件(RefreshIndicator)，否则外层RefreshIndicator无法监听到下拉手势

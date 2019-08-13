@@ -7,6 +7,7 @@ import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/widgets/events/events.dart';
 import 'package:githao/widgets/profile_info_count_data.dart';
+import 'package:githao/widgets/starred_repos.dart';
 import 'package:intl/intl.dart';
 import 'package:provide/provide.dart';
 
@@ -55,9 +56,12 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   }
 
   List<Widget> _getTabViews() {
-    List<Widget> widgets = [_getInfoTabBarView(), EventList(login: widget.args.userEntity.login)];
+    List<Widget> widgets = [
+        _getInfoTabBarView(),
+        EventList(login: widget.args.userEntity.login),
+      ];
     if(widget.args.userEntity.isUser) {
-      widgets.add(_getStarredTabView());
+      widgets.add(StarredReposWidget(user: this._userEntity));
     }
     return widgets;
   }

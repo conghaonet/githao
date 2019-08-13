@@ -21,7 +21,7 @@ abstract class BaseReposWidget extends StatefulWidget {
   BaseReposWidgetState createState();
 }
 
-abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> {
+abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> with AutomaticKeepAliveClientMixin {
   final List<RepoEntity> _repos = [];
   bool _lastActionIsReload = true;
   int _page = 1;
@@ -31,6 +31,11 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
 
   Future<List<RepoEntity>> getRepos(final int expectationPage);
   Widget getFilter();
+
+  //要达到缓存目的，必须实现AutomaticKeepAliveClientMixin的wantKeepAlive为true。
+  // 不会被销毁,占内存中
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -86,6 +91,7 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Stack(
       children: <Widget>[
         Container(

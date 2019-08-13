@@ -26,9 +26,11 @@ class S implements WidgetsLocalizations {
   String get appTitle => "GitHao";
   String get chineseSimplified => "Chinese(Simplified)";
   String get chooseTheme => "Choose Theme";
+  String get commitsUppercase => "COMMITS";
   String get email => "Email";
   String get empty => "Empty";
   String get english => "English";
+  String get filesUppercase => "FILES";
   String get followers => "Followers";
   String get following => "Following";
   String get gists => "Gists";

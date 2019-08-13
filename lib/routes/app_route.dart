@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:githao/network/entity/repo_entity.dart';
 
 import 'package:githao/pages/home.dart';
 import 'package:githao/pages/login.dart';
 import 'package:githao/pages/profile.dart';
+import 'package:githao/pages/repo_home.dart';
 import 'package:githao/pages/route_error_page.dart';
 import 'package:githao/pages/settings.dart';
 import 'package:githao/pages/splash.dart';
@@ -32,6 +34,14 @@ class AppRoute extends NavigatorObserver {
         settings: settings,
         builder: (context) {
           return ProfilePage(args);
+        },
+      );
+    } else if(settings.name == RepoHomePage.ROUTE_NAME) {
+      final RepoEntity args = settings.arguments;
+      targetPage = MaterialPageRoute(
+        settings: settings,
+        builder: (context) {
+          return RepoHomePage(args);
         },
       );
     }

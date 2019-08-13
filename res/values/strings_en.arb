@@ -49,5 +49,7 @@
   "language": "Language",
   "systemDefault": "System Default",
   "english": "English",
-  "chineseSimplified": "Chinese(Simplified)"
+  "chineseSimplified": "Chinese(Simplified)",
+  "commitsUppercase": "COMMITS",
+  "filesUppercase": "FILES"
 }

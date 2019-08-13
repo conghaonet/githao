@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/profile.dart';
+import 'package:githao/pages/repo_home.dart';
 import 'package:githao/resources/custom_icons_icons.dart';
 import 'package:githao/resources/lang_colors.dart';
 import 'package:githao/routes/profile_page_args.dart';
@@ -159,81 +160,87 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
     String heroTag = '${_repos[index].owner.login}$index';
     return Card(
       margin: EdgeInsets.only(left: 8, top: 8, right: 8, bottom: (index +1 == _repos.length) ? 8 : 0),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            InkWell(
-              onTap: () {
-                Navigator.pushNamed(
-                  context, ProfilePage.ROUTE_NAME,
-                  arguments: ProfilePageArgs(
-                      userEntity: _repos[index].owner,
-                      heroTag: heroTag
+      child: FlatButton(
+        padding: EdgeInsets.all(0),
+        onPressed: (){
+          Navigator.pushNamed(context, RepoHomePage.ROUTE_NAME, arguments: this._repos[index]);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context, ProfilePage.ROUTE_NAME,
+                    arguments: ProfilePageArgs(
+                        userEntity: _repos[index].owner,
+                        heroTag: heroTag
+                    ),
+                  );
+                },
+                child: Hero(
+                  //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
+                  //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
+                  transitionOnUserGestures: true,
+                  tag: heroTag,
+                  child: CircleAvatar(
+                    backgroundImage: CachedNetworkImageProvider(_repos[index].owner.avatarUrl),
                   ),
-                );
-              },
-              child: Hero(
-                //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
-                //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
-                transitionOnUserGestures: true,
-                tag: heroTag,
-                child: CircleAvatar(
-                  backgroundImage: CachedNetworkImageProvider(_repos[index].owner.avatarUrl),
                 ),
               ),
-            ),
-            SizedBox(width: 16,),
-            Expanded(
-              flex: 1,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Offstage(
-                        offstage: !_repos[index].fork,
-                        child: Icon(CustomIcons.fork, color: Theme.of(context).primaryColor, size: 18,),
-                      ),
-                      Expanded(
-                        child: Text(_repos[index].name,
-                          maxLines: 2,
-                          style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w500),
+              SizedBox(width: 16,),
+              Expanded(
+                flex: 1,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Offstage(
+                          offstage: !_repos[index].fork,
+                          child: Icon(CustomIcons.fork, color: Theme.of(context).primaryColor, size: 18,),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 4,),
-                  MyVisibility(
-                    flag: _repos[index].description == null ? MyVisibilityFlag.gone : MyVisibilityFlag.visible,
-                    child: Text(_repos[index].description ?? '',
-                      maxLines: 4,
-                      softWrap: true,
-                      style: TextStyle(),
+                        Expanded(
+                          child: Text(_repos[index].name,
+                            maxLines: 2,
+                            style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(height: 8,),
-                  Wrap(
-                    spacing: 16,
-                    runSpacing: 8,
-                    children: <Widget>[
-                      _getOwner(_repos[index].owner.login),
-                      _getIssues(_repos[index].openIssues),
-                      //抓包发现watchers和stargazersCount数值完全一样，应该是GitHub的bug
+                    SizedBox(height: 4,),
+                    MyVisibility(
+                      flag: _repos[index].description == null ? MyVisibilityFlag.gone : MyVisibilityFlag.visible,
+                      child: Text(_repos[index].description ?? '',
+                        maxLines: 4,
+                        softWrap: true,
+                        style: TextStyle(),
+                      ),
+                    ),
+                    SizedBox(height: 8,),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 8,
+                      children: <Widget>[
+                        _getOwner(_repos[index].owner.login),
+                        _getIssues(_repos[index].openIssues),
+                        //抓包发现watchers和stargazersCount数值完全一样，应该是GitHub的bug
 //                      _getWatchers(_repos[index].watchers),
-                      _getStargazersCount(_repos[index].stargazersCount),
-                      _getForks(_repos[index].forks),
-                      _getLanguage(_repos[index].language),
-                      _getPushedTime(_repos[index].pushedAt),
-                    ],
-                  ),
-                ],
+                        _getStargazersCount(_repos[index].stargazersCount),
+                        _getForks(_repos[index].forks),
+                        _getLanguage(_repos[index].language),
+                        _getPushedTime(_repos[index].pushedAt),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

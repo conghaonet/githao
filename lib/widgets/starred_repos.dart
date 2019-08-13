@@ -8,14 +8,14 @@ import 'package:githao/widgets/starred_repos_filter.dart';
 
 import 'base_repos.dart';
 
-class StarredRepos extends BaseReposWidget{
+class StarredReposWidget extends BaseReposWidget{
   final UserEntity user;
-  StarredRepos({Key key, this.user, needLoadMore=true,}): super(key: key, needLoadMore: needLoadMore);
+  StarredReposWidget({Key key, this.user, needLoadMore=true,}): super(key: key, needLoadMore: needLoadMore);
   @override
-  _StarredReposState createState() => _StarredReposState();
+  _StarredReposWidgetState createState() => _StarredReposWidgetState();
 }
 
-class _StarredReposState extends BaseReposWidgetState<StarredRepos> {
+class _StarredReposWidgetState extends BaseReposWidgetState<StarredReposWidget> {
   int _groupSortIndex = 0;
 
   @override

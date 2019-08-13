@@ -10,14 +10,14 @@ import 'my_repos_filter.dart';
 
 /// [perPageRows] 每次请求期望返回的数据量，GitHub默认每次返回30条数据；
 /// [needLoadMore] 为true时，提供上拉加载更多特性；
-class MyReposWidget extends BaseReposWidget{
+class UserReposWidget extends BaseReposWidget{
   final UserEntity user;
-  MyReposWidget({Key key, this.user, needLoadMore=true,}): super(key: key, needLoadMore: needLoadMore);
+  UserReposWidget({Key key, this.user, needLoadMore=true,}): super(key: key, needLoadMore: needLoadMore);
   @override
-  _MyReposWidgetState createState() => _MyReposWidgetState();
+  _UserReposWidgetState createState() => _UserReposWidgetState();
 }
 
-class _MyReposWidgetState extends BaseReposWidgetState<MyReposWidget> {
+class _UserReposWidgetState extends BaseReposWidgetState<UserReposWidget> {
   int _groupTypeIndex = 0;
   int _groupSortIndex = 0;
 

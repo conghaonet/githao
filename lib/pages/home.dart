@@ -11,7 +11,7 @@ import 'package:githao/pages/settings.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/utils/util.dart';
-import 'package:githao/widgets/my_repos.dart';
+import 'package:githao/widgets/user_repos.dart';
 import 'package:githao/widgets/starred_repos.dart';
 import 'package:provide/provide.dart';
 
@@ -90,9 +90,9 @@ class _HomePageState extends State<HomePage> {
             initialData: _defaultMenu,
             builder: (context, snapshot) {
               if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
-                return StarredRepos(user: Provide.value<UserProvide>(context).user);
+                return StarredReposWidget(user: Provide.value<UserProvide>(context).user);
               } else {
-                return MyReposWidget(user: Provide.value<UserProvide>(context).user);
+                return UserReposWidget(user: Provide.value<UserProvide>(context).user);
               }
             },
           ),

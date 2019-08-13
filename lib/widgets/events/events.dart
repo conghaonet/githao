@@ -8,6 +8,7 @@ import 'package:githao/widgets/events/issues_event.dart';
 import 'package:githao/widgets/events/pull_request_event.dart';
 import 'package:githao/widgets/events/pull_request_review_comment_event.dart';
 import 'package:githao/widgets/events/push_event.dart';
+import 'package:githao/widgets/events/release_event.dart';
 
 import '../load_more_data_footer.dart';
 import '../loading_state.dart';
@@ -148,15 +149,26 @@ class _EventListState extends State<EventList> with AutomaticKeepAliveClientMixi
         return PullRequestReviewCommentEventItem(entity, index);
       case EventTypes.watchEvent:
         return OnlyActionEventItem(entity, index);
+      case EventTypes.releaseEvent:
+        return ReleaseEventItem(entity, index);
       default:
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text("index = $index"),
-            EventCommonAvatar(entity, index),
-            Text("type = ${entity.type}"),
-            Text("repo = ${entity.repo.name}"),
-          ],
+        return Card(
+          margin: EdgeInsets.all(8),
+          color: Colors.grey,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                EventCommonAvatar(entity, index),
+                Text("index = $index"),
+                Text("Event: ${entity.type}"),
+                Text("Repository: ${entity.repo.name}"),
+                Text("Unimplemented this event"),
+              ],
+            ),
+          ),
         );
     }
   }

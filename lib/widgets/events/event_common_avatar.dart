@@ -33,6 +33,7 @@ class EventCommonAvatar extends StatelessWidget {
             tag: heroTag,
             child: CircleAvatar(
               backgroundImage: CachedNetworkImageProvider(entity.actor.avatarUrl),
+              backgroundColor: Colors.black12,
             ),
           ),
         ),

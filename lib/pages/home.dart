@@ -24,7 +24,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-//  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   static final _defaultMenu = HomeDrawer.MENU_MY_REPOS;
   String _clickedDrawerMenu = _defaultMenu;
   StreamController<String> _bodyController;
@@ -49,7 +48,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//      key: _scaffoldKey,
       drawer: HomeDrawer(onClickDrawerMenu, _clickedDrawerMenu ?? _defaultMenu),
       body: SafeArea(
         child: NestedScrollView(
@@ -92,9 +90,9 @@ class _HomePageState extends State<HomePage> {
             initialData: _defaultMenu,
             builder: (context, snapshot) {
               if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
-                return StarredRepos(homeDrawerMenu: snapshot.data);
+                return StarredRepos(user: Provide.value<UserProvide>(context).user);
               } else {
-                return MyReposWidget(homeDrawerMenu: snapshot.data);
+                return MyReposWidget(user: Provide.value<UserProvide>(context).user);
               }
             },
           ),

@@ -71,4 +71,11 @@ class ApiService {
     Response<List<dynamic>> response = await dioClient.dio.get("/users/$login/events?page=$page");
     return response.data.map((item) => EventEntity.fromJson(item)).toList();
   }
+
+  static Future<String> getRepoReadme(String owner, String repo) async {
+    Options options = Options(headers: {"Accept": "application/vnd.github.VERSION.html"});
+    Response<String> response = await dioClient.dio.get("/repos/$owner/$repo/readme", options: options);
+    return response.data;
+  }
+
 }

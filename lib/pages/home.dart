@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/biz/user_biz.dart';
+import 'package:githao/demo/webview_flutter.dart';
 
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/pages/profile.dart';
@@ -222,6 +223,19 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
             onTap: () {
               UserBiz.logout();
               Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
+            },
+          ),
+        ),
+        Material(
+          color: Colors.white,
+          child: ListTile(
+            leading: Icon(Icons.open_in_browser,),
+            title: Text('webview_flutter'),
+            onTap: () {
+              UserBiz.logout();
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                return WebViewExample();
+              }));
             },
           ),
         ),

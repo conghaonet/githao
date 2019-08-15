@@ -7,7 +7,7 @@ packages:
       name: analyzer
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.37.0"
+    version: "0.37.1"
   args:
     dependency: transitive
     description:
@@ -218,7 +218,7 @@ packages:
       name: front_end
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.1.20"
+    version: "0.1.21"
   glob:
     dependency: transitive
     description:
@@ -302,7 +302,7 @@ packages:
       name: kernel
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.3.20"
+    version: "0.3.21"
   logging:
     dependency: "direct main"
     description:
@@ -539,6 +539,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.15"
+  webview_flutter:
+    dependency: "direct main"
+    description:
+      name: webview_flutter
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.11+4"
   yaml:
     dependency: transitive
     description:

@@ -37,6 +37,7 @@ class S implements WidgetsLocalizations {
   String get infoUppercase => "INFO";
   String get issues => "Issues";
   String get language => "Language";
+  String get license => "License";
   String get loadingMoreData => "Loading more data...";
   String get login => "Login";
   String get loginAccountHint => "GitHub username or email";
@@ -73,6 +74,7 @@ class S implements WidgetsLocalizations {
   String get trending => "Trending";
   String get userDataHasBeanRefreshed => "User data has been refreshed.";
   String createdAt(String dateTime) => "Created at ${dateTime}";
+  String pushedAt(String dateTime) => "Pushed at ${dateTime}";
   String updatedAt(String dateTime) => "Updated at ${dateTime}";
 }
 

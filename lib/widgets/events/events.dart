@@ -22,8 +22,9 @@ class EventList extends StatefulWidget {
   final perPageRows = 30;
   final bool needLoadMore;
   final String login;
+  final String repoName;
 
-  EventList({Key key, this.login, this.needLoadMore=true,}): super(key: key);
+  EventList({Key key, this.login, this.repoName, this.needLoadMore=true,}): super(key: key);
   @override
   _EventListState createState() => _EventListState();
 }
@@ -58,7 +59,7 @@ class _EventListState extends State<EventList> with AutomaticKeepAliveClientMixi
       expectationPage = _page + 1;
     }
 
-    return ApiService.getEvents(widget.login, page: expectationPage).then((list){
+    return ApiService.getEvents(widget.login, repoName: widget.repoName, page: expectationPage).then((list){
       if(isReload) {
         _results.clear();
         _page = 1;

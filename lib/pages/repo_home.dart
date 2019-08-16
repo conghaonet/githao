@@ -69,8 +69,10 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
               Container(child: Center(child: Text(_getTabTitles()[1]),),),
               Container(child: Center(child: Text(_getTabTitles()[2]),),),
               EventList(
-                key: PageStorageKey<String>(_getTabTitles()[3]), // like 'Tab 1'
-                login: widget.repo.owner.login,),
+//                key: PageStorageKey<String>(_getTabTitles()[3]), // like 'Tab 1'
+                login: widget.repo.owner.login,
+                repoName: widget.repo.name,
+              ),
             ],
           ),
         ),

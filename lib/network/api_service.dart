@@ -67,12 +67,13 @@ class ApiService {
     return response.data.map((item) => RepoEntity.fromJson(item)).toList();
   }
 
-  static Future<List<EventEntity>> getEvents(String login, {int page=1}) async {
-    Response<List<dynamic>> response = await dioClient.dio.get("/users/$login/events?page=$page");
-    return response.data.map((item) => EventEntity.fromJson(item)).toList();
-  }
-  static Future<List<EventEntity>> getRepoEvents(String owner, String repo, {int page=1}) async {
-    Response<List<dynamic>> response = await dioClient.dio.get("/repos/$owner/$repo/events?page=$page");
+  static Future<List<EventEntity>> getEvents(String login, {String repoName, int page=1}) async {
+    Response<List<dynamic>> response;
+    if(repoName == null || repoName.isEmpty) {
+      response = await dioClient.dio.get("/users/$login/events?page=$page");
+    } else {
+      response = await dioClient.dio.get("/repos/$login/$repoName/events?page=$page");
+    }
     return response.data.map((item) => EventEntity.fromJson(item)).toList();
   }
 

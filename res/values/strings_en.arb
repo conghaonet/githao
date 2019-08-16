@@ -53,5 +53,9 @@
   "chineseSimplified": "Chinese(Simplified)",
   "commitsUppercase": "COMMITS",
   "filesUppercase": "FILES",
-  "license": "License"
+  "license": "License",
+  "orgUppercase": "ORG",
+  "stargazers": "Stargazers",
+  "forks": "Forks",
+  "watchers": "Watchers"
 }

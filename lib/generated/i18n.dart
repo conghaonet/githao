@@ -33,6 +33,7 @@ class S implements WidgetsLocalizations {
   String get filesUppercase => "FILES";
   String get followers => "Followers";
   String get following => "Following";
+  String get forks => "Forks";
   String get gists => "Gists";
   String get infoUppercase => "INFO";
   String get issues => "Issues";
@@ -50,6 +51,7 @@ class S implements WidgetsLocalizations {
   String get noMoreData => "No more data";
   String get notifications => "Notifications";
   String get oopsWrong => "Oops wrong!";
+  String get orgUppercase => "ORG";
   String get profile => "Profile";
   String get refreshFailedCheckNetwork => "Refresh failed, please check your network connection.";
   String get reposFilterSort => "Sort";
@@ -67,12 +69,14 @@ class S implements WidgetsLocalizations {
   String get search => "Search";
   String get settings => "Settings";
   String get skip => "Skip";
+  String get stargazers => "Stargazers";
   String get starredRepos => "Starred repos";
   String get starredUppercase => "STARRED";
   String get systemDefault => "System Default";
   String get tapToRetry => "TAP TO RETRY";
   String get trending => "Trending";
   String get userDataHasBeanRefreshed => "User data has been refreshed.";
+  String get watchers => "Watchers";
   String createdAt(String dateTime) => "Created at ${dateTime}";
   String pushedAt(String dateTime) => "Pushed at ${dateTime}";
   String updatedAt(String dateTime) => "Updated at ${dateTime}";

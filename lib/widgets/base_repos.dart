@@ -187,6 +187,7 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
                   tag: heroTag,
                   child: CircleAvatar(
                     backgroundImage: CachedNetworkImageProvider(_repos[index].owner.avatarUrl),
+                    backgroundColor: Colors.black12,
                   ),
                 ),
               ),

@@ -47,7 +47,7 @@ RepoEntity _$RepoEntityFromJson(Map<String, dynamic> json) {
     contributorsUrl: json['contributors_url'] as String,
     hasDownloads: json['has_downloads'] as bool,
     notificationsUrl: json['notifications_url'] as String,
-    openIssuesCount: json['openIssues_count'] as int,
+    openIssuesCount: json['open_issues_count'] as int,
     description: json['description'] as String,
     createdAt: json['created_at'] as String,
     watchers: json['watchers'] as int,

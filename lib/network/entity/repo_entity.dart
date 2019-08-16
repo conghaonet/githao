@@ -69,7 +69,7 @@ class RepoEntity {
 	bool hasDownloads;
 	@JsonKey(name: 'notifications_url')
 	String notificationsUrl;
-	@JsonKey(name: 'openIssues_count')
+	@JsonKey(name: 'open_issues_count')
 	int openIssuesCount;
 	String description;
 	@JsonKey(name: 'created_at')

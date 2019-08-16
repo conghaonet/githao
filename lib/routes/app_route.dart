@@ -8,6 +8,8 @@ import 'package:githao/pages/repo_home.dart';
 import 'package:githao/pages/route_error_page.dart';
 import 'package:githao/pages/settings.dart';
 import 'package:githao/pages/splash.dart';
+import 'package:githao/pages/web_view_page.dart';
+import 'package:githao/routes/webview_page_args.dart';
 
 import 'profile_page_args.dart';
 
@@ -42,6 +44,14 @@ class AppRoute extends NavigatorObserver {
         settings: settings,
         builder: (context) {
           return RepoHomePage(args);
+        },
+      );
+    } else if(settings.name == WebViewPage.ROUTE_NAME) {
+      final WebViewPageArgs args = settings.arguments;
+      targetPage = MaterialPageRoute(
+        settings: settings,
+        builder: (context) {
+          return WebViewPage(args);
         },
       );
     }

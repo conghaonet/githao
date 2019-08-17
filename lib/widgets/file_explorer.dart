@@ -15,6 +15,7 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
   final List<RepoContentEntity> _contents = [];
   String _currentBranch;
   final List<PathEntity> _paths = [];
+  ScrollController _pathScrollController = ScrollController();
 
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
@@ -45,11 +46,12 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
           return -1;
         }
       });
-      if(mounted) {
-        setState(() {
-
-        });
-      }
+      if(mounted) {setState(() {});}
+      Future.delayed(const Duration(milliseconds: 100)).then((_) {
+        if(mounted) {
+          _pathScrollController.jumpTo(_pathScrollController.position.maxScrollExtent);
+        }
+      });
       return;
     }).catchError((e){
       Util.showToast(e is DioError ? e.message : e.toString());
@@ -79,19 +81,9 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
               delegate: _SliverAppBarDelegate(
                 Container(
                   height: 48,
-                  color: Colors.blue,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: <Widget>[
-                        Text('aaaaaaaaaaaaaaaaaaaaaaaaaa'),
-                        Text('bbbbbbbbbbbbbbbbbbbbbbbbbb'),
-                        Text('cccccccccccccccccccccccccc'),
-                        Text('dddddddddddddddddddddddddd'),
-                        Text('eeeeeeeeeeeeeeeeeeeeeeeeee'),
-                      ],
-                    ),
-                  ),
+                  color: Theme.of(context).primaryColor,
+                  padding: EdgeInsets.only(left: 8, right: 8),
+                  child: _buildPathsView(),
                 ),
               ),
             ),
@@ -121,16 +113,48 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
       ),
     );
   }
+
+  ListView _buildPathsView() {
+    return ListView.builder(
+      controller: _pathScrollController,
+      scrollDirection: Axis.horizontal,
+      itemCount: _paths.length+1,
+      itemBuilder: (BuildContext context, int index) {
+        return InkWell(
+          onTap: () {
+            Util.showToast('$index');
+            if(index == 0) {
+              _paths.clear();
+            } else if(index < _paths.length) {
+              _paths.removeRange(index, _paths.length);
+            }
+            refreshIndicatorKey.currentState.show();
+          },
+          child: Center(
+            child: Text(
+              index == 0  ?  ' . . /' : '${_paths[index-1].name}/',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          ),
+        );
+      },
+    );
+  }
+  @override
+  void dispose() {
+    _pathScrollController.dispose();
+    super.dispose();
+  }
 }
 
 /// 定义tab栏高度
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  final Container _tabBar;
+  final Widget _tabBar;
   final int tabIndex;
   _SliverAppBarDelegate(this._tabBar, {this.tabIndex});
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(child: _tabBar,);
+    return _tabBar;
   }
   @override
   double get maxExtent => 48;
@@ -138,7 +162,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get minExtent => 48;
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
+    return true;
   }
 }
 

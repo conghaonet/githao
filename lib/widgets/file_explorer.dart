@@ -15,7 +15,6 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
   final List<RepoContentEntity> _contents = [];
   String _currentBranch;
   final List<String> _paths = [];
-  String _path;
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   //要达到缓存目的，必须实现AutomaticKeepAliveClientMixin的wantKeepAlive为true。
@@ -30,9 +29,9 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
     WidgetsBinding.instance.addPostFrameCallback((_) => refreshIndicatorKey.currentState.show());
   }
 
-  Future<void> _reloadContents() async {
-    if(_path == null) _path = '';
-    return ApiService.getRepoContents(widget.repoEntity.owner.login, widget.repoEntity.name, _currentBranch, path: _path).then((result) {
+  Future<void> _loadContents() async {
+    return ApiService.getRepoContents(widget.repoEntity.owner.login, widget.repoEntity.name,
+        _currentBranch, path: _paths.isEmpty ? '' : _paths.last).then((result) {
       _contents.clear();
       _contents.addAll(result);
       //文件夹在前，文件在后。
@@ -59,55 +58,65 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return RefreshIndicator(
-      key: refreshIndicatorKey,
-      onRefresh: _reloadContents,
-      child: CustomScrollView(
-        slivers: <Widget>[
-          SliverPersistentHeader(
-            floating: true,
-            pinned: true,
-            delegate: _SliverAppBarDelegate(
-              Container(
-                height: 48,
-                color: Colors.blue,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: <Widget>[
-                      Text('aaaaaaaaaaaaaaaaaaaaaaaaaa'),
-                      Text('bbbbbbbbbbbbbbbbbbbbbbbbbb'),
-                      Text('cccccccccccccccccccccccccc'),
-                      Text('dddddddddddddddddddddddddd'),
-                      Text('eeeeeeeeeeeeeeeeeeeeeeeeee'),
-                    ],
+    return WillPopScope(
+      onWillPop: () async {
+        if(_paths.isEmpty) return true;
+        else {
+          _paths.removeLast();
+          refreshIndicatorKey.currentState.show();
+          return false;
+        }
+      },
+      child: RefreshIndicator(
+        key: refreshIndicatorKey,
+        onRefresh: _loadContents,
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverPersistentHeader(
+              floating: true,
+              pinned: true,
+              delegate: _SliverAppBarDelegate(
+                Container(
+                  height: 48,
+                  color: Colors.blue,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: <Widget>[
+                        Text('aaaaaaaaaaaaaaaaaaaaaaaaaa'),
+                        Text('bbbbbbbbbbbbbbbbbbbbbbbbbb'),
+                        Text('cccccccccccccccccccccccccc'),
+                        Text('dddddddddddddddddddddddddd'),
+                        Text('eeeeeeeeeeeeeeeeeeeeeeeeee'),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-              return ListTile(
-                leading: _contents[index].isFile
-                    ? Icon(Icons.insert_drive_file, color: Color(0xff38aa69),)
-                    : Icon(Icons.folder , color: Color(0xff02c756),),
-                title: Text(_contents[index].name),
-                trailing: _contents[index].isFile ? Text('${_contents[index].getFormattedSize()}') : null,
-                onTap: () {
-                  if(_contents[index].isFile) {
-                    //TODO 打开文件
-                  } else {
-                    _path = _contents[index].path;
-                    refreshIndicatorKey.currentState.show();
-                  }
-                },
-              );
-            },
-              childCount: _contents.length,
+            SliverList(
+              delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                return ListTile(
+                  leading: _contents[index].isFile
+                      ? Icon(Icons.insert_drive_file, color: Color(0xff38aa69),)
+                      : Icon(Icons.folder , color: Color(0xff02c756),),
+                  title: Text(_contents[index].name),
+                  trailing: _contents[index].isFile ? Text('${_contents[index].getFormattedSize()}') : null,
+                  onTap: () {
+                    if(_contents[index].isFile) {
+                      //TODO 打开文件
+                    } else {
+                      _paths.add(_contents[index].path);
+                      refreshIndicatorKey.currentState.show();
+                    }
+                  },
+                );
+              },
+                childCount: _contents.length,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

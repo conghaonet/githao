@@ -5,6 +5,7 @@ import 'package:githao/resources/lang_colors.dart';
 import 'package:githao/routes/webview_page_args.dart';
 import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/events/events.dart';
+import 'package:githao/widgets/file_explorer.dart';
 import 'package:githao/widgets/repo_info_count_data.dart';
 
 import 'web_view_page.dart';
@@ -21,7 +22,7 @@ class RepoHomePage extends StatefulWidget {
 class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMixin {
   final colors = <Color>[Colors.red, Colors.green, Colors.blue, Colors.pink, Colors.yellow, Colors.deepPurple];
   TabController _tabController;
-
+  int _tabIndex = 0;
   List<String> _getTabTitles() {
     return <String>[S.current.infoUppercase, S.current.filesUppercase, S.current.commitsUppercase, S.current.activityUppercase,];
   }
@@ -31,6 +32,9 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
     super.initState();
     _tabController = TabController(length: _getTabTitles().length, vsync: this);
     _tabController.addListener(() {
+      setState(() {
+        _tabIndex = _tabController.index;
+      });
     });
   }
 
@@ -49,7 +53,7 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
               pinned: false, //为true时，SliverAppBar折叠后不消失
             ),
             SliverPersistentHeader(
-              pinned: true,
+              pinned: false,
               delegate: _SliverAppBarDelegate(
                 Container(
                   color: Theme.of(context).primaryColor,
@@ -66,10 +70,9 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
             controller: _tabController,
             children: <Widget>[
               RepoInfo(widget.repo),
-              Container(child: Center(child: Text(_getTabTitles()[1]),),),
+              FileExplorer(widget.repo),
               Container(child: Center(child: Text(_getTabTitles()[2]),),),
               EventList(
-//                key: PageStorageKey<String>(_getTabTitles()[3]), // like 'Tab 1'
                 login: widget.repo.owner.login,
                 repoName: widget.repo.name,
               ),
@@ -210,7 +213,8 @@ class _RepoInfoState extends State<RepoInfo> {
 /// 定义tab栏高度
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final Container _tabBar;
-  _SliverAppBarDelegate(this._tabBar);
+  final int tabIndex;
+  _SliverAppBarDelegate(this._tabBar, {this.tabIndex});
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(child: _tabBar,);

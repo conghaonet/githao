@@ -1,0 +1,105 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:githao/network/api_service.dart';
+import 'package:githao/network/entity/repo_content_entity.dart';
+import 'package:githao/network/entity/repo_entity.dart';
+import 'package:githao/utils/util.dart';
+class FileExplorer extends StatefulWidget {
+  final RepoEntity repoEntity;
+  FileExplorer(this.repoEntity, {Key key}): super(key: key);
+  
+  @override
+  _FileExplorerState createState() => _FileExplorerState();
+}
+
+class _FileExplorerState extends State<FileExplorer> {
+  final List<RepoContentEntity> _contents = [];
+  String _currentBranch;
+  @override
+  void initState() {
+    super.initState();
+    _currentBranch = widget.repoEntity.defaultBranch;
+    _reloadContents();
+  }
+
+  Future<void> _reloadContents() async {
+    ApiService.getRepoContents(widget.repoEntity.owner.login, widget.repoEntity.name, _currentBranch).then((result) {
+      _contents.clear();
+      _contents.addAll(result);
+      if(mounted) {
+        setState(() {
+
+        });
+      }
+      return;
+    }).catchError((e){
+      Util.showToast(e is DioError ? e.message : e.toString());
+      return;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: _reloadContents,
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverPersistentHeader(
+            floating: true,
+            pinned: true,
+            delegate: _SliverAppBarDelegate(
+              Container(
+                height: 48,
+                color: Colors.blue,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: <Widget>[
+                      Text('aaaaaaaaaaaaaaaaaaaaaaaaaa'),
+                      Text('bbbbbbbbbbbbbbbbbbbbbbbbbb'),
+                      Text('cccccccccccccccccccccccccc'),
+                      Text('dddddddddddddddddddddddddd'),
+                      Text('eeeeeeeeeeeeeeeeeeeeeeeeee'),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+              return ListTile(
+                leading: _contents[index].isFile
+                    ? Icon(Icons.insert_drive_file, color: Color(0xff38aa69),)
+                    : Icon(Icons.folder , color: Color(0xff02c756),),
+                title: Text(_contents[index].name),
+                trailing: _contents[index].isFile ? Text('${_contents[index].size}') : null,
+              );
+//              return Text('item index = $index', style: TextStyle(fontSize: 18),);
+            },
+              childCount: _contents.length,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// 定义tab栏高度
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final Container _tabBar;
+  final int tabIndex;
+  _SliverAppBarDelegate(this._tabBar, {this.tabIndex});
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(child: _tabBar,);
+  }
+  @override
+  double get maxExtent => 48;
+  @override
+  double get minExtent => 48;
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
+  }
+}

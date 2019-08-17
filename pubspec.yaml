@@ -31,8 +31,8 @@ dependencies:
   connectivity: ^0.4.3+7
   provide: ^1.0.2
   cached_network_image: ^1.1.1
-  webview_flutter: ^0.3.11+4
-  flutter_webview_plugin: ^0.3.6
+  webview_flutter: ^0.3.13
+  flutter_webview_plugin: ^0.3.7
 #  flutter_html: ^0.10.4
 
   # The following adds the Cupertino Icons font to your application.
@@ -42,7 +42,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.6.5
+  build_runner: ^1.6.6
   json_serializable: ^3.1.0
 
 # For information on the generic Dart part of this file, see the

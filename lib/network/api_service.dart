@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:githao/network/entity/authorization_entity.dart';
 import 'package:githao/network/entity/authorization_post.dart';
 import 'entity/event_entity.dart';
+import 'entity/repo_content_entity.dart';
 import 'entity/repo_entity.dart';
 import 'entity/user_entity.dart';
 import 'dio_client.dart';
@@ -83,4 +84,9 @@ class ApiService {
     return response.data;
   }
 
+  static Future<List<RepoContentEntity>> getRepoContents(String owner, String repo, String branch, {String path = ''}) async {
+    Map<String, dynamic> parameters = {'ref': branch};
+    Response<List<dynamic>> response = await dioClient.dio.get("/repos/$owner/$repo/contents/$path", queryParameters: parameters);
+    return response.data.map((item) => RepoContentEntity.fromJson(item)).toList();
+  }
 }

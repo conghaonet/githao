@@ -128,7 +128,7 @@ Map<String, dynamic> _$RepoEntityToJson(RepoEntity instance) =>
       'contributors_url': instance.contributorsUrl,
       'has_downloads': instance.hasDownloads,
       'notifications_url': instance.notificationsUrl,
-      'openIssues_count': instance.openIssuesCount,
+      'open_issues_count': instance.openIssuesCount,
       'description': instance.description,
       'created_at': instance.createdAt,
       'watchers': instance.watchers,

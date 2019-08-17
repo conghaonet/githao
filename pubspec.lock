@@ -7,7 +7,7 @@ packages:
       name: analyzer
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.37.1"
+    version: "0.37.1+1"
   args:
     dependency: transitive
     description:
@@ -35,7 +35,7 @@ packages:
       name: build
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.5"
+    version: "1.1.6"
   build_config:
     dependency: transitive
     description:
@@ -56,14 +56,14 @@ packages:
       name: build_resolvers
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.7"
   build_runner:
     dependency: "direct dev"
     description:
       name: build_runner
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.6.5"
+    version: "1.6.6"
   build_runner_core:
     dependency: transitive
     description:
@@ -211,7 +211,7 @@ packages:
       name: flutter_webview_plugin
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.3.6"
+    version: "0.3.7"
   fluttertoast:
     dependency: "direct main"
     description:
@@ -225,7 +225,7 @@ packages:
       name: front_end
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.1.21"
+    version: "0.1.21+1"
   glob:
     dependency: transitive
     description:
@@ -309,7 +309,7 @@ packages:
       name: kernel
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.3.21"
+    version: "0.3.21+1"
   logging:
     dependency: "direct main"
     description:
@@ -344,7 +344,7 @@ packages:
       name: package_config
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.5"
+    version: "1.1.0"
   package_resolver:
     dependency: transitive
     description:
@@ -552,7 +552,7 @@ packages:
       name: webview_flutter
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.3.11+4"
+    version: "0.3.13"
   yaml:
     dependency: transitive
     description:

@@ -122,7 +122,6 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
           onTap: () {
-            Util.showToast('$index');
             if(index == 0) {
               _paths.clear();
             } else if(index < _paths.length) {

@@ -14,7 +14,8 @@ class FileExplorer extends StatefulWidget {
 class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClientMixin {
   final List<RepoContentEntity> _contents = [];
   String _currentBranch;
-  final List<String> _paths = [];
+  final List<PathEntity> _paths = [];
+
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   //要达到缓存目的，必须实现AutomaticKeepAliveClientMixin的wantKeepAlive为true。
@@ -31,7 +32,7 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
 
   Future<void> _loadContents() async {
     return ApiService.getRepoContents(widget.repoEntity.owner.login, widget.repoEntity.name,
-        _currentBranch, path: _paths.isEmpty ? '' : _paths.last).then((result) {
+        _currentBranch, path: _paths.isEmpty ? '' : _paths.last.path).then((result) {
       _contents.clear();
       _contents.addAll(result);
       //文件夹在前，文件在后。
@@ -106,7 +107,7 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
                     if(_contents[index].isFile) {
                       //TODO 打开文件
                     } else {
-                      _paths.add(_contents[index].path);
+                      _paths.add(PathEntity(_contents[index].path, _contents[index].name));
                       refreshIndicatorKey.currentState.show();
                     }
                   },
@@ -139,4 +140,10 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
     return false;
   }
+}
+
+class PathEntity {
+  final String path;
+  final String name;
+  const PathEntity(this.path, this.name);
 }

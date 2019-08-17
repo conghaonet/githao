@@ -7,23 +7,32 @@ import 'package:githao/utils/util.dart';
 class FileExplorer extends StatefulWidget {
   final RepoEntity repoEntity;
   FileExplorer(this.repoEntity, {Key key}): super(key: key);
-  
   @override
   _FileExplorerState createState() => _FileExplorerState();
 }
 
-class _FileExplorerState extends State<FileExplorer> {
+class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClientMixin {
   final List<RepoContentEntity> _contents = [];
   String _currentBranch;
+  final List<String> _paths = [];
+  String _path;
+  final GlobalKey<RefreshIndicatorState> refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+
+  //要达到缓存目的，必须实现AutomaticKeepAliveClientMixin的wantKeepAlive为true。
+  // 不会被销毁,占内存中
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
     _currentBranch = widget.repoEntity.defaultBranch;
-    _reloadContents();
+    WidgetsBinding.instance.addPostFrameCallback((_) => refreshIndicatorKey.currentState.show());
   }
 
   Future<void> _reloadContents() async {
-    return ApiService.getRepoContents(widget.repoEntity.owner.login, widget.repoEntity.name, _currentBranch).then((result) {
+    if(_path == null) _path = '';
+    return ApiService.getRepoContents(widget.repoEntity.owner.login, widget.repoEntity.name, _currentBranch, path: _path).then((result) {
       _contents.clear();
       _contents.addAll(result);
       //文件夹在前，文件在后。
@@ -49,7 +58,9 @@ class _FileExplorerState extends State<FileExplorer> {
   }
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RefreshIndicator(
+      key: refreshIndicatorKey,
       onRefresh: _reloadContents,
       child: CustomScrollView(
         slivers: <Widget>[
@@ -83,6 +94,14 @@ class _FileExplorerState extends State<FileExplorer> {
                     : Icon(Icons.folder , color: Color(0xff02c756),),
                 title: Text(_contents[index].name),
                 trailing: _contents[index].isFile ? Text('${_contents[index].getFormattedSize()}') : null,
+                onTap: () {
+                  if(_contents[index].isFile) {
+                    //TODO 打开文件
+                  } else {
+                    _path = _contents[index].path;
+                    refreshIndicatorKey.currentState.show();
+                  }
+                },
               );
             },
               childCount: _contents.length,

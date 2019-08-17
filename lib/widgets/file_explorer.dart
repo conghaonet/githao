@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:githao/events/repo_home_event.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_content_entity.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/utils/util.dart';
+import 'package:githao/events/app_event_bus.dart';
+
 class FileExplorer extends StatefulWidget {
   final RepoEntity repoEntity;
   FileExplorer(this.repoEntity, {Key key}): super(key: key);
@@ -16,7 +19,7 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
   String _currentBranch;
   final List<PathEntity> _paths = [];
   ScrollController _pathScrollController = ScrollController();
-
+  int _tabIndexOfRepoHome = 1;
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   //要达到缓存目的，必须实现AutomaticKeepAliveClientMixin的wantKeepAlive为true。
@@ -28,7 +31,14 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
   void initState() {
     super.initState();
     _currentBranch = widget.repoEntity.defaultBranch;
-    WidgetsBinding.instance.addPostFrameCallback((_) => refreshIndicatorKey.currentState.show());
+    eventBus.on<RepoHomeTabChangedEvent>().listen((event) {
+      _tabIndexOfRepoHome = event.tabIndex;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(mounted) {
+        refreshIndicatorKey.currentState.show();
+      }
+    });
   }
 
   Future<void> _loadContents() async {
@@ -63,11 +73,11 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
     super.build(context);
     return WillPopScope(
       onWillPop: () async {
-        if(_paths.isEmpty) return true;
+        if(_paths.isEmpty || _tabIndexOfRepoHome != 1) return true;
         else {
           _paths.removeLast();
           refreshIndicatorKey.currentState.show();
-          return false;
+          return false; //返回上级目录，pop出界面
         }
       },
       child: RefreshIndicator(

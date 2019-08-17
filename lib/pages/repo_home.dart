@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:githao/events/repo_home_event.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/resources/lang_colors.dart';
@@ -7,7 +8,7 @@ import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/events/events.dart';
 import 'package:githao/widgets/file_explorer.dart';
 import 'package:githao/widgets/repo_info_count_data.dart';
-
+import 'package:githao/events/app_event_bus.dart';
 import 'web_view_page.dart';
 
 class RepoHomePage extends StatefulWidget {
@@ -22,7 +23,8 @@ class RepoHomePage extends StatefulWidget {
 class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMixin {
   final colors = <Color>[Colors.red, Colors.green, Colors.blue, Colors.pink, Colors.yellow, Colors.deepPurple];
   TabController _tabController;
-  int _tabIndex = 0;
+  int _tabIndex;
+
   List<String> _getTabTitles() {
     return <String>[S.current.infoUppercase, S.current.filesUppercase, S.current.commitsUppercase, S.current.activityUppercase,];
   }
@@ -32,9 +34,11 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
     super.initState();
     _tabController = TabController(length: _getTabTitles().length, vsync: this);
     _tabController.addListener(() {
-      setState(() {
+      //tabBar和tabBody公用一个controller，避免重复发广播，这里判断下。
+      if(_tabIndex != _tabController.index) {
         _tabIndex = _tabController.index;
-      });
+        eventBus.fire(RepoHomeTabChangedEvent(_tabIndex));
+      }
     });
   }
 

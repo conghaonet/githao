@@ -23,9 +23,19 @@ class _FileExplorerState extends State<FileExplorer> {
   }
 
   Future<void> _reloadContents() async {
-    ApiService.getRepoContents(widget.repoEntity.owner.login, widget.repoEntity.name, _currentBranch).then((result) {
+    return ApiService.getRepoContents(widget.repoEntity.owner.login, widget.repoEntity.name, _currentBranch).then((result) {
       _contents.clear();
       _contents.addAll(result);
+      //文件夹在前，文件在后。
+      _contents.sort((left, right) {
+        if(left.isFile && !right.isFile) {
+          return 1;
+        } else if(left.isFile && right.isFile) {
+            return 0;
+        } else {
+          return -1;
+        }
+      });
       if(mounted) {
         setState(() {
 
@@ -72,9 +82,8 @@ class _FileExplorerState extends State<FileExplorer> {
                     ? Icon(Icons.insert_drive_file, color: Color(0xff38aa69),)
                     : Icon(Icons.folder , color: Color(0xff02c756),),
                 title: Text(_contents[index].name),
-                trailing: _contents[index].isFile ? Text('${_contents[index].size}') : null,
+                trailing: _contents[index].isFile ? Text('${_contents[index].getFormattedSize()}') : null,
               );
-//              return Text('item index = $index', style: TextStyle(fontSize: 18),);
             },
               childCount: _contents.length,
             ),

@@ -29,6 +29,20 @@ class RepoContentEntity {
   Map<String, dynamic> toJson() => _$RepoContentEntityToJson(this);
 
   bool get isFile => type == 'file';
+  String getFormattedSize() {
+    if(size < 1024) {
+      return '$size B';
+    } else if(size < 1024 * 1024) {
+      return '${(size / 1024).toStringAsFixed(2)} KB';
+    } else if(size < 1024 * 1024 * 1024) {
+      return '${(size / (1024 * 1024)).toStringAsFixed(2)} MB';
+    } else if(size < 1024 * 1024 * 1024 * 1024) {
+      return '${(size / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
+    } else if(size < 1024 * 1024 * 1024 * 1024 * 1024) {
+      return '${(size / (1024 * 1024 * 1024 * 1024)).toStringAsFixed(2)} TB';
+    }
+    return '$size Bytes';
+  }
   @override
   String toString() {
     return '{type: $type, encoding: $encoding, size: $size, name: $name, path: $path, content: $content, sha: $sha, url: $url, gitUrl: $gitUrl, htmlUrl: $htmlUrl, downloadUrl: $downloadUrl, links: $links}';

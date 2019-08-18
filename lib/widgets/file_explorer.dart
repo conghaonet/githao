@@ -78,11 +78,8 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
         if(_paths.length <= 1  || _tabIndexOfRepoHome != 1) return true;
         else {
           _paths.removeLast();
-//          refreshIndicatorKey.currentState.show();
-          setState(() {
-
-          });
-          return false; //返回上级目录，pop出界面
+          if(mounted) { setState(() {}); }
+          return false; //返回上级目录，不pop出当前页面
         }
       },
       child: RefreshIndicator(
@@ -139,11 +136,8 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
           onTap: () {
             if(index + 1 < _paths.length) {
               _paths.removeRange(index+1, _paths.length - 1);
-              setState(() {
-
-              });
+              if(mounted) { setState(() {}); }
             }
-//            refreshIndicatorKey.currentState.show();
           },
           child: Center(
             child: Text('${_paths[index].name}/',

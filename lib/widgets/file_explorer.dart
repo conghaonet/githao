@@ -15,7 +15,6 @@ class FileExplorer extends StatefulWidget {
 }
 
 class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClientMixin {
-  final List<RepoContentEntity> _contents = [];
   String _currentBranch;
   final List<PathEntity> _paths = [];
   ScrollController _pathScrollController = ScrollController();
@@ -30,6 +29,7 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
   @override
   void initState() {
     super.initState();
+    _paths.add(PathEntity('', ' . . ', contents: []));
     _currentBranch = widget.repoEntity.defaultBranch;
     eventBus.on<RepoHomeTabChangedEvent>().listen((event) {
       _tabIndexOfRepoHome = event.tabIndex;
@@ -43,11 +43,9 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
 
   Future<void> _loadContents() async {
     return ApiService.getRepoContents(widget.repoEntity.owner.login, widget.repoEntity.name,
-        _currentBranch, path: _paths.isEmpty ? '' : _paths.last.path).then((result) {
-      _contents.clear();
-      _contents.addAll(result);
+        _currentBranch, path: _paths.last.path).then((result) {
       //文件夹在前，文件在后。
-      _contents.sort((left, right) {
+      result.sort((left, right) {
         if(left.isFile && !right.isFile) {
           return 1;
         } else if(left.isFile && right.isFile) {
@@ -56,6 +54,10 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
           return -1;
         }
       });
+      _paths.last
+        ..contents.clear()
+        ..contents.addAll(result);
+
       if(mounted) {setState(() {});}
       Future.delayed(const Duration(milliseconds: 100)).then((_) {
         if(mounted) {
@@ -73,10 +75,13 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
     super.build(context);
     return WillPopScope(
       onWillPop: () async {
-        if(_paths.isEmpty || _tabIndexOfRepoHome != 1) return true;
+        if(_paths.length <= 1  || _tabIndexOfRepoHome != 1) return true;
         else {
           _paths.removeLast();
-          refreshIndicatorKey.currentState.show();
+//          refreshIndicatorKey.currentState.show();
+          setState(() {
+
+          });
           return false; //返回上级目录，pop出界面
         }
       },
@@ -100,22 +105,22 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
             SliverList(
               delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                 return ListTile(
-                  leading: _contents[index].isFile
+                  leading: _paths.last.contents[index].isFile
                       ? Icon(Icons.insert_drive_file, color: Color(0xff38aa69),)
                       : Icon(Icons.folder , color: Color(0xff02c756),),
-                  title: Text(_contents[index].name),
-                  trailing: _contents[index].isFile ? Text('${_contents[index].getFormattedSize()}') : null,
+                  title: Text(_paths.last.contents[index].name),
+                  trailing: _paths.last.contents[index].isFile ? Text('${_paths.last.contents[index].getFormattedSize()}') : null,
                   onTap: () {
-                    if(_contents[index].isFile) {
+                    if(_paths.last.contents[index].isFile) {
                       //TODO 打开文件
                     } else {
-                      _paths.add(PathEntity(_contents[index].path, _contents[index].name));
+                      _paths.add(PathEntity(_paths.last.contents[index].path, _paths.last.contents[index].name, contents: []));
                       refreshIndicatorKey.currentState.show();
                     }
                   },
                 );
               },
-                childCount: _contents.length,
+                childCount: _paths.last.contents.length,
               ),
             ),
           ],
@@ -128,20 +133,20 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
     return ListView.builder(
       controller: _pathScrollController,
       scrollDirection: Axis.horizontal,
-      itemCount: _paths.length+1,
+      itemCount: _paths.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
           onTap: () {
-            if(index == 0) {
-              _paths.clear();
-            } else if(index < _paths.length) {
-              _paths.removeRange(index, _paths.length);
+            if(index + 1 < _paths.length) {
+              _paths.removeRange(index+1, _paths.length - 1);
+              setState(() {
+
+              });
             }
-            refreshIndicatorKey.currentState.show();
+//            refreshIndicatorKey.currentState.show();
           },
           child: Center(
-            child: Text(
-              index == 0  ?  ' . . /' : '${_paths[index-1].name}/',
+            child: Text('${_paths[index].name}/',
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
           ),
@@ -178,5 +183,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 class PathEntity {
   final String path;
   final String name;
-  const PathEntity(this.path, this.name);
+  List<RepoContentEntity> contents;
+  PathEntity(this.path, this.name, {this.contents});
 }

@@ -49,6 +49,12 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
         child: NestedScrollView(
           headerSliverBuilder: (context, innerBoxScrolled) => [
             SliverAppBar(
+              leading: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(Icons.arrow_back),
+              ),
               title: Text(widget.repo.name, style: TextStyle(fontSize: 18),),
               titleSpacing: 0,
               centerTitle: false,

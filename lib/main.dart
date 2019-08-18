@@ -45,6 +45,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool isInitialized = false;
   @override
   void initState() {
     super.initState();
@@ -53,6 +54,15 @@ class _MyAppState extends State<MyApp> {
       int themeIndex = sp.getInt(SharedPreferencesKeys.themeIndex);
       if(themeIndex != null) {
         Provide.value<ThemeProvide>(context).changeTheme(themeIndex);
+      }
+      String lang = sp.getString(SharedPreferencesKeys.language);
+      if(lang != null) {
+        Provide.value<LocaleProvide>(context).changeLocale(Locale(lang));
+      }
+      if(mounted) {
+        setState(() {
+          isInitialized = true;
+        });
       }
     });
   }
@@ -83,7 +93,11 @@ class _MyAppState extends State<MyApp> {
             title: 'githao',
             onGenerateTitle: (context) => S.current.appTitle,
             theme: themeProvide.themeData,
-            home: SplashPage(),
+            home: isInitialized
+                ? SplashPage()
+                : Container(
+              color: Colors.transparent,
+            ),
           );
         },
       );

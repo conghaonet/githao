@@ -42,9 +42,7 @@ class S implements WidgetsLocalizations {
   String get loadingMoreData => "Loading more data...";
   String get login => "Login";
   String get loginAccountHint => "GitHub username or email";
-  String get loginPasswordCanNotEmpty => "The password cannot be empty";
   String get loginPasswordHint => "Password";
-  String get loginUsernameCanNotEmpty => "The username or email cannot be empty";
   String get logout => "Logout";
   String get myRepos => "My repos";
   String get news => "News";
@@ -74,6 +72,7 @@ class S implements WidgetsLocalizations {
   String get starredUppercase => "STARRED";
   String get systemDefault => "System Default";
   String get tapToRetry => "TAP TO RETRY";
+  String get thisFieldCanNotBeEmpty => "This field cannot be empty";
   String get trending => "Trending";
   String get userDataHasBeanRefreshed => "User data has been refreshed.";
   String get watchers => "Watchers";

@@ -81,7 +81,9 @@ class _LoginPageState extends State<LoginPage> {
                   height: 300,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
-                          colors: [Color(0x22ff3a5a), Color(0x22fe494d)])),
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Theme.of(context).primaryColorDark.withOpacity(0.3), Theme.of(context).primaryColorLight.withOpacity(0.3)])),
                 ),
               ),
               ClipPath(
@@ -92,7 +94,9 @@ class _LoginPageState extends State<LoginPage> {
                   height: 300,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
-                          colors: [Color(0x44ff3a5a), Color(0x44fe494d)])),
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Theme.of(context).primaryColorDark.withOpacity(0.6), Theme.of(context).primaryColorLight.withOpacity(0.6)])),
                 ),
               ),
               ClipPath(
@@ -124,7 +128,9 @@ class _LoginPageState extends State<LoginPage> {
                   height: 300,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
-                          colors: [Color(0xffff3a5a), Color(0xfffe494d)])),
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Theme.of(context).primaryColorDark, Theme.of(context).primaryColorLight])),
                 ),
               ),
             ],
@@ -145,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                       //点击完成按钮时，使password输入框自动获得焦点
                       onEditingComplete: () => FocusScope.of(context).requestFocus(passwordFocusNode),
                       validator: (value) {
-                        return value.isEmpty ? S.current.loginUsernameCanNotEmpty : null;
+                        return value.isEmpty ? S.current.thisFieldCanNotBeEmpty : null;
                       },
                       onSaved: (value) {
                         this.username = value;
@@ -157,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.all(Radius.circular(30)),
                             child: Icon(
                               Icons.account_circle,
-                              color: Colors.red,
+                              color: Theme.of(context).primaryColor,
                             ),
                           ),
                           border: InputBorder.none,
@@ -180,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                       //点击完成按钮时，使login按钮自动获得焦点
                       onEditingComplete: () => FocusScope.of(context).requestFocus(loginFocusNode),
                       validator: (value) {
-                        return value.isEmpty ? S.current.loginUsernameCanNotEmpty : null;
+                        return value.isEmpty ? S.current.thisFieldCanNotBeEmpty : null;
                       },
                       onSaved: (value) {
                         this.password = value;
@@ -190,8 +196,9 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
                               icon: Icon(
-                                Icons.remove_red_eye,
-                                color: Colors.red,),
+                                isShowPassWord ? Icons.visibility_off : Icons.visibility,
+                                color: Theme.of(context).primaryColor,
+                              ),
                               onPressed: () => showPassWord()
                           ),
                           hintText: S.current.loginPasswordHint,
@@ -200,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.all(Radius.circular(30)),
                             child: Icon(
                               Icons.lock,
-                              color: Colors.red,
+                              color: Theme.of(context).primaryColor,
                             ),
                           ),
                           border: InputBorder.none,
@@ -216,27 +223,25 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32),
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    color: Color(0xffff3a5a)),
-                child: FlatButton(
-                  focusNode: loginFocusNode,
-                  child: Text(
-                    S.current.login,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18),
-                  ),
-                  onPressed: () {
-                    if(_loginFormKey.currentState.validate()) {
-                      doLogin();
-                    }
-                  },
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            child: FlatButton(
+              color: Theme.of(context).primaryColor,
+              shape:new RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+              focusNode: loginFocusNode,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
+                child: Text(
+                  S.current.login,
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 20,),
                 ),
-              )),
+              ),
+              onPressed: () {
+                if(_loginFormKey.currentState.validate()) {
+                  doLogin();
+                }
+              },
+            ),
+          ),
           SizedBox(height: 20,),
         ],
       ),

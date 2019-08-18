@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/code_preview.dart';
+import 'package:githao/pages/code_preview_html.dart';
 
 import 'package:githao/pages/home.dart';
 import 'package:githao/pages/login.dart';
@@ -62,6 +63,14 @@ class AppRoute extends NavigatorObserver {
         settings: settings,
         builder: (context) {
           return CodePreviewPage(args);
+        },
+      );
+    } else if(settings.name == CodePreviewHtmlPage.ROUTE_NAME) {
+      final CodePreviewPageArgs args = settings.arguments;
+      targetPage = MaterialPageRoute(
+        settings: settings,
+        builder: (context) {
+          return CodePreviewHtmlPage(args);
         },
       );
     }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/entity/repo_entity.dart';
-import 'package:githao/network/entity/user_entity.dart';
 
 class RepoInfoCountData extends StatelessWidget {
   final RepoEntity _repoEntity;

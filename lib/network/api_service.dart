@@ -91,6 +91,13 @@ class ApiService {
   }
 
   static Future<String> getRepoContentRaw(String owner, String repo, String branch, String path) async {
+    Options options = Options(headers: {"Accept": "application/vnd.github.VERSION.raw"});
+    Map<String, dynamic> parameters = {'ref': branch};
+    Response<String> response = await dioClient.dio.get("/repos/$owner/$repo/contents/$path", queryParameters: parameters, options: options);
+    return response.data;
+  }
+
+  static Future<String> getRepoContentHtml(String owner, String repo, String branch, String path) async {
     Options options = Options(headers: {"Accept": "application/vnd.github.VERSION.html"});
     Map<String, dynamic> parameters = {'ref': branch};
     Response<String> response = await dioClient.dio.get("/repos/$owner/$repo/contents/$path", queryParameters: parameters, options: options);

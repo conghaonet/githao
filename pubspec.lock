@@ -207,6 +207,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_syntax_view:
+    dependency: "direct main"
+    description:
+      name: flutter_syntax_view
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter

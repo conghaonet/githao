@@ -4,6 +4,8 @@ import 'package:githao/events/repo_home_event.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_content_entity.dart';
 import 'package:githao/network/entity/repo_entity.dart';
+import 'package:githao/pages/code_preview.dart';
+import 'package:githao/routes/code_preview_page_args.dart';
 import 'package:githao/utils/util.dart';
 import 'package:githao/events/app_event_bus.dart';
 
@@ -119,6 +121,10 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
                     if(isLoading) return;
                     if(_paths.last.contents[index].isFile) {
                       //TODO 打开文件
+                      Navigator.pushNamed(
+                        context,
+                        CodePreviewPage.ROUTE_NAME,
+                        arguments: CodePreviewPageArgs(_paths.last.contents[index].path, widget.repoEntity, widget.repoEntity.defaultBranch),);
                     } else {
                       _paths.add(PathEntity(_paths.last.contents[index].path, _paths.last.contents[index].name, contents: []));
                       refreshIndicatorKey.currentState.show();

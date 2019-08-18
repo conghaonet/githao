@@ -20,6 +20,7 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
   ScrollController _pathScrollController = ScrollController();
   int _tabIndexOfRepoHome = 1;
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+  bool isLoading = false;
 
   //要达到缓存目的，必须实现AutomaticKeepAliveClientMixin的wantKeepAlive为true。
   // 不会被销毁,占内存中
@@ -42,6 +43,8 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
   }
 
   Future<void> _loadContents() async {
+    if(isLoading) return Future;
+    isLoading = true;
     return ApiService.getRepoContents(widget.repoEntity.owner.login, widget.repoEntity.name,
         _currentBranch, path: _paths.last.path).then((result) {
       //文件夹在前，文件在后。
@@ -58,15 +61,20 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
         ..contents.clear()
         ..contents.addAll(result);
 
-      if(mounted) {setState(() {});}
       Future.delayed(const Duration(milliseconds: 100)).then((_) {
         if(mounted) {
           _pathScrollController.jumpTo(_pathScrollController.position.maxScrollExtent);
         }
       });
-      return;
     }).catchError((e){
+      //如果记载失败，把刚刚添加的path删除
+      if(_paths.length>1) {
+        _paths.removeLast();
+      }
       Util.showToast(e is DioError ? e.message : e.toString());
+    }).whenComplete(() {
+      if(mounted) {setState(() {});}
+      isLoading = false;
       return;
     });
   }
@@ -108,6 +116,7 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
                   title: Text(_paths.last.contents[index].name),
                   trailing: _paths.last.contents[index].isFile ? Text('${_paths.last.contents[index].getFormattedSize()}') : null,
                   onTap: () {
+                    if(isLoading) return;
                     if(_paths.last.contents[index].isFile) {
                       //TODO 打开文件
                     } else {
@@ -135,7 +144,7 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
         return InkWell(
           onTap: () {
             if(index + 1 < _paths.length) {
-              _paths.removeRange(index+1, _paths.length - 1);
+              _paths.removeRange(index+1, _paths.length);
               if(mounted) { setState(() {}); }
             }
           },

@@ -4,6 +4,7 @@ import 'package:githao/pages/code_preview.dart';
 import 'package:githao/pages/code_preview_html.dart';
 
 import 'package:githao/pages/home.dart';
+import 'package:githao/pages/image_preview.dart';
 import 'package:githao/pages/login.dart';
 import 'package:githao/pages/profile.dart';
 import 'package:githao/pages/repo_home.dart';
@@ -71,6 +72,14 @@ class AppRoute extends NavigatorObserver {
         settings: settings,
         builder: (context) {
           return CodePreviewHtmlPage(args);
+        },
+      );
+    } else if(settings.name == ImagePreviewPage.ROUTE_NAME) {
+      final String args = settings.arguments;
+      targetPage = MaterialPageRoute(
+        settings: settings,
+        builder: (context) {
+          return ImagePreviewPage(args);
         },
       );
     }

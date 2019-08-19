@@ -49,7 +49,8 @@ class _SettingsPageState extends State<SettingsPage> {
         children: <Widget>[
           _chooseTheme(),
           ListTile(
-            leading: Icon(Icons.language),
+            leading: const Icon(Icons.language),
+            trailing: const Icon(Icons.keyboard_arrow_right),
             title: Text(S.current.language, style: TextStyle(color: Theme.of(context).primaryColor),),
             subtitle: Text(getLanguageUiString(selectedLanguage)),
             onTap: () {

@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:githao/utils/shared_preferences.dart';
 
 /// http://trending.codehub-app.com/v2/trending?since=weekly&language=dart
 class CodehubClient {
@@ -20,27 +18,8 @@ class CodehubClient {
     return _codehubClient;
   }
   CodehubClient._internal() {
-
     //TODO：设置代理
     setProxy("192.168.2.100", 8888);
-
-    //设置拦截器
-    _dio.interceptors.add(InterceptorsWrapper(
-        onRequest:(Options options) async {
-          //添加验证头信息
-          if(!options.headers.containsKey('Authorization') || (options.headers['Authorization'] as String).isEmpty) {
-            SpUtil spUtil = await SpUtil.getInstance();
-            if(spUtil.hasKey(SharedPreferencesKeys.gitHubAuthorizationBasic)) {
-              String value = spUtil.getString(SharedPreferencesKeys.gitHubAuthorizationBasic);
-              if(value != null && value.isNotEmpty) {
-                options.headers['Authorization'] = value;
-              }
-            }
-          }
-          return options;
-        }
-    ));
-//    _dio.interceptors.add(LogInterceptor(responseBody: false)); //开启请求日志
   }
 
   /// 设置代理

@@ -47,7 +47,12 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
   Future<void> _loadData({bool isReload = true}) async {
     if(_loadingState == StateFlag.loading) return null;
     _lastActionIsReload = isReload;
-    _loadingState = StateFlag.loading;
+    if(mounted) {
+      setState(() {
+        _loadingState = StateFlag.loading;
+      });
+    }
+
     int expectationPage;
     if (isReload) {
       expectationPage = 1;
@@ -136,8 +141,9 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
           bottom: 12,
           right: 16,
           child: FloatingActionButton(
+            backgroundColor:  _loadingState == StateFlag.loading ? Colors.grey : Theme.of(context).primaryColor,
             child: Icon(Icons.sort),
-            onPressed: () {
+            onPressed: _loadingState == StateFlag.loading ? null : () {
               showModalBottomSheet(
                 context: context,
                 builder: (BuildContext context) {
@@ -256,7 +262,6 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
       ],
     );
   }
-
   Widget _getIssues(int issues) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -267,7 +272,6 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
       ],
     );
   }
-
   Widget _getStargazersCount(int count) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -278,7 +282,6 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
       ],
     );
   }
-
   Widget _getForks(int forks) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -310,7 +313,6 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
       return Offstage(offstage: true,);
     }
   }
-
   Widget _getPushedTime(String time) {
     return Row(
       mainAxisSize: MainAxisSize.min,

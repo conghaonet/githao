@@ -45,11 +45,14 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
   }
 
   Future<void> _loadData({bool isReload = true}) async {
-    if(_loadingState == StateFlag.loading) return null;
+    if(_loadingState == StateFlag.loading) return Future;
     _lastActionIsReload = isReload;
     if(mounted) {
       setState(() {
         _loadingState = StateFlag.loading;
+        if(isReload) {
+          _expectHasMoreData = false;
+        }
       });
     }
 
@@ -91,6 +94,7 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
       }
       if(mounted) {setState(() {});}
       Util.showToast(e is DioError ? e.message : e.toString());
+    }).whenComplete(() {
       return;
     });
   }

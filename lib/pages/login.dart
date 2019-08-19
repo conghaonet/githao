@@ -5,7 +5,6 @@ import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/utils/util.dart';
 import 'package:provide/provide.dart';
-import 'dart:convert';
 import 'package:githao/widgets/login_wave_clippers.dart';
 
 import 'home.dart';
@@ -18,32 +17,34 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormState> _loginFormKey = new GlobalKey();
-  FocusNode passwordFocusNode, loginFocusNode;
-  bool isShowPassWord = false;
-  String username = '';
-  String password = '';
-  bool isLoading = false;
+  FocusNode _passwordFocusNode, _loginFocusNode;
+  bool _isShowPassWord = false;
+  String _username = '';
+  String _password = '';
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
-    passwordFocusNode = FocusNode();
-    loginFocusNode = FocusNode();
+    _passwordFocusNode = FocusNode();
+    _loginFocusNode = FocusNode();
   }
+
   /// 点击控制密码是否显示
-  void showPassWord() {
+  void _showPassWord() {
     setState(() {
-      isShowPassWord = !isShowPassWord;
+      _isShowPassWord = !_isShowPassWord;
     });
   }
 
-  void doLogin() {
+  void _doLogin() {
     _loginFormKey.currentState.save();
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
     //登录前，先移除之前保存的登录信息。
     UserBiz.logout().then<UserEntity>((_) {
-      return UserBiz.login(username, password);
+      return UserBiz.login(_username, _password);
     }).then((userEntity) async {
       if(userEntity != null ) {
         Provide.value<UserProvide>(context).updateUser(userEntity);
@@ -53,18 +54,13 @@ class _LoginPageState extends State<LoginPage> {
       }
     }).catchError((e) {
       Util.showToast('登录失败：${e.toString()}');
+    }).whenComplete(() {
+      if(mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     });
-  }
-
-  getCurrentUser() async {
-    UserEntity user = await UserBiz.getUser();
-    Util.showToast('user.html_url = ${user.htmlUrl}');
-  }
-
-  String getCredentialsBasic(String username, String password) {
-    final bytes = latin1.encode("$username:$password");
-    final encoded = base64Encode(bytes);
-    return "Basic " + encoded;
   }
 
   @override
@@ -150,12 +146,12 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextFormField(
                       autofocus: true,
                       //点击完成按钮时，使password输入框自动获得焦点
-                      onEditingComplete: () => FocusScope.of(context).requestFocus(passwordFocusNode),
+                      onEditingComplete: () => FocusScope.of(context).requestFocus(_passwordFocusNode),
                       validator: (value) {
                         return value.isEmpty ? S.current.thisFieldCanNotBeEmpty : null;
                       },
                       onSaved: (value) {
-                        this.username = value;
+                        this._username = value;
                       },
                       decoration: InputDecoration(
                           hintText: S.current.loginAccountHint,
@@ -183,24 +179,24 @@ class _LoginPageState extends State<LoginPage> {
                     elevation: 2.0,
                     borderRadius: BorderRadius.all(Radius.circular(30)),
                     child: TextFormField(
-                      focusNode: passwordFocusNode,
+                      focusNode: _passwordFocusNode,
                       //点击完成按钮时，使login按钮自动获得焦点
-                      onEditingComplete: () => FocusScope.of(context).requestFocus(loginFocusNode),
+                      onEditingComplete: () => FocusScope.of(context).requestFocus(_loginFocusNode),
                       validator: (value) {
                         return value.isEmpty ? S.current.thisFieldCanNotBeEmpty : null;
                       },
                       onSaved: (value) {
-                        this.password = value;
+                        this._password = value;
                       },
                       //输入密码，需要用*****显示
-                      obscureText: !isShowPassWord,
+                      obscureText: !_isShowPassWord,
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
                               icon: Icon(
-                                isShowPassWord ? Icons.visibility_off : Icons.visibility,
+                                _isShowPassWord ? Icons.visibility_off : Icons.visibility,
                                 color: Theme.of(context).primaryColor,
                               ),
-                              onPressed: () => showPassWord()
+                              onPressed: () => _showPassWord()
                           ),
                           hintText: S.current.loginPasswordHint,
                           prefixIcon: Material(
@@ -223,36 +219,52 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(
             height: 30,
           ),
-
-          //登录按钮
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32),
-            child: FlatButton(
-              color: Theme.of(context).primaryColor,
-              shape:new RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-              focusNode: loginFocusNode,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
-                child: Text(
-                  S.current.login,
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 20,),
-                ),
-              ),
-              onPressed: () {
-                if(_loginFormKey.currentState.validate()) {
-                  doLogin();
-                }
-              },
-            ),
+          //登录按钮及Loading的切换动画
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return ScaleTransition(child: child, scale: animation,);
+            },
+            child: _isLoading ? _buildLoginLoading() : _buildLoginButton(),
           ),
         ],
       ),
     );
   }
+
+  Widget _buildLoginLoading() {
+    return CircularProgressIndicator();
+  }
+  Widget _buildLoginButton() {
+    return Container(
+      width: double.infinity,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 32),
+        child: FlatButton(
+          color: Theme.of(context).primaryColor,
+          shape:new RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+          focusNode: _loginFocusNode,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
+            child: Text(
+              S.current.login,
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 20,),
+            ),
+          ),
+          onPressed: () {
+            if(_loginFormKey.currentState.validate()) {
+              _doLogin();
+            }
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   void dispose() {
-    passwordFocusNode.dispose();
-    loginFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _loginFocusNode.dispose();
     super.dispose();
   }
 }

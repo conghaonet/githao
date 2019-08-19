@@ -268,6 +268,9 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
               );
             },
             child: Hero(
+              //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
+              //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
+              transitionOnUserGestures: true,
               tag: heroTag,
               child: CircleAvatar(
                 backgroundImage: CachedNetworkImageProvider(userProvide.user.avatarUrl),

@@ -167,7 +167,7 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
   }
 
   Widget _getRepoItem(int index) {
-    String heroTag = '${_repos[index].owner.login}$index';
+    String avatarHeroTag = '${_repos[index].owner.login}$index';
     return Card(
       margin: EdgeInsets.only(left: 8, top: 8, right: 8, bottom: (index +1 == _repos.length) ? 8 : 0),
       child: FlatButton(
@@ -186,7 +186,7 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
                     context, ProfilePage.ROUTE_NAME,
                     arguments: ProfilePageArgs(
                         userEntity: _repos[index].owner,
-                        heroTag: heroTag
+                        heroTag: avatarHeroTag
                     ),
                   );
                 },
@@ -194,7 +194,7 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
                   //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
                   //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
                   transitionOnUserGestures: true,
-                  tag: heroTag,
+                  tag: avatarHeroTag,
                   child: CircleAvatar(
                     backgroundImage: CachedNetworkImageProvider(_repos[index].owner.avatarUrl),
                     backgroundColor: Colors.black12,
@@ -216,9 +216,15 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
                           child: Icon(CustomIcons.fork, color: Theme.of(context).primaryColor, size: 18,),
                         ),
                         Expanded(
-                          child: Text(_repos[index].name,
-                            maxLines: 2,
-                            style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w500),
+                          child: Hero(
+                            //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
+                            //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
+                            transitionOnUserGestures: true,
+                            tag: _repos[index].fullName,
+                            child: Text(_repos[index].name,
+                              maxLines: 2,
+                              style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w500),
+                            ),
                           ),
                         ),
                       ],

@@ -55,7 +55,15 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
                 },
                 child: Icon(Icons.arrow_back),
               ),
-              title: Text(widget.repo.name, style: TextStyle(fontSize: 18),),
+              title: Hero(
+                //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
+                //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
+                transitionOnUserGestures: true,
+                tag: widget.repo.fullName,
+                child: Text(
+                  widget.repo.name, style: TextStyle(fontSize: 18),
+                ),
+              ),
               titleSpacing: 0,
               centerTitle: false,
               floating: true, //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar

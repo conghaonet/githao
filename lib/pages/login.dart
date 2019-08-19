@@ -175,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 32),
@@ -217,12 +217,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 25,
-                ),
               ],
             ),
           ),
+          SizedBox(
+            height: 30,
+          ),
+
+          //登录按钮
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 32),
             child: FlatButton(
@@ -243,7 +245,6 @@ class _LoginPageState extends State<LoginPage> {
               },
             ),
           ),
-          SizedBox(height: 20,),
         ],
       ),
     );

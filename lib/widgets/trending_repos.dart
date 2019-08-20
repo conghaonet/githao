@@ -64,18 +64,26 @@ class _StarredReposWidgetState extends BaseReposWidgetState<TrendingReposWidget>
 
 
 class TrendingFilter extends StatefulWidget {
-
   final int timeSpanIndex;
   final int languageIndex;
   final List<String> timeSpanTexts;
   final Function(String, int) callback;
-
   TrendingFilter(this.timeSpanIndex, this.languageIndex, this.timeSpanTexts, this.callback, {Key key}):super(key: key);
   @override
   _TrendingFilterState createState() => _TrendingFilterState();
 }
 
 class _TrendingFilterState extends State<TrendingFilter> {
+  static final List<String >originalLangKeys = LANG_COLORS.keys.toList();
+  List<String> _filterLanguageKeys = originalLangKeys;
+  int _filterLanguageIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _filterLanguageIndex = widget.languageIndex;
+  }
+
   List<Widget> _buildTimeSpans() {
     List<Widget> _spans = [];
     for(int i=0; i<widget.timeSpanTexts.length; i++) {
@@ -101,7 +109,7 @@ class _TrendingFilterState extends State<TrendingFilter> {
 
   List<DropdownMenuItem<int>> _buildLanguages() {
     List<DropdownMenuItem<int>> _items = [];
-    for(int i = 0; i < LANG_COLORS.length; i++) {
+    for(int i = 0; i < _filterLanguageKeys.length; i++) {
       var item = DropdownMenuItem<int>(
         value: i,
         child: Row(
@@ -109,10 +117,10 @@ class _TrendingFilterState extends State<TrendingFilter> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              LANG_COLORS.entries.elementAt(i).key,
+              _filterLanguageKeys[i],
               style: TextStyle(
-                color: i == widget.languageIndex ? Theme.of(context).primaryColor : Colors.black54,
-                fontWeight: i == widget.languageIndex ? FontWeight.bold : FontWeight.normal,
+                color: i == this._filterLanguageIndex ? Theme.of(context).primaryColor : Colors.black54,
+                fontWeight: i == this._filterLanguageIndex ? FontWeight.bold : FontWeight.normal,
               ),
             ),
           ],
@@ -123,6 +131,23 @@ class _TrendingFilterState extends State<TrendingFilter> {
     return _items;
   }
 
+  void doFilterLanguages(String keyword) {
+    if(keyword != null && keyword.trim().isNotEmpty) {
+      _filterLanguageKeys = originalLangKeys.where((item) {
+        return item.toLowerCase().contains(keyword.trim().toLowerCase());
+      }).toList();
+      this._filterLanguageIndex = _filterLanguageKeys.indexOf(originalLangKeys.toList()[widget.languageIndex]);
+      if(this._filterLanguageIndex == -1) this._filterLanguageIndex = null;
+    } else {
+      _filterLanguageKeys = originalLangKeys;
+      this._filterLanguageIndex = widget.languageIndex;
+    }
+    if(mounted) {
+      setState(() {
+
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -153,23 +178,22 @@ class _TrendingFilterState extends State<TrendingFilter> {
             alignment: Alignment.center,
             child: Stack(
               alignment: AlignmentDirectional.center,
-//              mainAxisSize: MainAxisSize.min,
-//              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 DropdownButton<int>(
                   isExpanded: false,
-                  value: widget.languageIndex,
+                  value: this._filterLanguageIndex,
                   hint: Text('——${S.current.selectALanguage}——'),
                   items: _buildLanguages(),
                   onChanged: (selected) {
-                    widget.callback(_FILTER_GROUP_LANGUAGE, selected);
+                    int _originalIndex = _TrendingFilterState.originalLangKeys.indexOf(this._filterLanguageKeys[selected]);
+                    widget.callback(_FILTER_GROUP_LANGUAGE, _originalIndex);
                     Navigator.pop(context);
                   },
                 ),
                 Positioned(
                   right: 12,
                   child: Offstage(
-                    offstage: widget.languageIndex == null,
+                    offstage: this._filterLanguageIndex == null,
                     child: Transform.rotate(
                       angle: math.pi/4, //旋转45度
                       child: IconButton(
@@ -185,6 +209,12 @@ class _TrendingFilterState extends State<TrendingFilter> {
                 ),
               ],
             ),
+          ),
+          TextField(
+            decoration: InputDecoration(
+              hintText: S.current.filterLanguages,
+            ),
+            onChanged: (value) => doFilterLanguages(value),
           ),
           SizedBox(height: 24,),
         ],

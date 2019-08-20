@@ -62,5 +62,6 @@
   "thisMonth": "This month",
   "adjustTimeSpan": "Adjust time span",
   "selectALanguage": "Select a language",
-  "clearLanguage": "Clear language"
+  "clearLanguage": "Clear language",
+  "filterLanguages": "Filter languages"
 }

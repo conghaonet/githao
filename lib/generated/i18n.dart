@@ -33,6 +33,7 @@ class S implements WidgetsLocalizations {
   String get empty => "Empty";
   String get english => "English";
   String get filesUppercase => "FILES";
+  String get filterLanguages => "Filter languages";
   String get followers => "Followers";
   String get following => "Following";
   String get forks => "Forks";

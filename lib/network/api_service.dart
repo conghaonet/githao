@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import 'package:githao/network/entity/authorization_entity.dart';
 import 'package:githao/network/entity/authorization_post.dart';
+import 'codehub_client.dart';
 import 'entity/event_entity.dart';
 import 'entity/repo_content_entity.dart';
 import 'entity/repo_entity.dart';
@@ -104,4 +105,9 @@ class ApiService {
     return response.data;
   }
 
+  static Future<List<RepoEntity>> getTrending({String since='daily', String language=''}) async {
+    Map<String, dynamic> parameters = {'since': since, 'language': language};
+    Response<List<dynamic>> response = await codehubClient.dio.get("/trending", queryParameters: parameters);
+    return response.data.map((item) => RepoEntity.fromJson(item)).toList();
+  }
 }

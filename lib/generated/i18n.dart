@@ -23,6 +23,7 @@ class S implements WidgetsLocalizations {
 
   String get about => "About";
   String get activityUppercase => "ACTIVITY";
+  String get adjustTimeSpan => "Adjust time span";
   String get appTitle => "GitHao";
   String get chineseSimplified => "Chinese(Simplified)";
   String get chooseTheme => "Choose Theme";
@@ -73,6 +74,9 @@ class S implements WidgetsLocalizations {
   String get systemDefault => "System Default";
   String get tapToRetry => "TAP TO RETRY";
   String get thisFieldCanNotBeEmpty => "This field cannot be empty";
+  String get thisMonth => "This month";
+  String get thisWeek => "This week";
+  String get today => "Today";
   String get trending => "Trending";
   String get userDataHasBeanRefreshed => "User data has been refreshed.";
   String get watchers => "Watchers";

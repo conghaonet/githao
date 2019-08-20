@@ -11,6 +11,7 @@ import 'package:githao/pages/settings.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/utils/util.dart';
+import 'package:githao/widgets/trending_repos.dart';
 import 'package:githao/widgets/user_repos.dart';
 import 'package:githao/widgets/starred_repos.dart';
 import 'package:provide/provide.dart';
@@ -37,11 +38,16 @@ class _HomePageState extends State<HomePage> {
   void onClickDrawerMenu(String menuName) {
     setState(() {
       this._clickedDrawerMenu = menuName;
+      _bodyController.add(this._clickedDrawerMenu);
+/*
       if(_clickedDrawerMenu == HomeDrawer.MENU_MY_REPOS) {
         _bodyController.add(HomeDrawer.MENU_MY_REPOS);
       } else if(_clickedDrawerMenu == HomeDrawer.MENU_STARRED_REPOS) {
         _bodyController.add(HomeDrawer.MENU_STARRED_REPOS);
+      } else if(_clickedDrawerMenu == HomeDrawer.MENU_TRENDING_UP) {
+        _bodyController.add(HomeDrawer.MENU_TRENDING_UP);
       }
+*/
     });
   }
 
@@ -60,8 +66,11 @@ class _HomePageState extends State<HomePage> {
                   builder: (context, snapshot) {
                     if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
                       return Text(S.current.starredRepos);
+                    } else if(snapshot.data == HomeDrawer.MENU_TRENDING_UP) {
+                      return Text(S.current.trending);
+                    } else {
+                      return Text(S.current.myRepos);
                     }
-                    return Text(S.current.myRepos);
                   },
                 ),
                 titleSpacing: NavigationToolbar.kMiddleSpacing, //标题四周间距
@@ -91,6 +100,8 @@ class _HomePageState extends State<HomePage> {
             builder: (context, snapshot) {
               if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
                 return StarredReposWidget(user: Provide.value<UserProvide>(context).user);
+              } else if(snapshot.data == HomeDrawer.MENU_TRENDING_UP) {
+                return TrendingReposWidget(user: Provide.value<UserProvide>(context).user);
               } else {
                 return UserReposWidget(user: Provide.value<UserProvide>(context).user);
               }

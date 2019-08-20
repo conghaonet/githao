@@ -56,5 +56,9 @@
   "orgUppercase": "ORG",
   "stargazers": "Stargazers",
   "forks": "Forks",
-  "watchers": "Watchers"
+  "watchers": "Watchers",
+  "today": "Today",
+  "thisWeek": "This week",
+  "thisMonth": "This month",
+  "adjustTimeSpan": "Adjust time span"
 }

@@ -210,11 +210,16 @@ class _TrendingFilterState extends State<TrendingFilter> {
               ],
             ),
           ),
-          TextField(
-            decoration: InputDecoration(
-              hintText: S.current.filterLanguages,
+          Center(
+            child: SizedBox(
+              width: 240,
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: S.current.filterLanguages,
+                ),
+                onChanged: (value) => doFilterLanguages(value),
+              ),
             ),
-            onChanged: (value) => doFilterLanguages(value),
           ),
           SizedBox(height: 24,),
         ],

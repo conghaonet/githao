@@ -5,6 +5,7 @@ import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/resources/lang_colors.dart';
 import 'package:githao/routes/webview_page_args.dart';
 import 'package:githao/utils/util.dart';
+import 'package:githao/widgets/commits.dart';
 import 'package:githao/widgets/events/events.dart';
 import 'package:githao/widgets/file_explorer.dart';
 import 'package:githao/widgets/repo_info_count_data.dart';
@@ -89,7 +90,7 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
             children: <Widget>[
               RepoInfo(widget.repo),
               FileExplorer(widget.repo),
-              Container(child: Center(child: Text(_getTabTitles()[2]),),),
+              CommitList(widget.repo),
               EventList(
                 login: widget.repo.owner.login,
                 repoName: widget.repo.name,

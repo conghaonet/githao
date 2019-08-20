@@ -106,8 +106,8 @@ class ApiService {
     return response.data;
   }
 
-  static Future<List<CommitEntity>> getRepoCommits(String owner, String repo, String branch) async {
-    Map<String, dynamic> parameters = {'sha': branch};
+  static Future<List<CommitEntity>> getRepoCommits(String owner, String repo, String branch, {int page=1}) async {
+    Map<String, dynamic> parameters = {'sha': branch, 'page': page};
     Response<List<dynamic>> response = await dioClient.dio.get("/repos/$owner/$repo/commits", queryParameters: parameters);
     return response.data.map((item) => CommitEntity.fromJson(item)).toList();
   }

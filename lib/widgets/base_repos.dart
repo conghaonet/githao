@@ -153,11 +153,9 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
                 context: context,
                 builder: (BuildContext context) {
                   return AnimatedPadding(
-                      padding: MediaQuery.of(context).viewInsets,  //边距（必要）
-                      duration: const Duration(milliseconds: 100), //时常 （必要）
-                      child: Container(
-                        child: getFilter(),
-                      ),
+                    padding: MediaQuery.of(context).viewInsets,  //边距（必要）
+                    duration: const Duration(milliseconds: 100), //时常 （必要）
+                    child: getFilter(),
                   );
                 },
               );

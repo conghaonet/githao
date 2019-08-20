@@ -149,9 +149,16 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
             child: Icon(Icons.sort),
             onPressed: _loadingState == StateFlag.loading ? null : () {
               showModalBottomSheet(
+                isScrollControlled: true,
                 context: context,
                 builder: (BuildContext context) {
-                  return getFilter();
+                  return AnimatedPadding(
+                      padding: MediaQuery.of(context).viewInsets,  //边距（必要）
+                      duration: const Duration(milliseconds: 100), //时常 （必要）
+                      child: Container(
+                        child: getFilter(),
+                      ),
+                  );
                 },
               );
             },

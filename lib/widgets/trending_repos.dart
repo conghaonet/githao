@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
+import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/network/entity/user_entity.dart';
-import 'package:githao/resources/starred_filter_parameters.dart';
-import 'package:githao/widgets/starred_repos_filter.dart';
+import 'package:githao/resources/trending_filter_parameters.dart';
 
 import 'base_repos.dart';
 
@@ -16,19 +15,18 @@ class TrendingReposWidget extends BaseReposWidget{
 }
 
 class _StarredReposWidgetState extends BaseReposWidgetState<TrendingReposWidget> {
-  int _groupSortIndex = 0;
+  int _timeSpanIndex = 0;
 
   @override
   Future<List<RepoEntity>> getRepos(final int expectationPage){
-//    String _sort = StarredFilterParameters.filterSortValueMap[_groupSortIndex][StarredFilterParameters.PARAMETER_NAME_SORT];
-//    String _direction = StarredFilterParameters.filterSortValueMap[_groupSortIndex][StarredFilterParameters.PARAMETER_NAME_DIRECTION];
-    return ApiService.getTrending();
+    String _since = TrendingFilterParameters.filterSinceValueMap[_timeSpanIndex][TrendingFilterParameters.PARAMETER_NAME_SINCE];
+    return ApiService.getTrending(since:  _since);
   }
 
-  void onClickFilterCallback(String group, int index) {
-      if(group == StarredReposFilter.GROUP_SORT && _groupSortIndex != index) {
+  void onClickFilterCallback(int index) {
+      if( _timeSpanIndex != index) {
         setState(() {
-          _groupSortIndex = index;
+          _timeSpanIndex = index;
         });
         refreshIndicatorKey.currentState.show();
       }
@@ -36,10 +34,70 @@ class _StarredReposWidgetState extends BaseReposWidgetState<TrendingReposWidget>
 
   @override
   Widget getFilter() {
-    return StarredReposFilter(
-        this._groupSortIndex,
-        StarredFilterParameters.getFilterSortTextMap(context),
+    return TrendingFilter(
+        this._timeSpanIndex,
+        TrendingFilterParameters.getFilterTimeSpanTextMap(context),
         onClickFilterCallback);
   }
 
+}
+
+
+class TrendingFilter extends StatefulWidget {
+  final int timeSpanIndex;
+  final List<String> timeSpanTexts;
+  final Function(int) callback;
+
+  TrendingFilter(this.timeSpanIndex, this.timeSpanTexts, this.callback, {Key key}):super(key: key);
+  @override
+  _TrendingFilterState createState() => _TrendingFilterState();
+}
+
+class _TrendingFilterState extends State<TrendingFilter> {
+  List<Widget> _buildTimeSpans() {
+    List<Widget> _spans = [];
+    for(int i=0; i<widget.timeSpanTexts.length; i++) {
+      Widget _widget = Expanded(
+        child: ChoiceChip(
+          labelPadding: EdgeInsets.symmetric(horizontal: 16,),
+          label: Text(widget.timeSpanTexts[i],
+            style: TextStyle(color: widget.timeSpanIndex == i ? Colors.white : Colors.black45),
+          ),
+          backgroundColor: Theme.of(context).primaryColorLight,
+          selectedColor: Theme.of(context).primaryColorDark,
+          selected: widget.timeSpanIndex == i,
+          onSelected: (bool isSelected) {
+            widget.callback(i);
+            Navigator.pop(context);
+          },
+        ),
+      );
+      _spans.add(_widget);
+    }
+    return _spans;
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 0),
+            child: Text(
+              S.current.adjustTimeSpan,
+              style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.w700),),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Row(
+              children: _buildTimeSpans(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

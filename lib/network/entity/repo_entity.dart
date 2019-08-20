@@ -139,23 +139,24 @@ class RepoEntity {
 	dynamic homepage;
 	@JsonKey(name: 'forks_count')
 	int forksCount;
+
 	RepoEntity({this.stargazersCount, this.pushedAt, this.subscriptionUrl, this.language, this.branchesUrl, this.issueCommentUrl, this.labelsUrl,
 		this.subscribersUrl, this.permissions, this.releasesUrl, this.svnUrl, this.id, this.forks, this.archiveUrl, this.gitRefsUrl, this.forksUrl,
 		this.statusesUrl, this.sshUrl, this.license, this.fullName, this.size, this.languagesUrl, this.htmlUrl, this.collaboratorsUrl, this.cloneUrl,
 		this.name, this.pullsUrl, this.defaultBranch, this.hooksUrl, this.treesUrl, this.tagsUrl, this.private, this.contributorsUrl, this.hasDownloads,
-		this.notificationsUrl, this.openIssuesCount, this.description, this.createdAt, this.watchers, this.keysUrl, this.deploymentsUrl, this.hasProjects,
-		this.archived, this.hasWiki, this.updatedAt, this.commentsUrl, this.stargazersUrl, this.disabled, this.gitUrl, this.hasPages, this.owner,
-		this.commitsUrl, this.compareUrl, this.gitCommitsUrl, this.blobsUrl, this.gitTagsUrl, this.mergesUrl, this.downloadsUrl, this.hasIssues, this.url,
-		this.contentsUrl, this.mirrorUrl, this.milestonesUrl, this.teamsUrl, this.fork, this.issuesUrl, this.eventsUrl, this.issueEventsUrl,
-		this.assigneesUrl, this.openIssues, this.watchersCount, this.nodeId, this.homepage, this.forksCount});
+		this.notificationsUrl, this.openIssuesCount, this.description, this.createdAt, this.watchers, this.keysUrl, this.deploymentsUrl,
+		this.hasProjects, this.archived, this.hasWiki, this.updatedAt, this.commentsUrl, this.stargazersUrl, this.disabled, this.gitUrl, this.hasPages,
+		this.owner, this.commitsUrl, this.compareUrl, this.gitCommitsUrl, this.blobsUrl, this.gitTagsUrl, this.mergesUrl, this.downloadsUrl,
+		this.hasIssues, this.url, this.contentsUrl, this.mirrorUrl, this.milestonesUrl, this.teamsUrl, this.fork, this.issuesUrl, this.eventsUrl,
+		this.issueEventsUrl, this.assigneesUrl, this.openIssues, this.watchersCount, this.nodeId, this.homepage, this.forksCount});
+
 	factory RepoEntity.fromJson(Map<String, dynamic> json) => _$RepoEntityFromJson(json);
 	Map<String, dynamic> toJson() => _$RepoEntityToJson(this);
 
 	@override
 	String toString() {
-		return 'RepoEntity{stargazersCount: $stargazersCount, pushedAt: $pushedAt, subscriptionUrl: $subscriptionUrl, language: $language, branchesUrl: $branchesUrl, issueCommentUrl: $issueCommentUrl, labelsUrl: $labelsUrl, subscribersUrl: $subscribersUrl, permissions: $permissions, releasesUrl: $releasesUrl, svnUrl: $svnUrl, id: $id, forks: $forks, archiveUrl: $archiveUrl, gitRefsUrl: $gitRefsUrl, forksUrl: $forksUrl, statusesUrl: $statusesUrl, sshUrl: $sshUrl, license: $license, fullName: $fullName, size: $size, languagesUrl: $languagesUrl, htmlUrl: $htmlUrl, collaboratorsUrl: $collaboratorsUrl, cloneUrl: $cloneUrl, name: $name, pullsUrl: $pullsUrl, defaultBranch: $defaultBranch, hooksUrl: $hooksUrl, treesUrl: $treesUrl, tagsUrl: $tagsUrl, private: $private, contributorsUrl: $contributorsUrl, hasDownloads: $hasDownloads, notificationsUrl: $notificationsUrl, openIssuesCount: $openIssuesCount, description: $description, createdAt: $createdAt, watchers: $watchers, keysUrl: $keysUrl, deploymentsUrl: $deploymentsUrl, hasProjects: $hasProjects, archived: $archived, hasWiki: $hasWiki, updatedAt: $updatedAt, commentsUrl: $commentsUrl, stargazersUrl: $stargazersUrl, disabled: $disabled, gitUrl: $gitUrl, hasPages: $hasPages, owner: $owner, commitsUrl: $commitsUrl, compareUrl: $compareUrl, gitCommitsUrl: $gitCommitsUrl, blobsUrl: $blobsUrl, gitTagsUrl: $gitTagsUrl, mergesUrl: $mergesUrl, downloadsUrl: $downloadsUrl, hasIssues: $hasIssues, url: $url, contentsUrl: $contentsUrl, mirrorUrl: $mirrorUrl, milestonesUrl: $milestonesUrl, teamsUrl: $teamsUrl, fork: $fork, issuesUrl: $issuesUrl, eventsUrl: $eventsUrl, issueEventsUrl: $issueEventsUrl, assigneesUrl: $assigneesUrl, openIssues: $openIssues, watchersCount: $watchersCount, nodeId: $nodeId, homepage: $homepage, forksCount: $forksCount}';
+		return '{stargazersCount: $stargazersCount, pushedAt: $pushedAt, subscriptionUrl: $subscriptionUrl, language: $language, branchesUrl: $branchesUrl, issueCommentUrl: $issueCommentUrl, labelsUrl: $labelsUrl, subscribersUrl: $subscribersUrl, permissions: $permissions, releasesUrl: $releasesUrl, svnUrl: $svnUrl, id: $id, forks: $forks, archiveUrl: $archiveUrl, gitRefsUrl: $gitRefsUrl, forksUrl: $forksUrl, statusesUrl: $statusesUrl, sshUrl: $sshUrl, license: $license, fullName: $fullName, size: $size, languagesUrl: $languagesUrl, htmlUrl: $htmlUrl, collaboratorsUrl: $collaboratorsUrl, cloneUrl: $cloneUrl, name: $name, pullsUrl: $pullsUrl, defaultBranch: $defaultBranch, hooksUrl: $hooksUrl, treesUrl: $treesUrl, tagsUrl: $tagsUrl, private: $private, contributorsUrl: $contributorsUrl, hasDownloads: $hasDownloads, notificationsUrl: $notificationsUrl, openIssuesCount: $openIssuesCount, description: $description, createdAt: $createdAt, watchers: $watchers, keysUrl: $keysUrl, deploymentsUrl: $deploymentsUrl, hasProjects: $hasProjects, archived: $archived, hasWiki: $hasWiki, updatedAt: $updatedAt, commentsUrl: $commentsUrl, stargazersUrl: $stargazersUrl, disabled: $disabled, gitUrl: $gitUrl, hasPages: $hasPages, owner: $owner, commitsUrl: $commitsUrl, compareUrl: $compareUrl, gitCommitsUrl: $gitCommitsUrl, blobsUrl: $blobsUrl, gitTagsUrl: $gitTagsUrl, mergesUrl: $mergesUrl, downloadsUrl: $downloadsUrl, hasIssues: $hasIssues, url: $url, contentsUrl: $contentsUrl, mirrorUrl: $mirrorUrl, milestonesUrl: $milestonesUrl, teamsUrl: $teamsUrl, fork: $fork, issuesUrl: $issuesUrl, eventsUrl: $eventsUrl, issueEventsUrl: $issueEventsUrl, assigneesUrl: $assigneesUrl, openIssues: $openIssues, watchersCount: $watchersCount, nodeId: $nodeId, homepage: $homepage, forksCount: $forksCount}';
 	}
-
 }
 
 @JsonSerializable()
@@ -163,7 +164,9 @@ class RepoPermissions {
 	bool pull;
 	bool admin;
 	bool push;
+
 	RepoPermissions({this.pull, this.admin, this.push});
+
 	factory RepoPermissions.fromJson(Map<String, dynamic> json) => _$RepoPermissionsFromJson(json);
 	Map<String, dynamic> toJson() => _$RepoPermissionsToJson(this);
 
@@ -182,7 +185,9 @@ class RepoLicense {
 	String key;
 	String url;
 	String nodeId;
+
 	RepoLicense({this.name, this.spdxId, this.key, this.url, this.nodeId});
+
 	factory RepoLicense.fromJson(Map<String, dynamic> json) => _$RepoLicenseFromJson(json);
 	Map<String, dynamic> toJson() => _$RepoLicenseToJson(this);
 
@@ -227,15 +232,16 @@ class RepoOwner {
 	String nodeId;
 	@JsonKey(name: 'organizations_url')
 	String organizationsUrl;
+
 	RepoOwner({this.gistsUrl, this.reposUrl, this.followingUrl, this.starredUrl, this.login, this.followersUrl, this.type, this.url,
 		this.subscriptionsUrl, this.receivedEventsUrl, this.avatarUrl, this.eventsUrl, this.htmlUrl, this.siteAdmin, this.id, this.gravatarId,
 		this.nodeId, this.organizationsUrl});
+
 	factory RepoOwner.fromJson(Map<String, dynamic> json) => _$RepoOwnerFromJson(json);
 	Map<String, dynamic> toJson() => _$RepoOwnerToJson(this);
 
 	@override
 	String toString() {
-		return '{gistsUrl: $gistsUrl, reposUrl: $reposUrl, followingUrl: $followingUrl, starredUrl: $starredUrl, login: $login, followersUrl: $followersUrl, type: $type, url: $url, subscriptionsUrl: $subscriptionsUrl, receivedEventsUrl: $receivedEventsUrl, avatarUrl: $avatarUrl, eventsUrl: $eventsUrl, htmlUrl: $htmlUrl, siteAdmin: $siteAdmin, id: $id, gravatarId: $gravatarId, nodeId: $nodeId, organizationsUrl: $organizationsUrl}';
+		return 'RepoOwner{gistsUrl: $gistsUrl, reposUrl: $reposUrl, followingUrl: $followingUrl, starredUrl: $starredUrl, login: $login, followersUrl: $followersUrl, type: $type, url: $url, subscriptionsUrl: $subscriptionsUrl, receivedEventsUrl: $receivedEventsUrl, avatarUrl: $avatarUrl, eventsUrl: $eventsUrl, htmlUrl: $htmlUrl, siteAdmin: $siteAdmin, id: $id, gravatarId: $gravatarId, nodeId: $nodeId, organizationsUrl: $organizationsUrl}';
 	}
-
 }

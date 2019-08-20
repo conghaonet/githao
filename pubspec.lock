@@ -147,7 +147,7 @@ packages:
       name: crypto
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.1+1"
+    version: "2.1.2"
   csslib:
     dependency: transitive
     description:
@@ -168,7 +168,7 @@ packages:
       name: dart_style
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.2.9"
+    version: "1.2.10"
   dio:
     dependency: "direct main"
     description:

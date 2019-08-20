@@ -47,7 +47,7 @@ UserEntity _$UserEntityFromJson(Map<String, dynamic> json) {
     following: json['following'] as int,
     name: json['name'],
     location: json['location'],
-    nodeId: json['nodeId'] as String,
+    nodeId: json['node_id'] as String,
   );
 }
 
@@ -83,7 +83,7 @@ Map<String, dynamic> _$UserEntityToJson(UserEntity instance) =>
       'following': instance.following,
       'name': instance.name,
       'location': instance.location,
-      'nodeId': instance.nodeId,
+      'node_id': instance.nodeId,
       'private_gists': instance.privateGists,
       'total_private_repos': instance.totalPrivateRepos,
       'owned_private_repos': instance.ownedPrivateRepos,

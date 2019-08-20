@@ -27,6 +27,7 @@ class S implements WidgetsLocalizations {
   String get appTitle => "GitHao";
   String get chineseSimplified => "Chinese(Simplified)";
   String get chooseTheme => "Choose Theme";
+  String get clearLanguage => "Clear language";
   String get commitsUppercase => "COMMITS";
   String get email => "Email";
   String get empty => "Empty";
@@ -66,6 +67,7 @@ class S implements WidgetsLocalizations {
   String get reposFilterTypePublic => "Public";
   String get repositories => "Repositories";
   String get search => "Search";
+  String get selectALanguage => "Select a language";
   String get settings => "Settings";
   String get skip => "Skip";
   String get stargazers => "Stargazers";

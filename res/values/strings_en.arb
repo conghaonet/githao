@@ -60,5 +60,7 @@
   "today": "Today",
   "thisWeek": "This week",
   "thisMonth": "This month",
-  "adjustTimeSpan": "Adjust time span"
+  "adjustTimeSpan": "Adjust time span",
+  "selectALanguage": "Select a language",
+  "clearLanguage": "Clear language"
 }

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import 'package:githao/network/entity/authorization_entity.dart';
 import 'package:githao/network/entity/authorization_post.dart';
+import 'package:githao/network/entity/commit_detail_entity.dart';
 import 'codehub_client.dart';
 import 'entity/commit_entity.dart';
 import 'entity/event_entity.dart';
@@ -110,6 +111,10 @@ class ApiService {
     Map<String, dynamic> parameters = {'sha': branch, 'page': page};
     Response<List<dynamic>> response = await dioClient.dio.get("/repos/$owner/$repo/commits", queryParameters: parameters);
     return response.data.map((item) => CommitEntity.fromJson(item)).toList();
+  }
+  static Future<CommitDetailEntity> getCommitDetail(String owner, String repo, String sha) async {
+    Response<Map<String, dynamic>> response = await dioClient.dio.get("/repos/$owner/$repo/commits/$sha");
+    return CommitDetailEntity.fromJson(response.data);
   }
 
   static Future<List<RepoEntity>> getTrending({String since='daily', String language=''}) async {

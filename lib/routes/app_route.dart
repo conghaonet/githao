@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/code_preview.dart';
 import 'package:githao/pages/code_preview_html.dart';
+import 'package:githao/pages/commit_detail.dart';
 
 import 'package:githao/pages/home.dart';
 import 'package:githao/pages/image_preview.dart';
@@ -12,6 +13,7 @@ import 'package:githao/pages/route_error_page.dart';
 import 'package:githao/pages/settings.dart';
 import 'package:githao/pages/splash.dart';
 import 'package:githao/pages/web_view_page.dart';
+import 'package:githao/routes/commit_detail_page_args.dart';
 import 'package:githao/routes/webview_page_args.dart';
 
 import 'code_preview_page_args.dart';
@@ -80,6 +82,14 @@ class AppRoute extends NavigatorObserver {
         settings: settings,
         builder: (context) {
           return ImagePreviewPage(args);
+        },
+      );
+    } else if(settings.name == CommitDetailPage.ROUTE_NAME) {
+      final CommitDetailPageArgs args = settings.arguments;
+      targetPage = MaterialPageRoute(
+        settings: settings,
+        builder: (context) {
+          return CommitDetailPage(args);
         },
       );
     }

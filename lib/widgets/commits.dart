@@ -5,7 +5,9 @@ import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/commit_entity.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/pages/commit_detail.dart';
 import 'package:githao/pages/profile.dart';
+import 'package:githao/routes/commit_detail_page_args.dart';
 import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/utils/util.dart';
 
@@ -131,104 +133,75 @@ class _CommitListState extends State<CommitList> with AutomaticKeepAliveClientMi
   
   Widget getItem(CommitEntity entity, int index) {
     String heroTag = entity.sha;
-    UserEntity _userEntity = entity.committer ?? UserEntity(login: entity.commit.committer.name, avatarUrl: '');
-
-    return Card(
-      margin: EdgeInsets.all(8),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            InkWell(
-              onTap: () {
-                Navigator.pushNamed(
-                  context, ProfilePage.ROUTE_NAME,
-                  arguments: ProfilePageArgs(
-                      userEntity: _userEntity,
-                      heroTag: heroTag
-                  ),
-                );
-              },
-              child: Row(
-                children: <Widget>[
-                  Hero(
-                    //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
-                    //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
-                    transitionOnUserGestures: true,
-                    tag: heroTag,
-                    child: CircleAvatar(
-                      backgroundImage: CachedNetworkImageProvider(_userEntity.avatarUrl),
-                      backgroundColor: Colors.black12,
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(
+          context, CommitDetailPage.ROUTE_NAME,
+          arguments: CommitDetailPageArgs(
+            committer: entity.committer ?? UserEntity(name: entity.commit.committer.name ?? 'UNKNOW NAME'),
+            repoEntity: widget.repoEntity,
+            sha: entity.sha,
+          ),
+        );
+      },
+      child: Card(
+        margin: EdgeInsets.all(8),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              InkWell(
+                onTap: entity.committer == null ? null : () {
+                  Navigator.pushNamed(
+                    context, ProfilePage.ROUTE_NAME,
+                    arguments: ProfilePageArgs(
+                        userEntity: entity.committer,
+                        heroTag: heroTag
                     ),
-                  ),
-                  SizedBox(width: 8,),
-                  Text(_userEntity.login, style: TextStyle(color: Theme.of(context).primaryColor),),
+                  );
+                },
+                child: Row(
+                  children: <Widget>[
+                    Hero(
+                      //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
+                      //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
+                      transitionOnUserGestures: true,
+                      tag: heroTag,
+                      child: CircleAvatar(
+                        backgroundImage: entity.committer != null ? CachedNetworkImageProvider(entity.committer.avatarUrl) : null,
+                        backgroundColor: Colors.black12,
+                      ),
+                    ),
+                    SizedBox(width: 8,),
+                    Text(
+                      entity.committer != null ? entity.committer.login : entity.commit.committer.name,
+                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    ),
+                    Spacer(),
+                    Text(Util.getFriendlyDateTime(entity.commit.committer.date), style: TextStyle(color: Colors.black54),),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: Text(entity.commit.message, maxLines: 2, overflow: TextOverflow.ellipsis,),
+              ),
+              Row(
+                children: <Widget>[
+                  Text(entity.sha.substring(0,7), style: TextStyle(color: Colors.black54),),
                   Spacer(),
-                  Text(Util.getFriendlyDateTime(entity.commit.committer.date), style: TextStyle(color: Colors.black54),),
+                  Icon(Icons.comment, color: Colors.black54,),
+                  SizedBox(width: 4.0,),
+                  Text('${entity.commit.commentCount}'),
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: Text(entity.commit.message, maxLines: 2, overflow: TextOverflow.ellipsis,),
-            ),
-            Row(
-              children: <Widget>[
-                Text(entity.sha.substring(0,7), style: TextStyle(color: Colors.black54),),
-                Spacer(),
-                Icon(Icons.comment, color: Colors.black54,),
-                SizedBox(width: 4.0,),
-                Text('${entity.commit.commentCount}'),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
-/*
-    switch(entity.type) {
-      case EventTypes.pushEvent:
-        return PushEventItem(entity, index);
-      case EventTypes.issuesEvent:
-        return IssuesEventItem(entity, index);
-      case EventTypes.issueCommentEvent:
-        return IssueCommentEventItem(entity, index);
-      case EventTypes.createEvent:
-      case EventTypes.deleteEvent:
-        return CreateEventItem(entity, index);
-      case EventTypes.forkEvent:
-        return ForkEventItem(entity, index);
-      case EventTypes.pullRequestEvent:
-        return PullRequestEventItem(entity, index);
-      case EventTypes.pullRequestReviewCommentEvent:
-        return PullRequestReviewCommentEventItem(entity, index);
-      case EventTypes.watchEvent:
-        return OnlyActionEventItem(entity, index);
-      case EventTypes.releaseEvent:
-        return ReleaseEventItem(entity, index);
-      default:
-        return Card(
-          margin: EdgeInsets.all(8),
-          color: Colors.grey,
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                EventCommonAvatar(entity, index),
-                Text("index = $index"),
-                Text("Event: ${entity.type}"),
-                Text("Repository: ${entity.repo.name}"),
-                Text("Unimplemented this event"),
-              ],
-            ),
-          ),
-        );
-    }
-*/
   }
   @override
   void dispose() {

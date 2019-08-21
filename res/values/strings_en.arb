@@ -63,5 +63,8 @@
   "adjustTimeSpan": "Adjust time span",
   "selectALanguage": "Select a language",
   "clearLanguage": "Clear language",
-  "filterLanguages": "Filter languages"
+  "filterLanguages": "Filter languages",
+  "commit": "Commit",
+  "committer": "Committer",
+  "committed": "Committed"
 }

@@ -28,7 +28,10 @@ class S implements WidgetsLocalizations {
   String get chineseSimplified => "Chinese(Simplified)";
   String get chooseTheme => "Choose Theme";
   String get clearLanguage => "Clear language";
+  String get commit => "Commit";
   String get commitsUppercase => "COMMITS";
+  String get committed => "Committed";
+  String get committer => "Committer";
   String get email => "Email";
   String get empty => "Empty";
   String get english => "English";

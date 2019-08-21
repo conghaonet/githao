@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/commit_detail_entity.dart';
+import 'package:githao/resources/custom_icons_icons.dart';
 import 'package:githao/routes/commit_detail_page_args.dart';
 import 'package:githao/utils/util.dart';
 
@@ -55,21 +56,28 @@ class _CommitDetailPageState extends State<CommitDetailPage> {
   
   void _loadData() {
     //TODO: for debug
-    String sha = '81a929953bfc2f1cd243e2a3b02d8829f41caec5';
-    ApiService.getCommitDetail(widget.args.repoEntity.owner.login, widget.args.repoEntity.name, sha).then((result) {
-      _detailEntity = result;
-      _detailEntity.files.sort((fileA, fileB) {
-        return fileA.filename.compareTo(fileB.filename);
-      });
-      _detailEntity.files.sort((fileA, fileB) {
-        if(fileA.filename.contains('/') && !fileB.filename.contains('/')) {
-          return 1;
-        } else if(!fileA.filename.contains('/') && fileB.filename.contains('/')) {
-          return -1;
-        } else {
-          return 0;
+//    String sha = '81a929953bfc2f1cd243e2a3b02d8829f41caec5';
+    ApiService.getCommitDetail(widget.args.repoEntity.owner.login, widget.args.repoEntity.name, widget.args.sha).then((result) {
+      List<CommitDetailFile> rootFiles = [];
+      for(int i=result.files.length-1; i>=0; i--) {
+        if(!result.files[i].filename.contains('/')) {
+          rootFiles.add(result.files.removeAt(i));
         }
-      });
+      }
+      if(rootFiles.length>1) {
+        rootFiles.sort((fileA, fileB) {
+          return fileA.filename.compareTo(fileB.filename);
+        });
+      }
+      if(result.files.length>1) {
+        result.files.sort((fileA, fileB) {
+          return fileA.filename.compareTo(fileB.filename);
+        });
+      }
+      if(rootFiles.isNotEmpty) {
+        result.files.insertAll(0, rootFiles);
+      }
+      _detailEntity = result;
 
     }).catchError((e) {
       Util.showToast(e.toString());
@@ -80,20 +88,54 @@ class _CommitDetailPageState extends State<CommitDetailPage> {
 
   List<Widget> _buildFiles() {
     List<Widget> files = [];
-    String lastPath = '';
+    String lastPath;
     if(_detailEntity != null && _detailEntity.files.isNotEmpty) {
       for(int i=0; i<_detailEntity.files.length; i++) {
-        String path = '';
+        String path = '/';
+        String shortName = _detailEntity.files[i].filename;
         if(_detailEntity.files[i].filename.contains('/')) {
-          path = _detailEntity.files[i].filename.substring(0, _detailEntity.files[i].filename.lastIndexOf('/')+1);
+          path = '/'+_detailEntity.files[i].filename.substring(0, _detailEntity.files[i].filename.lastIndexOf('/')+1);
+          shortName = _detailEntity.files[i].filename.substring(_detailEntity.files[i].filename.lastIndexOf('/')+1, _detailEntity.files[i].filename.length);
         }
-
-        var file = Row(
-          children: <Widget>[
-            Text(_detailEntity.files[i].filename),
-          ],
+        if(path != lastPath) {
+          files.add(Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            child: Text(path, style: TextStyle(fontSize: 16),),
+          ));
+        }
+        lastPath = path;
+        Icon icon;
+        if(_detailEntity.files[i].status == 'added') {
+          icon = Icon(Icons.add_box, color: Colors.blue,);
+        } else if(_detailEntity.files[i].status == 'modified') {
+          icon = Icon(CustomIcons.pencil_squared, color: Colors.green,);
+        } else {
+          icon = Icon(Icons.indeterminate_check_box, color: Colors.red,);
+        }
+        var file = Container(
+          color: Colors.white,
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: <Widget>[
+              icon,
+              SizedBox(width: 8,),
+              Expanded(child: Text(shortName, style: TextStyle(fontSize: 18),)),
+              Offstage(
+                offstage: _detailEntity.files[i].additions == 0 && _detailEntity.files[i].deletions == 0,
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(width: 16,),
+                    Text('+${_detailEntity.files[i].additions}', style: TextStyle(fontSize: 18, color: Colors.green[700]),),
+                    SizedBox(width: 8,),
+                    Text('-${_detailEntity.files[i].deletions}', style: TextStyle(fontSize: 18, color: Colors.red[700]),),
+                  ],
+                ),
+              ),
+            ],
+          ),
         );
         files.add(file);
+
       }
     }
     return files;
@@ -111,6 +153,7 @@ class _CommitDetailPageState extends State<CommitDetailPage> {
           SingleChildScrollView(
             controller: _scrollController,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Container(
                   padding: const EdgeInsets.only(left: 50.0, right: 50),
@@ -127,7 +170,13 @@ class _CommitDetailPageState extends State<CommitDetailPage> {
                       Text(
                         getTitleString(),
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 24.0),
+                            fontWeight: FontWeight.bold, fontSize: 24.0, color: Theme.of(context).primaryColor),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 4),
+                        child: Text(
+                            '${S.current.committer}：${widget.args.committer.login ?? widget.args.committer.name}'
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 4),
@@ -136,23 +185,23 @@ class _CommitDetailPageState extends State<CommitDetailPage> {
                             '${S.current.committed} ${Util.getFriendlyDateTime(_detailEntity.commit.committer.date)}'
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 4),
-                        child: Text(
-                            '${S.current.committer}：${widget.args.committer.login ?? widget.args.committer.name}'
+                      Opacity(
+                        opacity: _detailEntity == null ? 0 : 1,
+                        child: Row(
+                          children: <Widget>[
+                            Icon(Icons.insert_drive_file, color: Theme.of(context).primaryColor),
+                            const SizedBox(width: 4,),
+                            Text(_detailEntity == null ? '' : '${_detailEntity?.files?.length}'),
+                            Spacer(),
+                            Icon(Icons.add_box, color: Theme.of(context).primaryColor),
+                            const SizedBox(width: 4,),
+                            Text(_detailEntity == null ? '' : '${_detailEntity?.stats?.additions}'),
+                            Spacer(),
+                            Icon(Icons.indeterminate_check_box, color: Theme.of(context).primaryColor),
+                            const SizedBox(width: 4,),
+                            Text(_detailEntity == null ? '' : '${_detailEntity?.stats?.deletions}'),
+                          ],
                         ),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          const Icon(Icons.insert_drive_file),
-                          Text(_detailEntity == null ? '' : '${_detailEntity?.files?.length}'),
-                          Spacer(),
-                          const Icon(Icons.add_box),
-                          Text(_detailEntity == null ? '' : '${_detailEntity?.stats?.additions}'),
-                          Spacer(),
-                          const Icon(Icons.indeterminate_check_box),
-                          Text(_detailEntity == null ? '' : '${_detailEntity?.stats?.deletions}'),
-                        ],
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 16, bottom: 24),
@@ -163,7 +212,11 @@ class _CommitDetailPageState extends State<CommitDetailPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 10.0),
+//                const SizedBox(height: 10.0),
+                Offstage(
+                  offstage: _detailEntity != null,
+                  child: LinearProgressIndicator(),
+                ),
               ]..addAll(_buildFiles()),
             ),
           ),

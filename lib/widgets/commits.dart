@@ -39,9 +39,11 @@ class _CommitListState extends State<CommitList> with AutomaticKeepAliveClientMi
   @override
   void initState() {
     super.initState();
-    if(mounted) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(mounted) {
+        _refreshIndicatorKey.currentState.show();
+      }
+    });
   }
 
   Future<void> _loadData({bool isReload = true}) async {
@@ -139,19 +141,19 @@ class _CommitListState extends State<CommitList> with AutomaticKeepAliveClientMi
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context, ProfilePage.ROUTE_NAME,
-                      arguments: ProfilePageArgs(
-                          userEntity: _userEntity,
-                          heroTag: heroTag
-                      ),
-                    );
-                  },
-                  child: Hero(
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(
+                  context, ProfilePage.ROUTE_NAME,
+                  arguments: ProfilePageArgs(
+                      userEntity: _userEntity,
+                      heroTag: heroTag
+                  ),
+                );
+              },
+              child: Row(
+                children: <Widget>[
+                  Hero(
                     //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
                     //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
                     transitionOnUserGestures: true,
@@ -161,19 +163,23 @@ class _CommitListState extends State<CommitList> with AutomaticKeepAliveClientMi
                       backgroundColor: Colors.black12,
                     ),
                   ),
-                ),
-                SizedBox(width: 8,),
-                Text(_userEntity.login),
-                Spacer(),
-                Text(Util.getFriendlyDateTime(entity.commit.committer.date)),
-              ],
+                  SizedBox(width: 8,),
+                  Text(_userEntity.login, style: TextStyle(color: Theme.of(context).primaryColor),),
+                  Spacer(),
+                  Text(Util.getFriendlyDateTime(entity.commit.committer.date), style: TextStyle(color: Colors.black54),),
+                ],
+              ),
             ),
-            Text(entity.commit.message),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Text(entity.commit.message, maxLines: 2, overflow: TextOverflow.ellipsis,),
+            ),
             Row(
               children: <Widget>[
-                Text(entity.sha.substring(0,7)),
+                Text(entity.sha.substring(0,7), style: TextStyle(color: Colors.black54),),
                 Spacer(),
-                Icon(Icons.comment),
+                Icon(Icons.comment, color: Colors.black54,),
+                SizedBox(width: 4.0,),
                 Text('${entity.commit.commentCount}'),
               ],
             ),

@@ -10,28 +10,19 @@ UserEntity _$UserEntityFromJson(Map<String, dynamic> json) {
   return UserEntity(
     gistsUrl: json['gists_url'] as String,
     reposUrl: json['repos_url'] as String,
-    twoFactorAuthentication: json['two_factor_authentication'] as bool,
     followingUrl: json['following_url'] as String,
     bio: json['bio'],
     createdAt: json['created_at'] as String,
     login: json['login'] as String,
     type: json['type'] as String,
     blog: json['blog'] as String,
-    privateGists: json['private_gists'] as int,
-    totalPrivateRepos: json['total_private_repos'] as int,
     subscriptionsUrl: json['subscriptions_url'] as String,
     updatedAt: json['updated_at'] as String,
     siteAdmin: json['site_admin'] as bool,
-    diskUsage: json['disk_usage'] as int,
-    collaborators: json['collaborators'] as int,
     company: json['company'],
-    ownedPrivateRepos: json['owned_private_repos'] as int,
     id: json['id'] as int,
     publicRepos: json['public_repos'] as int,
     gravatarId: json['gravatar_id'] as String,
-    plan: json['plan'] == null
-        ? null
-        : UserPlan.fromJson(json['plan'] as Map<String, dynamic>),
     email: json['email'],
     organizationsUrl: json['organizations_url'] as String,
     hireable: json['hireable'],
@@ -48,6 +39,15 @@ UserEntity _$UserEntityFromJson(Map<String, dynamic> json) {
     name: json['name'],
     location: json['location'],
     nodeId: json['node_id'] as String,
+    privateGists: json['private_gists'] as int,
+    totalPrivateRepos: json['total_private_repos'] as int,
+    ownedPrivateRepos: json['owned_private_repos'] as int,
+    diskUsage: json['disk_usage'] as int,
+    collaborators: json['collaborators'] as int,
+    twoFactorAuthentication: json['two_factor_authentication'] as bool,
+    plan: json['plan'] == null
+        ? null
+        : UserPlan.fromJson(json['plan'] as Map<String, dynamic>),
   );
 }
 

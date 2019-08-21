@@ -175,44 +175,47 @@ class _CommitDetailPageState extends State<CommitDetailPage> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 4),
                         child: Text(
-                            '${S.current.committer}：${widget.args.committer.login ?? widget.args.committer.name}'
+                            '${S.current.committer}：${widget.args.committer.login ?? widget.args.committer.name}',
+                          style: TextStyle(fontSize: 16, color: Colors.grey[700]),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 4),
                         child: Text(
                             _detailEntity == null ? '' :
-                            '${S.current.committed} ${Util.getFriendlyDateTime(_detailEntity.commit.committer.date)}'
+                            '${S.current.committed} ${Util.getFriendlyDateTime(_detailEntity.commit.committer.date)}',
+                          style: TextStyle(fontSize: 16, color: Colors.grey[700]),
                         ),
                       ),
+                      SizedBox(height: 4,),
                       Opacity(
                         opacity: _detailEntity == null ? 0 : 1,
                         child: Row(
                           children: <Widget>[
                             Icon(Icons.insert_drive_file, color: Theme.of(context).primaryColor),
                             const SizedBox(width: 4,),
-                            Text(_detailEntity == null ? '' : '${_detailEntity?.files?.length}'),
+                            Text(_detailEntity == null ? '' : '${_detailEntity?.files?.length}', style: TextStyle(fontSize: 18),),
                             Spacer(),
                             Icon(Icons.add_box, color: Theme.of(context).primaryColor),
                             const SizedBox(width: 4,),
-                            Text(_detailEntity == null ? '' : '${_detailEntity?.stats?.additions}'),
+                            Text(_detailEntity == null ? '' : '${_detailEntity?.stats?.additions}', style: TextStyle(fontSize: 18),),
                             Spacer(),
                             Icon(Icons.indeterminate_check_box, color: Theme.of(context).primaryColor),
                             const SizedBox(width: 4,),
-                            Text(_detailEntity == null ? '' : '${_detailEntity?.stats?.deletions}'),
+                            Text(_detailEntity == null ? '' : '${_detailEntity?.stats?.deletions}', style: TextStyle(fontSize: 18),),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 16, bottom: 24),
+                        padding: EdgeInsets.only(top: 8, bottom: 24),
                         child: Text(
-                            _detailEntity == null ? '' : '${_detailEntity.commit.message}'
+                            _detailEntity == null ? '' : '${_detailEntity.commit.message}',
+                          style: TextStyle(fontSize: 16),
                         ),
                       ),
                     ],
                   ),
                 ),
-//                const SizedBox(height: 10.0),
                 Offstage(
                   offstage: _detailEntity != null,
                   child: LinearProgressIndicator(),

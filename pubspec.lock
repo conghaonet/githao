@@ -63,7 +63,7 @@ packages:
       name: build_runner
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.6.6"
+    version: "1.6.7"
   build_runner_core:
     dependency: transitive
     description:
@@ -454,7 +454,7 @@ packages:
       name: source_gen
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.9.4+3"
+    version: "0.9.4+4"
   source_span:
     dependency: transitive
     description:

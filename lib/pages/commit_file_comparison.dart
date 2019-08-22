@@ -42,6 +42,7 @@ class CommitFileComparisonPage extends StatelessWidget {
     List<InlineSpan> spans = [];
 
     lines = file.patch.split('\n');
+//    lines.removeWhere((line) => line == gitHubTail);
     maxLineNumLength = _getMaxLineNum(lines).toString().length + _numLeftSpaces.length;
     int uiMaxLineLength = _getMaxLineLength(lines) + maxLineNumLength *2 + _numRightSpaces.length * 2;
     PartInfo lastPartInfo;
@@ -75,8 +76,18 @@ class CommitFileComparisonPage extends StatelessWidget {
           );
           ++lastAddIndex;
         } else { // 未修改的代码行
-          String strReduceNum = (lastReduceIndex + lastPartInfo.reduceBeginRowNum).toString().padLeft(maxLineNumLength, ' ');
-          String strAddNum = (lastAddIndex + lastPartInfo.addBeginRowNum).toString().padLeft(maxLineNumLength, ' ');
+          String strReduceNum;
+          if(lastReduceIndex < lastPartInfo.reduceEndRowNum) {
+            strReduceNum = (lastReduceIndex + lastPartInfo.reduceBeginRowNum).toString().padLeft(maxLineNumLength, ' ');
+          } else {
+            continue;
+          }
+          String strAddNum;
+          if(lastAddIndex < lastPartInfo.addEndRowNum) {
+            strAddNum = (lastAddIndex + lastPartInfo.addBeginRowNum).toString().padLeft(maxLineNumLength, ' ');
+          } else {
+            continue;
+          }
           lineSpan = TextSpan(
             text: '$strReduceNum$strAddNum$_numRightSpaces${lines[i]}'.padRight(uiMaxLineLength, ' ')+'\n',
             style: TextStyle(fontFamily: CODE_FONT,),
@@ -106,18 +117,23 @@ class CommitFileComparisonPage extends StatelessWidget {
         height: double.infinity,
         color: Color(0xff2b2b2b),
         child: Scrollbar(
-          child: SingleChildScrollView(
+          child: SizedBox(
+            width: double.infinity,
             child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: file.changes == 0
-                  ? Container()
-                  : Container(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: RichText(
-                  text: TextSpan(
-                    style: TextStyle(fontSize: 18.0, color: Colors.white,),
-                    text: '',
-                    children: _buildLinesView(),
+              child: SizedBox(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: file.changes == 0
+                      ? Container()
+                      : Container(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(fontSize: 18.0, color: Colors.white,),
+                        text: '',
+                        children: _buildLinesView(),
+                      ),
+                    ),
                   ),
                 ),
               ),

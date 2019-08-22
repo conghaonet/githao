@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/commit_detail_entity.dart';
+import 'package:githao/pages/commit_file_comparison.dart';
 import 'package:githao/resources/custom_icons_icons.dart';
 import 'package:githao/routes/commit_detail_page_args.dart';
 import 'package:githao/utils/util.dart';
@@ -115,23 +116,28 @@ class _CommitDetailPageState extends State<CommitDetailPage> {
         var file = Container(
           color: Colors.white,
           padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: <Widget>[
-              icon,
-              SizedBox(width: 8,),
-              Expanded(child: Text(shortName, style: TextStyle(fontSize: 18),)),
-              Offstage(
-                offstage: _detailEntity.files[i].additions == 0 && _detailEntity.files[i].deletions == 0,
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(width: 16,),
-                    Text('+${_detailEntity.files[i].additions}', style: TextStyle(fontSize: 18, color: Colors.green[700]),),
-                    SizedBox(width: 8,),
-                    Text('-${_detailEntity.files[i].deletions}', style: TextStyle(fontSize: 18, color: Colors.red[700]),),
-                  ],
+          child: InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, CommitFileComparisonPage.ROUTE_NAME, arguments: _detailEntity.files[i]);
+            },
+            child: Row(
+              children: <Widget>[
+                icon,
+                SizedBox(width: 8,),
+                Expanded(child: Text(shortName, style: TextStyle(fontSize: 18),)),
+                Offstage(
+                  offstage: _detailEntity.files[i].additions == 0 && _detailEntity.files[i].deletions == 0,
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(width: 16,),
+                      Text('+${_detailEntity.files[i].additions}', style: TextStyle(fontSize: 18, color: Colors.green[700]),),
+                      SizedBox(width: 8,),
+                      Text('-${_detailEntity.files[i].deletions}', style: TextStyle(fontSize: 18, color: Colors.red[700]),),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
         files.add(file);

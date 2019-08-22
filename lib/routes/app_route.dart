@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:githao/network/entity/commit_detail_entity.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/code_preview.dart';
 import 'package:githao/pages/code_preview_html.dart';
 import 'package:githao/pages/commit_detail.dart';
+import 'package:githao/pages/commit_file_comparison.dart';
 
 import 'package:githao/pages/home.dart';
 import 'package:githao/pages/image_preview.dart';
@@ -90,6 +92,14 @@ class AppRoute extends NavigatorObserver {
         settings: settings,
         builder: (context) {
           return CommitDetailPage(args);
+        },
+      );
+    } else if(settings.name == CommitFileComparisonPage.ROUTE_NAME) {
+      final CommitDetailFile args = settings.arguments;
+      targetPage = MaterialPageRoute(
+        settings: settings,
+        builder: (context) {
+          return CommitFileComparisonPage(args);
         },
       );
     }

@@ -93,6 +93,9 @@ flutter:
     - family: AGENCYR # Agency FB
       fonts:
         - asset: fonts/AGENCYR.ttf
+    - family: cour # Courier New
+      fonts:
+        - asset: fonts/cour.ttf
     - family: CustomIcons
       fonts:
         - asset: fonts/CustomIcons.ttf

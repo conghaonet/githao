@@ -19,7 +19,7 @@ class CodehubClient {
   }
   CodehubClient._internal() {
     //TODO：设置代理
-    setProxy("192.168.2.100", 8888);
+//    setProxy("192.168.2.100", 8888);
   }
 
   /// 设置代理

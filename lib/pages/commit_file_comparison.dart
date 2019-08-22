@@ -32,9 +32,12 @@ class CommitFileComparisonPage extends StatelessWidget {
       _title = file.filename.substring(file.filename.lastIndexOf('/')+1, file.filename.length);
     }
     
-    List<String> lines = file.patch.split('\n');
-    int maxLineNum = getMaxLineNum(lines);
-
+    List<String> lines;
+    int maxLineNum;
+    if(file.changes > 0) {
+      lines = file.patch.split('\n');
+      maxLineNum = getMaxLineNum(lines);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +47,7 @@ class CommitFileComparisonPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: RichText(
+            child: file.changes == 0 ? Container() : RichText(
               softWrap: false,
               overflow: TextOverflow.visible,
               textWidthBasis: TextWidthBasis.longestLine,

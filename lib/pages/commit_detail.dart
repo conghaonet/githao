@@ -126,7 +126,7 @@ class _CommitDetailPageState extends State<CommitDetailPage> {
                 SizedBox(width: 8,),
                 Expanded(child: Text(shortName, style: TextStyle(fontSize: 18),)),
                 Offstage(
-                  offstage: _detailEntity.files[i].additions == 0 && _detailEntity.files[i].deletions == 0,
+                  offstage: _detailEntity.files[i].changes == 0,
                   child: Row(
                     children: <Widget>[
                       SizedBox(width: 16,),

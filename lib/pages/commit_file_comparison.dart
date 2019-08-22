@@ -126,6 +126,11 @@ class CommitFileComparisonPage extends StatelessWidget {
                   child: file.changes == 0
                       ? Container()
                       : Container(
+                    constraints: BoxConstraints(
+                      //设备高度 - appBar高度（因当前页面无bottom，未计算bottom高度）- 状态栏高度
+                      minHeight: MediaQuery.of(context).size.height - Size.fromHeight(kToolbarHeight).height - MediaQuery.of(context).padding.top,
+                      minWidth: MediaQuery.of(context).size.width,
+                    ),
                     padding: EdgeInsets.symmetric(vertical: 8),
                     child: RichText(
                       text: TextSpan(

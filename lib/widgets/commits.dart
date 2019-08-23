@@ -152,19 +152,19 @@ class _CommitListState extends State<CommitList> with AutomaticKeepAliveClientMi
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              InkWell(
-                onTap: entity.committer == null ? null : () {
-                  Navigator.pushNamed(
-                    context, ProfilePage.ROUTE_NAME,
-                    arguments: ProfilePageArgs(
-                        userEntity: entity.committer,
-                        heroTag: heroTag
-                    ),
-                  );
-                },
-                child: Row(
-                  children: <Widget>[
-                    Hero(
+              Row(
+                children: <Widget>[
+                  InkWell(
+                    onTap: entity.committer == null ? null : () {
+                      Navigator.pushNamed(
+                        context, ProfilePage.ROUTE_NAME,
+                        arguments: ProfilePageArgs(
+                            userEntity: entity.committer,
+                            heroTag: heroTag
+                        ),
+                      );
+                    },
+                    child: Hero(
                       //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
                       //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
                       transitionOnUserGestures: true,
@@ -174,15 +174,15 @@ class _CommitListState extends State<CommitList> with AutomaticKeepAliveClientMi
                         backgroundColor: Colors.black12,
                       ),
                     ),
-                    SizedBox(width: 8,),
-                    Text(
-                      entity.committer != null ? entity.committer.login : entity.commit.committer.name,
-                      style: TextStyle(color: Theme.of(context).primaryColor),
-                    ),
-                    Spacer(),
-                    Text(Util.getFriendlyDateTime(entity.commit.committer.date), style: TextStyle(color: Colors.black54),),
-                  ],
-                ),
+                  ),
+                  SizedBox(width: 8,),
+                  Text(
+                    entity.committer != null ? entity.committer.login : entity.commit.committer.name,
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ),
+                  Spacer(),
+                  Text(Util.getFriendlyDateTime(entity.commit.committer.date), style: TextStyle(color: Colors.black54),),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),

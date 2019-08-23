@@ -221,15 +221,9 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
                           child: Icon(CustomIcons.fork, color: Theme.of(context).primaryColor, size: 18,),
                         ),
                         Expanded(
-                          child: Hero(
-                            //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
-                            //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
-                            transitionOnUserGestures: true,
-                            tag: _repos[index].fullName,
-                            child: Text(_repos[index].name,
-                              maxLines: 2,
-                              style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w500),
-                            ),
+                          child: Text(_repos[index].name,
+                            maxLines: 2,
+                            style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w500),
                           ),
                         ),
                       ],

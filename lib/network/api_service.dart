@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:githao/network/entity/authorization_entity.dart';
 import 'package:githao/network/entity/authorization_post.dart';
 import 'package:githao/network/entity/commit_detail_entity.dart';
+import 'package:githao/network/entity/issue_entity.dart';
 import 'codehub_client.dart';
 import 'entity/commit_entity.dart';
 import 'entity/event_entity.dart';
@@ -115,6 +116,20 @@ class ApiService {
   static Future<CommitDetailEntity> getCommitDetail(String owner, String repo, String sha) async {
     Response<Map<String, dynamic>> response = await dioClient.dio.get("/repos/$owner/$repo/commits/$sha");
     return CommitDetailEntity.fromJson(response.data);
+  }
+
+  /// [filter] : assigned(Default), created, mentioned, subscribed, all
+  /// [state] : open(Default), closed, all
+  /// [labels] : A list of comma separated label names. Example: bug,ui,@high
+  /// [sort] : created(Default), updated, comments
+  /// [direction] : asc or desc, Default: desc
+  /// [since] Only issues updated at or after this time are returned. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
+  static Future<List<IssueEntity>> getIssues({String filter='assigned', String state='open',
+    List<String> labels, String sort='created', String direction='desc', String since, int page = 1}) async {
+    Map<String, dynamic> parameters = {'filter': filter, 'state': state, 'labels': labels, 'sort': sort,
+      'direction': direction, 'since': since, 'page': page};
+    Response<List<dynamic>> response = await dioClient.dio.get("/user/issues", queryParameters: parameters);
+    return response.data.map((item) => IssueEntity.fromJson(item)).toList();
   }
 
   static Future<List<RepoEntity>> getTrending({String since='daily', String language=''}) async {

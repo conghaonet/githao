@@ -84,7 +84,7 @@ Map<String, dynamic> _$IssueEntityToJson(IssueEntity instance) =>
 
 IssueLabel _$IssueLabelFromJson(Map<String, dynamic> json) {
   return IssueLabel(
-    id: json['id'] as String,
+    id: json['id'] as int,
     noteId: json['node_id'] as String,
     url: json['url'] as String,
     name: json['name'] as String,

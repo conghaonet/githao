@@ -61,7 +61,7 @@ class IssueEntity {
 
 @JsonSerializable()
 class IssueLabel {
-  String id;
+  int id;
   @JsonKey(name: 'node_id')
   String noteId;
   String url;

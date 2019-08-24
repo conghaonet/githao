@@ -4,6 +4,7 @@ import 'package:githao/network/entity/authorization_entity.dart';
 import 'package:githao/network/entity/authorization_post.dart';
 import 'package:githao/network/entity/commit_detail_entity.dart';
 import 'package:githao/network/entity/issue_entity.dart';
+import 'package:githao/network/entity/search_entity.dart';
 import 'codehub_client.dart';
 import 'entity/commit_entity.dart';
 import 'entity/event_entity.dart';
@@ -125,12 +126,26 @@ class ApiService {
   /// [direction] : asc or desc, Default: desc
   /// [since] Only issues updated at or after this time are returned. This is a timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ.
   static Future<List<IssueEntity>> getIssues({String filter='assigned', String state='open',
-    List<String> labels, String sort='created', String direction='desc', String since, int page = 1}) async {
-    Map<String, dynamic> parameters = {'filter': filter, 'state': state, 'labels': labels, 'sort': sort,
+    List<String> labels, String sort='created', String direction='desc', String since='', int page = 1}) async {
+    Map<String, dynamic> parameters = {'filter': filter, 'state': state, 'labels': labels ?? '', 'sort': sort,
       'direction': direction, 'since': since, 'page': page};
-    Response<List<dynamic>> response = await dioClient.dio.get("/user/issues", queryParameters: parameters);
+    Response<List<dynamic>> response = await dioClient.dio.get("/issues", queryParameters: parameters);
     return response.data.map((item) => IssueEntity.fromJson(item)).toList();
   }
+
+  static Future<List<IssueEntity>> searchIssues({String login, String state='open', String sort='created', String order='desc', int page = 1}) async {
+    String q = 'involves:$login+state:$state';
+    Map<String, dynamic> parameters = {'sort': sort, 'order': order, 'page': page};
+    Response<Map<String, dynamic>> response = await dioClient.dio.get("/search/issues?q=$q", queryParameters: parameters);
+    var searchEntity = SearchEntity.fromJson(response.data);
+
+    if(searchEntity != null && searchEntity.items.isNotEmpty) {
+      return searchEntity.items.map((item) => IssueEntity.fromJson(item)).toList();
+    } else {
+      return List<IssueEntity>();
+    }
+  }
+
 
   static Future<List<RepoEntity>> getTrending({String since='daily', String language=''}) async {
     Map<String, dynamic> parameters = {'since': since, 'language': language};

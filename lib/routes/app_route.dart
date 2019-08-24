@@ -8,6 +8,7 @@ import 'package:githao/pages/commit_file_comparison.dart';
 
 import 'package:githao/pages/home.dart';
 import 'package:githao/pages/image_preview.dart';
+import 'package:githao/pages/issues.dart';
 import 'package:githao/pages/login.dart';
 import 'package:githao/pages/profile.dart';
 import 'package:githao/pages/repo_home.dart';
@@ -32,6 +33,7 @@ class AppRoute extends NavigatorObserver {
     LoginPage.ROUTE_NAME: (_) => LoginPage(),
     HomePage.ROUTE_NAME: (_) => HomePage(),
     SettingsPage.ROUTE_NAME: (_) => SettingsPage(),
+    IssuesPage.ROUTE_NAME: (_) => IssuesPage(),
   };
   Map<String, WidgetBuilder> get routes => _routes;
 

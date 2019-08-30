@@ -27,7 +27,7 @@ class DioClient {
   DioClient._internal() {
 
     //TODO：设置代理
-    setProxy("192.168.2.100", 8888);
+//    setProxy("192.168.2.100", 8888);
 
     //设置拦截器
     _dio.interceptors.add(InterceptorsWrapper(

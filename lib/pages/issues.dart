@@ -22,11 +22,17 @@ class IssuesPage extends StatefulWidget {
 }
 
 class _IssuesPageState extends State<IssuesPage> {
+  static final _stack_index_data = 0;
+  static final _stack_index_filter = 1;
+  static final _stack_index_empty = 2;
+  static final _stack_index_error = 3;
+
   final List<IssueEntity> _results = [];
   bool _lastActionIsReload = true;
   int _page = 1;
   StateFlag _loadingState = StateFlag.idle;
   bool _expectHasMoreData = false;
+  int stackIndex = _stack_index_filter;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   @override
@@ -50,7 +56,7 @@ class _IssuesPageState extends State<IssuesPage> {
       expectationPage = _page + 1;
     }
 
-    return ApiService.searchIssues(login: Provide.value<UserProvide>(context).user.login, state: 'open', page: expectationPage).then((list){
+    return ApiService.searchIssues(login: Provide.value<UserProvide>(context).user.login, state: '+state:open+state:closed', page: expectationPage).then((list){
       if(isReload) {
         _results.clear();
         _page = 1;
@@ -89,35 +95,53 @@ class _IssuesPageState extends State<IssuesPage> {
         title: Text(S.current.issues),
       ),
       body: Container(
-        child: Stack(
+        child: IndexedStack(
+          index: stackIndex,
           children: <Widget>[
-            Container(
-              child: RefreshIndicator(
-                key: _refreshIndicatorKey,
-                onRefresh: _loadData,
-                child: MyVisibility(
-                  flag: this._lastActionIsReload && (this._loadingState == StateFlag.empty || this._loadingState == StateFlag.error) ? MyVisibilityFlag.invisible : MyVisibilityFlag.visible,
-                  child: ListView.builder(
-                    itemCount: _results.length >= widget.perPageRows ? _results.length+1 : _results.length,
-                    itemBuilder: (context, index) {
-                      if(index < _results.length) {
-                        return getItem(_results[index], index);
-                      } else {
-                        if(_expectHasMoreData && _loadingState == StateFlag.complete) {
-                          Future.delayed(const Duration(milliseconds: 100)).then((_){
-                            _loadData(isReload: false);
-                          });
-                        }
-                        return LoadMoreDataFooter(_expectHasMoreData, flag: _loadingState, onRetry: () {
-                          _loadData(isReload: false);
-                        },);
-                      }
-                    },
+            Stack(
+              children: <Widget>[
+                Container(
+                  child: RefreshIndicator(
+                    key: _refreshIndicatorKey,
+                    onRefresh: _loadData,
+                    child: MyVisibility(
+                      flag: this._lastActionIsReload && (this._loadingState == StateFlag.empty || this._loadingState == StateFlag.error) ? MyVisibilityFlag.invisible : MyVisibilityFlag.visible,
+                      child: ListView.builder(
+                        itemCount: _results.length >= widget.perPageRows ? _results.length+1 : _results.length,
+                        itemBuilder: (context, index) {
+                          if(index < _results.length) {
+                            return getItem(_results[index], index);
+                          } else {
+                            if(_expectHasMoreData && _loadingState == StateFlag.complete) {
+                              Future.delayed(const Duration(milliseconds: 100)).then((_){
+                                _loadData(isReload: false);
+                              });
+                            }
+                            return LoadMoreDataFooter(_expectHasMoreData, flag: _loadingState, onRetry: () {
+                              _loadData(isReload: false);
+                            },);
+                          }
+                        },
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                Positioned(
+                  bottom: 12,
+                  right: 16,
+                  child: FloatingActionButton(
+                    child: Icon(Icons.sort),
+                  ),
+                ),
+              ],
             ),
-            LoadingState(_lastActionIsReload ? _loadingState : StateFlag.idle,
+            IssuesFilterWidget(),
+            LoadingState(StateFlag.empty,
+              onRetry: (){
+                _refreshIndicatorKey.currentState.show();
+              },
+            ),
+            LoadingState(StateFlag.error,
               onRetry: (){
                 _refreshIndicatorKey.currentState.show();
               },
@@ -190,6 +214,20 @@ class _IssuesPageState extends State<IssuesPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class IssuesFilterWidget extends StatefulWidget {
+  @override
+  _IssuesFilterWidgetState createState() => _IssuesFilterWidgetState();
+}
+
+class _IssuesFilterWidgetState extends State<IssuesFilterWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.blue,
     );
   }
 }

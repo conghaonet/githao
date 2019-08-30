@@ -133,8 +133,13 @@ class ApiService {
     return response.data.map((item) => IssueEntity.fromJson(item)).toList();
   }
 
-  static Future<List<IssueEntity>> searchIssues({String login, String state='open', String sort='created', String order='desc', int page = 1}) async {
-    String q = 'involves:$login+state:$state';
+
+  /// [state] +state:open, +state:closed, +state:open+state:closed(ALL)
+  /// [sort] created, updated
+  /// [order] Determines whether the first search result returned is the highest number of matches (desc) or lowest number of matches (asc).
+  ///         This parameter is ignored unless you provide sort. Default: desc
+  static Future<List<IssueEntity>> searchIssues({String login, String state, String sort='updated', String order='desc', int page = 1}) async {
+    String q = 'involves:$login$state';
     Map<String, dynamic> parameters = {'sort': sort, 'order': order, 'page': page};
     Response<Map<String, dynamic>> response = await dioClient.dio.get("/search/issues?q=$q", queryParameters: parameters);
     var searchEntity = SearchEntity.fromJson(response.data);

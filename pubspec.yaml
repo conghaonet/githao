@@ -21,14 +21,14 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  fluttertoast: ^3.1.0
+  fluttertoast: ^3.1.2
   shared_preferences: ^0.5.3+4
   json_annotation: ^2.4.0
   stack_trace: ^1.9.3
   dio: ^2.1.16
   logging: ^0.11.3+2
   intl: ^0.15.8
-  connectivity: ^0.4.3+7
+  connectivity: ^0.4.4
   provide: ^1.0.2
   cached_network_image: ^1.1.1
   webview_flutter: ^0.3.13

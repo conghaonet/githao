@@ -45,23 +45,29 @@ android {
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    signingConfigs {
-        app2m {
-            storeFile file(localProperties.getProperty('key.storeFile'))
-            storePassword localProperties.getProperty('key.storePassword')
-            keyAlias localProperties.getProperty('key.keyAlias')
-            keyPassword localProperties.getProperty('key.keyPassword')
+    if (localProperties.getProperty('key.storeFile') != null) {
+        signingConfigs {
+            app2m {
+                storeFile file(localProperties.getProperty('key.storeFile'))
+                storePassword localProperties.getProperty('key.storePassword')
+                keyAlias localProperties.getProperty('key.keyAlias')
+                keyPassword localProperties.getProperty('key.keyPassword')
+            }
         }
     }
     buildTypes {
         debug {
             debuggable true
-            signingConfig signingConfigs.app2m
+            minifyEnabled false
+            if (localProperties.getProperty('key.storeFile') != null) {
+                signingConfig signingConfigs.app2m
+            }
         }
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.app2m
+            minifyEnabled false
+            if (localProperties.getProperty('key.storeFile') != null) {
+                signingConfig signingConfigs.app2m
+            }
         }
     }
 }

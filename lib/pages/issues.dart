@@ -23,16 +23,16 @@ class IssuesPage extends StatefulWidget {
 
 class _IssuesPageState extends State<IssuesPage> {
   static final _stack_index_data = 0;
-  static final _stack_index_filter = 1;
-  static final _stack_index_empty = 2;
-  static final _stack_index_error = 3;
+  static final _stack_index_empty = 1;
+  static final _stack_index_error = 2;
+  bool _showFilter = false;
 
   final List<IssueEntity> _results = [];
   bool _lastActionIsReload = true;
   int _page = 1;
   StateFlag _loadingState = StateFlag.idle;
   bool _expectHasMoreData = false;
-  int stackIndex = _stack_index_filter;
+//  int _stackIndex = _stack_index_data;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   @override
@@ -47,16 +47,18 @@ class _IssuesPageState extends State<IssuesPage> {
 
   Future<void> _loadData({bool isReload = true}) async {
     if(_loadingState == StateFlag.loading) return null;
-    _lastActionIsReload = isReload;
-    _loadingState = StateFlag.loading;
+    setState(() {
+      _lastActionIsReload = isReload;
+      _loadingState = StateFlag.loading;
+    });
     int expectationPage;
     if (isReload) {
       expectationPage = 1;
     } else {
       expectationPage = _page + 1;
     }
-
-    return ApiService.searchIssues(login: Provide.value<UserProvide>(context).user.login, state: '+state:open+state:closed', page: expectationPage).then((list){
+    // Provide.value<UserProvide>(context).user.login
+    return ApiService.searchIssues(login: 'ThirtyDegreesRay', state: '+state:open+state:closed', page: expectationPage).then((list){
       if(isReload) {
         _results.clear();
         _page = 1;
@@ -87,6 +89,22 @@ class _IssuesPageState extends State<IssuesPage> {
       return;
     });
   }
+  int getStackIndex() {
+    if(_loadingState == StateFlag.error && _lastActionIsReload) {
+      return _stack_index_error;
+    } else if(_loadingState == StateFlag.empty) {
+      return _stack_index_empty;
+    } else {
+      return _stack_index_data;
+    }
+  }
+
+  void filterCallback() {
+    setState(() {
+      _showFilter = false;
+    });
+    _refreshIndicatorKey.currentState.show();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +114,7 @@ class _IssuesPageState extends State<IssuesPage> {
       ),
       body: Container(
         child: IndexedStack(
-          index: stackIndex,
+          index: getStackIndex(),
           children: <Widget>[
             Stack(
               children: <Widget>[
@@ -104,25 +122,22 @@ class _IssuesPageState extends State<IssuesPage> {
                   child: RefreshIndicator(
                     key: _refreshIndicatorKey,
                     onRefresh: _loadData,
-                    child: MyVisibility(
-                      flag: this._lastActionIsReload && (this._loadingState == StateFlag.empty || this._loadingState == StateFlag.error) ? MyVisibilityFlag.invisible : MyVisibilityFlag.visible,
-                      child: ListView.builder(
-                        itemCount: _results.length >= widget.perPageRows ? _results.length+1 : _results.length,
-                        itemBuilder: (context, index) {
-                          if(index < _results.length) {
-                            return getItem(_results[index], index);
-                          } else {
-                            if(_expectHasMoreData && _loadingState == StateFlag.complete) {
-                              Future.delayed(const Duration(milliseconds: 100)).then((_){
-                                _loadData(isReload: false);
-                              });
-                            }
-                            return LoadMoreDataFooter(_expectHasMoreData, flag: _loadingState, onRetry: () {
+                    child: ListView.builder(
+                      itemCount: _results.length >= widget.perPageRows ? _results.length+1 : _results.length,
+                      itemBuilder: (context, index) {
+                        if(index < _results.length) {
+                          return getItem(_results[index], index);
+                        } else {
+                          if(_expectHasMoreData && _loadingState == StateFlag.complete) {
+                            Future.delayed(const Duration(milliseconds: 100)).then((_){
                               _loadData(isReload: false);
-                            },);
+                            });
                           }
-                        },
-                      ),
+                          return LoadMoreDataFooter(_expectHasMoreData, flag: _loadingState, onRetry: () {
+                            _loadData(isReload: false);
+                          },);
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -130,12 +145,21 @@ class _IssuesPageState extends State<IssuesPage> {
                   bottom: 12,
                   right: 16,
                   child: FloatingActionButton(
+                    backgroundColor:  _loadingState == StateFlag.loading ? Colors.grey : Theme.of(context).primaryColor,
                     child: Icon(Icons.sort),
+                    onPressed: _loadingState == StateFlag.loading ? null : () {
+                      setState(() {
+                        _showFilter = true;
+                      });
+                    },
                   ),
+                ),
+                Offstage(
+                  offstage: !_showFilter,
+                  child: IssuesFilterWidget(filterCallback),
                 ),
               ],
             ),
-            IssuesFilterWidget(),
             LoadingState(StateFlag.empty,
               onRetry: (){
                 _refreshIndicatorKey.currentState.show();
@@ -219,6 +243,9 @@ class _IssuesPageState extends State<IssuesPage> {
 }
 
 class IssuesFilterWidget extends StatefulWidget {
+  final Function callback;
+  IssuesFilterWidget(this.callback, {Key key}): super(key: key);
+
   @override
   _IssuesFilterWidgetState createState() => _IssuesFilterWidgetState();
 }
@@ -226,8 +253,21 @@ class IssuesFilterWidget extends StatefulWidget {
 class _IssuesFilterWidgetState extends State<IssuesFilterWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue,
+    return GestureDetector(
+      onTap: () {
+        widget.callback();
+      },
+      child: Container(
+        color: Colors.black45,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Spacer(),
+
+          ],
+        ),
+      ),
     );
   }
 }

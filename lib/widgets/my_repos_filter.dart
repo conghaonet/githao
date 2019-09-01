@@ -35,7 +35,7 @@ class _MyReposFilterState extends State<MyReposFilter> {
           Padding(
             padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 0),
             child: Text(
-              S.current.reposFilterType,
+              S.current.type,
               style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.w700),),
           ),
           Padding(
@@ -68,7 +68,7 @@ class _MyReposFilterState extends State<MyReposFilter> {
           Padding(
             padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 0),
             child: Text(
-              S.current.reposFilterSort,
+              S.current.sort,
               style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.w700),),
           ),
           Padding(

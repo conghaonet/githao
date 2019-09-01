@@ -30,7 +30,7 @@ class _StarredReposFilterState extends State<StarredReposFilter> {
           Padding(
             padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 0),
             child: Text(
-              S.current.reposFilterSort,
+              S.current.sort,
               style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.w700),),
           ),
           Padding(

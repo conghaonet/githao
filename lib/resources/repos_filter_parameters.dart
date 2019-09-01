@@ -23,11 +23,11 @@ class ReposFilterParameters {
   static final List<String> filterTypeValueMap = [TYPE_ALL, TYPE_OWNER, TYPE_PUBLIC, TYPE_PRIVATE, TYPE_MEMBER];
   static List<String> getFilterTypeTextMap(BuildContext context) {
     return [
-      S.current.reposFilterTypeAll,
-      S.current.reposFilterTypeOwner,
-      S.current.reposFilterTypePublic,
-      S.current.reposFilterTypePrivate,
-      S.current.reposFilterTypeMember,
+      S.current.all,
+      S.current.owner,
+      S.current.public,
+      S.current.private,
+      S.current.member,
     ];
   }
 
@@ -44,14 +44,14 @@ class ReposFilterParameters {
 
   static List<String> getFilterSortTextMap(BuildContext context) {
     return [
-      S.current.reposFilterSortFullName,
-      S.current.reposFilterSortFullName,
-      S.current.reposFilterSortCreated,
-      S.current.reposFilterSortCreated,
-      S.current.reposFilterSortUpdated,
-      S.current.reposFilterSortUpdated,
-      S.current.reposFilterSortPushed,
-      S.current.reposFilterSortPushed,
+      S.current.fullName,
+      S.current.fullName,
+      S.current.created,
+      S.current.created,
+      S.current.updated,
+      S.current.updated,
+      S.current.pushed,
+      S.current.pushed,
     ];
   }
 }

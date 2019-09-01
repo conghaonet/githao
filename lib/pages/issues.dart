@@ -10,7 +10,6 @@ import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/load_more_data_footer.dart';
 import 'package:githao/widgets/loading_state.dart';
-import 'package:githao/widgets/my_visibility.dart';
 import 'package:provide/provide.dart';
 
 class IssuesPage extends StatefulWidget {
@@ -22,17 +21,21 @@ class IssuesPage extends StatefulWidget {
 }
 
 class _IssuesPageState extends State<IssuesPage> {
-  static final _stack_index_data = 0;
-  static final _stack_index_empty = 1;
-  static final _stack_index_error = 2;
+  static const _stack_index_data = 0;
+  static const _stack_index_empty = 1;
+  static const _stack_index_error = 2;
   bool _showFilter = false;
+  int _indexFilterState = 1;
+  int _indexFilterSort = 0;
+  static final _filterStates = ['+state:open+state:closed', '+state:open','+state:closed'];
+  static final _filterSorts = [{'sort': 'updated', 'order': 'desc'}, {'sort': 'updated', 'order': 'asc'}
+                                , {'sort': 'created', 'order': 'desc'}, {'sort': 'created', 'order': 'asc'}];
 
   final List<IssueEntity> _results = [];
   bool _lastActionIsReload = true;
   int _page = 1;
   StateFlag _loadingState = StateFlag.idle;
   bool _expectHasMoreData = false;
-//  int _stackIndex = _stack_index_data;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   @override
@@ -57,8 +60,12 @@ class _IssuesPageState extends State<IssuesPage> {
     } else {
       expectationPage = _page + 1;
     }
-    // Provide.value<UserProvide>(context).user.login
-    return ApiService.searchIssues(login: 'ThirtyDegreesRay', state: '+state:open+state:closed', page: expectationPage).then((list){
+    return ApiService.searchIssues(
+        login: Provide.value<UserProvide>(context).user.login,
+        state: _filterStates[_indexFilterState],
+        sort: _filterSorts[_indexFilterSort]['sort'],
+        order: _filterSorts[_indexFilterSort]['order'],
+        page: expectationPage).then((list){
       if(isReload) {
         _results.clear();
         _page = 1;
@@ -99,11 +106,18 @@ class _IssuesPageState extends State<IssuesPage> {
     }
   }
 
-  void filterCallback() {
+  void filterCallback(String group, int index) {
     setState(() {
       _showFilter = false;
     });
-    _refreshIndicatorKey.currentState.show();
+    if(group.isNotEmpty) {
+      if(group == IssuesFilterWidget.GROUP_STATE) {
+        _indexFilterState = index;
+      } else if(group == IssuesFilterWidget.GROUP_SORT) {
+        _indexFilterSort = index;
+      }
+      _refreshIndicatorKey.currentState.show();
+    }
   }
 
   @override
@@ -156,7 +170,7 @@ class _IssuesPageState extends State<IssuesPage> {
                 ),
                 Offstage(
                   offstage: !_showFilter,
-                  child: IssuesFilterWidget(filterCallback),
+                  child: IssuesFilterWidget(filterCallback, this._indexFilterState, this._indexFilterSort),
                 ),
               ],
             ),
@@ -243,31 +257,153 @@ class _IssuesPageState extends State<IssuesPage> {
 }
 
 class IssuesFilterWidget extends StatefulWidget {
-  final Function callback;
-  IssuesFilterWidget(this.callback, {Key key}): super(key: key);
+  static const GROUP_STATE = "state";
+  static const GROUP_SORT = "sort";
+  final Function(String ,int) callback;
+  final int defaultStateIndex;
+  final int defaultSortIndex;
+  IssuesFilterWidget(this.callback, this.defaultStateIndex, this.defaultSortIndex, {Key key}): super(key: key);
 
   @override
   _IssuesFilterWidgetState createState() => _IssuesFilterWidgetState();
 }
 
 class _IssuesFilterWidgetState extends State<IssuesFilterWidget> {
+  int _indexFilterState;
+  int _indexFilterSort;
+  @override
+  void initState() {
+    super.initState();
+    _indexFilterState = widget.defaultStateIndex;
+    _indexFilterSort = widget.defaultSortIndex;
+  }
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        widget.callback();
+        widget.callback("", -1);
       },
       child: Container(
         color: Colors.black45,
         child: Column(
           mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
+
           children: <Widget>[
             Spacer(),
-
+            Container(
+              color: Colors.white,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16.0, 16, 0, 8),
+                      child: Text(
+                        S.current.state,
+                        style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.w700),),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: Row(
+                      children: <Widget>[
+                        buildStateItem(S.current.all, 0),
+                        buildStateItem(S.current.open, 1),
+                        buildStateItem(S.current.closed, 2),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16.0, 16, 0, 8),
+                      child: Text(
+                        S.current.sort,
+                        style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.w700),),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: Row(
+                      children: <Widget>[
+                        buildSortItem(S.current.updated, Icons.trending_down, 0),
+                        buildSortItem(S.current.updated, Icons.trending_up, 1),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(16, 16, 16, 32),
+                    child: Row(
+                      children: <Widget>[
+                        buildSortItem(S.current.created, Icons.trending_down, 2),
+                        buildSortItem(S.current.created, Icons.trending_up, 3),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
     );
   }
+  Widget buildStateItem(String text, int index) {
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          this._indexFilterState = index;
+          widget.callback(IssuesFilterWidget.GROUP_STATE, index);
+        },
+        child: Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            color: _indexFilterState == index ? Theme.of(context).primaryColorDark : Theme.of(context).primaryColorLight,
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Text(text,
+              style: TextStyle(fontSize:18, color: _indexFilterState == index ? Colors.white : Colors.black45),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  Widget buildSortItem(String text, IconData iconData, int index) {
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          this._indexFilterSort = index;
+          widget.callback(IssuesFilterWidget.GROUP_SORT, index);
+        },
+        child: Container(
+          alignment: Alignment.center,
+          margin: EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            color: _indexFilterSort == index ? Theme.of(context).primaryColorDark : Theme.of(context).primaryColorLight,
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(text,
+                  style: TextStyle(fontSize:18, color: _indexFilterSort == index ? Colors.white : Colors.black45),
+                ),
+                Icon(iconData, color: _indexFilterSort == index ? Colors.white : Colors.black45,),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
 }

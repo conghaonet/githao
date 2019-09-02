@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: HomeDrawer(onClickDrawerMenu, _clickedDrawerMenu ?? _defaultMenu),
-      body: SafeArea(
+      body: Container(
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -178,100 +178,75 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     return Container(
       width: 300,
-      color: Colors.white,
-      child: ListView(children: <Widget>[
-        _drawerHeader(),
-        Material(
-          color: Colors.white,
-          child: ListTile(
-            leading: Icon(Icons.info_outline,),
-            title: Text(S.current.issues,),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(IssuesPage.ROUTE_NAME);
-            },
+      color: Theme.of(context).primaryColor,
+      child: Column(
+        children: <Widget>[
+          _drawerHeader(),
+          Expanded(
+            child: Container(
+              color: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: Icon(Icons.info_outline,),
+                    title: Text(S.current.issues,),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed(IssuesPage.ROUTE_NAME);
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.storage,),
+                    title: Text(S.current.myRepos,),
+                    onTap: () {
+                      onClickMenu(HomeDrawer.MENU_MY_REPOS);
+                    },
+                    selected: _clickedMenu == null || _clickedMenu == HomeDrawer.MENU_MY_REPOS,
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.star,),
+                    title: Text(S.current.starredRepos,),
+                    onTap: () {
+                      onClickMenu(HomeDrawer.MENU_STARRED_REPOS);
+                    },
+                    selected: _clickedMenu == HomeDrawer.MENU_STARRED_REPOS,
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.trending_up,),
+                    title: Text(S.current.trending,),
+                    onTap: () {
+                      onClickMenu(HomeDrawer.MENU_TRENDING_UP);
+                    },
+                    selected: _clickedMenu == HomeDrawer.MENU_TRENDING_UP,
+                  ),
+                  Divider(height: 1, color: Theme.of(context).primaryColor,),
+                  ListTile(
+                    leading: Icon(Icons.settings,),
+                    title: Text(S.current.settings,),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed(SettingsPage.ROUTE_NAME);
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.exit_to_app,),
+                    title: Text(S.current.logout,),
+                    onTap: () {
+                      UserBiz.logout();
+                      Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.info,),
+                    title: Text(S.current.about,),
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
-        Material(
-          color: Colors.white,
-          child: ListTile(
-            leading: Icon(Icons.storage,),
-            title: Text(S.current.myRepos,),
-            onTap: () {
-              onClickMenu(HomeDrawer.MENU_MY_REPOS);
-            },
-            selected: _clickedMenu == null || _clickedMenu == HomeDrawer.MENU_MY_REPOS,
-          ),
-        ),
-        Material(
-          color: Colors.white,
-          child: ListTile(
-            leading: Icon(Icons.star,),
-            title: Text(S.current.starredRepos,),
-            onTap: () {
-              onClickMenu(HomeDrawer.MENU_STARRED_REPOS);
-            },
-            selected: _clickedMenu == HomeDrawer.MENU_STARRED_REPOS,
-          ),
-        ),
-        Material(
-          color: Colors.white,
-          child: ListTile(
-            leading: Icon(Icons.trending_up,),
-            title: Text(S.current.trending,),
-            onTap: () {
-              onClickMenu(HomeDrawer.MENU_TRENDING_UP);
-            },
-            selected: _clickedMenu == HomeDrawer.MENU_TRENDING_UP,
-          ),
-        ),
-        Divider(height: 1, color: Theme.of(context).primaryColor,),
-        Material(
-          color: Colors.white,
-          child: ListTile(
-            leading: Icon(Icons.settings,),
-            title: Text(S.current.settings,),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(SettingsPage.ROUTE_NAME);
-            },
-          ),
-        ),
-        Material(
-          color: Colors.white,
-          child: ListTile(
-            leading: Icon(Icons.exit_to_app,),
-            title: Text(S.current.logout,),
-            onTap: () {
-              UserBiz.logout();
-              Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
-            },
-          ),
-        ),
-/*
-        Material(
-          color: Colors.white,
-          child: ListTile(
-            leading: Icon(Icons.open_in_browser,),
-            title: Text('webview_flutter'),
-            onTap: () {
-              UserBiz.logout();
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                return WebViewExample();
-              }));
-            },
-          ),
-        ),
-*/
-        Material(
-          color: Colors.white,
-          child: ListTile(
-            leading: Icon(Icons.info,),
-            title: Text(S.current.about,),
-            onTap: () {},
-          ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
   Widget _drawerHeader() {

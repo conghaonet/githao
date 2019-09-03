@@ -70,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     super.build(context); //混入AutomaticKeepAliveClientMixin后，必须添加
     return Scaffold(
-      body: SafeArea(
+      body: Container(
         child: NestedScrollView(
           headerSliverBuilder: (context, innerBoxScrolled) => [
             SliverAppBar(

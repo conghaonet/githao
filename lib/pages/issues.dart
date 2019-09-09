@@ -73,7 +73,7 @@ class _IssuesPageState extends State<IssuesPage> {
           order: _filterSorts[_indexFilterSort]['order'],
           page: expectationPage);
     } else {
-      apiFuture = ApiService.repoIssues(
+      apiFuture = ApiService.getRepoIssues(
           repoName: widget.repoName,
           state: _filterStates[_indexFilterState],
           sort: _filterSorts[_indexFilterSort]['sort'],

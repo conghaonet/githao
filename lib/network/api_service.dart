@@ -155,11 +155,18 @@ class ApiService {
   /// [sort] created, updated
   /// [order] Determines whether the first search result returned is the highest number of matches (desc) or lowest number of matches (asc).
   ///         This parameter is ignored unless you provide sort. Default: desc
-  static Future<List<IssueEntity>> repoIssues({String repoName, String state='open', String sort='updated', String order='desc', int page = 1}) async {
+  static Future<List<IssueEntity>> getRepoIssues({String repoName, String state='open', String sort='updated', String order='desc', int page = 1}) async {
     Map<String, dynamic> parameters = {'state': state, 'sort': sort, 'order': order, 'page': page};
     Response<List<dynamic>> response = await dioClient.dio.get("/repos/$repoName/issues", queryParameters: parameters);
     return response.data.map((item) => IssueEntity.fromJson(item)).toList();
   }
+
+  static Future<List<UserEntity>> getRepoStargazers(String repoName, {int page=1}) async {
+    Map<String, dynamic> parameters = {'page': page};
+    Response<List<dynamic>> response = await dioClient.dio.get("/repos/$repoName/stargazers", queryParameters: parameters);
+    return response.data.map((item) => UserEntity.fromJson(item)).toList();
+  }
+
 
   static Future<List<RepoEntity>> getTrending({String since='daily', String language=''}) async {
     Map<String, dynamic> parameters = {'since': since, 'language': language};

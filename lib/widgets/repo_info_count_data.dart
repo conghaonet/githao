@@ -54,6 +54,7 @@ class RepoInfoCountData extends StatelessWidget {
             ),
           ),
         ),
+/*
         Expanded(
           child: InkWell(
             onTap: (){},
@@ -61,13 +62,14 @@ class RepoInfoCountData extends StatelessWidget {
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: Column(
                 children: <Widget>[
-                  Text('${_repoEntity.watchersCount ?? 0}', style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.bold,),),
+                  Text('${_repoEntity.subscribersCount ?? 0}', style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.bold,),),
                   Text(S.current.watchers, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
                 ],
               ),
             ),
           ),
         ),
+*/
       ],
     );
   }

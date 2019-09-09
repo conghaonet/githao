@@ -33,7 +33,6 @@ class AppRoute extends NavigatorObserver {
     LoginPage.ROUTE_NAME: (_) => LoginPage(),
     HomePage.ROUTE_NAME: (_) => HomePage(),
     SettingsPage.ROUTE_NAME: (_) => SettingsPage(),
-    IssuesPage.ROUTE_NAME: (_) => IssuesPage(),
   };
   Map<String, WidgetBuilder> get routes => _routes;
 
@@ -102,6 +101,14 @@ class AppRoute extends NavigatorObserver {
         settings: settings,
         builder: (context) {
           return CommitFileComparisonPage(args);
+        },
+      );
+    } else if(settings.name == IssuesPage.ROUTE_NAME) {
+      final String repoName = settings.arguments;
+      targetPage = MaterialPageRoute(
+        settings: settings,
+        builder: (context) {
+          return IssuesPage(repoName: repoName);
         },
       );
     }

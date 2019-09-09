@@ -15,6 +15,9 @@ import 'package:provide/provide.dart';
 class IssuesPage extends StatefulWidget {
   static const ROUTE_NAME = '/issues';
   final perPageRows = 30;
+  final String repoName;
+
+  IssuesPage({this.repoName, Key key}): super(key: key);
 
   @override
   _IssuesPageState createState() => _IssuesPageState();
@@ -27,7 +30,7 @@ class _IssuesPageState extends State<IssuesPage> {
   bool _showFilter = false;
   int _indexFilterState = 1;
   int _indexFilterSort = 0;
-  static final _filterStates = ['+state:open+state:closed', '+state:open','+state:closed'];
+  List<String> _filterStates;
   static final _filterSorts = [{'sort': 'updated', 'order': 'desc'}, {'sort': 'updated', 'order': 'asc'}
                                 , {'sort': 'created', 'order': 'desc'}, {'sort': 'created', 'order': 'asc'}];
 
@@ -41,6 +44,7 @@ class _IssuesPageState extends State<IssuesPage> {
   @override
   void initState() {
     super.initState();
+    _filterStates = widget.repoName == null ? ['+state:open+state:closed', '+state:open','+state:closed'] : ['all', 'open', 'closed'];
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if(mounted) {
         _refreshIndicatorKey.currentState.show();
@@ -60,12 +64,23 @@ class _IssuesPageState extends State<IssuesPage> {
     } else {
       expectationPage = _page + 1;
     }
-    return ApiService.searchIssues(
-        login: Provide.value<UserProvide>(context).user.login,
-        state: _filterStates[_indexFilterState],
-        sort: _filterSorts[_indexFilterSort]['sort'],
-        order: _filterSorts[_indexFilterSort]['order'],
-        page: expectationPage).then((list){
+    Future apiFuture;
+    if(widget.repoName == null) {
+      apiFuture = ApiService.searchIssues(
+          login: Provide.value<UserProvide>(context).user.login,
+          state: _filterStates[_indexFilterState],
+          sort: _filterSorts[_indexFilterSort]['sort'],
+          order: _filterSorts[_indexFilterSort]['order'],
+          page: expectationPage);
+    } else {
+      apiFuture = ApiService.repoIssues(
+          repoName: widget.repoName,
+          state: _filterStates[_indexFilterState],
+          sort: _filterSorts[_indexFilterSort]['sort'],
+          order: _filterSorts[_indexFilterSort]['order'],
+          page: expectationPage);
+    }
+    return apiFuture.then((list){
       if(isReload) {
         _results.clear();
         _page = 1;

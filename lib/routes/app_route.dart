@@ -12,6 +12,7 @@ import 'package:githao/pages/issues.dart';
 import 'package:githao/pages/login.dart';
 import 'package:githao/pages/profile.dart';
 import 'package:githao/pages/repo_home.dart';
+import 'package:githao/pages/repo_stargazers.dart';
 import 'package:githao/pages/route_error_page.dart';
 import 'package:githao/pages/settings.dart';
 import 'package:githao/pages/splash.dart';
@@ -109,6 +110,14 @@ class AppRoute extends NavigatorObserver {
         settings: settings,
         builder: (context) {
           return IssuesPage(repoName: repoName);
+        },
+      );
+    } else if(settings.name == RepoStargazersPage.ROUTE_NAME) {
+      final String repoName = settings.arguments;
+      targetPage = MaterialPageRoute(
+        settings: settings,
+        builder: (context) {
+          return RepoStargazersPage(repoName);
         },
       );
     }

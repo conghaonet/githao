@@ -63,7 +63,7 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
       expectationPage = _page + 1;
     }
     Future<List<RepoEntity>> future = getRepos(expectationPage);
-    return future.then<bool>((list) {
+    return future.then<void>((list) {
       if(isReload) {
         _repos.clear();
         _page = 1;
@@ -108,7 +108,7 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
           color: this._loadingState == StateFlag.complete ? Theme.of(context).primaryColorLight : Colors.white,
           child: RefreshIndicator(
             key: refreshIndicatorKey,
-            color: Colors.blue,
+            color: Theme.of(context).primaryColor,
             onRefresh: _loadData,
             child: MyVisibility(
               flag: this._lastActionIsReload && (this._loadingState == StateFlag.empty || this._loadingState == StateFlag.error) ? MyVisibilityFlag.invisible : MyVisibilityFlag.visible,

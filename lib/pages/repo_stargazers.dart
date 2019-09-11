@@ -18,7 +18,24 @@ class _RepoStargazersPageState extends BaseUsersWidgetState<RepoStargazersPage> 
   @override
   AppBar buildAppBar() {
     return AppBar(
-      title: Text(S.current.stargazers),
+      titleSpacing: 0,
+      title: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            S.current.stargazers,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            widget.repoName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 14),
+          ),
+        ],
+      ),
     );
   }
 

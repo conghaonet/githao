@@ -1,23 +1,28 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:githao/network/entity/user_entity.dart';
-import 'package:githao/pages/profile.dart';
-import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/load_more_data_footer.dart';
 import 'package:githao/widgets/loading_state.dart';
 
-abstract class BaseUsersWidget extends StatefulWidget {
+abstract class BaseGridWidget extends StatefulWidget {
   final perPageRows = 30;
-  BaseUsersWidget({Key key}): super(key: key);
+  final int crossAxisCount;
+  final double childAspectRatio;
+  BaseGridWidget({
+    this.crossAxisCount = 2,
+    this.childAspectRatio = 1,
+    Key key,
+  }) : assert(crossAxisCount != null && crossAxisCount > 0),
+       assert(childAspectRatio != null && childAspectRatio > 0),
+       super(key: key);
+
   @protected
-  BaseUsersWidgetState createState();
+  BaseGridWidgetState createState();
 }
 
-abstract class BaseUsersWidgetState<T extends BaseUsersWidget> extends State<T> {
+abstract class BaseGridWidgetState<T extends BaseGridWidget, K> extends State<T> {
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
-  final List<UserEntity> _userEntities = [];
+  final List<K> _userEntities = [];
   int _page = 1;
   StateFlag _loadingState = StateFlag.idle;
   bool _lastActionIsReload = true;
@@ -25,7 +30,9 @@ abstract class BaseUsersWidgetState<T extends BaseUsersWidget> extends State<T> 
 
   AppBar buildAppBar();
 
-  Future<List<UserEntity>> getUsers(final int expectationPage);
+  Future<List<K>> getUsers(final int expectationPage);
+
+  Widget buildItem(K k, int index);
 
   @override
   void initState() {
@@ -47,7 +54,7 @@ abstract class BaseUsersWidgetState<T extends BaseUsersWidget> extends State<T> 
     } else {
       expectationPage = _page + 1;
     }
-    Future<List<UserEntity>> future = getUsers(expectationPage);
+    Future<List<K>> future = getUsers(expectationPage);
     return future.then<void>((list) {
       if(isReload) {
         _userEntities.clear();
@@ -96,8 +103,8 @@ abstract class BaseUsersWidgetState<T extends BaseUsersWidget> extends State<T> 
                 slivers: <Widget>[
                   SliverGrid(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 2,
+                      crossAxisCount: widget.crossAxisCount,
+                      childAspectRatio: widget.childAspectRatio,
                     ),
                     delegate: SliverChildBuilderDelegate(
                           (BuildContext context, int index) {
@@ -108,12 +115,11 @@ abstract class BaseUsersWidgetState<T extends BaseUsersWidget> extends State<T> 
                             });
                           }
                         }
-                        return buildItem(index);
+                        return buildItem(_userEntities[index], index);
                       },
                       childCount: _userEntities.length,
                     ),
                   ),
-
                   SliverToBoxAdapter(
                     child: Offstage(
                       offstage: _userEntities.length < widget.perPageRows,
@@ -124,7 +130,6 @@ abstract class BaseUsersWidgetState<T extends BaseUsersWidget> extends State<T> 
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -134,52 +139,6 @@ abstract class BaseUsersWidgetState<T extends BaseUsersWidget> extends State<T> 
               },
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildItem(int index) {
-    String _heroTag = _userEntities[index].login;
-    return Container(
-      child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, ProfilePage.ROUTE_NAME, arguments: ProfilePageArgs(
-            userEntity: _userEntities[index],
-            heroTag: _heroTag,
-          ),);
-        },
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Center(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: 80,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Hero(
-                      //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
-                      //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
-                      transitionOnUserGestures: true,
-                      tag: _heroTag,
-                      child: CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(_userEntities[index].avatarUrl),
-                        backgroundColor: Colors.black12,
-                      ),
-                    ),
-                    Text(
-                      _userEntities[index].login,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
         ),
       ),
     );

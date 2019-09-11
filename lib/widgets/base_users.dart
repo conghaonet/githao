@@ -84,45 +84,54 @@ abstract class BaseUsersWidgetState<T extends BaseUsersWidget> extends State<T> 
     return Scaffold(
       appBar: buildAppBar(),
       body: Container(
-        child: RefreshIndicator(
-          key: refreshIndicatorKey,
-          onRefresh: _loadData,
-          color: Theme.of(context).primaryColor,
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverGrid(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 2,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    if(index + 1 == _userEntities.length) {
-                      if(_expectHasMoreData && _loadingState == StateFlag.complete) {
-                        Future.delayed(const Duration(milliseconds: 100)).then((_){
-                          _loadData(isReload: false);
-                        });
-                      }
-                    }
-                    return buildItem(index);
-                  },
-                  childCount: _userEntities.length,
-                ),
-              ),
-
-              SliverToBoxAdapter(
-                child: Offstage(
-                  offstage: _userEntities.length < widget.perPageRows,
-                  child: Center(
-                    child: LoadMoreDataFooter(_expectHasMoreData, flag: _loadingState, onRetry: () {
-                      _loadData(isReload: false);
-                    },),
+        child: Stack(
+          children: <Widget>[
+            RefreshIndicator(
+              key: refreshIndicatorKey,
+              onRefresh: _loadData,
+              color: Theme.of(context).primaryColor,
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 2,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                        if(index + 1 == _userEntities.length) {
+                          if(_expectHasMoreData && _loadingState == StateFlag.complete) {
+                            Future.delayed(const Duration(milliseconds: 100)).then((_){
+                              _loadData(isReload: false);
+                            });
+                          }
+                        }
+                        return buildItem(index);
+                      },
+                      childCount: _userEntities.length,
+                    ),
                   ),
-                ),
-              ),
 
-            ],
-          ),
+                  SliverToBoxAdapter(
+                    child: Offstage(
+                      offstage: _userEntities.length < widget.perPageRows,
+                      child: Center(
+                        child: LoadMoreDataFooter(_expectHasMoreData, flag: _loadingState, onRetry: () {
+                          _loadData(isReload: false);
+                        },),
+                      ),
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+            LoadingState(_lastActionIsReload ? _loadingState : StateFlag.idle,
+              onRetry: (){
+                refreshIndicatorKey.currentState.show();
+              },
+            ),
+          ],
         ),
       ),
     );

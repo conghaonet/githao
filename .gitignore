@@ -80,3 +80,4 @@ android.iml
 /ios/Flutter/Debug.xcconfig
 /ios/Flutter/Release.xcconfig
 /ios/Runner.xcodeproj/project.pbxproj
+/ios/Flutter/flutter_export_environment.sh

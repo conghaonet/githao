@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/issues.dart';
+import 'package:githao/pages/repo_forks.dart';
 import 'package:githao/pages/repo_stargazers.dart';
 
 class RepoInfoCountData extends StatelessWidget {
@@ -45,7 +46,9 @@ class RepoInfoCountData extends StatelessWidget {
         ),
         Expanded(
           child: InkWell(
-            onTap: (){},
+            onTap: (){
+              Navigator.pushNamed(context, RepoForksPage.ROUTE_NAME, arguments: _repoEntity.fullName);
+            },
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: Column(

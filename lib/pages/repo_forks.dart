@@ -1,23 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:githao/network/api_service.dart';
-import 'package:githao/network/entity/user_entity.dart';
-import 'package:githao/pages/profile.dart';
-import 'package:githao/routes/profile_page_args.dart';
-import 'package:githao/widgets/base_grid.dart';
 import 'package:githao/generated/i18n.dart';
+import 'package:githao/network/api_service.dart';
+import 'package:githao/network/entity/repo_entity.dart';
+import 'package:githao/pages/profile.dart';
+import 'package:githao/pages/repo_home.dart';
+import 'package:githao/routes/profile_page_args.dart';
+import 'package:githao/widgets/base_list.dart';
 
-class RepoStargazersPage extends BaseGridWidget {
-  static const ROUTE_NAME = "/repo_stargazers";
+class RepoForksPage extends BaseListWidget {
+  static const ROUTE_NAME = "/repo_forks";
   final String repoName;
-  RepoStargazersPage(this.repoName, {Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
+
+  RepoForksPage(this.repoName, {Key key}): super(key: key);
 
   @override
-  _RepoStargazersPageState createState() => _RepoStargazersPageState();
+  _RepoForksPageState createState() => _RepoForksPageState();
 }
 
-class _RepoStargazersPageState extends BaseGridWidgetState<RepoStargazersPage, UserEntity> {
-
+class _RepoForksPageState extends BaseListWidgetState<RepoForksPage, RepoEntity> {
   @override
   AppBar buildAppBar() {
     return AppBar(
@@ -27,7 +28,7 @@ class _RepoStargazersPageState extends BaseGridWidgetState<RepoStargazersPage, U
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            S.current.stargazers,
+            S.current.forks,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -43,20 +44,17 @@ class _RepoStargazersPageState extends BaseGridWidgetState<RepoStargazersPage, U
   }
 
   @override
-  Future<List<UserEntity>> getDatum(int expectationPage) {
-    return ApiService.getRepoStargazers(widget.repoName, page: expectationPage);
+  Future<List<RepoEntity>> getDatum(int expectationPage) {
+    return ApiService.getRepoForks(widget.repoName, page: expectationPage);
   }
 
   @override
-  Widget buildItem(UserEntity entity, int index) {
-    String _heroTag = entity.login;
+  Widget buildItem(RepoEntity entity, int index) {
+    String _heroTag = entity.fullName;
     return Container(
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, ProfilePage.ROUTE_NAME, arguments: ProfilePageArgs(
-            userEntity: entity,
-            heroTag: _heroTag,
-          ),);
+          Navigator.pushNamed(context, RepoHomePage.ROUTE_NAME, arguments: entity);
         },
         child: Card(
           child: Padding(
@@ -66,8 +64,8 @@ class _RepoStargazersPageState extends BaseGridWidgetState<RepoStargazersPage, U
                 constraints: BoxConstraints(
                   maxHeight: 80,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                child: Row(
+//                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Hero(
                       //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
@@ -75,14 +73,17 @@ class _RepoStargazersPageState extends BaseGridWidgetState<RepoStargazersPage, U
                       transitionOnUserGestures: true,
                       tag: _heroTag,
                       child: CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(entity.avatarUrl),
+                        backgroundImage: CachedNetworkImageProvider(entity.owner.avatarUrl),
                         backgroundColor: Colors.black12,
                       ),
                     ),
-                    Text(
-                      entity.login,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    SizedBox(width: 24,),
+                    Expanded(
+                      child: Text(
+                        entity.fullName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ],
                 ),
@@ -93,4 +94,6 @@ class _RepoStargazersPageState extends BaseGridWidgetState<RepoStargazersPage, U
       ),
     );
   }
+
+
 }

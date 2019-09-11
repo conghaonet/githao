@@ -167,6 +167,11 @@ class ApiService {
     return response.data.map((item) => UserEntity.fromJson(item)).toList();
   }
 
+  static Future<List<RepoEntity>> getRepoForks(String repoName, {int page=1}) async {
+    Map<String, dynamic> parameters = {'page': page};
+    Response<List<dynamic>> response = await dioClient.dio.get("/repos/$repoName/forks", queryParameters: parameters);
+    return response.data.map((item) => RepoEntity.fromJson(item)).toList();
+  }
 
   static Future<List<RepoEntity>> getTrending({String since='daily', String language=''}) async {
     Map<String, dynamic> parameters = {'since': since, 'language': language};

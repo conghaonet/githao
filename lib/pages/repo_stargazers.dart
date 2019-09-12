@@ -21,10 +21,10 @@ class _RepoStargazersPageState extends BaseGridWidgetState<RepoStargazersPage, U
   @override
   AppBar buildAppBar() {
     return AppBar(
-      titleSpacing: 0,
+      centerTitle: true,
       title: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(
             S.current.stargazers,

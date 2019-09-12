@@ -22,10 +22,10 @@ class _RepoForksPageState extends BaseListWidgetState<RepoForksPage, RepoEntity>
   @override
   AppBar buildAppBar() {
     return AppBar(
-      titleSpacing: 0,
+      centerTitle: true,
       title: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(
             S.current.forks,

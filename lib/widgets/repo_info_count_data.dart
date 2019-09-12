@@ -4,6 +4,7 @@ import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/issues.dart';
 import 'package:githao/pages/repo_forks.dart';
 import 'package:githao/pages/repo_stargazers.dart';
+import 'package:githao/pages/repo_watchers.dart';
 
 class RepoInfoCountData extends StatelessWidget {
   final RepoEntity _repoEntity;
@@ -62,7 +63,9 @@ class RepoInfoCountData extends StatelessWidget {
         ),
         Expanded(
           child: InkWell(
-            onTap: (){},
+            onTap: (){
+              Navigator.pushNamed(context, RepoWatchersPage.ROUTE_NAME, arguments: _repoEntity.fullName);
+            },
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: Column(

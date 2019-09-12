@@ -35,14 +35,6 @@ class ApiService {
     return RepoEntity.fromJson(response.data);
   }
 
-/*
-  static Future<List<RepoEntity>> getRepos({int page=1, String type='all', String sort='full_name', String direction='asc'}) async {
-    Map<String, dynamic> parameters = {'page': page, 'type': type, 'sort': sort, 'direction': direction};
-    Response<List<dynamic>> response = await dioClient.dio.get("/user/repos", queryParameters: parameters);
-    return response.data.map((item) => RepoEntity.fromJson(item)).toList();
-  }
-*/
-
   /// [login] GitHub显示的用户名
   /// [page] 取值从1开始，表示请求第几页，每页返回30笔数据
   /// [type] Can be one of: all, owner, public, private, member
@@ -59,15 +51,6 @@ class ApiService {
     Response<List<dynamic>> response = await dioClient.dio.get("/orgs/$org/repos", queryParameters: parameters);
     return response.data.map((item) => RepoEntity.fromJson(item)).toList();
   }
-
-
-/*
-  static Future<List<RepoEntity>> getStarredRepos({int page=1, String sort='created', String direction='desc'}) async {
-    Map<String, dynamic> parameters = {'page': page, 'sort': sort, 'direction': direction};
-    Response<List<dynamic>> response = await dioClient.dio.get("/user/starred", queryParameters: parameters);
-    return response.data.map((item) => RepoEntity.fromJson(item)).toList();
-  }
-*/
 
   /// [login] GitHub显示的用户名
   /// [sort] One of created (when the repository was starred) or updated (when it was last pushed to). Default: created
@@ -176,6 +159,12 @@ class ApiService {
     Map<String, dynamic> parameters = {'page': page};
     Response<List<dynamic>> response = await dioClient.dio.get("/repos/$repoFullName/forks", queryParameters: parameters);
     return response.data.map((item) => RepoEntity.fromJson(item)).toList();
+  }
+
+  static Future<List<UserEntity>> getRepoWatchers(String repoFullName, {int page=1}) async {
+    Map<String, dynamic> parameters = {'page': page};
+    Response<List<dynamic>> response = await dioClient.dio.get("/repos/$repoFullName/subscribers", queryParameters: parameters);
+    return response.data.map((item) => UserEntity.fromJson(item)).toList();
   }
 
   static Future<List<RepoEntity>> getTrending({String since='daily', String language=''}) async {

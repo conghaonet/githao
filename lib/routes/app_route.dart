@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:githao/network/entity/commit_detail_entity.dart';
-import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/code_preview.dart';
 import 'package:githao/pages/code_preview_html.dart';
 import 'package:githao/pages/commit_detail.dart';
@@ -14,6 +13,7 @@ import 'package:githao/pages/profile.dart';
 import 'package:githao/pages/repo_forks.dart';
 import 'package:githao/pages/repo_home.dart';
 import 'package:githao/pages/repo_stargazers.dart';
+import 'package:githao/pages/repo_watchers.dart';
 import 'package:githao/pages/route_error_page.dart';
 import 'package:githao/pages/settings.dart';
 import 'package:githao/pages/splash.dart';
@@ -127,6 +127,14 @@ class AppRoute extends NavigatorObserver {
         settings: settings,
         builder: (context) {
           return RepoForksPage(repoName);
+        },
+      );
+    } else if(settings.name == RepoWatchersPage.ROUTE_NAME) {
+      final String repoName = settings.arguments;
+      targetPage = MaterialPageRoute(
+        settings: settings,
+        builder: (context) {
+          return RepoWatchersPage(repoName);
         },
       );
     }

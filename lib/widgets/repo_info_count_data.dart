@@ -60,7 +60,6 @@ class RepoInfoCountData extends StatelessWidget {
             ),
           ),
         ),
-/*
         Expanded(
           child: InkWell(
             onTap: (){},
@@ -75,7 +74,6 @@ class RepoInfoCountData extends StatelessWidget {
             ),
           ),
         ),
-*/
       ],
     );
   }

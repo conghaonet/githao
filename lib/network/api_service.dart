@@ -30,6 +30,11 @@ class ApiService {
     return UserEntity.fromJson(response.data);
   }
 
+  static Future<RepoEntity> getRepo(String repoName) async {
+    Response<Map<String, dynamic>> response = await dioClient.dio.get("/repos/$repoName");
+    return RepoEntity.fromJson(response.data);
+  }
+
 /*
   static Future<List<RepoEntity>> getRepos({int page=1, String type='all', String sort='full_name', String direction='asc'}) async {
     Map<String, dynamic> parameters = {'page': page, 'type': type, 'sort': sort, 'direction': direction};
@@ -161,15 +166,15 @@ class ApiService {
     return response.data.map((item) => IssueEntity.fromJson(item)).toList();
   }
 
-  static Future<List<UserEntity>> getRepoStargazers(String repoName, {int page=1}) async {
+  static Future<List<UserEntity>> getRepoStargazers(String repoFullName, {int page=1}) async {
     Map<String, dynamic> parameters = {'page': page};
-    Response<List<dynamic>> response = await dioClient.dio.get("/repos/$repoName/stargazers", queryParameters: parameters);
+    Response<List<dynamic>> response = await dioClient.dio.get("/repos/$repoFullName/stargazers", queryParameters: parameters);
     return response.data.map((item) => UserEntity.fromJson(item)).toList();
   }
 
-  static Future<List<RepoEntity>> getRepoForks(String repoName, {int page=1}) async {
+  static Future<List<RepoEntity>> getRepoForks(String repoFullName, {int page=1}) async {
     Map<String, dynamic> parameters = {'page': page};
-    Response<List<dynamic>> response = await dioClient.dio.get("/repos/$repoName/forks", queryParameters: parameters);
+    Response<List<dynamic>> response = await dioClient.dio.get("/repos/$repoFullName/forks", queryParameters: parameters);
     return response.data.map((item) => RepoEntity.fromJson(item)).toList();
   }
 

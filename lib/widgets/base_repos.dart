@@ -178,7 +178,7 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
       child: FlatButton(
         padding: EdgeInsets.all(0),
         onPressed: (){
-          Navigator.pushNamed(context, RepoHomePage.ROUTE_NAME, arguments: this._repos[index]);
+          Navigator.pushNamed(context, RepoHomePage.ROUTE_NAME, arguments: this._repos[index].fullName);
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),

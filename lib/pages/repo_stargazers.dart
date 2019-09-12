@@ -9,8 +9,8 @@ import 'package:githao/generated/i18n.dart';
 
 class RepoStargazersPage extends BaseGridWidget {
   static const ROUTE_NAME = "/repo_stargazers";
-  final String repoName;
-  RepoStargazersPage(this.repoName, {Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
+  final String repoFullName;
+  RepoStargazersPage(this.repoFullName, {Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
 
   @override
   _RepoStargazersPageState createState() => _RepoStargazersPageState();
@@ -32,7 +32,7 @@ class _RepoStargazersPageState extends BaseGridWidgetState<RepoStargazersPage, U
             overflow: TextOverflow.ellipsis,
           ),
           Text(
-            widget.repoName,
+            widget.repoFullName,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 14),
@@ -44,7 +44,7 @@ class _RepoStargazersPageState extends BaseGridWidgetState<RepoStargazersPage, U
 
   @override
   Future<List<UserEntity>> getDatum(int expectationPage) {
-    return ApiService.getRepoStargazers(widget.repoName, page: expectationPage);
+    return ApiService.getRepoStargazers(widget.repoFullName, page: expectationPage);
   }
 
   @override

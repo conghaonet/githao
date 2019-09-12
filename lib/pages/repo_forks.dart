@@ -3,16 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
-import 'package:githao/pages/profile.dart';
 import 'package:githao/pages/repo_home.dart';
-import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/widgets/base_list.dart';
 
 class RepoForksPage extends BaseListWidget {
   static const ROUTE_NAME = "/repo_forks";
-  final String repoName;
+  final String repoFullName;
 
-  RepoForksPage(this.repoName, {Key key}): super(key: key);
+  RepoForksPage(this.repoFullName, {Key key}): super(key: key);
 
   @override
   _RepoForksPageState createState() => _RepoForksPageState();
@@ -33,7 +31,7 @@ class _RepoForksPageState extends BaseListWidgetState<RepoForksPage, RepoEntity>
             overflow: TextOverflow.ellipsis,
           ),
           Text(
-            widget.repoName,
+            widget.repoFullName,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 14),
@@ -45,7 +43,7 @@ class _RepoForksPageState extends BaseListWidgetState<RepoForksPage, RepoEntity>
 
   @override
   Future<List<RepoEntity>> getDatum(int expectationPage) {
-    return ApiService.getRepoForks(widget.repoName, page: expectationPage);
+    return ApiService.getRepoForks(widget.repoFullName, page: expectationPage);
   }
 
   @override
@@ -54,7 +52,7 @@ class _RepoForksPageState extends BaseListWidgetState<RepoForksPage, RepoEntity>
     return Container(
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, RepoHomePage.ROUTE_NAME, arguments: entity);
+          Navigator.pushNamed(context, RepoHomePage.ROUTE_NAME, arguments: entity.fullName);
         },
         child: Card(
           child: Padding(

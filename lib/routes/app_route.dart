@@ -50,7 +50,7 @@ class AppRoute extends NavigatorObserver {
         },
       );
     } else if(settings.name == RepoHomePage.ROUTE_NAME) {
-      final RepoEntity args = settings.arguments;
+      final String args = settings.arguments;
       targetPage = MaterialPageRoute(
         settings: settings,
         builder: (context) {

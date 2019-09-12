@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/events/repo_home_event.dart';
 import 'package:githao/generated/i18n.dart';
+import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/resources/lang_colors.dart';
 import 'package:githao/routes/webview_page_args.dart';
@@ -8,23 +10,25 @@ import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/commits.dart';
 import 'package:githao/widgets/events/events.dart';
 import 'package:githao/widgets/file_explorer.dart';
+import 'package:githao/widgets/loading_state.dart';
 import 'package:githao/widgets/repo_info_count_data.dart';
 import 'package:githao/events/app_event_bus.dart';
 import 'web_view_page.dart';
 
 class RepoHomePage extends StatefulWidget {
   static const ROUTE_NAME = '/repo';
-  final RepoEntity repo;
-  RepoHomePage(this.repo, {Key key}): super(key: key);
+  final String repoFullName;
+  RepoHomePage(this.repoFullName, {Key key}): super(key: key);
 
   @override
   _RepoHomePageState createState() => _RepoHomePageState();
 }
 
 class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMixin {
-  final colors = <Color>[Colors.red, Colors.green, Colors.blue, Colors.pink, Colors.yellow, Colors.deepPurple];
   TabController _tabController;
   int _tabIndex;
+  RepoEntity _repoEntity;
+  StateFlag _loadingState = StateFlag.idle;
 
   List<String> _getTabTitles() {
     return <String>[S.current.infoUppercase, S.current.filesUppercase, S.current.commitsUppercase, S.current.activityUppercase,];
@@ -41,6 +45,30 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
         eventBus.fire(RepoHomeTabChangedEvent(_tabIndex));
       }
     });
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    if(_loadingState == StateFlag.loading) return Future;
+    if(mounted) {
+      setState(() {
+        _loadingState = StateFlag.loading;
+      });
+    }
+    return ApiService.getRepo(widget.repoFullName).then((entity) {
+      _repoEntity = entity;
+      if(mounted) {
+        setState(() {
+          _loadingState = StateFlag.complete;
+        });
+      }
+    }).catchError((e) {
+      this._loadingState = StateFlag.error;
+      if(mounted) {setState(() {});}
+      Util.showToast(e is DioError ? e.message : e.toString());
+    }).whenComplete(() {
+      return;
+    });
   }
 
   @override
@@ -51,14 +79,14 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
           child: NestedScrollView(
             headerSliverBuilder: (context, innerBoxScrolled) => [
               SliverAppBar(
-                title: Text(widget.repo.name,),
+                title: Text(widget.repoFullName.split('/')[1],),
                 floating: true, //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
                 snap:true,   //与floating结合使用
                 pinned: false, //为true时，SliverAppBar折叠后不消失
               ),
               SliverPersistentHeader(
                 pinned: false,
-                delegate: _SliverAppBarDelegate(
+                delegate: _SliverAppBarDelegate( this._loadingState,
                   Container(
                     color: Theme.of(context).primaryColor,
                     child: TabBar(
@@ -70,15 +98,33 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
                 ),
               ),
             ],
-            body: TabBarView(
-              controller: _tabController,
+            body: Stack(
               children: <Widget>[
-                RepoInfo(widget.repo),
-                FileExplorer(widget.repo),
-                CommitList(widget.repo),
-                EventList(
-                  login: widget.repo.owner.login,
-                  repoName: widget.repo.name,
+                Offstage(
+                  offstage: this._loadingState != StateFlag.complete,
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: <Widget>[
+                      _repoEntity != null ? RepoInfo(_repoEntity) : Container(),
+                      _repoEntity != null ? FileExplorer(_repoEntity) : Container(),
+                      _repoEntity != null ? CommitList(_repoEntity) : Container(),
+                      _repoEntity != null ? EventList(
+                        login: _repoEntity.owner.login,
+                        repoName: _repoEntity.name,
+                      ) : Container(),
+                    ],
+                  ),
+                ),
+                Offstage(
+                  offstage: this._loadingState != StateFlag.loading,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+                LoadingState(_loadingState,
+                  onRetry: (){
+                    _loadData();
+                  },
                 ),
               ],
             ),
@@ -219,17 +265,18 @@ class _RepoInfoState extends State<RepoInfo> {
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final Container _tabBar;
   final int tabIndex;
-  _SliverAppBarDelegate(this._tabBar, {this.tabIndex});
+  final StateFlag _loadingState;
+  _SliverAppBarDelegate(this._loadingState, this._tabBar, {this.tabIndex});
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(child: _tabBar,);
   }
   @override
-  double get maxExtent => 48;
+  double get maxExtent => _loadingState == StateFlag.complete ? 48 : 0;
   @override
-  double get minExtent => 48;
+  double get minExtent => _loadingState == StateFlag.complete ? 48 : 0;
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
+    return true;
   }
 }

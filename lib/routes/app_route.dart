@@ -17,6 +17,8 @@ import 'package:githao/pages/repo_watchers.dart';
 import 'package:githao/pages/route_error_page.dart';
 import 'package:githao/pages/settings.dart';
 import 'package:githao/pages/splash.dart';
+import 'package:githao/pages/user_followers.dart';
+import 'package:githao/pages/user_following.dart';
 import 'package:githao/pages/web_view_page.dart';
 import 'package:githao/routes/commit_detail_page_args.dart';
 import 'package:githao/routes/webview_page_args.dart';
@@ -135,6 +137,22 @@ class AppRoute extends NavigatorObserver {
         settings: settings,
         builder: (context) {
           return RepoWatchersPage(repoName);
+        },
+      );
+    } else if(settings.name == UserFollowersPage.ROUTE_NAME) {
+      final String login = settings.arguments;
+      targetPage = MaterialPageRoute(
+        settings: settings,
+        builder: (context) {
+          return UserFollowersPage(login);
+        },
+      );
+    } else if(settings.name == UserFollowingPage.ROUTE_NAME) {
+      final String login = settings.arguments;
+      targetPage = MaterialPageRoute(
+        settings: settings,
+        builder: (context) {
+          return UserFollowingPage(login);
         },
       );
     }

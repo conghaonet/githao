@@ -167,6 +167,19 @@ class ApiService {
     return response.data.map((item) => UserEntity.fromJson(item)).toList();
   }
 
+  static Future<List<UserEntity>> getUserFollowers(String login, {int page=1}) async {
+    Map<String, dynamic> parameters = {'page': page};
+    Response<List<dynamic>> response = await dioClient.dio.get("/users/$login/followers", queryParameters: parameters);
+    return response.data.map((item) => UserEntity.fromJson(item)).toList();
+  }
+
+  static Future<List<UserEntity>> getUserFollowing(String login, {int page=1}) async {
+    Map<String, dynamic> parameters = {'page': page};
+    Response<List<dynamic>> response = await dioClient.dio.get("/users/$login/following", queryParameters: parameters);
+    return response.data.map((item) => UserEntity.fromJson(item)).toList();
+  }
+
+  ///github不提供trending api，这里调用第三方API实现
   static Future<List<RepoEntity>> getTrending({String since='daily', String language=''}) async {
     Map<String, dynamic> parameters = {'since': since, 'language': language};
     Response<List<dynamic>> response = await codehubClient.dio.get("/trending", queryParameters: parameters);

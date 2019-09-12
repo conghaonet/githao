@@ -44,7 +44,6 @@ class S implements WidgetsLocalizations {
   String get following => "Following";
   String get forks => "Forks";
   String get fullName => "Full name";
-  String get gists => "Gists";
   String get infoUppercase => "INFO";
   String get issues => "Issues";
   String get language => "Language";

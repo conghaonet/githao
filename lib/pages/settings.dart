@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/provide/locale_provide.dart';
 import 'package:githao/provide/theme_provide.dart';
@@ -118,6 +119,7 @@ class _SettingsPageState extends State<SettingsPage> {
           setState(() {
             Provide.value<ThemeProvide>(context).changeTheme(i);
             SystemChrome.setSystemUIOverlayStyle(Provide.value<ThemeProvide>(context).overlayStyle);
+            FlutterStatusbarcolor.setStatusBarColor(Colors.primaries[i][700]);
             SpUtil.getInstance().then((sp) {
               sp.putInt(SharedPreferencesKeys.themeIndex, i);
             });

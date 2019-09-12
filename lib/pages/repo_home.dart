@@ -46,40 +46,42 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxScrolled) => [
-            SliverAppBar(
-              title: Text(widget.repo.name,),
-              floating: true, //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
-              snap:true,   //与floating结合使用
-              pinned: false, //为true时，SliverAppBar折叠后不消失
-            ),
-            SliverPersistentHeader(
-              pinned: false,
-              delegate: _SliverAppBarDelegate(
-                Container(
-                  color: Theme.of(context).primaryColor,
-                  child: TabBar(
-                    indicatorColor: Theme.of(context).primaryColorLight,
-                    controller: _tabController,
-                    tabs: _getTabTitles().map((title) => Tab(child: Text(title),)).toList(growable: false),
+      body: SafeArea(
+        child: Container(
+          child: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxScrolled) => [
+              SliverAppBar(
+                title: Text(widget.repo.name,),
+                floating: true, //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
+                snap:true,   //与floating结合使用
+                pinned: false, //为true时，SliverAppBar折叠后不消失
+              ),
+              SliverPersistentHeader(
+                pinned: false,
+                delegate: _SliverAppBarDelegate(
+                  Container(
+                    color: Theme.of(context).primaryColor,
+                    child: TabBar(
+                      indicatorColor: Theme.of(context).primaryColorLight,
+                      controller: _tabController,
+                      tabs: _getTabTitles().map((title) => Tab(child: Text(title),)).toList(growable: false),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-          body: TabBarView(
-            controller: _tabController,
-            children: <Widget>[
-              RepoInfo(widget.repo),
-              FileExplorer(widget.repo),
-              CommitList(widget.repo),
-              EventList(
-                login: widget.repo.owner.login,
-                repoName: widget.repo.name,
-              ),
             ],
+            body: TabBarView(
+              controller: _tabController,
+              children: <Widget>[
+                RepoInfo(widget.repo),
+                FileExplorer(widget.repo),
+                CommitList(widget.repo),
+                EventList(
+                  login: widget.repo.owner.login,
+                  repoName: widget.repo.name,
+                ),
+              ],
+            ),
           ),
         ),
       ),

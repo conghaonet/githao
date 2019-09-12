@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:githao/biz/user_biz.dart';
 import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/provide/theme_provide.dart';
@@ -50,6 +51,7 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     //修改主题后，需要在app的第一个页面设置状态栏。
     SystemChrome.setSystemUIOverlayStyle(Provide.value<ThemeProvide>(context).overlayStyle);
+    FlutterStatusbarcolor.setStatusBarColor(Theme.of(context).primaryColorDark);
     return Scaffold(
       body: Container(
         child: Stack(

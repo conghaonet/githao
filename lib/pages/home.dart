@@ -8,6 +8,7 @@ import 'package:githao/biz/user_biz.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/pages/issues.dart';
 import 'package:githao/pages/profile.dart';
+import 'package:githao/pages/search.dart';
 import 'package:githao/pages/settings.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';
@@ -219,6 +220,14 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
                     },
                     selected: _clickedMenu == HomeDrawer.MENU_TRENDING_UP,
                   ),
+                  ListTile(
+                    leading: Icon(Icons.search,),
+                    title: Text(S.current.search,),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed(SearchPage.ROUTE_NAME);
+                    },
+                  ),
                   Divider(height: 1, color: Theme.of(context).primaryColor,),
                   ListTile(
                     leading: Icon(Icons.settings,),
@@ -236,11 +245,13 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
                       Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
                     },
                   ),
+/*
                   ListTile(
                     leading: Icon(Icons.info,),
                     title: Text(S.current.about,),
                     onTap: () {},
                   ),
+*/
                 ],
               ),
             ),

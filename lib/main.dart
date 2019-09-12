@@ -85,7 +85,8 @@ class _MyAppState extends State<MyApp> {
             localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate, // for iOS
             ],
             supportedLocales: S.delegate.supportedLocales,
             //指定默认语言

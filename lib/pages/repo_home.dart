@@ -50,17 +50,7 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
         child: NestedScrollView(
           headerSliverBuilder: (context, innerBoxScrolled) => [
             SliverAppBar(
-              leading: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(Icons.arrow_back),
-              ),
-              title: Text(
-                widget.repo.name, style: TextStyle(fontSize: 18),
-              ),
-              titleSpacing: 0,
-              centerTitle: false,
+              title: Text(widget.repo.name,),
               floating: true, //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
               snap:true,   //与floating结合使用
               pinned: false, //为true时，SliverAppBar折叠后不消失

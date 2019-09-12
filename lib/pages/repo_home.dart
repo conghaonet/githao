@@ -16,7 +16,7 @@ import 'package:githao/events/app_event_bus.dart';
 import 'web_view_page.dart';
 
 class RepoHomePage extends StatefulWidget {
-  static const ROUTE_NAME = '/repo';
+  static const ROUTE_NAME = '/repo_home';
   final String repoFullName;
   RepoHomePage(this.repoFullName, {Key key}): super(key: key);
 

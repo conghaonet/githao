@@ -19,6 +19,7 @@ import 'package:githao/pages/settings.dart';
 import 'package:githao/pages/splash.dart';
 import 'package:githao/pages/user_followers.dart';
 import 'package:githao/pages/user_following.dart';
+import 'package:githao/pages/user_repos.dart';
 import 'package:githao/pages/web_view_page.dart';
 import 'package:githao/routes/commit_detail_page_args.dart';
 import 'package:githao/routes/webview_page_args.dart';
@@ -153,6 +154,14 @@ class AppRoute extends NavigatorObserver {
         settings: settings,
         builder: (context) {
           return UserFollowingPage(login);
+        },
+      );
+    } else if(settings.name == UserReposPage.ROUTE_NAME) {
+      final String login = settings.arguments;
+      targetPage = MaterialPageRoute(
+        settings: settings,
+        builder: (context) {
+          return UserReposPage(login);
         },
       );
     }

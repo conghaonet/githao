@@ -3,6 +3,7 @@ import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/pages/user_followers.dart';
 import 'package:githao/pages/user_following.dart';
+import 'package:githao/pages/user_repos.dart';
 
 class ProfileInfoCountData extends StatelessWidget {
   final UserEntity _userEntity;
@@ -45,7 +46,9 @@ class ProfileInfoCountData extends StatelessWidget {
         ),
         Expanded(
           child: InkWell(
-            onTap: (){},
+            onTap: (){
+              Navigator.pushNamed(context, UserReposPage.ROUTE_NAME, arguments: _userEntity.login);
+            },
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: Column(

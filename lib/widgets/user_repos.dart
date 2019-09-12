@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
-import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/resources/repos_filter_parameters.dart';
 
 import 'base_repos.dart';
@@ -11,8 +9,8 @@ import 'my_repos_filter.dart';
 /// [perPageRows] 每次请求期望返回的数据量，GitHub默认每次返回30条数据；
 /// [needLoadMore] 为true时，提供上拉加载更多特性；
 class UserReposWidget extends BaseReposWidget{
-  final UserEntity user;
-  UserReposWidget({Key key, this.user, needLoadMore=true,}): super(key: key, needLoadMore: needLoadMore);
+  final String login;
+  UserReposWidget({Key key, this.login, needLoadMore=true,}): super(key: key, needLoadMore: needLoadMore);
   @override
   _UserReposWidgetState createState() => _UserReposWidgetState();
 }
@@ -39,7 +37,7 @@ class _UserReposWidgetState extends BaseReposWidgetState<UserReposWidget> {
     String _type = ReposFilterParameters.filterTypeValueMap[_groupTypeIndex];
     String _sort = ReposFilterParameters.filterSortValueMap[_groupSortIndex][ReposFilterParameters.PARAMETER_NAME_SORT];
     String _direction = ReposFilterParameters.filterSortValueMap[_groupSortIndex][ReposFilterParameters.PARAMETER_NAME_DIRECTION];
-    return ApiService.getUserRepos(widget.user.login, page: expectationPage, type: _type, sort: _sort, direction: _direction);
+    return ApiService.getUserRepos(widget.login, page: expectationPage, type: _type, sort: _sort, direction: _direction);
   }
 
   @override

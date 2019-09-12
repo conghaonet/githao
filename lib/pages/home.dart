@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
               } else if(snapshot.data == HomeDrawer.MENU_TRENDING_UP) {
                 return TrendingReposWidget(user: Provide.value<UserProvide>(context).user);
               } else {
-                return UserReposWidget(user: Provide.value<UserProvide>(context).user);
+                return UserReposWidget(login: Provide.value<UserProvide>(context).user.login);
               }
             },
           ),

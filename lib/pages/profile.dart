@@ -70,39 +70,41 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     super.build(context); //混入AutomaticKeepAliveClientMixin后，必须添加
     return Scaffold(
-      body: Container(
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxScrolled) => [
-            SliverAppBar(
-              primary: true,
-              floating: true, //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
-              snap:false,   //与floating结合使用
-              pinned: false, //为true时，SliverAppBar折叠后不消失
-              expandedHeight: 200,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text(widget.args.userEntity.login),
-                centerTitle: true,
-                collapseMode: CollapseMode.parallax, // 背景折叠动画
-                background: _appBarBackground(),
+      body: SafeArea(
+        child: Container(
+          child: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxScrolled) => [
+              SliverAppBar(
+                primary: true,
+                floating: true, //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
+                snap:false,   //与floating结合使用
+                pinned: false, //为true时，SliverAppBar折叠后不消失
+                expandedHeight: 200,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: Text(widget.args.userEntity.login),
+                  centerTitle: true,
+                  collapseMode: CollapseMode.parallax, // 背景折叠动画
+                  background: _appBarBackground(),
+                ),
               ),
-            ),
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverAppBarDelegate(
-                Container(
-                  color: Theme.of(context).primaryColor,
-                  child: TabBar(
-                    indicatorColor: Theme.of(context).primaryColorLight,
-                    controller: _tabController,
-                    tabs: _getTabTitles().map((title) => Tab(child: Text(title),)).toList(growable: false),
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: _SliverAppBarDelegate(
+                  Container(
+                    color: Theme.of(context).primaryColor,
+                    child: TabBar(
+                      indicatorColor: Theme.of(context).primaryColorLight,
+                      controller: _tabController,
+                      tabs: _getTabTitles().map((title) => Tab(child: Text(title),)).toList(growable: false),
+                    ),
                   ),
                 ),
               ),
+            ],
+            body: TabBarView(
+              controller: _tabController,
+              children: _getTabViews(),
             ),
-          ],
-          body: TabBarView(
-            controller: _tabController,
-            children: _getTabViews(),
           ),
         ),
       ),

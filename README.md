@@ -18,12 +18,16 @@ samples, guidance on mobile development, and a full API reference.
 ## Development environment and tool chain
 * Flutter version 1.9.1+hotfix.2
 * Dart version 2.5.0
-* Java version OpenJDK Runtime Environment (build 1.8.0_202-release-1483-b03)
 * Android Studio (version 3.5)
-  - Android Studio plugins：
-    [Flutter i18n](https://github.com/long1eu/flutter_i18n)
-
-
+  - Java version OpenJDK 1.8.0
+  - Flutter plugin version 39.0.3
+  - Dart plugin version 191.8423
+  - [Flutter i18n plugin](https://github.com/long1eu/flutter_i18n)
+* Develop for Android
+  - Platform android-29, build-tools 29.0.2
+* Develop for iOS and macOS
+  - Xcode 10.3
+  - CocoaPods version 1.7.5
 
 ## Screenshots
 <img height="480px" src="screenshots/screenshot_01.jpg"> <img height="480px" src="screenshots/screenshot_02.jpg"> <img height="480px" src="screenshots/screenshot_03.jpg">

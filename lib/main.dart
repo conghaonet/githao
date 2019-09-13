@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
         Provide.value<ThemeProvide>(context).changeTheme(themeIndex);
       }
       String lang = sp.getString(SharedPreferencesKeys.language);
-      if(lang != null) {
+      if(lang != null && lang.isNotEmpty) {
         Provide.value<LocaleProvide>(context).changeLocale(Locale(lang));
       }
       if(mounted) {

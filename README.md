@@ -44,7 +44,7 @@ samples, guidance on mobile development, and a full API reference.
 * [dart-event-bus](https://github.com/marcojakob/dart-event-bus) An Event Bus using Dart Streams for decoupling applications.
 * [flutter_syntax_view](https://github.com/BaderEddineOuaich/flutter_syntax_view) A SyntaxView Widget which highlights code text according to the programming language syntax.
 * [flutter_statusbarcolor](https://github.com/mchome/flutter_statusbarcolor) A package can help you to change your flutter app's statusbar's color or navigationbar's color programmatically.
-
+* [build_runner](https://github.com/dart-lang/build) A build system for Dart.
 ## Screenshots
 <img height="480px" src="screenshots/screenshot_01.jpg"> <img height="480px" src="screenshots/screenshot_02.jpg"> <img height="480px" src="screenshots/screenshot_03.jpg">
 <img height="480px" src="screenshots/screenshot_04.jpg"> <img height="480px" src="screenshots/screenshot_05.jpg"> <img height="480px" src="screenshots/screenshot_06.jpg">

@@ -121,24 +121,6 @@ class ApiService {
     return response.data.map((item) => IssueEntity.fromJson(item)).toList();
   }
 
-
-  /// [state] +state:open, +state:closed, +state:open+state:closed(ALL)
-  /// [sort] created, updated
-  /// [order] Determines whether the first search result returned is the highest number of matches (desc) or lowest number of matches (asc).
-  ///         This parameter is ignored unless you provide sort. Default: desc
-  static Future<List<IssueEntity>> searchIssues({String login, String state, String sort='updated', String order='desc', int page = 1}) async {
-    String q = 'involves:$login$state';
-    Map<String, dynamic> parameters = {'sort': sort, 'order': order, 'page': page};
-    Response<Map<String, dynamic>> response = await dioClient.dio.get("/search/issues?q=$q", queryParameters: parameters);
-    var searchEntity = SearchEntity.fromJson(response.data);
-
-    if(searchEntity != null && searchEntity.items.isNotEmpty) {
-      return searchEntity.items.map((item) => IssueEntity.fromJson(item)).toList();
-    } else {
-      return List<IssueEntity>();
-    }
-  }
-
   /// [state] Indicates the state of the issues to return. Can be either open, closed, or all. Default: open
   /// [sort] created, updated
   /// [order] Determines whether the first search result returned is the highest number of matches (desc) or lowest number of matches (asc).
@@ -177,6 +159,52 @@ class ApiService {
     Map<String, dynamic> parameters = {'page': page};
     Response<List<dynamic>> response = await dioClient.dio.get("/users/$login/following", queryParameters: parameters);
     return response.data.map((item) => UserEntity.fromJson(item)).toList();
+  }
+
+  /// [state] +state:open, +state:closed, +state:open+state:closed(ALL)
+  /// [sort] created, updated
+  /// [order] Determines whether the first search result returned is the highest number of matches (desc) or lowest number of matches (asc).
+  ///         This parameter is ignored unless you provide sort. Default: desc
+  static Future<List<IssueEntity>> searchIssues({String login, String state, String sort='updated', String order='desc', int page = 1}) async {
+    String q = 'involves:$login$state';
+    Map<String, dynamic> parameters = {'sort': sort, 'order': order, 'page': page};
+    Response<Map<String, dynamic>> response = await dioClient.dio.get("/search/issues?q=$q", queryParameters: parameters);
+    var searchEntity = SearchEntity.fromJson(response.data);
+    if(searchEntity != null && searchEntity.items != null && searchEntity.items.isNotEmpty) {
+      return searchEntity.items.map((item) => IssueEntity.fromJson(item)).toList();
+    } else {
+      return List<IssueEntity>();
+    }
+  }
+
+  /// [keyword] search keyword
+  /// [sort] created, updated
+  /// [order] Determines whether the first search result returned is the highest number of matches (desc) or lowest number of matches (asc).
+  ///         This parameter is ignored unless you provide sort. Default: desc
+  static Future<List<RepoEntity>> searchRepos({String keyword, String sort='', String order='desc', int page = 1}) async {
+    Map<String, dynamic> parameters = {'q': keyword, 'sort': sort, 'order': order, 'page': page};
+    Response<Map<String, dynamic>> response = await dioClient.dio.get("/search/repositories", queryParameters: parameters);
+    var searchEntity = SearchEntity.fromJson(response.data);
+    if(searchEntity != null && searchEntity.items != null && searchEntity.items.isNotEmpty) {
+      return searchEntity.items.map((item) => RepoEntity.fromJson(item)).toList();
+    } else {
+      return List<RepoEntity>();
+    }
+  }
+
+  /// [keyword] search keyword
+  /// [sort] created, updated
+  /// [order] Determines whether the first search result returned is the highest number of matches (desc) or lowest number of matches (asc).
+  ///         This parameter is ignored unless you provide sort. Default: desc
+  static Future<List<UserEntity>> searchUsers({String keyword, String sort='', String order='desc', int page = 1}) async {
+    Map<String, dynamic> parameters = {'q': keyword, 'sort': sort, 'order': order, 'page': page};
+    Response<Map<String, dynamic>> response = await dioClient.dio.get("/search/users", queryParameters: parameters);
+    var searchEntity = SearchEntity.fromJson(response.data);
+    if(searchEntity != null && searchEntity.items != null && searchEntity.items.isNotEmpty) {
+      return searchEntity.items.map((item) => UserEntity.fromJson(item)).toList();
+    } else {
+      return List<UserEntity>();
+    }
   }
 
   ///github不提供trending api，这里调用第三方API实现

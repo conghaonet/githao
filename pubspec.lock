@@ -226,13 +226,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_webview_plugin:
-    dependency: "direct main"
-    description:
-      name: flutter_webview_plugin
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.3.7"
   fluttertoast:
     dependency: "direct main"
     description:
@@ -580,7 +573,7 @@ packages:
       name: webview_flutter
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.3.14"
+    version: "0.3.14+1"
   yaml:
     dependency: transitive
     description:

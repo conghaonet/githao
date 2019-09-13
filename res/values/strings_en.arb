@@ -68,5 +68,7 @@
   "updated": "Updated",
   "pushed": "Pushed",
   "fullName": "Full name",
-  "type": "Type"
+  "type": "Type",
+  "searchRepositories": "Search repositories",
+  "searchUsers": "Search users"
 }

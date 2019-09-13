@@ -69,6 +69,8 @@ class S implements WidgetsLocalizations {
   String get refreshFailedCheckNetwork => "Refresh failed, please check your network connection.";
   String get repositories => "Repositories";
   String get search => "Search";
+  String get searchRepositories => "Search repositories";
+  String get searchUsers => "Search users";
   String get selectALanguage => "Select a language";
   String get settings => "Settings";
   String get skip => "Skip";

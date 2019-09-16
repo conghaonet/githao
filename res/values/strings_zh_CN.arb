@@ -19,7 +19,7 @@
   "logout": "登出",
   "refreshFailedCheckNetwork": "刷新失败，请检查您的网络连接。",
   "userDataHasBeanRefreshed": "用户数据已刷新",
-  "loadingMoreData": "更多数据加载中...",
+  "loadingMoreData": "加载更多数据...",
   "noMoreData": "没有更多数据",
   "empty": "Empty",
   "oopsWrong": "哎呀，出错啦！",

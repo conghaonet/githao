@@ -6,41 +6,46 @@ import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/repo_home.dart';
 import 'package:githao/widgets/base_list.dart';
 
-class RepoForksPage extends BaseListWidget {
+class RepoForksPage extends StatelessWidget {
   static const ROUTE_NAME = "/repo_forks";
   final String repoFullName;
-
   RepoForksPage(this.repoFullName, {Key key}): super(key: key);
-
   @override
-  _RepoForksPageState createState() => _RepoForksPageState();
-}
-
-class _RepoForksPageState extends BaseListWidgetState<RepoForksPage, RepoEntity> {
-  @override
-  AppBar buildAppBar() {
-    return AppBar(
-      centerTitle: true,
-      title: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            S.current.forks,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            widget.repoFullName,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 14),
-          ),
-        ],
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              S.current.forks,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              this.repoFullName,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 14),
+            ),
+          ],
+        ),
       ),
+      body: RepoForksList(this.repoFullName),
     );
   }
+}
 
+class RepoForksList extends BaseListWidget{
+  final String repoFullName;
+  RepoForksList(this.repoFullName, {Key key}): super(key: key);
+  @override
+  _RepoForksListState createState() => _RepoForksListState();
+}
+
+class _RepoForksListState extends BaseListWidgetState<RepoForksList, RepoEntity> {
   @override
   Future<List<RepoEntity>> getDatum(int expectationPage) {
     return ApiService.getRepoForks(widget.repoFullName, page: expectationPage);
@@ -92,6 +97,4 @@ class _RepoForksPageState extends BaseListWidgetState<RepoForksPage, RepoEntity>
       ),
     );
   }
-
-
 }

@@ -21,8 +21,6 @@ abstract class BaseListWidgetState<T extends BaseListWidget, K> extends State<T>
   bool _lastActionIsReload = true;
   bool _expectHasMoreData = true;
 
-  AppBar buildAppBar();
-
   Future<List<K>> getDatum(final int expectationPage);
 
   Widget buildItem(K k, int index);
@@ -85,40 +83,37 @@ abstract class BaseListWidgetState<T extends BaseListWidget, K> extends State<T>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(),
-      body: Container(
-        child: Stack(
-          children: <Widget>[
-            RefreshIndicator(
-              key: refreshIndicatorKey,
-              onRefresh: _loadData,
-              color: Theme.of(context).primaryColor,
-              child: ListView.builder(
-                itemCount: _datum.length >= widget.perPageRows ? _datum.length+1 : _datum.length,
-                itemBuilder: (context, index) {
-                  if(index < _datum.length) {
-                    return buildItem(_datum[index], index);
-                  } else {
-                    if(_expectHasMoreData && _loadingState == StateFlag.complete) {
-                      Future.delayed(const Duration(milliseconds: 100)).then((_){
-                        _loadData(isReload: false);
-                      });
-                    }
-                    return LoadMoreDataFooter(_expectHasMoreData, flag: _loadingState, onRetry: () {
+    return Container(
+      child: Stack(
+        children: <Widget>[
+          RefreshIndicator(
+            key: refreshIndicatorKey,
+            onRefresh: _loadData,
+            color: Theme.of(context).primaryColor,
+            child: ListView.builder(
+              itemCount: _datum.length >= widget.perPageRows ? _datum.length+1 : _datum.length,
+              itemBuilder: (context, index) {
+                if(index < _datum.length) {
+                  return buildItem(_datum[index], index);
+                } else {
+                  if(_expectHasMoreData && _loadingState == StateFlag.complete) {
+                    Future.delayed(const Duration(milliseconds: 100)).then((_){
                       _loadData(isReload: false);
-                    },);
+                    });
                   }
-                },
-              ),
-            ),
-            LoadingState(_lastActionIsReload ? _loadingState : StateFlag.idle,
-              onRetry: (){
-                refreshIndicatorKey.currentState.show();
+                  return LoadMoreDataFooter(_expectHasMoreData, flag: _loadingState, onRetry: () {
+                    _loadData(isReload: false);
+                  },);
+                }
               },
             ),
-          ],
-        ),
+          ),
+          LoadingState(_lastActionIsReload ? _loadingState : StateFlag.idle,
+            onRetry: (){
+              refreshIndicatorKey.currentState.show();
+            },
+          ),
+        ],
       ),
     );
   }

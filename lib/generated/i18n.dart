@@ -126,7 +126,7 @@ class $zh_CN extends S {
   @override
   String get language => "语言";
   @override
-  String get loadingMoreData => "更多数据加载中...";
+  String get loadingMoreData => "加载更多数据...";
   @override
   String get type => "类型";
   @override

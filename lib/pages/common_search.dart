@@ -1,54 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
-import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/common_search_delegate.dart';
+import 'package:githao/widgets/search_repo_tab.dart';
 
 class CommonSearchPage extends StatefulWidget {
   static const ROUTE_NAME = '/common_search';
+  static final List<String> tabTitles = [S.current.repositories, S.current.users];
   @override
   _CommonSearchPageState createState() => _CommonSearchPageState();
 }
 
 class _CommonSearchPageState extends State<CommonSearchPage> with TickerProviderStateMixin {
   TabController _tabController;
-
+  String _query;
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: _getTabTitles().length, vsync: this);
+    _tabController = TabController(length: CommonSearchPage.tabTitles.length, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if(mounted) {
         Future.delayed(const Duration(milliseconds: 100)).then((_) {
           if(mounted) {
-            showSearch<String>(context: context, delegate: CommonSearchDelegate());
+            _showSearchView();
           }
         });
       }
     });
   }
 
-  List<String> _getTabTitles() {
-    return <String>[S.current.repositories, S.current.users];
+  Future _showSearchView() async {
+    String q = await showSearch<String>(context: context, delegate: CommonSearchDelegate(_query));
+    if(q !=null && q.isNotEmpty) {
+      this._query = '';
+      if(mounted) {
+        setState(() {
+        });
+      }
+      Future.delayed(const Duration(milliseconds: 100)).then((_) async {
+        if(mounted) {
+          setState(() {
+            this._query = q;
+          });
+        }
+      });
+    }
+  }
+
+  Widget _buildDefaultEmpty() {
+    return Container(
+      child: Center(
+        child: IconButton(icon: const Icon(Icons.search), onPressed: () {
+          _showSearchView();
+        }),
+      ),
+    );
+  }
+
+  Widget _buildRepoTab() {
+    if(this._query != null && this._query.isNotEmpty) {
+      return SearchRepoTab(_query);
+    } else {
+      return _buildDefaultEmpty();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-/*
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.current.search),
-        actions: <Widget>[
-          IconButton(icon: const Icon(Icons.search), onPressed: () async {
-            String query = await showSearch<String>(context: context, delegate: CommonSearchDelegate());
-            Util.showToast(query ?? 'query is null');
-          }),
-        ],
-      ),
-      body: Container(
-        color: Colors.red,
-      ),
-    );
-*/
     return Scaffold(
       body: SafeArea(
         child: NestedScrollView(
@@ -56,9 +73,8 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
             SliverAppBar(
               title: Text(S.current.search,),
               actions: <Widget>[
-                IconButton(icon: const Icon(Icons.search), onPressed: () async {
-                  String query = await showSearch<String>(context: context, delegate: CommonSearchDelegate());
-                  Util.showToast(query ?? 'query is null');
+                IconButton(icon: const Icon(Icons.search), onPressed: () {
+                  _showSearchView();
                 }),
               ],
               floating: true, //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
@@ -73,7 +89,7 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
                   child: TabBar(
                     indicatorColor: Theme.of(context).primaryColorLight,
                     controller: _tabController,
-                    tabs: _getTabTitles().map((title) => Tab(child: Text(title),)).toList(growable: false),
+                    tabs: CommonSearchPage.tabTitles.map((title) => Tab(child: Text(title),)).toList(growable: false),
                   ),
                 ),
               ),
@@ -82,7 +98,7 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
           body: TabBarView(
             controller: _tabController,
             children: <Widget>[
-              Text(S.current.repositories),
+              _buildRepoTab(),
               Text(S.current.users),
             ],
           ),

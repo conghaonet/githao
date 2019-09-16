@@ -3,8 +3,15 @@ import 'package:githao/generated/i18n.dart';
 import 'package:githao/utils/util.dart';
 
 class CommonSearchDelegate extends SearchDelegate<String> {
+  String _lastQuery;
+  CommonSearchDelegate(this._lastQuery): super();
+
   @override
   List<Widget> buildActions(BuildContext context) {
+    if(_lastQuery != null && _lastQuery.isNotEmpty) {
+      query = _lastQuery;
+      _lastQuery = null;
+    }
     return [
       IconButton(icon: const Icon(Icons.clear), onPressed: () {
         query = '';

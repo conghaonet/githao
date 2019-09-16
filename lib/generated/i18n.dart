@@ -69,8 +69,7 @@ class S implements WidgetsLocalizations {
   String get refreshFailedCheckNetwork => "Refresh failed, please check your network connection.";
   String get repositories => "Repositories";
   String get search => "Search";
-  String get searchRepositories => "Search repositories";
-  String get searchUsers => "Search users";
+  String get searchHistory => "Search history";
   String get selectALanguage => "Select a language";
   String get settings => "Settings";
   String get skip => "Skip";
@@ -89,6 +88,7 @@ class S implements WidgetsLocalizations {
   String get type => "Type";
   String get updated => "Updated";
   String get userDataHasBeanRefreshed => "User data has been refreshed.";
+  String get users => "Users";
   String get watchers => "Watchers";
   String createdAt(String dateTime) => "Created at ${dateTime}";
   String pushedAt(String dateTime) => "Pushed at ${dateTime}";
@@ -178,6 +178,8 @@ class $zh_CN extends S {
   @override
   String get starredRepos => "星标版本库";
   @override
+  String get users => "用户";
+  @override
   String get license => "许可";
   @override
   String get adjustTimeSpan => "调整事件跨度";
@@ -235,6 +237,8 @@ class $zh_CN extends S {
   String get stargazers => "星标";
   @override
   String get closed => "关闭的";
+  @override
+  String get searchHistory => "搜索历史";
   @override
   String get pushed => "推送";
   @override

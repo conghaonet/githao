@@ -41,7 +41,7 @@ class CommonSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Text(S.current.searchRepositories);
+    return Text(S.current.searchHistory);
   }
 
 

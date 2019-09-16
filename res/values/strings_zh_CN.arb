@@ -68,5 +68,7 @@
   "updated": "更新",
   "pushed": "推送",
   "fullName": "名称",
-  "type": "类型"
+  "type": "类型",
+  "users": "用户",
+  "searchHistory": "搜索历史"
 }

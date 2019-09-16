@@ -69,6 +69,6 @@
   "pushed": "Pushed",
   "fullName": "Full name",
   "type": "Type",
-  "searchRepositories": "Search repositories",
-  "searchUsers": "Search users"
+  "users": "Users",
+  "searchHistory": "Search history"
 }

@@ -220,6 +220,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
                     },
                     selected: _clickedMenu == HomeDrawer.MENU_TRENDING_UP,
                   ),
+/*
                   ListTile(
                     leading: Icon(Icons.search,),
                     title: Text(S.current.search,),
@@ -228,6 +229,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
                       Navigator.of(context).pushNamed(CommonSearchPage.ROUTE_NAME);
                     },
                   ),
+*/
                   Divider(height: 1, color: Theme.of(context).primaryColor,),
                   ListTile(
                     leading: Icon(Icons.settings,),

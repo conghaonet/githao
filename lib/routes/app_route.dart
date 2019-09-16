@@ -15,7 +15,7 @@ import 'package:githao/pages/repo_home.dart';
 import 'package:githao/pages/repo_stargazers.dart';
 import 'package:githao/pages/repo_watchers.dart';
 import 'package:githao/pages/route_error_page.dart';
-import 'package:githao/pages/search_repos.dart';
+import 'package:githao/pages/common_search.dart';
 import 'package:githao/pages/settings.dart';
 import 'package:githao/pages/splash.dart';
 import 'package:githao/pages/user_followers.dart';
@@ -39,7 +39,7 @@ class AppRoute extends NavigatorObserver {
     LoginPage.ROUTE_NAME: (_) => LoginPage(),
     HomePage.ROUTE_NAME: (_) => HomePage(),
     SettingsPage.ROUTE_NAME: (_) => SettingsPage(),
-    SearchReposPage.ROUTE_NAME: (_) => SearchReposPage(),
+    CommonSearchPage.ROUTE_NAME: (_) => CommonSearchPage(),
   };
   Map<String, WidgetBuilder> get routes => _routes;
 

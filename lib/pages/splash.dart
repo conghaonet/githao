@@ -41,10 +41,11 @@ class _SplashPageState extends State<SplashPage> {
     });
     //界面渲染第一帧时的监听，仅监听一次。
     WidgetsBinding.instance.addPostFrameCallback((_){
-      print("Frame has been rendered");
-      setState(() {
-        isShown = true;
-      });
+      if(mounted) {
+        setState(() {
+          isShown = true;
+        });
+      }
     });
   }
   @override

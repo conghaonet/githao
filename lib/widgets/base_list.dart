@@ -28,7 +28,11 @@ abstract class BaseListWidgetState<T extends BaseListWidget, K> extends State<T>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => refreshIndicatorKey.currentState.show());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(mounted) {
+        refreshIndicatorKey.currentState.show();
+      }
+    });
   }
 
   Future<void> _loadData({bool isReload = true}) async {

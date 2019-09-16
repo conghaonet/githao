@@ -53,7 +53,9 @@ class _CodePreviewPageState extends State<CodePreviewPage> {
     //界面渲染第一帧时的监听，仅监听一次。
     WidgetsBinding.instance.addPostFrameCallback((_){
       if(_syntax == null) {
-        Navigator.pushReplacementNamed(context, CodePreviewHtmlPage.ROUTE_NAME, arguments: widget.args);
+        if(mounted) {
+          Navigator.pushReplacementNamed(context, CodePreviewHtmlPage.ROUTE_NAME, arguments: widget.args);
+        }
       }
     });
   }

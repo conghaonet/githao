@@ -45,7 +45,11 @@ class _EventListState extends State<EventList> with AutomaticKeepAliveClientMixi
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(mounted) {
+        _refreshIndicatorKey.currentState.show();
+      }
+    });
   }
 
   Future<void> _loadData({bool isReload = true}) async {

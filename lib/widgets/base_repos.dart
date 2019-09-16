@@ -28,6 +28,7 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
   int _page = 1;
   StateFlag _loadingState = StateFlag.idle;
   bool _expectHasMoreData = true;
+  String _heroTimeTag;
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   Future<List<RepoEntity>> getRepos(final int expectationPage);
@@ -41,7 +42,12 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => refreshIndicatorKey.currentState.show());
+    _heroTimeTag = DateTime.now().microsecondsSinceEpoch.toString();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(mounted) {
+        refreshIndicatorKey.currentState.show();
+      }
+    });
   }
 
   Future<void> _loadData({bool isReload = true}) async {
@@ -172,7 +178,7 @@ abstract class BaseReposWidgetState<T extends BaseReposWidget> extends State<T> 
   }
 
   Widget _getRepoItem(int index) {
-    String avatarHeroTag = '${_repos[index].owner.login}$index';
+    String avatarHeroTag = '${_heroTimeTag}_${_repos[index].owner.login}_$index';
     return Card(
       margin: EdgeInsets.only(left: 8, top: 8, right: 8, bottom: (index +1 == _repos.length) ? 8 : 0),
       child: FlatButton(

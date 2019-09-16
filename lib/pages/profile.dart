@@ -1,15 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/user_entity.dart';
-import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';
+import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/events/events.dart';
+import 'package:githao/widgets/loading_state.dart';
 import 'package:githao/widgets/profile_info_count_data.dart';
 import 'package:githao/widgets/starred_repos.dart';
 import 'package:intl/intl.dart';
-import 'package:provide/provide.dart';
 
 class ProfilePage extends StatefulWidget {
   static const ROUTE_NAME = '/profile';
@@ -21,8 +22,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   TabController _tabController;
-  bool _isAuthenticatedUser = false;
   UserEntity _userEntity;
+  StateFlag _loadingState = StateFlag.idle;
 
   //要达到缓存目的，必须实现AutomaticKeepAliveClientMixin的wantKeepAlive为true。
   // 不会被销毁,占内存中
@@ -32,24 +33,38 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: widget.args.userEntity.isUser ? 3 : 2, vsync: this);
-    _tabController.addListener(() {
-    });
-    ApiService.getUser(widget.args.userEntity.login).then((user){
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    if(_loadingState == StateFlag.loading) return Future;
+    _loadingState = StateFlag.loading;
+    if(mounted) {
+      setState(() {
+
+      });
+    }
+    return ApiService.getUser(widget.args.userEntity.login).then((user){
+      _tabController = TabController(length: user.isUser ? 3 : 2, vsync: this);
       if(mounted) {
         setState(() {
+          _loadingState = StateFlag.complete;
           this._userEntity = user;
-          if(Provide.value<UserProvide>(context).user.login == _userEntity.login) {
-            _isAuthenticatedUser = true;
-          }
         });
       }
+    }).catchError((e) {
+      if(mounted) {
+        setState(() {
+          _loadingState = StateFlag.error;
+        });
+      }
+      Util.showToast(e is DioError ? e.message : e.toString());
     });
   }
 
   List<String> _getTabTitles() {
     List<String> titles = [S.current.infoUppercase, S.current.activityUppercase,];
-    if(widget.args.userEntity.isUser) {
+    if(this._userEntity != null &&  this._userEntity.isUser) {
       titles.add(S.current.starredUppercase);
     }
     return titles;
@@ -57,10 +72,10 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
 
   List<Widget> _getTabViews() {
     List<Widget> widgets = [
-        _getInfoTabBarView(),
-        EventList(login: widget.args.userEntity.login),
-      ];
-    if(widget.args.userEntity.isUser) {
+      _getInfoTabBarView(),
+      EventList(login: widget.args.userEntity.login),
+    ];
+    if(this._userEntity != null &&  this._userEntity.isUser) {
       widgets.add(StarredReposWidget(user: this._userEntity));
     }
     return widgets;
@@ -87,6 +102,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                   background: _appBarBackground(),
                 ),
               ),
+              if(this._userEntity != null)
               SliverPersistentHeader(
                 pinned: true,
                 delegate: _SliverAppBarDelegate(
@@ -101,16 +117,29 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                 ),
               ),
             ],
-            body: TabBarView(
-              controller: _tabController,
-              children: _getTabViews(),
-            ),
+            body: _buildBody(),
           ),
         ),
       ),
     );
   }
 
+  Widget _buildBody() {
+    if(this._userEntity == null) {
+      if(_loadingState == StateFlag.loading) {
+        return Container(
+          child: Center(child: CircularProgressIndicator(),),
+        );
+      } else {
+        return LoadingState(StateFlag.error, onRetry: _loadData,);
+      }
+    } else {
+      return TabBarView(
+        controller: _tabController,
+        children: _getTabViews(),
+      );
+    }
+  }
   Widget _appBarBackground() {
     return Stack(
       alignment: Alignment.center,

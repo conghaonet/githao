@@ -12,7 +12,7 @@ class EventCommonAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String heroTag = 'events_${entity.actor.login}$index';
+    String heroTag = '${DateTime.now().microsecondsSinceEpoch.toString()}_${entity.actor.login}_$index';
     UserEntity _userEntity = UserEntity(login: entity.actor.login, avatarUrl: entity.actor.avatarUrl);
     return Row(
       children: <Widget>[

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 
 /// http://trending.codehub-app.com/v2/trending?since=weekly&language=dart

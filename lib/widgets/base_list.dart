@@ -7,13 +7,14 @@ import 'loading_state.dart';
 
 abstract class BaseListWidget extends StatefulWidget {
   final perPageRows = 30;
-  BaseListWidget({Key key}): super(key: key);
+  final bool wantKeepAlive;
+  BaseListWidget({this.wantKeepAlive = false, Key key}): super(key: key);
   @protected
   BaseListWidgetState createState();
 
 }
 
-abstract class BaseListWidgetState<T extends BaseListWidget, K> extends State<T> {
+abstract class BaseListWidgetState<T extends BaseListWidget, K> extends State<T> with AutomaticKeepAliveClientMixin {
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final List<K> _datum = [];
   int _page = 1;
@@ -23,11 +24,10 @@ abstract class BaseListWidgetState<T extends BaseListWidget, K> extends State<T>
 
   Future<List<K>> getDatum(final int expectationPage);
 
-  Widget buildItem(K k, int index);
+  Widget buildItem(K item, int index);
 
-  @override
-  void initState() {
-    super.initState();
+  /// override the method, if there is no need to automatically load the data.
+  void afterInitState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if(mounted) {
         refreshIndicatorKey.currentState.show();
@@ -35,15 +35,18 @@ abstract class BaseListWidgetState<T extends BaseListWidget, K> extends State<T>
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    afterInitState();
+  }
+
+  /// 不会被销毁,占内存中
+  @override
+  bool get wantKeepAlive => widget.wantKeepAlive;
+
   Future<void> _loadData({bool isReload = true}) async {
     if(_loadingState == StateFlag.loading) return Future;
-    if(mounted) {
-      setState(() {
-        _lastActionIsReload = isReload;
-        _loadingState = StateFlag.loading;
-      });
-    }
-
     int expectationPage;
     if (isReload) {
       expectationPage = 1;
@@ -51,6 +54,16 @@ abstract class BaseListWidgetState<T extends BaseListWidget, K> extends State<T>
       expectationPage = _page + 1;
     }
     Future<List<K>> future = getDatum(expectationPage);
+    if(future == null) {
+      return Future;
+    } else {
+      if(mounted) {
+        setState(() {
+          _lastActionIsReload = isReload;
+          _loadingState = StateFlag.loading;
+        });
+      }
+    }
     return future.then<void>((list) {
       if(isReload) {
         _datum.clear();
@@ -87,6 +100,9 @@ abstract class BaseListWidgetState<T extends BaseListWidget, K> extends State<T>
 
   @override
   Widget build(BuildContext context) {
+    if(widget.wantKeepAlive) {
+      super.build(context);
+    }
     return Container(
       child: Stack(
         children: <Widget>[

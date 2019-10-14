@@ -1,31 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:githao/events/app_event_bus.dart';
+import 'package:githao/events/search_event.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/widgets/base_list.dart';
 
-class SearchRepoTab extends StatefulWidget {
-  final String query;
-  SearchRepoTab(this.query, {Key key}): super(key: key);
-  @override
-  _SearchRepoTabState createState() => _SearchRepoTabState();
-}
-
-class _SearchRepoTabState extends State<SearchRepoTab> {
+class SearchRepoTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _RepoList(widget.query);
+    return _RepoList();
   }
 }
 
 class _RepoList extends BaseListWidget {
-  final String query;
-  _RepoList(this.query, {Key key}): super(key: key);
+  _RepoList({Key key}): super(wantKeepAlive: true, key: key);
   @override
   _RepoListState createState() => _RepoListState();
-
 }
 
 class _RepoListState extends BaseListWidgetState<_RepoList, RepoEntity> {
+  String _query;
+
   @override
   Widget buildItem(RepoEntity entity, int index) {
     return Card(
@@ -38,7 +33,21 @@ class _RepoListState extends BaseListWidgetState<_RepoList, RepoEntity> {
 
   @override
   Future<List<RepoEntity>> getDatum(int expectationPage) {
-    return ApiService.searchRepos(keyword: widget.query, page: expectationPage);
+    if(this._query != null && this._query.trim().isNotEmpty) {
+      return ApiService.searchRepos(keyword: _query, page: expectationPage);
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  void afterInitState() {
+    eventBus.on<SearchEvent>().listen((event) {
+      this._query = event.query;
+      if(this._query != null && this._query.trim().isNotEmpty) {
+        super.refreshIndicatorKey?.currentState?.show();
+      }
+    });
   }
 
 }

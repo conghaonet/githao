@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:githao/events/app_event_bus.dart';
+import 'package:githao/events/search_event.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/widgets/common_search_delegate.dart';
 import 'package:githao/widgets/search_repo_tab.dart';
@@ -31,18 +33,10 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
   Future _showSearchView() async {
     String q = await showSearch<String>(context: context, delegate: CommonSearchDelegate(_query));
     if(q !=null && q.isNotEmpty) {
-      this._query = '';
-      if(mounted) {
-        setState(() {
-        });
+      if(this._query != q) {
+        this._query = q;
+        eventBus.fire(SearchEvent(this._query));
       }
-      Future.delayed(const Duration(milliseconds: 100)).then((_) async {
-        if(mounted) {
-          setState(() {
-            this._query = q;
-          });
-        }
-      });
     }
   }
 
@@ -54,14 +48,6 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
         }),
       ),
     );
-  }
-
-  Widget _buildRepoTab() {
-    if(this._query != null && this._query.isNotEmpty) {
-      return SearchRepoTab(_query);
-    } else {
-      return _buildDefaultEmpty();
-    }
   }
 
   @override
@@ -98,13 +84,19 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
           body: TabBarView(
             controller: _tabController,
             children: <Widget>[
-              _buildRepoTab(),
+              SearchRepoTab(),
               Text(S.current.users),
             ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 }
 

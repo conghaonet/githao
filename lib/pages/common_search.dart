@@ -4,6 +4,7 @@ import 'package:githao/events/search_event.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/widgets/common_search_delegate.dart';
 import 'package:githao/widgets/search_repo_tab.dart';
+import 'package:githao/widgets/search_user_tab.dart';
 
 class CommonSearchPage extends StatefulWidget {
   static const ROUTE_NAME = '/common_search';
@@ -13,12 +14,18 @@ class CommonSearchPage extends StatefulWidget {
 }
 
 class _CommonSearchPageState extends State<CommonSearchPage> with TickerProviderStateMixin {
+  static const List<String> SEARCH_CATEGORIES = ['repo', 'user'];
   TabController _tabController;
   String _query;
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: CommonSearchPage.tabTitles.length, vsync: this);
+    _tabController.addListener(() {
+      if(_query != null && _query.trim().isNotEmpty) {
+        eventBus.fire(SearchEvent(_query, category: SEARCH_CATEGORIES[_tabController.index]));
+      }
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if(mounted) {
         Future.delayed(const Duration(milliseconds: 100)).then((_) {
@@ -84,8 +91,8 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
           body: TabBarView(
             controller: _tabController,
             children: <Widget>[
-              SearchRepoTab(),
-              Text(S.current.users),
+              SearchRepoTab(SEARCH_CATEGORIES[0]),
+              SearchUserTab(SEARCH_CATEGORIES[1]),
             ],
           ),
         ),

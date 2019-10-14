@@ -1,4 +1,5 @@
 class SearchEvent {
   final String query;
-  SearchEvent(this.query);
+  final String category;
+  SearchEvent(this.query, {this.category});
 }

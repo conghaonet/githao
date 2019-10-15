@@ -20,7 +20,7 @@ samples, guidance on mobile development, and a full API reference.
 * Dart version 2.5.0
 * Android Studio (version 3.5)
   - Java version OpenJDK 1.8.0
-  - Flutter plugin version 40.1.2
+  - Flutter plugin version 40.2.2
   - Dart plugin version 191.8423
   - [Flutter i18n plugin](https://github.com/long1eu/flutter_i18n)
 * Develop for Android

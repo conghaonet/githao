@@ -7,7 +7,7 @@ import 'package:githao/utils/util.dart';
 import 'package:provide/provide.dart';
 import 'package:githao/widgets/login_wave_clippers.dart';
 
-import 'home.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   static const ROUTE_NAME = "/login";

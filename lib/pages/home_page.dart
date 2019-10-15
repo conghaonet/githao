@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:githao/biz/user_biz.dart';
 
 import 'package:githao/generated/i18n.dart';
-import 'package:githao/pages/issues.dart';
-import 'package:githao/pages/profile.dart';
-import 'package:githao/pages/common_search.dart';
-import 'package:githao/pages/settings.dart';
+import 'package:githao/pages/issues_page.dart';
+import 'package:githao/pages/profile_page.dart';
+import 'package:githao/pages/common_search_page.dart';
+import 'package:githao/pages/settings_page.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/utils/util.dart';
@@ -18,7 +18,7 @@ import 'package:githao/widgets/user_repos.dart';
 import 'package:githao/widgets/starred_repos.dart';
 import 'package:provide/provide.dart';
 
-import 'login.dart';
+import 'login_page.dart';
 
 class HomePage extends StatefulWidget {
   static const ROUTE_NAME = "/home";

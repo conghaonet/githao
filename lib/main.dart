@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:githao/network/dio_client.dart';
-import 'package:githao/pages/splash.dart';
+import 'package:githao/pages/splash_page.dart';
 import 'package:githao/provide/locale_provide.dart';
 import 'package:githao/provide/theme_provide.dart';
 import 'package:githao/provide/user_provide.dart';

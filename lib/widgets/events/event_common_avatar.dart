@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/network/entity/event_entity.dart';
 import 'package:githao/network/entity/user_entity.dart';
-import 'package:githao/pages/profile.dart';
+import 'package:githao/pages/profile_page.dart';
 import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/utils/util.dart';
 class EventCommonAvatar extends StatelessWidget {

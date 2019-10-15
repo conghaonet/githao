@@ -9,8 +9,8 @@ import 'package:githao/provide/theme_provide.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:provide/provide.dart';
 
-import 'home.dart';
-import 'login.dart';
+import 'home_page.dart';
+import 'login_page.dart';
 import 'package:githao/generated/i18n.dart';
 
 class SplashPage extends StatefulWidget {

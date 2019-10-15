@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/entity/repo_entity.dart';
-import 'package:githao/pages/issues.dart';
-import 'package:githao/pages/repo_forks.dart';
-import 'package:githao/pages/repo_stargazers.dart';
-import 'package:githao/pages/repo_watchers.dart';
+import 'package:githao/pages/issues_page.dart';
+import 'package:githao/pages/repo_forks_page.dart';
+import 'package:githao/pages/repo_stargazers_page.dart';
+import 'package:githao/pages/repo_watchers_page.dart';
 
 class RepoInfoCountData extends StatelessWidget {
   final RepoEntity _repoEntity;

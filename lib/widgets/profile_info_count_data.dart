@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/entity/user_entity.dart';
-import 'package:githao/pages/user_followers.dart';
-import 'package:githao/pages/user_following.dart';
-import 'package:githao/pages/user_repos.dart';
+import 'package:githao/pages/user_followers_page.dart';
+import 'package:githao/pages/user_following_page.dart';
+import 'package:githao/pages/user_repos_page.dart';
 
 class ProfileInfoCountData extends StatelessWidget {
   final UserEntity _userEntity;

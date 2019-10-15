@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/commit_detail_entity.dart';
-import 'package:githao/pages/commit_file_comparison.dart';
+import 'package:githao/pages/commit_file_comparison_page.dart';
 import 'package:githao/resources/custom_icons_icons.dart';
 import 'package:githao/routes/commit_detail_page_args.dart';
 import 'package:githao/utils/util.dart';

@@ -1,10 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
-import 'package:githao/pages/repo_home.dart';
 import 'package:githao/widgets/base_list.dart';
+import 'package:githao/widgets/repo_item.dart';
 
 class RepoForksPage extends StatelessWidget {
   static const ROUTE_NAME = "/repo_forks";
@@ -33,19 +32,19 @@ class RepoForksPage extends StatelessWidget {
           ],
         ),
       ),
-      body: RepoForksList(this.repoFullName),
+      body: _RepoForksList(this.repoFullName),
     );
   }
 }
 
-class RepoForksList extends BaseListWidget{
+class _RepoForksList extends BaseListWidget {
   final String repoFullName;
-  RepoForksList(this.repoFullName, {Key key}): super(key: key);
+  _RepoForksList(this.repoFullName, {Key key}): super(key: key);
   @override
   _RepoForksListState createState() => _RepoForksListState();
 }
 
-class _RepoForksListState extends BaseListWidgetState<RepoForksList, RepoEntity> {
+class _RepoForksListState extends BaseListWidgetState<_RepoForksList, RepoEntity> {
   @override
   Future<List<RepoEntity>> getDatum(int expectationPage) {
     return ApiService.getRepoForks(widget.repoFullName, page: expectationPage);
@@ -53,48 +52,9 @@ class _RepoForksListState extends BaseListWidgetState<RepoForksList, RepoEntity>
 
   @override
   Widget buildItem(RepoEntity entity, int index) {
-    String _heroTag = entity.fullName;
     return Container(
-      child: InkWell(
-        onTap: () {
-          Navigator.pushNamed(context, RepoHomePage.ROUTE_NAME, arguments: entity.fullName);
-        },
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Center(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: 80,
-                ),
-                child: Row(
-//                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Hero(
-                      //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
-                      //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
-                      transitionOnUserGestures: true,
-                      tag: _heroTag,
-                      child: CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(entity.owner.avatarUrl),
-                        backgroundColor: Colors.black12,
-                      ),
-                    ),
-                    SizedBox(width: 24,),
-                    Expanded(
-                      child: Text(
-                        entity.fullName,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+      margin: EdgeInsets.symmetric(horizontal: 4,),
+      child: RepoItem(entity, tag: 'repo_forks',),
     );
   }
 }

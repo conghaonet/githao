@@ -5,6 +5,7 @@ import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/utils/string_util.dart';
 import 'package:githao/widgets/base_list.dart';
+import 'package:githao/widgets/repo_item.dart';
 
 class SearchRepoTab extends StatelessWidget {
   final String category;
@@ -27,11 +28,9 @@ class _RepoListState extends BaseListWidgetState<_RepoList, RepoEntity> {
 
   @override
   Widget buildItem(RepoEntity entity, int index) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(entity.fullName),
-      ),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 4,),
+      child: RepoItem(entity, tag: 'search_repo',),
     );
   }
 

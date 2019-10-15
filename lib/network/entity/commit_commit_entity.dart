@@ -1,4 +1,3 @@
-import 'package:githao/network/entity/user_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'commit_parent_entity.dart';

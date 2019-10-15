@@ -1,4 +1,3 @@
-import 'package:githao/network/entity/user_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 /// .g.dart 将在我们运行生成命令后自动生成

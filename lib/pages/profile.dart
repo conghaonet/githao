@@ -292,26 +292,6 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
       );
     }
   }
-
-  Widget _getStarredTabView() {
-    return Container(
-      child: RefreshIndicator(
-        onRefresh: () {
-          return;
-        },
-        child: ListView.builder(
-          itemCount: 99,
-          itemBuilder: (context, index) {
-            return Container(
-              width: double.infinity,
-              height: 50,
-              child: Text("index $index"),
-            );
-          },
-        ),
-      ),
-    );
-  }
   void dispose() {
     _tabController?.dispose();
     super.dispose();

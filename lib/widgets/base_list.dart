@@ -8,7 +8,8 @@ import 'loading_state.dart';
 abstract class BaseListWidget extends StatefulWidget {
   final perPageRows = 30;
   final bool wantKeepAlive;
-  BaseListWidget({this.wantKeepAlive = false, Key key}): super(key: key);
+  final bool hasLoadMore;
+  BaseListWidget({this.wantKeepAlive = false, this.hasLoadMore = true, Key key}): super(key: key);
   @protected
   BaseListWidgetState createState();
 
@@ -111,7 +112,7 @@ abstract class BaseListWidgetState<T extends BaseListWidget, K> extends State<T>
             onRefresh: _loadData,
             color: Theme.of(context).primaryColor,
             child: ListView.builder(
-              itemCount: _datum.length >= widget.perPageRows ? _datum.length+1 : _datum.length,
+              itemCount: (widget.hasLoadMore && _datum.length >= widget.perPageRows) ? _datum.length+1 : _datum.length,
               itemBuilder: (context, index) {
                 if(index < _datum.length) {
                   return buildItem(_datum[index], index);

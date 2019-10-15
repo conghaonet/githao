@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
               if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
                 return StarredReposWidget(Provide.value<UserProvide>(context).user, tag: 'home_starred_repos',);
               } else if(snapshot.data == HomeDrawer.MENU_TRENDING_UP) {
-                return TrendingReposWidget(user: Provide.value<UserProvide>(context).user);
+                return TrendingReposWidget(Provide.value<UserProvide>(context).user, tag: 'home_trending_repos',);
               } else {
                 return UserReposWidget(Provide.value<UserProvide>(context).user.login, tag: 'home_my_repos',);
               }

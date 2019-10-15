@@ -5,33 +5,24 @@ import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/resources/lang_colors.dart';
 import 'package:githao/resources/trending_filter_parameters.dart';
-
-import 'base_repos.dart';
+import 'package:githao/widgets/base_list.dart';
+import 'package:githao/widgets/repo_item.dart';
 import 'dart:math' as math;
 
 const _FILTER_GROUP_TIME_SPAN = 'time_span';
 const _FILTER_GROUP_LANGUAGE = 'language';
 
-class TrendingReposWidget extends BaseReposWidget{
+class TrendingReposWidget extends StatefulWidget{
   final UserEntity user;
-  TrendingReposWidget({Key key, this.user, needLoadMore=false,}): super(key: key, needLoadMore: needLoadMore);
+  final String tag;
+  TrendingReposWidget(this.user, {this.tag, Key key}): super(key: key);
   @override
   _StarredReposWidgetState createState() => _StarredReposWidgetState();
 }
 
-class _StarredReposWidgetState extends BaseReposWidgetState<TrendingReposWidget> {
+class _StarredReposWidgetState extends State<TrendingReposWidget> {
   int _timeSpanIndex = 0;
   int _languageIndex;
-
-  @override
-  Future<List<RepoEntity>> getRepos(final int expectationPage){
-    String _since = TrendingFilterParameters.filterSinceValueMap[_timeSpanIndex][TrendingFilterParameters.PARAMETER_NAME_SINCE];
-    String _language = '';
-    if(_languageIndex != null && _languageIndex >= 0 && _languageIndex < LANG_COLORS.length) {
-      _language = LANG_COLORS.entries.elementAt(_languageIndex).key.toLowerCase().replaceAll(' ', '-');
-    }
-    return ApiService.getTrending(since:  _since, language: _language);
-  }
 
   void onClickFilterCallback(String group, int index) {
     if(group == _FILTER_GROUP_TIME_SPAN) {
@@ -39,27 +30,96 @@ class _StarredReposWidgetState extends BaseReposWidgetState<TrendingReposWidget>
         setState(() {
           _timeSpanIndex = index;
         });
-        refreshIndicatorKey.currentState.show();
       }
     } else if(group == _FILTER_GROUP_LANGUAGE) {
       if( _languageIndex != index) {
         setState(() {
           _languageIndex = index;
         });
-        refreshIndicatorKey.currentState.show();
       }
     }
   }
 
-  @override
   Widget getFilter() {
     return TrendingFilter(
-        this._timeSpanIndex,
-        this._languageIndex,
-        TrendingFilterParameters.getFilterTimeSpanTextMap(context),
-        onClickFilterCallback);
+      this._timeSpanIndex,
+      this._languageIndex,
+      TrendingFilterParameters.getFilterTimeSpanTextMap(context),
+      onClickFilterCallback,
+    );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        _RepoList(
+          widget.user,
+          _timeSpanIndex,
+          _languageIndex,
+          tag: widget.tag,
+          key: ObjectKey(int.parse('${_languageIndex ?? -1}$_timeSpanIndex')),
+        ),
+        Positioned(
+          bottom: 12,
+          right: 16,
+          child: FloatingActionButton(
+            child: Icon(Icons.sort),
+            onPressed: () {
+              showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return AnimatedPadding(
+                    padding: MediaQuery.of(context).viewInsets,  //边距（必要）
+                    duration: const Duration(milliseconds: 100), //时常 （必要）
+                    child: getFilter(),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _RepoList extends BaseListWidget {
+  final UserEntity user;
+  final int _timeSpanIndex;
+  final int _languageIndex;
+  final String tag;
+  _RepoList(
+      this.user,
+      this._timeSpanIndex,
+      this._languageIndex,
+      {this.tag, bool wantKeepAlive = false, Key key,}
+    ): super(wantKeepAlive: wantKeepAlive, hasLoadMore: false, key: key);
+
+  @override
+  _RepoListState createState() => _RepoListState();
+
+}
+
+class _RepoListState extends BaseListWidgetState<_RepoList, RepoEntity> {
+  @override
+  Widget buildItem(RepoEntity item, int index) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 4,),
+      child: RepoItem(item, tag: widget.tag,),
+    );
+  }
+
+  @override
+  Future<List<RepoEntity>> getDatum(int expectationPage) {
+    String _since = TrendingFilterParameters.filterSinceValueMap[widget._timeSpanIndex][TrendingFilterParameters.PARAMETER_NAME_SINCE];
+    String _language = '';
+    if(widget._languageIndex != null && widget._languageIndex >= 0 && widget._languageIndex < LANG_COLORS.length) {
+      _language = LANG_COLORS.entries.elementAt(widget._languageIndex).key.toLowerCase().replaceAll(' ', '-');
+    }
+    return ApiService.getTrending(since:  _since, language: _language);
+  }
 }
 
 

@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: HomeDrawer(onClickDrawerMenu, _clickedDrawerMenu ?? _defaultMenu),
-      body: Container(
+      body: SafeArea(
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -75,24 +75,11 @@ class _HomePageState extends State<HomePage> {
                     }
                   },
                 ),
-                titleSpacing: NavigationToolbar.kMiddleSpacing, //标题四周间距
-                primary: true,  //是否预留高度
+//                titleSpacing: NavigationToolbar.kMiddleSpacing, //标题四周间距
+//                primary: true,  //是否预留高度
                 snap:true,   //与floating结合使用
                 floating: true,//是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
                 pinned: false,//为true时，SliverAppBar折叠后不消失
-/*
-                  expandedHeight: 0, // 展开的高度
-                  //性设置 SliverAppBar 的背景
-                  flexibleSpace: FlexibleSpaceBar(
-                    title: Text(S.current.myRepos),
-                    centerTitle: true,
-                    collapseMode: CollapseMode.parallax, // 背景折叠动画
-                    background: Image.asset(
-                      'images/banner1.jpg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-*/
               ),
             ];
           },

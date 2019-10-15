@@ -55,13 +55,6 @@ abstract class BaseGridWidgetState<T extends BaseGridWidget, K> extends State<T>
 
   Future<void> _loadData({bool isReload = true}) async {
     if(_loadingState == StateFlag.loading) return Future;
-    if(mounted) {
-      setState(() {
-        _lastActionIsReload = isReload;
-        _loadingState = StateFlag.loading;
-      });
-    }
-
     int expectationPage;
     if (isReload) {
       expectationPage = 1;
@@ -69,6 +62,16 @@ abstract class BaseGridWidgetState<T extends BaseGridWidget, K> extends State<T>
       expectationPage = _page + 1;
     }
     Future<List<K>> future = getDatum(expectationPage);
+    if(future == null) {
+      return Future;
+    } else {
+      if(mounted) {
+        setState(() {
+          _lastActionIsReload = isReload;
+          _loadingState = StateFlag.loading;
+        });
+      }
+    }
     return future.then<void>((list) {
       if(isReload) {
         _datum.clear();

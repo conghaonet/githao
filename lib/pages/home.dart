@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
             initialData: _defaultMenu,
             builder: (context, snapshot) {
               if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
-                return StarredReposWidget(user: Provide.value<UserProvide>(context).user);
+                return StarredReposWidget(Provide.value<UserProvide>(context).user);
               } else if(snapshot.data == HomeDrawer.MENU_TRENDING_UP) {
                 return TrendingReposWidget(user: Provide.value<UserProvide>(context).user);
               } else {

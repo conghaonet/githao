@@ -7,40 +7,49 @@ import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/widgets/base_grid.dart';
 import 'package:githao/generated/i18n.dart';
 
-class UserFollowingPage extends BaseGridWidget {
+class UserFollowingPage extends StatelessWidget {
   static const ROUTE_NAME = "/user_following";
   final String login;
-  UserFollowingPage(this.login, {Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
+  UserFollowingPage(this.login, {Key key}): super(key: key);
 
   @override
-  _UserFollowingPageState createState() => _UserFollowingPageState();
-}
-
-class _UserFollowingPageState extends BaseGridWidgetState<UserFollowingPage, UserEntity> {
-
-  @override
-  AppBar buildAppBar() {
-    return AppBar(
-      centerTitle: true,
-      title: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            S.current.following,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            widget.login,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 14),
-          ),
-        ],
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              S.current.following,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              this.login,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 14),
+            ),
+          ],
+        ),
       ),
+      body: _FollowingGrid(this.login),
     );
   }
+
+}
+
+class _FollowingGrid extends BaseGridWidget {
+  final String login;
+  _FollowingGrid(this.login, {Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
+
+  @override
+  _FollowingGridState createState() => _FollowingGridState();
+}
+
+class _FollowingGridState extends BaseGridWidgetState<_FollowingGrid, UserEntity> {
 
   @override
   Future<List<UserEntity>> getDatum(int expectationPage) {

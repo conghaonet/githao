@@ -6,9 +6,11 @@ import 'package:githao/widgets/loading_state.dart';
 
 abstract class BaseGridWidget extends StatefulWidget {
   final perPageRows = 30;
+  final bool wantKeepAlive;
   final int crossAxisCount;
   final double childAspectRatio;
   BaseGridWidget({
+    this.wantKeepAlive = false,
     this.crossAxisCount = 2,
     this.childAspectRatio = 1,
     Key key,
@@ -20,7 +22,7 @@ abstract class BaseGridWidget extends StatefulWidget {
   BaseGridWidgetState createState();
 }
 
-abstract class BaseGridWidgetState<T extends BaseGridWidget, K> extends State<T> {
+abstract class BaseGridWidgetState<T extends BaseGridWidget, K> extends State<T> with AutomaticKeepAliveClientMixin {
   final GlobalKey<RefreshIndicatorState> refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final List<K> _datum = [];
   int _page = 1;
@@ -28,21 +30,29 @@ abstract class BaseGridWidgetState<T extends BaseGridWidget, K> extends State<T>
   bool _lastActionIsReload = true;
   bool _expectHasMoreData = true;
 
-  AppBar buildAppBar();
-
   Future<List<K>> getDatum(final int expectationPage);
 
-  Widget buildItem(K k, int index);
+  Widget buildItem(K item, int index);
 
-  @override
-  void initState() {
-    super.initState();
+  /// override the method, if there is no need to automatically load the data.
+  void afterInitState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if(mounted) {
         refreshIndicatorKey.currentState.show();
       }
     });
   }
+
+  @override
+  void initState() {
+    super.initState();
+    afterInitState();
+  }
+
+  /// 不会被销毁,占内存中
+  @override
+  bool get wantKeepAlive => widget.wantKeepAlive;
+
   Future<void> _loadData({bool isReload = true}) async {
     if(_loadingState == StateFlag.loading) return Future;
     if(mounted) {
@@ -94,56 +104,56 @@ abstract class BaseGridWidgetState<T extends BaseGridWidget, K> extends State<T>
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(),
-      body: Container(
-        child: Stack(
-          children: <Widget>[
-            RefreshIndicator(
-              key: refreshIndicatorKey,
-              onRefresh: _loadData,
-              color: Theme.of(context).primaryColor,
-              child: CustomScrollView(
-                slivers: <Widget>[
-                  SliverGrid(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: widget.crossAxisCount,
-                      childAspectRatio: widget.childAspectRatio,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                        if(index + 1 == _datum.length) {
-                          if(_expectHasMoreData && _loadingState == StateFlag.complete) {
-                            Future.delayed(const Duration(milliseconds: 100)).then((_){
-                              _loadData(isReload: false);
-                            });
-                          }
+    if(widget.wantKeepAlive) {
+      super.build(context);
+    }
+    return Container(
+      child: Stack(
+        children: <Widget>[
+          RefreshIndicator(
+            key: refreshIndicatorKey,
+            onRefresh: _loadData,
+            color: Theme.of(context).primaryColor,
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverGrid(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: widget.crossAxisCount,
+                    childAspectRatio: widget.childAspectRatio,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                      if(index + 1 == _datum.length) {
+                        if(_expectHasMoreData && _loadingState == StateFlag.complete) {
+                          Future.delayed(const Duration(milliseconds: 100)).then((_){
+                            _loadData(isReload: false);
+                          });
                         }
-                        return buildItem(_datum[index], index);
-                      },
-                      childCount: _datum.length,
+                      }
+                      return buildItem(_datum[index], index);
+                    },
+                    childCount: _datum.length,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Offstage(
+                    offstage: _datum.length < widget.perPageRows,
+                    child: Center(
+                      child: LoadMoreDataFooter(_expectHasMoreData, flag: _loadingState, onRetry: () {
+                        _loadData(isReload: false);
+                      },),
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: Offstage(
-                      offstage: _datum.length < widget.perPageRows,
-                      child: Center(
-                        child: LoadMoreDataFooter(_expectHasMoreData, flag: _loadingState, onRetry: () {
-                          _loadData(isReload: false);
-                        },),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            LoadingState(_lastActionIsReload ? _loadingState : StateFlag.idle,
-              onRetry: (){
-                refreshIndicatorKey.currentState.show();
-              },
-            ),
-          ],
-        ),
+          ),
+          LoadingState(_lastActionIsReload ? _loadingState : StateFlag.idle,
+            onRetry: (){
+              refreshIndicatorKey.currentState.show();
+            },
+          ),
+        ],
       ),
     );
   }

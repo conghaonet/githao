@@ -7,40 +7,48 @@ import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/widgets/base_grid.dart';
 import 'package:githao/generated/i18n.dart';
 
-class UserFollowersPage extends BaseGridWidget {
+class UserFollowersPage extends StatelessWidget {
   static const ROUTE_NAME = "/user_followers";
   final String login;
-  UserFollowersPage(this.login, {Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
+  UserFollowersPage(this.login, {Key key}): super(key: key);
 
   @override
-  _UserFollowersPageState createState() => _UserFollowersPageState();
-}
-
-class _UserFollowersPageState extends BaseGridWidgetState<UserFollowersPage, UserEntity> {
-
-  @override
-  AppBar buildAppBar() {
-    return AppBar(
-      centerTitle: true,
-      title: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            S.current.followers,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            widget.login,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 14),
-          ),
-        ],
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              S.current.followers,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              this.login,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 14),
+            ),
+          ],
+        ),
       ),
+      body: _FollowersGrid(this.login),
     );
   }
+}
+
+class _FollowersGrid extends BaseGridWidget {
+  final String login;
+  _FollowersGrid(this.login, {Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
+
+  @override
+  _FollowersGridState createState() => _FollowersGridState();
+}
+
+class _FollowersGridState extends BaseGridWidgetState<_FollowersGrid, UserEntity> {
 
   @override
   Future<List<UserEntity>> getDatum(int expectationPage) {

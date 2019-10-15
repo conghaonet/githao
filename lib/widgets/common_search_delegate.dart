@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
+import 'package:githao/utils/string_util.dart';
 import 'package:githao/utils/util.dart';
 
 class CommonSearchDelegate extends SearchDelegate<String> {
@@ -39,8 +40,8 @@ class CommonSearchDelegate extends SearchDelegate<String> {
   /// 不调用buildResults，将query返回给搜索页面，有搜索页面请求并显示搜索结果
   @override
   void showResults(BuildContext context) {
-    if(query == null || query.trim().isEmpty) {
-      Util.showToast('query is empty, can not search.');
+    if(StringUtil.isNullOrBlank(query)) {
+      Util.showToast(S.current.queryCanNotBeEmpty);
     } else {
       close(context, query);
     }

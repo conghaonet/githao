@@ -66,6 +66,7 @@ class S implements WidgetsLocalizations {
   String get profile => "Profile";
   String get public => "Public";
   String get pushed => "Pushed";
+  String get queryCanNotBeEmpty => "Query can not be empty!";
   String get refreshFailedCheckNetwork => "Refresh failed, please check your network connection.";
   String get repositories => "Repositories";
   String get search => "Search";
@@ -189,6 +190,8 @@ class $zh_CN extends S {
   String get followers => "跟随者";
   @override
   String get following => "跟随";
+  @override
+  String get queryCanNotBeEmpty => "请输入搜索关键字!";
   @override
   String get updated => "更新";
   @override

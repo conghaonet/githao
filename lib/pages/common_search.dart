@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/events/app_event_bus.dart';
 import 'package:githao/events/search_event.dart';
 import 'package:githao/generated/i18n.dart';
+import 'package:githao/utils/string_util.dart';
 import 'package:githao/widgets/common_search_delegate.dart';
 import 'package:githao/widgets/search_repo_tab.dart';
 import 'package:githao/widgets/search_user_tab.dart';
@@ -17,6 +18,7 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
   static const List<String> SEARCH_CATEGORIES = ['repo', 'user'];
   TabController _tabController;
   String _query;
+  int _indexOfStack = 0;
   @override
   void initState() {
     super.initState();
@@ -39,7 +41,12 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
 
   Future _showSearchView() async {
     String q = await showSearch<String>(context: context, delegate: CommonSearchDelegate(_query));
-    if(q !=null && q.isNotEmpty) {
+    if(StringUtil.isNotBlank(q)) {
+      if(_indexOfStack == 0) {
+        setState(() {
+          _indexOfStack = 1;
+        });
+      }
       if(this._query != q) {
         this._query = q;
         eventBus.fire(SearchEvent(this._query));
@@ -88,11 +95,17 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
               ),
             ),
           ],
-          body: TabBarView(
-            controller: _tabController,
+          body: IndexedStack(
+            index: _indexOfStack,
             children: <Widget>[
-              SearchRepoTab(SEARCH_CATEGORIES[0]),
-              SearchUserTab(SEARCH_CATEGORIES[1]),
+              _buildDefaultEmpty(),
+              TabBarView(
+                controller: _tabController,
+                children: <Widget>[
+                  SearchRepoTab(SEARCH_CATEGORIES[0]),
+                  SearchUserTab(SEARCH_CATEGORIES[1]),
+                ],
+              ),
             ],
           ),
         ),

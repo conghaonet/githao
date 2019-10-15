@@ -70,5 +70,6 @@
   "fullName": "Full name",
   "type": "Type",
   "users": "Users",
-  "searchHistory": "Search history"
+  "searchHistory": "Search history",
+  "queryCanNotBeEmpty": "Query can not be empty!"
 }

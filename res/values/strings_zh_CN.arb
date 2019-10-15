@@ -70,5 +70,6 @@
   "fullName": "名称",
   "type": "类型",
   "users": "用户",
-  "searchHistory": "搜索历史"
+  "searchHistory": "搜索历史",
+  "queryCanNotBeEmpty": "请输入搜索关键字!"
 }

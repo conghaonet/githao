@@ -3,6 +3,7 @@ import 'package:githao/events/app_event_bus.dart';
 import 'package:githao/events/search_event.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/utils/string_util.dart';
 import 'package:githao/widgets/base_list.dart';
 
 class SearchUserTab extends StatelessWidget {
@@ -36,7 +37,7 @@ class _UserListState extends BaseListWidgetState<_UserList, UserEntity> {
 
   @override
   Future<List<UserEntity>> getDatum(int expectationPage) {
-    if(this._query != null && this._query.trim().isNotEmpty) {
+    if(StringUtil.isNotBlank(this._query)) {
       return ApiService.searchUsers(keyword: _query, page: expectationPage);
     } else {
       return null;
@@ -46,11 +47,9 @@ class _UserListState extends BaseListWidgetState<_UserList, UserEntity> {
   @override
   void afterInitState() {
     eventBus.on<SearchEvent>().listen((event) {
-      if(event.category == null || event.category == widget.category) {
+      if(StringUtil.isNullOrBlank(event.category) || event.category == widget.category) {
         this._query = event.query;
-        if (this._query != null && this._query
-            .trim()
-            .isNotEmpty) {
+        if (StringUtil.isNotBlank(this._query)) {
           super.refreshIndicatorKey?.currentState?.show();
         }
       }

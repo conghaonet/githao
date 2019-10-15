@@ -76,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
       EventList(login: widget.args.userEntity.login),
     ];
     if(this._userEntity != null &&  this._userEntity.isUser) {
-      widgets.add(StarredReposWidget(this._userEntity, wantKeepAlive: true));
+      widgets.add(StarredReposWidget(this._userEntity, tag: 'profile_starred_repos', wantKeepAlive: true));
     }
     return widgets;
   }

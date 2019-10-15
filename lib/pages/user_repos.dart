@@ -34,7 +34,7 @@ class _UserReposPageState extends State<UserReposPage> {
           ],
         ),
       ),
-      body: UserReposWidget(login: widget.login),
+      body: UserReposWidget(widget.login, tag: 'user_repos',),
     );
   }
 }

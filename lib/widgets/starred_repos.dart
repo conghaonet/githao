@@ -9,8 +9,9 @@ import 'package:githao/widgets/starred_repos_filter.dart';
 
 class StarredReposWidget extends StatefulWidget{
   final UserEntity user;
+  final String tag;
   final bool wantKeepAlive;
-  StarredReposWidget(this.user, {this.wantKeepAlive = false, Key key}): super(key: key);
+  StarredReposWidget(this.user, {this.tag, this.wantKeepAlive = false, Key key}): super(key: key);
   @override
   _StarredReposWidgetState createState() => _StarredReposWidgetState();
 }
@@ -41,6 +42,7 @@ class _StarredReposWidgetState extends State<StarredReposWidget> {
         _RepoList(
           widget.user,
           _groupSortIndex,
+          tag: widget.tag,
           wantKeepAlive: widget.wantKeepAlive,
           key: ObjectKey(_groupSortIndex),
         ),
@@ -74,7 +76,11 @@ class _StarredReposWidgetState extends State<StarredReposWidget> {
 class _RepoList extends BaseListWidget {
   final UserEntity user;
   final int groupSortIndex;
-  _RepoList(this.user, this.groupSortIndex, {bool wantKeepAlive = false, Key key}): super(wantKeepAlive: wantKeepAlive, key: key);
+  final String tag;
+  _RepoList(
+      this.user,
+      this.groupSortIndex,
+      {this.tag, bool wantKeepAlive = false, Key key}): super(wantKeepAlive: wantKeepAlive, key: key);
   @override
   _RepoListState createState() => _RepoListState();
 
@@ -85,7 +91,7 @@ class _RepoListState extends BaseListWidgetState<_RepoList, RepoEntity> {
   Widget buildItem(RepoEntity item, int index) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4,),
-      child: RepoItem(item, tag: 'home_starred_repo',),
+      child: RepoItem(item, tag: widget.tag,),
     );
   }
 

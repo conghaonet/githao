@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/resources/repos_filter_parameters.dart';
+import 'package:githao/widgets/repo_item.dart';
+import 'package:githao/widgets/base_list.dart';
+import 'package:githao/widgets/my_repos_filter.dart';
 
-import 'base_repos.dart';
-import 'my_repos_filter.dart';
-
-/// [perPageRows] 每次请求期望返回的数据量，GitHub默认每次返回30条数据；
-/// [needLoadMore] 为true时，提供上拉加载更多特性；
-class UserReposWidget extends BaseReposWidget{
+class UserReposWidget extends StatefulWidget{
   final String login;
-  UserReposWidget({Key key, this.login, needLoadMore=true,}): super(key: key, needLoadMore: needLoadMore);
+  final String tag;
+  UserReposWidget(this.login, {this.tag, Key key}): super(key: key);
   @override
   _UserReposWidgetState createState() => _UserReposWidgetState();
 }
 
-class _UserReposWidgetState extends BaseReposWidgetState<UserReposWidget> {
+class _UserReposWidgetState extends State<UserReposWidget> {
   int _groupTypeIndex = 0;
   int _groupSortIndex = 0;
 
@@ -24,29 +23,90 @@ class _UserReposWidgetState extends BaseReposWidgetState<UserReposWidget> {
         setState(() {
           _groupTypeIndex = index;
         });
-        refreshIndicatorKey.currentState.show();
       } else if(group == MyReposFilter.GROUP_SORT && _groupSortIndex != index) {
         setState(() {
           _groupSortIndex = index;
         });
-        refreshIndicatorKey.currentState.show();
       }
-  }
-  @override
-  Future<List<RepoEntity>> getRepos(final int expectationPage){
-    String _type = ReposFilterParameters.filterTypeValueMap[_groupTypeIndex];
-    String _sort = ReposFilterParameters.filterSortValueMap[_groupSortIndex][ReposFilterParameters.PARAMETER_NAME_SORT];
-    String _direction = ReposFilterParameters.filterSortValueMap[_groupSortIndex][ReposFilterParameters.PARAMETER_NAME_DIRECTION];
-    return ApiService.getUserRepos(widget.login, page: expectationPage, type: _type, sort: _sort, direction: _direction);
   }
 
   @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        _RepoList(
+          widget.login,
+          _groupTypeIndex,
+          _groupSortIndex,
+          tag: widget.tag,
+          wantKeepAlive: true,
+          key: ObjectKey(int.parse('$_groupTypeIndex$_groupSortIndex')),
+        ),
+        Positioned(
+          bottom: 12,
+          right: 16,
+          child: FloatingActionButton(
+            child: Icon(Icons.sort),
+            onPressed: () {
+              showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return AnimatedPadding(
+                    padding: MediaQuery.of(context).viewInsets,  //边距（必要）
+                    duration: const Duration(milliseconds: 100), //时常 （必要）
+                    child: getFilter(),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget getFilter() {
     return MyReposFilter(
-        this._groupTypeIndex,
-        ReposFilterParameters.getFilterTypeTextMap(context),
-        this._groupSortIndex,
-        ReposFilterParameters.getFilterSortTextMap(context),
-        onClickFilterCallback);
+      this._groupTypeIndex,
+      ReposFilterParameters.getFilterTypeTextMap(context),
+      this._groupSortIndex,
+      ReposFilterParameters.getFilterSortTextMap(context),
+      onClickFilterCallback,
+    );
   }
+}
+
+class _RepoList extends BaseListWidget {
+  final String login;
+  final int groupTypeIndex;
+  final int groupSortIndex;
+  final String tag;
+  _RepoList(
+      this.login,
+      this.groupTypeIndex,
+      this.groupSortIndex,
+      {this.tag, bool wantKeepAlive = false, Key key}): super(wantKeepAlive: wantKeepAlive, key: key);
+  @override
+  _RepoListState createState() => _RepoListState();
+
+}
+
+class _RepoListState extends BaseListWidgetState<_RepoList, RepoEntity> {
+  @override
+  Widget buildItem(RepoEntity item, int index) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 4,),
+      child: RepoItem(item, tag: widget.tag,),
+    );
+  }
+
+  @override
+  Future<List<RepoEntity>> getDatum(int expectationPage) {
+    String _type = ReposFilterParameters.filterTypeValueMap[this.widget.groupTypeIndex];
+    String _sort = ReposFilterParameters.filterSortValueMap[this.widget.groupSortIndex][ReposFilterParameters.PARAMETER_NAME_SORT];
+    String _direction = ReposFilterParameters.filterSortValueMap[this.widget.groupSortIndex][ReposFilterParameters.PARAMETER_NAME_DIRECTION];
+    return ApiService.getUserRepos(widget.login, page: expectationPage, type: _type, sort: _sort, direction: _direction);
+  }
+
 }

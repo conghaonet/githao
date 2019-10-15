@@ -88,11 +88,11 @@ class _HomePageState extends State<HomePage> {
             initialData: _defaultMenu,
             builder: (context, snapshot) {
               if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
-                return StarredReposWidget(Provide.value<UserProvide>(context).user);
+                return StarredReposWidget(Provide.value<UserProvide>(context).user, tag: 'home_starred_repos',);
               } else if(snapshot.data == HomeDrawer.MENU_TRENDING_UP) {
                 return TrendingReposWidget(user: Provide.value<UserProvide>(context).user);
               } else {
-                return UserReposWidget(login: Provide.value<UserProvide>(context).user.login);
+                return UserReposWidget(Provide.value<UserProvide>(context).user.login, tag: 'home_my_repos',);
               }
             },
           ),

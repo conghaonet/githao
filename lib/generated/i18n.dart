@@ -183,7 +183,7 @@ class $zh_CN extends S {
   @override
   String get license => "许可";
   @override
-  String get adjustTimeSpan => "调整事件跨度";
+  String get adjustTimeSpan => "调整时间跨度";
   @override
   String get starredUppercase => "评星";
   @override

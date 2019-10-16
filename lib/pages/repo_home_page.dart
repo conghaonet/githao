@@ -4,6 +4,7 @@ import 'package:githao/events/repo_home_event.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
+import 'package:githao/resources/app_const.dart';
 import 'package:githao/resources/lang_colors.dart';
 import 'package:githao/routes/webview_page_args.dart';
 import 'package:githao/utils/util.dart';
@@ -272,9 +273,9 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     return Container(child: _tabBar,);
   }
   @override
-  double get maxExtent => _loadingState == StateFlag.complete ? 48 : 0;
+  double get maxExtent => _loadingState == StateFlag.complete ? AppConst.TAB_HEIGHT : 0;
   @override
-  double get minExtent => _loadingState == StateFlag.complete ? 48 : 0;
+  double get minExtent => _loadingState == StateFlag.complete ? AppConst.TAB_HEIGHT : 0;
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
     return true;

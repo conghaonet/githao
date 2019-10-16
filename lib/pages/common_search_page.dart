@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
+import 'package:githao/resources/app_const.dart';
 import 'package:githao/utils/string_util.dart';
 import 'package:githao/widgets/common_search_delegate.dart';
 import 'package:githao/widgets/search_repo_tab.dart';
@@ -110,9 +111,9 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     return Container(child: _tabBar,);
   }
   @override
-  double get maxExtent => 48;
+  double get maxExtent => AppConst.TAB_HEIGHT;
   @override
-  double get minExtent => 48;
+  double get minExtent => AppConst.TAB_HEIGHT;
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
     return false;

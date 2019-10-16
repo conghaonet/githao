@@ -24,6 +24,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   TabController _tabController;
   UserEntity _userEntity;
   StateFlag _loadingState = StateFlag.idle;
+  final String _heroTag = DateTime.now().millisecondsSinceEpoch.toString();
 
   //要达到缓存目的，必须实现AutomaticKeepAliveClientMixin的wantKeepAlive为true。
   // 不会被销毁,占内存中
@@ -76,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
       EventList(login: widget.args.userEntity.login),
     ];
     if(this._userEntity != null &&  this._userEntity.isUser) {
-      widgets.add(StarredReposWidget(this._userEntity, tag: 'profile_starred_repos', wantKeepAlive: true));
+      widgets.add(StarredReposWidget(this._userEntity, tag: 'profile_starred_repos_$_heroTag', wantKeepAlive: true));
     }
     return widgets;
   }

@@ -12,7 +12,7 @@ class UserItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String _heroTag = '${this.tag ?? ''}_${this.user.login}';
+    String _heroTag = 'useritem_${this.tag ?? ''}_${this.user.login}';
     return Container(
       child: InkWell(
         onTap: () {

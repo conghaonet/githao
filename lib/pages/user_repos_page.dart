@@ -11,6 +11,7 @@ class UserReposPage extends StatefulWidget {
 }
 
 class _UserReposPageState extends State<UserReposPage> {
+  final String _heroTag = DateTime.now().millisecondsSinceEpoch.toString();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +35,7 @@ class _UserReposPageState extends State<UserReposPage> {
           ],
         ),
       ),
-      body: UserReposWidget(widget.login, tag: 'user_repos',),
+      body: UserReposWidget(widget.login, tag: 'user_repos_$_heroTag',),
     );
   }
 }

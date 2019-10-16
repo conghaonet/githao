@@ -7,6 +7,7 @@ import 'package:githao/widgets/repo_item.dart';
 
 class RepoForksPage extends StatelessWidget {
   static const ROUTE_NAME = "/repo_forks";
+  final String _heroTag = DateTime.now().millisecondsSinceEpoch.toString();
   final String repoFullName;
   RepoForksPage(this.repoFullName, {Key key}): super(key: key);
   @override
@@ -32,14 +33,15 @@ class RepoForksPage extends StatelessWidget {
           ],
         ),
       ),
-      body: _RepoForksList(this.repoFullName),
+      body: _RepoForksList(this.repoFullName, tag: _heroTag,),
     );
   }
 }
 
 class _RepoForksList extends BaseListWidget {
   final String repoFullName;
-  _RepoForksList(this.repoFullName, {Key key}): super(key: key);
+  final String tag;
+  _RepoForksList(this.repoFullName, {this.tag, Key key}): super(key: key);
   @override
   _RepoForksListState createState() => _RepoForksListState();
 }
@@ -54,7 +56,7 @@ class _RepoForksListState extends BaseListWidgetState<_RepoForksList, RepoEntity
   Widget buildItem(RepoEntity entity, int index) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4,),
-      child: RepoItem(entity, tag: 'repo_forks',),
+      child: RepoItem(entity, tag: 'repo_forks_${widget.tag ?? ''}',),
     );
   }
 }

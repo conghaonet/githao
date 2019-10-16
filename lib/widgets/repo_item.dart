@@ -16,9 +16,8 @@ class RepoItem extends StatelessWidget {
   RepoItem(this.repo, {this.tag, Key key}): super(key: key);
   @override
   Widget build(BuildContext context) {
-    String avatarHeroTag = '${this.tag ?? ''}_${this.repo.fullName}';
+    String avatarHeroTag = 'repoitem_${this.tag ?? ''}_${this.repo.fullName}';
     return Card(
-//      margin: EdgeInsets.only(left: 8, top: 8, right: 8, bottom: (index +1 == _repos.length) ? 8 : 0),
       child: FlatButton(
         padding: EdgeInsets.all(0),
         onPressed: (){

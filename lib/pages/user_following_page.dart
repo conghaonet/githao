@@ -7,6 +7,7 @@ import 'package:githao/widgets/user_item.dart';
 
 class UserFollowingPage extends StatelessWidget {
   static const ROUTE_NAME = "/user_following";
+  final String heroTag = DateTime.now().millisecondsSinceEpoch.toString();
   final String login;
   UserFollowingPage(this.login, {Key key}): super(key: key);
 
@@ -33,15 +34,16 @@ class UserFollowingPage extends StatelessWidget {
           ],
         ),
       ),
-      body: _FollowingGrid(this.login),
+      body: _FollowingGrid(this.login, tag: heroTag,),
     );
   }
 
 }
 
 class _FollowingGrid extends BaseGridWidget {
+  final String tag;
   final String login;
-  _FollowingGrid(this.login, {Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
+  _FollowingGrid(this.login, {this.tag, Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
 
   @override
   _FollowingGridState createState() => _FollowingGridState();
@@ -56,6 +58,6 @@ class _FollowingGridState extends BaseGridWidgetState<_FollowingGrid, UserEntity
 
   @override
   Widget buildItem(UserEntity entity, int index) {
-    return UserItem(entity, tag: 'user_following',);
+    return UserItem(entity, tag: 'user_following_${widget.tag ?? ''}',);
   }
 }

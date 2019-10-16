@@ -7,6 +7,7 @@ import 'package:githao/widgets/user_item.dart';
 
 class RepoWatchersPage extends StatelessWidget {
   static const ROUTE_NAME = "/repo_watchers";
+  final String heroTag = DateTime.now().millisecondsSinceEpoch.toString();
   final String repoFullName;
   RepoWatchersPage(this.repoFullName, {Key key}): super(key: key);
 
@@ -33,14 +34,15 @@ class RepoWatchersPage extends StatelessWidget {
           ],
         ),
       ),
-      body: _WatchersGrid(this.repoFullName),
+      body: _WatchersGrid(this.repoFullName, tag: heroTag,),
     );
   }
 }
 
 class _WatchersGrid extends BaseGridWidget {
+  final String tag;
   final String repoFullName;
-  _WatchersGrid(this.repoFullName, {Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
+  _WatchersGrid(this.repoFullName, {this.tag, Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
 
   @override
   _WatchersGridState createState() => _WatchersGridState();
@@ -55,6 +57,6 @@ class _WatchersGridState extends BaseGridWidgetState<_WatchersGrid, UserEntity> 
 
   @override
   Widget buildItem(UserEntity entity, int index) {
-    return UserItem(entity, tag: 'repo_watchers',);
+    return UserItem(entity, tag: 'repo_watchers_${widget.tag ?? ''}',);
   }
 }

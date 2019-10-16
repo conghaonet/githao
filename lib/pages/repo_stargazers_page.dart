@@ -7,6 +7,7 @@ import 'package:githao/widgets/user_item.dart';
 
 class RepoStargazersPage extends StatelessWidget {
   static const ROUTE_NAME = "/repo_stargazers";
+  final String heroTag = DateTime.now().millisecondsSinceEpoch.toString();
   final String repoFullName;
   RepoStargazersPage(this.repoFullName, {Key key}): super(key: key);
 
@@ -33,14 +34,15 @@ class RepoStargazersPage extends StatelessWidget {
           ],
         ),
       ),
-      body: _StargazersGrid(this.repoFullName),
+      body: _StargazersGrid(this.repoFullName, tag: heroTag,),
     );
   }
 }
 
 class _StargazersGrid extends BaseGridWidget {
+  final String tag;
   final String repoFullName;
-  _StargazersGrid(this.repoFullName, {Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
+  _StargazersGrid(this.repoFullName, {this.tag, Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
 
   @override
   _StargazersGridState createState() => _StargazersGridState();
@@ -55,6 +57,6 @@ class _StargazersGridState extends BaseGridWidgetState<_StargazersGrid, UserEnti
 
   @override
   Widget buildItem(UserEntity entity, int index) {
-    return UserItem(entity, tag: 'repo_stargazers',);
+    return UserItem(entity, tag: 'repo_stargazers_${widget.tag ?? ''}',);
   }
 }

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:githao/events/app_event_bus.dart';
-import 'package:githao/events/search_event.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/utils/string_util.dart';
 import 'package:githao/widgets/common_search_delegate.dart';
@@ -15,19 +13,12 @@ class CommonSearchPage extends StatefulWidget {
 }
 
 class _CommonSearchPageState extends State<CommonSearchPage> with TickerProviderStateMixin {
-  static const List<String> SEARCH_CATEGORIES = ['repo', 'user'];
   TabController _tabController;
   String _query;
-  int _indexOfStack = 0;
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: CommonSearchPage.tabTitles.length, vsync: this);
-    _tabController.addListener(() {
-      if(_query != null && _query.trim().isNotEmpty) {
-        eventBus.fire(SearchEvent(_query, category: SEARCH_CATEGORIES[_tabController.index]));
-      }
-    });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if(mounted) {
         Future.delayed(const Duration(milliseconds: 100)).then((_) {
@@ -42,14 +33,10 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
   Future _showSearchView() async {
     String q = await showSearch<String>(context: context, delegate: CommonSearchDelegate(_query));
     if(StringUtil.isNotBlank(q)) {
-      if(_indexOfStack == 0) {
-        setState(() {
-          _indexOfStack = 1;
-        });
-      }
       if(this._query != q) {
-        this._query = q;
-        eventBus.fire(SearchEvent(this._query));
+        setState(() {
+          this._query = q;
+        });
       }
     }
   }
@@ -95,17 +82,11 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
               ),
             ),
           ],
-          body: IndexedStack(
-            index: _indexOfStack,
+          body: TabBarView(
+            controller: _tabController,
             children: <Widget>[
-              _buildDefaultEmpty(),
-              TabBarView(
-                controller: _tabController,
-                children: <Widget>[
-                  SearchRepoTab(SEARCH_CATEGORIES[0]),
-                  SearchUserTab(SEARCH_CATEGORIES[1]),
-                ],
-              ),
+              StringUtil.isNotBlank(this._query) ? SearchRepoTab(this._query, key: Key('search_repo'+this._query),) : _buildDefaultEmpty(),
+              StringUtil.isNotBlank(this._query) ? SearchUserTab(this._query, key: Key('search_user'+this._query),) : _buildDefaultEmpty(),
             ],
           ),
         ),

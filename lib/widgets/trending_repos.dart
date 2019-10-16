@@ -58,7 +58,7 @@ class _StarredReposWidgetState extends State<TrendingReposWidget> {
           _timeSpanIndex,
           _languageIndex,
           tag: widget.tag,
-          key: ObjectKey(int.parse('${_languageIndex ?? -1}$_timeSpanIndex')),
+          key: Key('trending_filter_$_timeSpanIndex-${_languageIndex ?? 'lang'}'),
         ),
         Positioned(
           bottom: 12,

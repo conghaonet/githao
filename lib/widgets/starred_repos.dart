@@ -44,7 +44,7 @@ class _StarredReposWidgetState extends State<StarredReposWidget> {
           _groupSortIndex,
           tag: widget.tag,
           wantKeepAlive: widget.wantKeepAlive,
-          key: ObjectKey(_groupSortIndex),
+          key: Key('starred_repos_sort_$_groupSortIndex'),
         ),
         Positioned(
           bottom: 12,

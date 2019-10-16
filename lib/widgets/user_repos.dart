@@ -40,7 +40,7 @@ class _UserReposWidgetState extends State<UserReposWidget> {
           _groupSortIndex,
           tag: widget.tag,
           wantKeepAlive: true,
-          key: ObjectKey(int.parse('$_groupTypeIndex$_groupSortIndex')),
+          key: Key('user_repos_$_groupTypeIndex-$_groupSortIndex'),
         ),
         Positioned(
           bottom: 12,

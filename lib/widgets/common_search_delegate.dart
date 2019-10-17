@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
+import 'package:githao/utils/shared_preferences.dart';
 import 'package:githao/utils/string_util.dart';
 import 'package:githao/utils/util.dart';
 
 class CommonSearchDelegate extends SearchDelegate<String> {
+  static const MAX_HISTORY_ITEMS = 50;
   String _lastQuery;
   CommonSearchDelegate(this._lastQuery): super();
 
@@ -43,14 +45,113 @@ class CommonSearchDelegate extends SearchDelegate<String> {
     if(StringUtil.isNullOrBlank(query)) {
       Util.showToast(S.current.queryCanNotBeEmpty);
     } else {
+      _saveHistory();
       close(context, query);
+
     }
+  }
+
+  void _saveHistory() {
+    SpUtil.getInstance().then((sp){
+      List<String> keys = sp.getStringList(SharedPreferencesKeys.searchHistory);
+      if(keys != null) {
+        for(int i=0; i<keys.length; i++) {
+          if(keys[i].toLowerCase() == query.trim().toLowerCase()) {
+            keys.removeAt(i);
+            break;
+          }
+        }
+        if(keys.length >= MAX_HISTORY_ITEMS) {
+          keys.removeAt(0);
+        }
+        keys.add(query.trim());
+      } else {
+        keys = [query.trim()];
+      }
+      sp.putStringList(SharedPreferencesKeys.searchHistory, keys);
+    });
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Text(S.current.searchHistory);
+    return SearchHistoryWidget(this.close);
+  }
+}
+
+
+class SearchHistoryWidget extends StatefulWidget {
+  final Function(BuildContext, String ) onClose;
+  SearchHistoryWidget(this.onClose, {Key key}):super(key: key);
+  @override
+  _SearchHistoryWidgetState createState() => _SearchHistoryWidgetState();
+}
+
+class _SearchHistoryWidgetState extends State<SearchHistoryWidget> {
+  final List<Widget> _histories = [];
+  @override
+  void initState() {
+    super.initState();
+    _loadHistory();
   }
 
+  void _loadHistory() {
+    SpUtil.getInstance().then((sp) {
+      List<String> queries = sp.getStringList(SharedPreferencesKeys.searchHistory);
+      if(queries != null) {
+        queries.reversed.forEach((item) {
+          _histories.add(
+              Container(
+                margin: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Color(0XFFcfcfcf),
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    widget.onClose(context, item);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    child: Text(item),
+                  ),
+                ),
+              )
+          );
+        });
+      }
+      if(mounted) {setState(() {});}
+    });
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    return _histories.isEmpty ? Container() : Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            SizedBox(width: 16,),
+            Text(S.current.searchHistory),
+            Spacer(),
+            IconButton(icon: Icon(Icons.delete, color: Theme.of(context).primaryColor,), onPressed: () {
+              SpUtil.getInstance().then((sp) async {
+                await sp.remove(SharedPreferencesKeys.searchHistory);
+                setState(() {
+                  _histories.clear();
+                });
+              });
+            },),
+          ],
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Wrap(
+              children: _histories,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:githao/generated/i18n.dart';
 class TrendingFilterParameters {
 
@@ -14,7 +13,7 @@ class TrendingFilterParameters {
     {PARAMETER_NAME_SINCE : SINCE_MONTH},
   ];
 
-  static List<String> getFilterTimeSpanTextMap(BuildContext context) {
+  static List<String> getFilterTimeSpanTextMap() {
     return [
       S.current.today,
       S.current.thisWeek,

@@ -44,7 +44,7 @@ class _StarredReposWidgetState extends State<TrendingReposWidget> {
     return TrendingFilter(
       this._timeSpanIndex,
       this._languageIndex,
-      TrendingFilterParameters.getFilterTimeSpanTextMap(context),
+      TrendingFilterParameters.getFilterTimeSpanTextMap(),
       onClickFilterCallback,
     );
   }

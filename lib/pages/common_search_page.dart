@@ -8,18 +8,18 @@ import 'package:githao/widgets/search_user_tab.dart';
 
 class CommonSearchPage extends StatefulWidget {
   static const ROUTE_NAME = '/common_search';
-  static final List<String> tabTitles = [S.current.repositories, S.current.users];
   @override
   _CommonSearchPageState createState() => _CommonSearchPageState();
 }
 
 class _CommonSearchPageState extends State<CommonSearchPage> with TickerProviderStateMixin {
+  final List<String> _tabTitles = [S.current.repositories, S.current.users];
   TabController _tabController;
   String _query;
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: CommonSearchPage.tabTitles.length, vsync: this);
+    _tabController = TabController(length: _tabTitles.length, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if(mounted) {
         Future.delayed(const Duration(milliseconds: 100)).then((_) {
@@ -77,7 +77,7 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
                   child: TabBar(
                     indicatorColor: Theme.of(context).primaryColorLight,
                     controller: _tabController,
-                    tabs: CommonSearchPage.tabTitles.map((title) => Tab(child: Text(title),)).toList(growable: false),
+                    tabs: _tabTitles.map((title) => Tab(child: Text(title),)).toList(growable: false),
                   ),
                 ),
               ),

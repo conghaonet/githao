@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
-import 'package:githao/resources/search_repos_filter_parameters.dart';
+import 'package:githao/resources/search_users_filter_parameters.dart';
 
-class SearchReposFilter extends StatefulWidget {
+class SearchUsersFilter extends StatefulWidget {
 
   final int selectedSortIndex;
   final Function(int) callback;
-  SearchReposFilter(this.selectedSortIndex, this.callback);
+  SearchUsersFilter(this.selectedSortIndex, this.callback);
   @override
-  _SearchReposFilterState createState() => _SearchReposFilterState();
+  _SearchUsersFilterState createState() => _SearchUsersFilterState();
 }
 
-class _SearchReposFilterState extends State<SearchReposFilter> {
+class _SearchUsersFilterState extends State<SearchUsersFilter> {
   int _selectedSortIndex;
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _SearchReposFilterState extends State<SearchReposFilter> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Wrap(
-              children: List<Widget>.generate(SearchReposFilterParameters.getFilterSortTextMap().length, (int index) {
+              children: List<Widget>.generate(SearchUsersFilterParameters.getFilterSortTextMap().length, (int index) {
                 return Padding(
                   padding: EdgeInsets.only(right: 8, left: 8),
                   child: ChoiceChip(
@@ -45,10 +45,10 @@ class _SearchReposFilterState extends State<SearchReposFilter> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Text(SearchReposFilterParameters.getFilterSortTextMap()[index],
+                          Text(SearchUsersFilterParameters.getFilterSortTextMap()[index],
                             style: TextStyle(color: _selectedSortIndex == index ? Colors.white : Colors.black45),
                           ),
-                          Icon(SearchReposFilterParameters.filterSortValueMap[index][SearchReposFilterParameters.PARAMETER_NAME_DIRECTION] == SearchReposFilterParameters.DIRECTION_ASC
+                          Icon(SearchUsersFilterParameters.filterSortValueMap[index][SearchUsersFilterParameters.PARAMETER_NAME_DIRECTION] == SearchUsersFilterParameters.DIRECTION_ASC
                               ? Icons.trending_up
                               : Icons.trending_down,
                             color: _selectedSortIndex == index ? Colors.white : Colors.black45,),

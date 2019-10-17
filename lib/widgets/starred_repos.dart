@@ -30,7 +30,7 @@ class _StarredReposWidgetState extends State<StarredReposWidget> {
   Widget getFilter() {
     return StarredReposFilter(
       this._groupSortIndex,
-      StarredFilterParameters.getFilterSortTextMap(context),
+      StarredFilterParameters.getFilterSortTextMap(),
       onClickFilterCallback,
     );
   }

@@ -16,11 +16,20 @@ class SearchRepoTab extends StatefulWidget {
 
 class _SearchRepoTabState extends State<SearchRepoTab> {
   int _sortIndex = 0;
+
+  void onClickFilterCallback(int index) {
+    if(_sortIndex != index) {
+      setState(() {
+        _sortIndex = index;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        _RepoList(this.widget.query, _sortIndex, key: Key('${this.widget.query}_$_sortIndex'),),
+        _RepoList(this.widget.query, _sortIndex, key: Key('repo_${this.widget.query}_$_sortIndex'),),
         Positioned(
           bottom: 12,
           right: 16,
@@ -47,15 +56,6 @@ class _SearchRepoTabState extends State<SearchRepoTab> {
       ],
     );
   }
-
-  void onClickFilterCallback(int index) {
-    if(_sortIndex != index) {
-      setState(() {
-        _sortIndex = index;
-      });
-    }
-  }
-
 }
 
 class _RepoList extends BaseListWidget {
@@ -71,7 +71,7 @@ class _RepoListState extends BaseListWidgetState<_RepoList, RepoEntity> {
   Widget buildItem(RepoEntity entity, int index) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4,),
-      child: RepoItem(entity, tag: 'search_repo_tab',),
+      child: RepoItem(entity, tag: 'search_repo_tab_list',),
     );
   }
 

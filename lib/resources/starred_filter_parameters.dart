@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:githao/generated/i18n.dart';
 class StarredFilterParameters {
 
@@ -17,7 +16,7 @@ class StarredFilterParameters {
     {PARAMETER_NAME_SORT : SORT_UPDATED, PARAMETER_NAME_DIRECTION : DIRECTION_ASC},
   ];
 
-  static List<String> getFilterSortTextMap(BuildContext context) {
+  static List<String> getFilterSortTextMap() {
     return [
       S.current.created,
       S.current.created,

@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:githao/generated/i18n.dart';
 
 class ReposFilterParameters {
@@ -21,7 +20,7 @@ class ReposFilterParameters {
   static const DIRECTION_DESC = "desc";
 
   static final List<String> filterTypeValueMap = [TYPE_ALL, TYPE_OWNER, TYPE_PUBLIC, TYPE_PRIVATE, TYPE_MEMBER];
-  static List<String> getFilterTypeTextMap(BuildContext context) {
+  static List<String> getFilterTypeTextMap() {
     return [
       S.current.all,
       S.current.owner,
@@ -42,7 +41,7 @@ class ReposFilterParameters {
     {PARAMETER_NAME_SORT : SORT_PUSHED, PARAMETER_NAME_DIRECTION : DIRECTION_DESC},
   ];
 
-  static List<String> getFilterSortTextMap(BuildContext context) {
+  static List<String> getFilterSortTextMap() {
     return [
       S.current.fullName,
       S.current.fullName,

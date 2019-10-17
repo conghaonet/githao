@@ -69,9 +69,9 @@ class _UserReposWidgetState extends State<UserReposWidget> {
   Widget getFilter() {
     return MyReposFilter(
       this._groupTypeIndex,
-      ReposFilterParameters.getFilterTypeTextMap(context),
+      ReposFilterParameters.getFilterTypeTextMap(),
       this._groupSortIndex,
-      ReposFilterParameters.getFilterSortTextMap(context),
+      ReposFilterParameters.getFilterSortTextMap(),
       onClickFilterCallback,
     );
   }

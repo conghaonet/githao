@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:githao/generated/i18n.dart';
 class SearchReposFilterParameters {
 
@@ -23,14 +22,15 @@ class SearchReposFilterParameters {
     {PARAMETER_NAME_SORT : SORT_UPDATED, PARAMETER_NAME_DIRECTION : DIRECTION_DESC},
     {PARAMETER_NAME_SORT : SORT_UPDATED, PARAMETER_NAME_DIRECTION : DIRECTION_ASC},
   ];
-
-  static final List<String> filterSortTextMap = [
-    S.current.bestMatch,
-    S.current.stars,
-    S.current.stars,
-    S.current.forks,
-    S.current.forks,
-    S.current.updated,
-    S.current.updated,
-  ];
+  static List<String> getFilterSortTextMap() {
+    return [
+      S.current.bestMatch,
+      S.current.stars,
+      S.current.stars,
+      S.current.forks,
+      S.current.forks,
+      S.current.updated,
+      S.current.updated,
+    ];
+  }
 }

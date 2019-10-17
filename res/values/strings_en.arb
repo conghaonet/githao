@@ -73,6 +73,6 @@
   "searchHistory": "Search history",
   "queryCanNotBeEmpty": "Query can not be empty!",
   "bestMatch": "Best match",
-  "stars": "Stars"
-
+  "stars": "Stars",
+  "recentlyJoined": "Recently joined"
 }

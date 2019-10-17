@@ -73,6 +73,7 @@
   "searchHistory": "搜索历史",
   "queryCanNotBeEmpty": "请输入搜索关键字!",
   "bestMatch": "最佳匹配",
-  "stars": "星标"
+  "stars": "星标",
+  "recentlyJoined": "最近加入"
 
 }

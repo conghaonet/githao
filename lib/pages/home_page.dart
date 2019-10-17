@@ -8,7 +8,7 @@ import 'package:githao/biz/user_biz.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/pages/issues_page.dart';
 import 'package:githao/pages/profile_page.dart';
-import 'package:githao/pages/common_search_page.dart';
+import 'package:githao/pages/search_page.dart';
 import 'package:githao/pages/settings_page.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';

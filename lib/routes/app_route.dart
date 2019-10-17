@@ -15,7 +15,7 @@ import 'package:githao/pages/repo_home_page.dart';
 import 'package:githao/pages/repo_stargazers_page.dart';
 import 'package:githao/pages/repo_watchers_page.dart';
 import 'package:githao/pages/route_error_page.dart';
-import 'package:githao/pages/common_search_page.dart';
+import 'package:githao/pages/search_page.dart';
 import 'package:githao/pages/settings_page.dart';
 import 'package:githao/pages/splash_page.dart';
 import 'package:githao/pages/user_followers_page.dart';

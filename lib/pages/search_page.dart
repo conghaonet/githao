@@ -59,7 +59,7 @@ class _CommonSearchPageState extends State<CommonSearchPage> with TickerProvider
         child: NestedScrollView(
           headerSliverBuilder: (context, innerBoxScrolled) => [
             SliverAppBar(
-              title: Text(S.current.search,),
+              title: Text(_query ?? S.current.search,),
               actions: <Widget>[
                 IconButton(icon: const Icon(Icons.search), onPressed: () {
                   _showSearchView();

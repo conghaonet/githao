@@ -71,5 +71,8 @@
   "type": "Type",
   "users": "Users",
   "searchHistory": "Search history",
-  "queryCanNotBeEmpty": "Query can not be empty!"
+  "queryCanNotBeEmpty": "Query can not be empty!",
+  "bestMatch": "Best match",
+  "stars": "Stars"
+
 }

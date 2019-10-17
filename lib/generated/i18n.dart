@@ -26,6 +26,7 @@ class S implements WidgetsLocalizations {
   String get adjustTimeSpan => "Adjust time span";
   String get all => "All";
   String get appTitle => "GitHao";
+  String get bestMatch => "Best match";
   String get chineseSimplified => "Chinese(Simplified)";
   String get chooseTheme => "Choose Theme";
   String get clearLanguage => "Clear language";
@@ -78,6 +79,7 @@ class S implements WidgetsLocalizations {
   String get stargazers => "Stargazers";
   String get starredRepos => "Starred repos";
   String get starredUppercase => "STARRED";
+  String get stars => "Stars";
   String get state => "State";
   String get systemDefault => "System Default";
   String get tapToRetry => "TAP TO RETRY";
@@ -146,6 +148,8 @@ class $zh_CN extends S {
   String get logout => "登出";
   @override
   String get commitsUppercase => "提交";
+  @override
+  String get bestMatch => "最佳匹配";
   @override
   String get committer => "提交者";
   @override
@@ -236,6 +240,8 @@ class $zh_CN extends S {
   String get committed => "提交于";
   @override
   String get fullName => "名称";
+  @override
+  String get stars => "星标";
   @override
   String get stargazers => "星标";
   @override

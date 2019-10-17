@@ -1,21 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
+import 'package:githao/resources/search_repos_filter_parameters.dart';
 import 'package:githao/widgets/base_list.dart';
 import 'package:githao/widgets/repo_item.dart';
+import 'package:githao/widgets/search_repos_filter.dart';
 
-class SearchRepoTab extends StatelessWidget {
+class SearchRepoTab extends StatefulWidget {
   final String query;
   SearchRepoTab(this.query, {Key key}): super(key: key);
+
+  @override
+  _SearchRepoTabState createState() => _SearchRepoTabState();
+}
+
+class _SearchRepoTabState extends State<SearchRepoTab> {
+  int _sortIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return _RepoList(this.query);
+    return Stack(
+      children: <Widget>[
+        _RepoList(this.widget.query, _sortIndex, key: Key('${this.widget.query}_$_sortIndex'),),
+        Positioned(
+          bottom: 12,
+          right: 16,
+          child: FloatingActionButton(
+            child: Icon(Icons.sort),
+            onPressed: () {
+              showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return AnimatedPadding(
+                    padding: MediaQuery.of(context).viewInsets,  //边距（必要）
+                    duration: const Duration(milliseconds: 100), //时常 （必要）
+                    child: SearchReposFilter(
+                      this._sortIndex,
+                      onClickFilterCallback,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ],
+    );
   }
+
+  void onClickFilterCallback(int index) {
+    if(_sortIndex != index) {
+      setState(() {
+        _sortIndex = index;
+      });
+    }
+  }
+
 }
 
 class _RepoList extends BaseListWidget {
   final String query;
-  _RepoList(this.query, {Key key}): super(wantKeepAlive: true, key: key);
+  final int sortIndex;
+  _RepoList(this.query, this.sortIndex, {Key key}): super(wantKeepAlive: true, key: key);
   @override
   _RepoListState createState() => _RepoListState();
 }
@@ -25,13 +71,15 @@ class _RepoListState extends BaseListWidgetState<_RepoList, RepoEntity> {
   Widget buildItem(RepoEntity entity, int index) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4,),
-      child: RepoItem(entity, tag: 'search_repo',),
+      child: RepoItem(entity, tag: 'search_repo_tab',),
     );
   }
 
   @override
   Future<List<RepoEntity>> getDatum(int expectationPage) {
-    return ApiService.searchRepos(keyword: widget.query, page: expectationPage);
+    String _sort = SearchReposFilterParameters.filterSortValueMap[this.widget.sortIndex][SearchReposFilterParameters.PARAMETER_NAME_SORT];
+    String _direction = SearchReposFilterParameters.filterSortValueMap[this.widget.sortIndex][SearchReposFilterParameters.PARAMETER_NAME_DIRECTION];
+    return ApiService.searchRepos(keyword: widget.query, sort: _sort, order: _direction, page: expectationPage);
   }
 
 }

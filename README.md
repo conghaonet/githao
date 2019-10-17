@@ -21,7 +21,7 @@ samples, guidance on mobile development, and a full API reference.
 * Android Studio (version 3.5)
   - Java version OpenJDK 1.8.0
   - Flutter plugin version 40.2.2
-  - Dart plugin version 191.8423
+  - Dart plugin version 191.8580
   - [Flutter i18n plugin](https://github.com/long1eu/flutter_i18n)
 * Develop for Android
   - Platform android-29, build-tools 29.0.2

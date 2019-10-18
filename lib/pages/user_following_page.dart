@@ -43,7 +43,7 @@ class UserFollowingPage extends StatelessWidget {
 class _FollowingGrid extends BaseGridWidget {
   final String tag;
   final String login;
-  _FollowingGrid(this.login, {this.tag, Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
+  _FollowingGrid(this.login, {this.tag, Key key}): super(crossAxisCount: 2, key: key);
 
   @override
   _FollowingGridState createState() => _FollowingGridState();

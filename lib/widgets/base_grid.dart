@@ -8,14 +8,11 @@ abstract class BaseGridWidget extends StatefulWidget {
   final perPageRows = 30;
   final bool wantKeepAlive;
   final int crossAxisCount;
-  final double childAspectRatio;
   BaseGridWidget({
     this.wantKeepAlive = false,
     this.crossAxisCount = 2,
-    this.childAspectRatio = 1,
     Key key,
   }) : assert(crossAxisCount != null && crossAxisCount > 0),
-       assert(childAspectRatio != null && childAspectRatio > 0),
        super(key: key);
 
   @protected
@@ -105,6 +102,7 @@ abstract class BaseGridWidgetState<T extends BaseGridWidget, K> extends State<T>
       return;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     if(widget.wantKeepAlive) {
@@ -117,38 +115,32 @@ abstract class BaseGridWidgetState<T extends BaseGridWidget, K> extends State<T>
             key: refreshIndicatorKey,
             onRefresh: _loadData,
             color: Theme.of(context).primaryColor,
-            child: CustomScrollView(
-              slivers: <Widget>[
-                SliverGrid(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: widget.crossAxisCount,
-                    childAspectRatio: widget.childAspectRatio,
-                  ),
-                  delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                      if(index + 1 == _datum.length) {
-                        if(_expectHasMoreData && _loadingState == StateFlag.complete) {
-                          Future.delayed(const Duration(milliseconds: 100)).then((_){
-                            _loadData(isReload: false);
-                          });
-                        }
-                      }
-                      return buildItem(_datum[index], index);
-                    },
-                    childCount: _datum.length,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Offstage(
-                    offstage: _datum.length < widget.perPageRows,
-                    child: Center(
-                      child: LoadMoreDataFooter(_expectHasMoreData, flag: _loadingState, onRetry: () {
-                        _loadData(isReload: false);
-                      },),
-                    ),
-                  ),
-                ),
-              ],
+            child: ListView.builder(
+              itemCount: (_datum.length >= widget.perPageRows) ? _datum.length+1 : _datum.length,
+              itemBuilder: (context, index) {
+                if(index < _datum.length) {
+                  if(index % widget.crossAxisCount == 0) {
+                    List<Widget> itemsInRow = [];
+                    for(int i=index; (i<index+widget.crossAxisCount) && (i<_datum.length); i++) {
+                      itemsInRow.add(Expanded(child: buildItem(_datum[i], i),),);
+                    }
+                    return Row(
+                      children: itemsInRow,
+                    );
+                  } else {
+                    return Container();
+                  }
+                } else {
+                  if(_expectHasMoreData && _loadingState == StateFlag.complete) {
+                    Future.delayed(const Duration(milliseconds: 100)).then((_){
+                      _loadData(isReload: false);
+                    });
+                  }
+                  return LoadMoreDataFooter(_expectHasMoreData, flag: _loadingState, onRetry: () {
+                    _loadData(isReload: false);
+                  },);
+                }
+              },
             ),
           ),
           LoadingState(_lastActionIsReload ? _loadingState : StateFlag.idle,

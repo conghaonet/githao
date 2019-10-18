@@ -42,7 +42,7 @@ class RepoWatchersPage extends StatelessWidget {
 class _WatchersGrid extends BaseGridWidget {
   final String tag;
   final String repoFullName;
-  _WatchersGrid(this.repoFullName, {this.tag, Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
+  _WatchersGrid(this.repoFullName, {this.tag, Key key}): super(crossAxisCount: 2, key: key);
 
   @override
   _WatchersGridState createState() => _WatchersGridState();

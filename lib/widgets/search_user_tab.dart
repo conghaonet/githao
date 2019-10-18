@@ -34,6 +34,7 @@ class _SearchUserTabState extends State<SearchUserTab> {
           bottom: 12,
           right: 16,
           child: FloatingActionButton(
+            heroTag: 'search_user_tab_fab',
             child: Icon(Icons.sort),
             onPressed: () {
               showModalBottomSheet(
@@ -61,7 +62,7 @@ class _SearchUserTabState extends State<SearchUserTab> {
 class _UserList extends BaseGridWidget {
   final String query;
   final int sortIndex;
-  _UserList(this.query, this.sortIndex, {Key key}): super(wantKeepAlive: true, crossAxisCount: 2, childAspectRatio: 2, key: key);
+  _UserList(this.query, this.sortIndex, {Key key}): super(wantKeepAlive: true, crossAxisCount: 2, key: key);
   @override
   _UserListState createState() => _UserListState();
 }

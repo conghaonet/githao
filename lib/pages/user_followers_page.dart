@@ -42,7 +42,7 @@ class UserFollowersPage extends StatelessWidget {
 class _FollowersGrid extends BaseGridWidget {
   final String tag;
   final String login;
-  _FollowersGrid(this.login, {this.tag, Key key}): super(crossAxisCount: 2, childAspectRatio: 2, key: key);
+  _FollowersGrid(this.login, {this.tag, Key key}): super(crossAxisCount: 2, key: key);
 
   @override
   _FollowersGridState createState() => _FollowersGridState();

@@ -34,6 +34,7 @@ class _SearchRepoTabState extends State<SearchRepoTab> {
           bottom: 12,
           right: 16,
           child: FloatingActionButton(
+            heroTag: 'search_repo_tab_fab',
             child: Icon(Icons.sort),
             onPressed: () {
               showModalBottomSheet(

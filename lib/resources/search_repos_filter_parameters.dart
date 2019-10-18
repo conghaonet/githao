@@ -25,12 +25,12 @@ class SearchReposFilterParameters {
   static List<String> getFilterSortTextMap() {
     return [
       S.current.bestMatch,
-      S.current.stars,
-      S.current.stars,
-      S.current.forks,
-      S.current.forks,
-      S.current.updated,
-      S.current.updated,
+      S.current.searchSortStars,
+      S.current.searchSortStars,
+      S.current.searchSortForks,
+      S.current.searchSortForks,
+      S.current.searchSortUpdated,
+      S.current.searchSortUpdated,
     ];
   }
 }

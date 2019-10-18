@@ -68,11 +68,16 @@ class S implements WidgetsLocalizations {
   String get public => "Public";
   String get pushed => "Pushed";
   String get queryCanNotBeEmpty => "Query can not be empty!";
-  String get recentlyJoined => "Recently joined";
   String get refreshFailedCheckNetwork => "Refresh failed, please check your network connection.";
   String get repositories => "Repositories";
   String get search => "Search";
   String get searchHistory => "Search history";
+  String get searchSortFollowers => "Followers";
+  String get searchSortForks => "Forks";
+  String get searchSortJoined => "Recently joined";
+  String get searchSortRepositories => "Repositories";
+  String get searchSortStars => "Stars";
+  String get searchSortUpdated => "Updated";
   String get selectALanguage => "Select a language";
   String get settings => "Settings";
   String get skip => "Skip";
@@ -80,7 +85,6 @@ class S implements WidgetsLocalizations {
   String get stargazers => "Stargazers";
   String get starredRepos => "Starred repos";
   String get starredUppercase => "STARRED";
-  String get stars => "Stars";
   String get state => "State";
   String get systemDefault => "System Default";
   String get tapToRetry => "TAP TO RETRY";
@@ -136,6 +140,8 @@ class $zh_CN extends S {
   @override
   String get issues => "问题";
   @override
+  String get searchSortRepositories => "版本库数";
+  @override
   String get selectALanguage => "选择一种语言";
   @override
   String get empty => "Empty";
@@ -184,6 +190,8 @@ class $zh_CN extends S {
   @override
   String get starredRepos => "星标版本库";
   @override
+  String get searchSortUpdated => "更新时间";
+  @override
   String get users => "用户";
   @override
   String get license => "许可";
@@ -196,6 +204,8 @@ class $zh_CN extends S {
   @override
   String get following => "跟随";
   @override
+  String get searchSortStars => "星标数";
+  @override
   String get queryCanNotBeEmpty => "请输入搜索关键字!";
   @override
   String get updated => "更新";
@@ -207,8 +217,6 @@ class $zh_CN extends S {
   String get private => "私有的";
   @override
   String get watchers => "观察者";
-  @override
-  String get recentlyJoined => "最近加入";
   @override
   String get skip => "跳过";
   @override
@@ -230,6 +238,10 @@ class $zh_CN extends S {
   @override
   String get member => "成员";
   @override
+  String get searchSortForks => "分支数";
+  @override
+  String get searchSortFollowers => "跟随者数";
+  @override
   String get email => "邮箱";
   @override
   String get chooseTheme => "选择主题颜色";
@@ -244,7 +256,7 @@ class $zh_CN extends S {
   @override
   String get fullName => "名称";
   @override
-  String get stars => "星标";
+  String get searchSortJoined => "加入时间";
   @override
   String get stargazers => "星标";
   @override

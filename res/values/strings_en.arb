@@ -73,6 +73,11 @@
   "searchHistory": "Search history",
   "queryCanNotBeEmpty": "Query can not be empty!",
   "bestMatch": "Best match",
-  "stars": "Stars",
-  "recentlyJoined": "Recently joined"
+  "searchSortStars": "Stars",
+  "searchSortForks": "Forks",
+  "searchSortUpdated": "Updated",
+  "searchSortFollowers": "Followers",
+  "searchSortJoined": "Recently joined",
+  "searchSortRepositories": "Repositories"
+
 }

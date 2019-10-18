@@ -73,7 +73,12 @@
   "searchHistory": "搜索历史",
   "queryCanNotBeEmpty": "请输入搜索关键字!",
   "bestMatch": "最佳匹配",
-  "stars": "星标",
-  "recentlyJoined": "最近加入"
+  "searchSortStars": "星标数",
+  "searchSortForks": "分支数",
+  "searchSortUpdated": "更新时间",
+  "searchSortFollowers": "跟随者数",
+  "searchSortJoined": "加入时间",
+  "searchSortRepositories": "版本库数"
+
 
 }

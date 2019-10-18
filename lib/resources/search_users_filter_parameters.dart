@@ -26,12 +26,12 @@ class SearchUsersFilterParameters {
   static List<String> getFilterSortTextMap() {
     return [
       S.current.bestMatch,
-      S.current.followers,
-      S.current.followers,
-      S.current.recentlyJoined,
-      S.current.recentlyJoined,
-      S.current.repositories,
-      S.current.repositories,
+      S.current.searchSortFollowers,
+      S.current.searchSortFollowers,
+      S.current.searchSortJoined,
+      S.current.searchSortJoined,
+      S.current.searchSortRepositories,
+      S.current.searchSortRepositories,
     ];
   }
 }

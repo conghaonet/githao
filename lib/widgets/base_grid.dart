@@ -108,6 +108,11 @@ abstract class BaseGridWidgetState<T extends BaseGridWidget, K> extends State<T>
     if(widget.wantKeepAlive) {
       super.build(context);
     }
+    int gridRows = 0;
+    if(_datum.length > 0 ) {
+      gridRows = (_datum.length / widget.crossAxisCount).ceil();
+    }
+
     return Container(
       child: Stack(
         children: <Widget>[
@@ -116,20 +121,21 @@ abstract class BaseGridWidgetState<T extends BaseGridWidget, K> extends State<T>
             onRefresh: _loadData,
             color: Theme.of(context).primaryColor,
             child: ListView.builder(
-              itemCount: (_datum.length >= widget.perPageRows) ? _datum.length+1 : _datum.length,
+              itemCount: (_datum.length >= widget.perPageRows) ? gridRows+1 : gridRows,
               itemBuilder: (context, index) {
-                if(index < _datum.length) {
-                  if(index % widget.crossAxisCount == 0) {
-                    List<Widget> itemsInRow = [];
-                    for(int i=index; (i<index+widget.crossAxisCount) && (i<_datum.length); i++) {
+                if(index < gridRows) {
+                  List<Widget> itemsInRow = [];
+                  int beginIndex = index * widget.crossAxisCount;
+                  for(int i=beginIndex; (i<beginIndex + widget.crossAxisCount); i++) {
+                    if(i<_datum.length) {
                       itemsInRow.add(Expanded(child: buildItem(_datum[i], i),),);
+                    } else {
+                      itemsInRow.add(Expanded(child: Container(),),);
                     }
-                    return Row(
-                      children: itemsInRow,
-                    );
-                  } else {
-                    return Container();
                   }
+                  return Row(
+                    children: itemsInRow,
+                  );
                 } else {
                   if(_expectHasMoreData && _loadingState == StateFlag.complete) {
                     Future.delayed(const Duration(milliseconds: 100)).then((_){

@@ -37,9 +37,8 @@ dependencies:
   image_picker: ^0.6.1+8
   flutter_syntax_view: ^0.2.1
   async: ^2.3.0
-  flutter_staggered_grid_view: ^0.3.0
   url_launcher: ^5.2.3
-  share: ^0.6.2+3
+  share: ^0.6.2+4
 
   # 升级到 0.38.3 之后，执行build_runner报错，必须锁定 0.38.2版本。
   # 升级到 0.38.4 之后，已解决0.38.3的bug，故不再直接依赖analyzer

@@ -87,6 +87,9 @@ class S implements WidgetsLocalizations {
   String get searchSortUpdated => "Updated";
   String get selectALanguage => "Select a language";
   String get settings => "Settings";
+  String get share => "Share";
+  String get shareText => "https://github.com/conghaonet/GitHao";
+  String get shareToYourFriends => "Share to your friends";
   String get skip => "Skip";
   String get sort => "Sort";
   String get sourceCode => "Source code";
@@ -182,6 +185,8 @@ class $zh_CN extends S {
   @override
   String get english => "英语";
   @override
+  String get shareText => "https://github.com/conghaonet/GitHao";
+  @override
   String get thisMonth => "本月";
   @override
   String get state => "状态";
@@ -214,9 +219,11 @@ class $zh_CN extends S {
   @override
   String get starToSupportMe => "星标以支持作者";
   @override
+  String get shareToYourFriends => "分享给朋友";
+  @override
   String get users => "用户";
   @override
-  String get authorLocation => "Beijing, China";
+  String get authorLocation => "北京, 中国";
   @override
   String get license => "许可";
   @override
@@ -269,6 +276,8 @@ class $zh_CN extends S {
   String get searchSortForks => "分支数";
   @override
   String get searchSortFollowers => "跟随者数";
+  @override
+  String get share => "分享";
   @override
   String get email => "邮箱";
   @override

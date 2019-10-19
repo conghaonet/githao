@@ -85,8 +85,11 @@
   "starToSupportMe": "星标以支持作者",
   "author": "作者",
   "authorName": "Cong Hao",
-  "authorLocation": "Beijing, China",
+  "authorLocation": "北京, 中国",
   "authorEmail": "conghaonet@gmail.com",
   "authorGithubLogin": "conghaonet",
-  "appRepoFullName": "conghaonet/GitHao"
+  "appRepoFullName": "conghaonet/GitHao",
+  "share": "分享",
+  "shareToYourFriends": "分享给朋友",
+  "shareText": "https://github.com/conghaonet/GitHao"
 }

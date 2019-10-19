@@ -4,6 +4,8 @@ import 'package:githao/pages/profile_page.dart';
 import 'package:githao/pages/repo_home_page.dart';
 import 'package:githao/routes/profile_page_args.dart';
 import 'package:package_info/package_info.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
   static const ROUTE_NAME = '/about_page';
@@ -85,6 +87,23 @@ class _AboutPageState extends State<AboutPage> {
                 leading: Icon(Icons.email),
                 title: Text(S.current.email),
                 subtitle: Text(S.current.authorEmail),
+                trailing: Icon(Icons.keyboard_arrow_right),
+                onTap: () {
+                  launch('mailto:${S.current.authorEmail}');
+                },
+              ),
+              Divider(color: Colors.grey,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8,),
+                child: Text(S.current.share, style: TextStyle(fontSize: 20),),
+              ),
+              ListTile(
+                leading: Icon(Icons.share),
+                title: Text(S.current.shareToYourFriends),
+                trailing: Icon(Icons.keyboard_arrow_right),
+                onTap: () {
+                  Share.share(S.current.shareText, subject: _packageInfo?.appName);
+                },
               ),
             ],
           ),

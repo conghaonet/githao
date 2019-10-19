@@ -88,5 +88,8 @@
   "authorLocation": "Beijing, China",
   "authorEmail": "conghaonet@gmail.com",
   "authorGithubLogin": "conghaonet",
-  "appRepoFullName": "conghaonet/GitHao"
+  "appRepoFullName": "conghaonet/GitHao",
+  "share": "Share",
+  "shareToYourFriends": "Share to your friends",
+  "shareText": "https://github.com/conghaonet/GitHao"
 }

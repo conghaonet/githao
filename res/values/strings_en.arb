@@ -78,6 +78,11 @@
   "searchSortUpdated": "Updated",
   "searchSortFollowers": "Followers",
   "searchSortJoined": "Recently joined",
-  "searchSortRepositories": "Repositories"
+  "searchSortRepositories": "Repositories",
+  "copyright": "Copyright © 2019 Conghaonet",
+  "version": "Version",
+  "sourceCode": "Source code",
+  "starToSupportMe": "Star to support me",
+  "author": "Author"
 
 }

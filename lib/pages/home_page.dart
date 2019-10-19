@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/biz/user_biz.dart';
 
 import 'package:githao/generated/i18n.dart';
+import 'package:githao/pages/about_page.dart';
 import 'package:githao/pages/issues_page.dart';
 import 'package:githao/pages/profile_page.dart';
 import 'package:githao/pages/search_page.dart';
@@ -226,6 +227,13 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
                     },
                   ),
                   ListTile(
+                    leading: Icon(Icons.info,),
+                    title: Text(S.current.about,),
+                    onTap: () {
+                      Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
+                    },
+                  ),
+                  ListTile(
                     leading: Icon(Icons.exit_to_app,),
                     title: Text(S.current.logout,),
                     onTap: () {
@@ -233,13 +241,6 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
                       Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
                     },
                   ),
-/*
-                  ListTile(
-                    leading: Icon(Icons.info,),
-                    title: Text(S.current.about,),
-                    onTap: () {},
-                  ),
-*/
                 ],
               ),
             ),

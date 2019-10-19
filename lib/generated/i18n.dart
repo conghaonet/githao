@@ -26,6 +26,7 @@ class S implements WidgetsLocalizations {
   String get adjustTimeSpan => "Adjust time span";
   String get all => "All";
   String get appTitle => "GitHao";
+  String get author => "Author";
   String get bestMatch => "Best match";
   String get chineseSimplified => "Chinese(Simplified)";
   String get chooseTheme => "Choose Theme";
@@ -35,6 +36,7 @@ class S implements WidgetsLocalizations {
   String get commitsUppercase => "COMMITS";
   String get committed => "Committed";
   String get committer => "Committer";
+  String get copyright => "Copyright © 2019 Conghaonet";
   String get created => "Created";
   String get email => "Email";
   String get empty => "Empty";
@@ -82,6 +84,8 @@ class S implements WidgetsLocalizations {
   String get settings => "Settings";
   String get skip => "Skip";
   String get sort => "Sort";
+  String get sourceCode => "Source code";
+  String get starToSupportMe => "Star to support me";
   String get stargazers => "Stargazers";
   String get starredRepos => "Starred repos";
   String get starredUppercase => "STARRED";
@@ -97,6 +101,7 @@ class S implements WidgetsLocalizations {
   String get updated => "Updated";
   String get userDataHasBeanRefreshed => "User data has been refreshed.";
   String get users => "Users";
+  String get version => "Version";
   String get watchers => "Watchers";
   String createdAt(String dateTime) => "Created at ${dateTime}";
   String pushedAt(String dateTime) => "Pushed at ${dateTime}";
@@ -117,6 +122,8 @@ class $zh_CN extends S {
   String get trending => "趋势";
   @override
   String get noMoreData => "没有更多数据";
+  @override
+  String get copyright => "Copyright © 2019 Conghaonet";
   @override
   String get activityUppercase => "活动";
   @override

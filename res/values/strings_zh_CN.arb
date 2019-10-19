@@ -78,7 +78,6 @@
   "searchSortUpdated": "更新时间",
   "searchSortFollowers": "跟随者数",
   "searchSortJoined": "加入时间",
-  "searchSortRepositories": "版本库数"
-
-
+  "searchSortRepositories": "版本库数",
+  "copyright": "Copyright © 2019 Conghaonet"
 }

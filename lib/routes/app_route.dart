@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:githao/network/entity/commit_detail_entity.dart';
+import 'package:githao/pages/about_page.dart';
 import 'package:githao/pages/code_preview_page.dart';
 import 'package:githao/pages/code_preview_html.dart';
 import 'package:githao/pages/commit_detail_page.dart';
@@ -40,6 +41,7 @@ class AppRoute extends NavigatorObserver {
     HomePage.ROUTE_NAME: (_) => HomePage(),
     SettingsPage.ROUTE_NAME: (_) => SettingsPage(),
     CommonSearchPage.ROUTE_NAME: (_) => CommonSearchPage(),
+    AboutPage.ROUTE_NAME: (_) => AboutPage(),
   };
   Map<String, WidgetBuilder> get routes => _routes;
 

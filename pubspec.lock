@@ -126,7 +126,7 @@ packages:
       name: connectivity
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.4.5"
+    version: "0.4.5+1"
   convert:
     dependency: transitive
     description:
@@ -386,7 +386,7 @@ packages:
       name: package_info
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.4.0+8"
+    version: "0.4.0+9"
   package_resolver:
     dependency: transitive
     description:

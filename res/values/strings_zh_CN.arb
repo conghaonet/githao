@@ -91,5 +91,6 @@
   "appRepoFullName": "conghaonet/GitHao",
   "share": "分享",
   "shareToYourFriends": "分享给朋友",
-  "shareText": "https://github.com/conghaonet/GitHao"
+  "shareText": "https://github.com/conghaonet/GitHao",
+  "googlePlayAppUrl": "https://play.google.com/store/apps/details?id=$packageName"
 }

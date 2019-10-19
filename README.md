@@ -29,6 +29,14 @@ samples, guidance on mobile development, and a full API reference.
   - Xcode 10.3
   - CocoaPods version 1.7.5
 
+## Screenshots
+<img height="480px" src="screenshots/screencapture-repo_home.gif"> <img height="480px" src="screenshots/screencapture-search.gif"> <img height="480px" src="screenshots/screencapture-settings.gif">
+<img height="480px" src="screenshots/screencapture-trending.gif"> <img height="480px" src="screenshots/screencapture-user_home.gif">
+<img height="480px" src="screenshots/screenshot_01.jpg"> <img height="480px" src="screenshots/screenshot_02.jpg"> <img height="480px" src="screenshots/screenshot_03.jpg">
+<img height="480px" src="screenshots/screenshot_04.jpg"> <img height="480px" src="screenshots/screenshot_05.jpg"> <img height="480px" src="screenshots/screenshot_06.jpg">
+<img height="480px" src="screenshots/screenshot_07.jpg"> <img height="480px" src="screenshots/screenshot_08.jpg"> <img height="480px" src="screenshots/screenshot_09.jpg">
+<img height="480px" src="screenshots/screenshot_10.jpg">
+
 ## Thanks for open source
 * [OpenHub](https://github.com/ThirtyDegreesRay/OpenHub) An open source GitHub Android client app, faster and concise.
 * [fluttertoast](https://github.com/PonnamKarthik/FlutterToast) Android and iOS Toast Library for Flutter.
@@ -45,10 +53,3 @@ samples, guidance on mobile development, and a full API reference.
 * [flutter_syntax_view](https://github.com/BaderEddineOuaich/flutter_syntax_view) A SyntaxView Widget which highlights code text according to the programming language syntax.
 * [flutter_statusbarcolor](https://github.com/mchome/flutter_statusbarcolor) A package can help you to change your flutter app's statusbar's color or navigationbar's color programmatically.
 * [build_runner](https://github.com/dart-lang/build) A build system for Dart.
-## Screenshots
-<img height="480px" src="screenshots/screencapture-repo_home.gif"> <img height="480px" src="screenshots/screencapture-search.gif"> <img height="480px" src="screenshots/screencapture-settings.gif">
-<img height="480px" src="screenshots/screencapture-trending.gif"> <img height="480px" src="screenshots/screencapture-user_home.gif">
-<img height="480px" src="screenshots/screenshot_01.jpg"> <img height="480px" src="screenshots/screenshot_02.jpg"> <img height="480px" src="screenshots/screenshot_03.jpg">
-<img height="480px" src="screenshots/screenshot_04.jpg"> <img height="480px" src="screenshots/screenshot_05.jpg"> <img height="480px" src="screenshots/screenshot_06.jpg">
-<img height="480px" src="screenshots/screenshot_07.jpg"> <img height="480px" src="screenshots/screenshot_08.jpg"> <img height="480px" src="screenshots/screenshot_09.jpg">
-<img height="480px" src="screenshots/screenshot_10.jpg">

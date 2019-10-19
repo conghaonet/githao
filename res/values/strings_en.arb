@@ -83,6 +83,10 @@
   "version": "Version",
   "sourceCode": "Source code",
   "starToSupportMe": "Star to support me",
-  "author": "Author"
-
+  "author": "Author",
+  "authorName": "Cong Hao",
+  "authorLocation": "Beijing, China",
+  "authorEmail": "conghaonet@gmail.com",
+  "authorGithubLogin": "conghaonet",
+  "appRepoFullName": "conghaonet/GitHao"
 }

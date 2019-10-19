@@ -25,8 +25,13 @@ class S implements WidgetsLocalizations {
   String get activityUppercase => "ACTIVITY";
   String get adjustTimeSpan => "Adjust time span";
   String get all => "All";
+  String get appRepoFullName => "conghaonet/GitHao";
   String get appTitle => "GitHao";
   String get author => "Author";
+  String get authorEmail => "conghaonet@gmail.com";
+  String get authorGithubLogin => "conghaonet";
+  String get authorLocation => "Beijing, China";
+  String get authorName => "Cong Hao";
   String get bestMatch => "Best match";
   String get chineseSimplified => "Chinese(Simplified)";
   String get chooseTheme => "Choose Theme";
@@ -123,7 +128,7 @@ class $zh_CN extends S {
   @override
   String get noMoreData => "没有更多数据";
   @override
-  String get copyright => "Copyright © 2019 Conghaonet";
+  String get copyright => "版权 © 2019 Conghaonet";
   @override
   String get activityUppercase => "活动";
   @override
@@ -159,6 +164,8 @@ class $zh_CN extends S {
   @override
   String get filesUppercase => "文件";
   @override
+  String get sourceCode => "源代码";
+  @override
   String get logout => "登出";
   @override
   String get commitsUppercase => "提交";
@@ -168,6 +175,8 @@ class $zh_CN extends S {
   String get committer => "提交者";
   @override
   String get repositories => "版本库";
+  @override
+  String get appRepoFullName => "conghaonet/GitHao";
   @override
   String get clearLanguage => "清楚语言";
   @override
@@ -185,6 +194,8 @@ class $zh_CN extends S {
   @override
   String get created => "创建";
   @override
+  String get author => "作者";
+  @override
   String get profile => "用户资料";
   @override
   String get userDataHasBeanRefreshed => "用户数据已刷新";
@@ -199,7 +210,13 @@ class $zh_CN extends S {
   @override
   String get searchSortUpdated => "更新时间";
   @override
+  String get version => "版本";
+  @override
+  String get starToSupportMe => "星标以支持作者";
+  @override
   String get users => "用户";
+  @override
+  String get authorLocation => "Beijing, China";
   @override
   String get license => "许可";
   @override
@@ -208,6 +225,8 @@ class $zh_CN extends S {
   String get starredUppercase => "评星";
   @override
   String get followers => "跟随者";
+  @override
+  String get authorName => "Cong Hao";
   @override
   String get following => "跟随";
   @override
@@ -220,6 +239,8 @@ class $zh_CN extends S {
   String get notifications => "通知";
   @override
   String get myRepos => "我的版本库";
+  @override
+  String get authorEmail => "conghaonet@gmail.com";
   @override
   String get private => "私有的";
   @override
@@ -260,6 +281,8 @@ class $zh_CN extends S {
   String get orgUppercase => "组织";
   @override
   String get committed => "提交于";
+  @override
+  String get authorGithubLogin => "conghaonet";
   @override
   String get fullName => "名称";
   @override

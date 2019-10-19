@@ -25,7 +25,9 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   TabController _tabController;
   UserEntity _userEntity;
   StateFlag _loadingState = StateFlag.idle;
-  final String _heroTag = DateTime.now().millisecondsSinceEpoch.toString();
+  final String _profileStarredHeroTag = 'profile_starred_repos_${DateTime.now().millisecondsSinceEpoch.toString()}';
+  String _login;
+  String _avatarHeroTag;
 
   //要达到缓存目的，必须实现AutomaticKeepAliveClientMixin的wantKeepAlive为true。
   // 不会被销毁,占内存中
@@ -35,6 +37,8 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   @override
   void initState() {
     super.initState();
+    _login = widget.args.userEntity?.login ?? widget.args.login;
+    _avatarHeroTag = widget.args.heroTag ?? 'default_${DateTime.now().microsecondsSinceEpoch.toString()}';
     _loadData();
   }
 
@@ -46,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
 
       });
     }
-    return ApiService.getUser(widget.args.userEntity.login).then((user){
+    return ApiService.getUser(this._login).then((user){
       _tabController = TabController(length: user.isUser ? 3 : 2, vsync: this);
       if(mounted) {
         setState(() {
@@ -75,10 +79,14 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   List<Widget> _getTabViews() {
     List<Widget> widgets = [
       _getInfoTabBarView(),
-      EventList(login: widget.args.userEntity.login),
+      EventList(login: this._login),
     ];
     if(this._userEntity != null &&  this._userEntity.isUser) {
-      widgets.add(StarredReposWidget(this._userEntity, tag: 'profile_starred_repos_$_heroTag', wantKeepAlive: true));
+      widgets.add(StarredReposWidget(
+        this._userEntity,
+        tag: _profileStarredHeroTag,
+        wantKeepAlive: true,),
+      );
     }
     return widgets;
   }
@@ -98,7 +106,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                 pinned: false, //为true时，SliverAppBar折叠后不消失
                 expandedHeight: 200,
                 flexibleSpace: FlexibleSpaceBar(
-                  title: Text(widget.args.userEntity.login),
+                  title: Text(this._login),
                   centerTitle: true,
                   collapseMode: CollapseMode.parallax, // 背景折叠动画
                   background: _appBarBackground(),
@@ -149,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
         SizedBox(
           width: double.infinity,
           child: CachedNetworkImage(
-            imageUrl: widget.args.userEntity.avatarUrl,
+            imageUrl: this._userEntity?.avatarUrl ?? '',
             fit: BoxFit.cover,
             color: Colors.black.withOpacity(0.7),
             colorBlendMode: BlendMode.srcOver,),
@@ -163,13 +171,13 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                 //默认情况下，当在 iOS 上按后退按钮时，hero 动画会有效果，但它们在手势滑动时并没有。
                 //要解决此问题，只需在两个 Hero 组件上将 transitionOnUserGestures 设置为 true 即可
                 transitionOnUserGestures: true,
-                tag: widget.args.heroTag,
+                tag: this._avatarHeroTag,
                 child: Container(
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(image: CachedNetworkImageProvider(widget.args.userEntity.avatarUrl)),
+                    image: DecorationImage(image: CachedNetworkImageProvider(this._userEntity?.avatarUrl ?? '')),
                   ),
                 ),
               ),

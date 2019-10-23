@@ -6,8 +6,6 @@ Android and iOS open-source GitHub Flutter client app
 [![Releases](https://img.shields.io/github/v/release/conghaonet/GitHao.svg)](https://github.com/conghaonet/GitHao/releases/latest)
 
 [![Releases](https://img.shields.io/badge/iOS-8.0%2B-brightgreen.svg)](#)
-**Not release**
-
 
 [![Google Play](https://raw.githubusercontent.com/conghaonet/GitHao/master/screenshots/google_play.png?raw=true)](https://play.google.com/store/apps/details?id=com.app2m.githao)
 

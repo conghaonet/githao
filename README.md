@@ -2,7 +2,7 @@
 
 An open-source GitHub Flutter client app
 
-[![Google Play](https://raw.githubusercontent.com/ThirtyDegreesRay/OpenHub/master/art/google_play.png?raw=true)](https://play.google.com/store/apps/details?id=com.app2m.githao)
+[![Google Play](https://raw.githubusercontent.com/conghaonet/GitHao/master/screenshots/google_play.png?raw=true)](https://play.google.com/store/apps/details?id=com.app2m.githao)
 
 ## Getting Started
 

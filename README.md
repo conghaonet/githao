@@ -36,8 +36,8 @@ samples, guidance on mobile development, and a full API reference.
   - Platform android-29, build-tools 29.0.2
   - Kotlin version 1.3.50
 * Develop for iOS and macOS
-  - Xcode 10.3
-  - CocoaPods version 1.7.5
+  - Xcode 11.2
+  - CocoaPods version 1.8.4
 
 ## Screenshots
 <img height="480px" src="screenshots/screencapture-repo_home.gif"> <img height="480px" src="screenshots/screencapture-search.gif"> <img height="480px" src="screenshots/screencapture-settings.gif">

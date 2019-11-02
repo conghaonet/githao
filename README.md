@@ -25,19 +25,21 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 ## Development environment and tool chain
-* Flutter version 1.9.1+hotfix.4
+* Flutter version v1.9.1+hotfix.6
+* Framework revision 68587a0916, 2019-09-13 19:46:58 -0700
+* Engine revision b863200c37
 * Dart version 2.5.0
-* Android Studio (version 3.5.1)
+* Android Studio (version 3.5)
   - Java version OpenJDK Runtime Environment (build 1.8.0_202-release-1483-b03)
-  - Flutter plugin version 40.2.2
+  - Flutter plugin version 41.0.2
   - Dart plugin version 191.8593
   - [Flutter i18n plugin](https://github.com/long1eu/flutter_i18n)
 * Develop for Android
   - Platform android-29, build-tools 29.0.2
   - Kotlin version 1.3.50
 * Develop for iOS and macOS
-  - Xcode 10.3
-  - CocoaPods version 1.7.5
+  - Xcode 11.2
+  - CocoaPods version 1.8.4
 
 ## Screenshots
 <img height="480px" src="screenshots/screencapture-repo_home.gif"> <img height="480px" src="screenshots/screencapture-search.gif"> <img height="480px" src="screenshots/screencapture-settings.gif">

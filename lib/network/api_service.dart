@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:githao/network/entity/authorization_entity.dart';
 import 'package:githao/network/entity/authorization_post.dart';
@@ -212,5 +213,34 @@ class ApiService {
     Map<String, dynamic> parameters = {'since': since, 'language': language};
     Response<List<dynamic>> response = await codehubClient.dio.get("/trending", queryParameters: parameters);
     return response.data.map((item) => RepoEntity.fromJson(item)).toList();
+  }
+
+  /// 检查当前登录用户是否对该版本库评星
+  /// 已评星: statusCode=204, 未评星：statusCode=404
+  static Future<bool> getStarredRepo(String repoFullName) async {
+    try {
+      Response<String> response = await dioClient.dio.get("/user/starred/$repoFullName");
+      if(response.statusCode == 204) return true;
+      else return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Star or Unstar a repository
+  /// 已评星: statusCode=204, 未评星：statusCode=404
+  static Future<bool> startOrUnstarRepo(String repoFullName, bool isStar) async {
+    bool actionResult = false;
+    try {
+      Response<String> response;
+      if(isStar) {
+        response= await dioClient.dio.put("/user/starred/$repoFullName");
+      } else {
+        response= await dioClient.dio.delete("/user/starred/$repoFullName");
+      }
+      if(response.statusCode == 204) actionResult = true;
+    } catch(e) {
+    }
+    return actionResult;
   }
 }

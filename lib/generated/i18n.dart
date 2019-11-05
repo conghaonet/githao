@@ -41,6 +41,7 @@ class S implements WidgetsLocalizations {
   String get commitsUppercase => "COMMITS";
   String get committed => "Committed";
   String get committer => "Committer";
+  String get copyRepoUrl => "Copy repo URL";
   String get copyright => "Copyright © 2019 Conghaonet";
   String get created => "Created";
   String get email => "Email";
@@ -68,6 +69,7 @@ class S implements WidgetsLocalizations {
   String get notifications => "Notifications";
   String get oopsWrong => "Oops wrong!";
   String get open => "Open";
+  String get openInBrowser => "Open in browser";
   String get orgUppercase => "ORG";
   String get owner => "Owner";
   String get private => "Private";
@@ -270,6 +272,8 @@ class $zh_CN extends S {
   @override
   String get public => "公开的";
   @override
+  String get openInBrowser => "在浏览器中打开";
+  @override
   String get today => "今天";
   @override
   String get member => "成员";
@@ -299,6 +303,8 @@ class $zh_CN extends S {
   String get searchSortJoined => "加入时间";
   @override
   String get stargazers => "星标";
+  @override
+  String get copyRepoUrl => "拷贝版本库URL";
   @override
   String get closed => "关闭的";
   @override

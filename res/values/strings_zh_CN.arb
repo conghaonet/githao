@@ -92,5 +92,7 @@
   "share": "分享",
   "shareToYourFriends": "分享给朋友",
   "shareText": "https://github.com/conghaonet/GitHao",
-  "googlePlayAppUrl": "https://play.google.com/store/apps/details?id=$packageName"
+  "googlePlayAppUrl": "https://play.google.com/store/apps/details?id=$packageName",
+  "copyRepoUrl": "拷贝版本库URL",
+  "openInBrowser": "在浏览器中打开"
 }

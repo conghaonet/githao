@@ -9,7 +9,7 @@ Android and iOS open-source GitHub Flutter client app
 [![Releases](https://img.shields.io/badge/release-Not%20release-blue)](#)
 
 
-[![Google Play](https://raw.githubusercontent.com/conghaonet/GitHao/master/screenshots/google_play.png?raw=true)](https://play.google.com/store/apps/details?id=com.app2m.githao)
+[![Google Play](https://i.loli.net/2019/11/05/FrpBCxJmawQTUYH.png)](https://play.google.com/store/apps/details?id=com.app2m.githao)
 
 ## Getting Started
 
@@ -42,7 +42,7 @@ samples, guidance on mobile development, and a full API reference.
   - CocoaPods version 1.8.4
 
 ## Screenshots
-<img height="480px" src="screenshots/screencapture-repo_home.gif"> <img height="480px" src="screenshots/screencapture-search.gif"> <img height="480px" src="screenshots/screencapture-settings.gif">
+<img height="480px" src="https://i.loli.net/2019/11/05/AkG4ZdigaXKNbI9.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/S5tzWDnIAoUXlmJ.gif"> <img height="480px" src="screenshots/screencapture-settings.gif">
 <img height="480px" src="screenshots/screencapture-trending.gif"> <img height="480px" src="screenshots/screencapture-user_home.gif">
 <img height="480px" src="screenshots/screenshot_01.jpg"> <img height="480px" src="screenshots/screenshot_02.jpg"> <img height="480px" src="screenshots/screenshot_03.jpg">
 <img height="480px" src="screenshots/screenshot_04.jpg"> <img height="480px" src="screenshots/screenshot_05.jpg"> <img height="480px" src="screenshots/screenshot_06.jpg">

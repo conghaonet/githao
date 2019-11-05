@@ -42,8 +42,8 @@ samples, guidance on mobile development, and a full API reference.
   - CocoaPods version 1.8.4
 
 ## Screenshots
-<img height="480px" src="https://i.loli.net/2019/11/05/AkG4ZdigaXKNbI9.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/S5tzWDnIAoUXlmJ.gif"> <img height="480px" src="screenshots/screencapture-settings.gif">
-<img height="480px" src="screenshots/screencapture-trending.gif"> <img height="480px" src="screenshots/screencapture-user_home.gif">
+<img height="480px" src="https://i.loli.net/2019/11/05/AkG4ZdigaXKNbI9.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/S5tzWDnIAoUXlmJ.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/n7VkI9eaufEShTU.gif">
+<img height="480px" src="https://i.loli.net/2019/11/05/EFavRCkn3etfzwD.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/goTxX2OaY37eyQ8.gif">
 <img height="480px" src="screenshots/screenshot_01.jpg"> <img height="480px" src="screenshots/screenshot_02.jpg"> <img height="480px" src="screenshots/screenshot_03.jpg">
 <img height="480px" src="screenshots/screenshot_04.jpg"> <img height="480px" src="screenshots/screenshot_05.jpg"> <img height="480px" src="screenshots/screenshot_06.jpg">
 <img height="480px" src="screenshots/screenshot_07.jpg"> <img height="480px" src="screenshots/screenshot_08.jpg"> <img height="480px" src="screenshots/screenshot_09.jpg">

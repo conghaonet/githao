@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/biz/user_biz.dart';
 
@@ -167,85 +168,88 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
-      color: Theme.of(context).primaryColor,
-      child: Column(
-        children: <Widget>[
-          _drawerHeader(),
-          Expanded(
-            child: Container(
-              color: Colors.white,
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.info_outline,),
-                    title: Text(S.current.issues,),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pushNamed(IssuesPage.ROUTE_NAME);
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.storage,),
-                    title: Text(S.current.myRepos,),
-                    onTap: () {
-                      onClickMenu(HomeDrawer.MENU_MY_REPOS);
-                    },
-                    selected: _clickedMenu == null || _clickedMenu == HomeDrawer.MENU_MY_REPOS,
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.star,),
-                    title: Text(S.current.starredRepos,),
-                    onTap: () {
-                      onClickMenu(HomeDrawer.MENU_STARRED_REPOS);
-                    },
-                    selected: _clickedMenu == HomeDrawer.MENU_STARRED_REPOS,
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.trending_up,),
-                    title: Text(S.current.trending,),
-                    onTap: () {
-                      onClickMenu(HomeDrawer.MENU_TRENDING_UP);
-                    },
-                    selected: _clickedMenu == HomeDrawer.MENU_TRENDING_UP,
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.search,),
-                    title: Text(S.current.search,),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pushNamed(CommonSearchPage.ROUTE_NAME);
-                    },
-                  ),
-                  Divider(height: 1, color: Theme.of(context).primaryColor,),
-                  ListTile(
-                    leading: Icon(Icons.settings,),
-                    title: Text(S.current.settings,),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pushNamed(SettingsPage.ROUTE_NAME);
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.info,),
-                    title: Text(S.current.about,),
-                    onTap: () {
-                      Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.exit_to_app,),
-                    title: Text(S.current.logout,),
-                    onTap: () {
-                      UserBiz.logout();
-                      Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
-                    },
-                  ),
-                ],
+      height: double.infinity,
+      color: Colors.white,
+      child: FractionallySizedBox(
+        widthFactor: 0.7,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              _drawerHeader(),
+              Container(
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.info_outline,),
+                      title: Text(S.current.issues,),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pushNamed(IssuesPage.ROUTE_NAME);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.storage,),
+                      title: Text(S.current.myRepos,),
+                      onTap: () {
+                        onClickMenu(HomeDrawer.MENU_MY_REPOS);
+                      },
+                      selected: _clickedMenu == null || _clickedMenu == HomeDrawer.MENU_MY_REPOS,
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.star,),
+                      title: Text(S.current.starredRepos,),
+                      onTap: () {
+                        onClickMenu(HomeDrawer.MENU_STARRED_REPOS);
+                      },
+                      selected: _clickedMenu == HomeDrawer.MENU_STARRED_REPOS,
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.trending_up,),
+                      title: Text(S.current.trending,),
+                      onTap: () {
+                        onClickMenu(HomeDrawer.MENU_TRENDING_UP);
+                      },
+                      selected: _clickedMenu == HomeDrawer.MENU_TRENDING_UP,
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.search,),
+                      title: Text(S.current.search,),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pushNamed(CommonSearchPage.ROUTE_NAME);
+                      },
+                    ),
+                    Divider(height: 1, color: Theme.of(context).primaryColor,),
+                    ListTile(
+                      leading: Icon(Icons.settings,),
+                      title: Text(S.current.settings,),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pushNamed(SettingsPage.ROUTE_NAME);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.info,),
+                      title: Text(S.current.about,),
+                      onTap: () {
+                        Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.exit_to_app,),
+                      title: Text(S.current.logout,),
+                      onTap: () {
+                        UserBiz.logout();
+                        Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

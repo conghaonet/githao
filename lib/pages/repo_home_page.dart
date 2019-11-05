@@ -100,47 +100,7 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
                 floating: true, //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
                 snap:true,   //与floating结合使用
                 pinned: false, //为true时，SliverAppBar折叠后不消失
-                actions: _repoEntity == null ? null : <Widget>[
-                  if(_isStarred != null)
-                  IconButton(
-                    icon: Icon(_isStarred ? Icons.star : Icons.star_border, color: Colors.white,),
-                    onPressed: (){
-                      setState(() {
-                        _isStarred = !_isStarred;
-                      });
-                      _onClickStar(_isStarred);
-                    },
-                  ),
-                  PopupMenuButton(
-                    itemBuilder: (BuildContext context) {
-                      return <PopupMenuItem<String>>[
-                        PopupMenuItem<String>(child: Text(S.current.share), value: "share",),
-                        PopupMenuItem<String>(child: Text(S.current.openInBrowser), value: "browser",),
-                        PopupMenuItem<String>(child: Text(S.current.copyRepoUrl), value: "copy",),
-                      ];
-                    },
-                    onSelected: (String action) async {
-                      switch (action) {
-                        case "share":
-                          Share.share(_repoEntity.htmlUrl);
-                          break;
-                        case "browser":
-                          if(await canLaunch(_repoEntity.htmlUrl)) {
-                            await launch(_repoEntity.htmlUrl);
-                          }
-                          break;
-                        case "copy":
-                          ClipboardData data = new ClipboardData(text: _repoEntity.htmlUrl);
-                          Clipboard.setData(data);
-                          Util.showToast(_repoEntity.htmlUrl);
-                          break;
-                      }
-                    },
-                    onCanceled: () {
-                      print("onCanceled");
-                    },
-                  ),
-                ],
+                actions: _buildActions(),
               ),
               SliverPersistentHeader(
                 pinned: false,
@@ -190,6 +150,51 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
         ),
       ),
     );
+  }
+
+
+  List<Widget> _buildActions() {
+    return _repoEntity == null ? null : <Widget>[
+      if(_isStarred != null)
+        IconButton(
+          icon: Icon(_isStarred ? Icons.star : Icons.star_border, color: Colors.white,),
+          onPressed: (){
+            setState(() {
+              _isStarred = !_isStarred;
+            });
+            _onClickStar(_isStarred);
+          },
+        ),
+      PopupMenuButton(
+        itemBuilder: (BuildContext context) {
+          return <PopupMenuItem<String>>[
+            PopupMenuItem<String>(child: Text(S.current.share), value: "share",),
+            PopupMenuItem<String>(child: Text(S.current.openInBrowser), value: "browser",),
+            PopupMenuItem<String>(child: Text(S.current.copyRepoUrl), value: "copy",),
+          ];
+        },
+        onSelected: (String action) async {
+          switch (action) {
+            case "share":
+              Share.share(_repoEntity.htmlUrl);
+              break;
+            case "browser":
+              if(await canLaunch(_repoEntity.htmlUrl)) {
+                await launch(_repoEntity.htmlUrl);
+              }
+              break;
+            case "copy":
+              ClipboardData data = new ClipboardData(text: _repoEntity.htmlUrl);
+              Clipboard.setData(data);
+              Util.showToast(_repoEntity.htmlUrl);
+              break;
+          }
+        },
+        onCanceled: () {
+          print("onCanceled");
+        },
+      ),
+    ];
   }
 
   @override

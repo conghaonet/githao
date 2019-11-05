@@ -44,10 +44,10 @@ samples, guidance on mobile development, and a full API reference.
 ## Screenshots
 <img height="480px" src="https://i.loli.net/2019/11/05/AkG4ZdigaXKNbI9.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/S5tzWDnIAoUXlmJ.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/n7VkI9eaufEShTU.gif">
 <img height="480px" src="https://i.loli.net/2019/11/05/EFavRCkn3etfzwD.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/goTxX2OaY37eyQ8.gif">
-<img height="480px" src="screenshots/screenshot_01.jpg"> <img height="480px" src="screenshots/screenshot_02.jpg"> <img height="480px" src="screenshots/screenshot_03.jpg">
-<img height="480px" src="screenshots/screenshot_04.jpg"> <img height="480px" src="screenshots/screenshot_05.jpg"> <img height="480px" src="screenshots/screenshot_06.jpg">
-<img height="480px" src="screenshots/screenshot_07.jpg"> <img height="480px" src="screenshots/screenshot_08.jpg"> <img height="480px" src="screenshots/screenshot_09.jpg">
-<img height="480px" src="screenshots/screenshot_10.jpg">
+<img height="480px" src="https://i.loli.net/2019/11/05/8aMtKLZz9kdFYmx.jpg"> <img height="480px" src="https://i.loli.net/2019/11/05/Y5Qk8jWenuyfOCs.jpg"> <img height="480px" src="https://i.loli.net/2019/11/05/TXl9uf2yv6JVQRI.jpg">
+<img height="480px" src="https://i.loli.net/2019/11/05/8JbvSCNgLGMf2A7.jpg"> <img height="480px" src="https://i.loli.net/2019/11/05/1w5jxqrLEGsUcXu.jpg"> <img height="480px" src="https://i.loli.net/2019/11/05/OwDxrSfeGKspi7P.jpg">
+<img height="480px" src="https://i.loli.net/2019/11/05/3ygxnFOLJAwVBZ4.jpg"> <img height="480px" src="https://i.loli.net/2019/11/05/iWymNrMBEQYAhIV.jpg"> <img height="480px" src="https://i.loli.net/2019/11/05/7P2IgF4KlEzOuQp.jpg">
+<img height="480px" src="https://i.loli.net/2019/11/05/8mgnNKr27QRwJat.jpg">
 
 ## Thanks for open source
 * [OpenHub](https://github.com/ThirtyDegreesRay/OpenHub) An open source GitHub Android client app, faster and concise.

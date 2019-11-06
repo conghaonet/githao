@@ -51,6 +51,7 @@ class S implements WidgetsLocalizations {
   String get filterLanguages => "Filter languages";
   String get followers => "Followers";
   String get following => "Following";
+  String get forkedToViewTheParentRepository => "Forked, to view the parent repository.";
   String get forks => "Forks";
   String get fullName => "Full name";
   String get infoUppercase => "INFO";
@@ -174,6 +175,8 @@ class $zh_CN extends S {
   String get thisMonth => "本月";
   @override
   String get state => "状态";
+  @override
+  String get forkedToViewTheParentRepository => "Forked 查看父版本库";
   @override
   String get forks => "版本库分支";
   @override

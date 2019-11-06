@@ -99,6 +99,6 @@
   "watch": "订阅",
   "watched": "已订阅",
   "unwatch": "取消订阅",
-  "unwatched": "已取消订阅"
-
+  "unwatched": "已取消订阅",
+  "forkedToViewTheParentRepository": "Forked 查看父版本库"
 }

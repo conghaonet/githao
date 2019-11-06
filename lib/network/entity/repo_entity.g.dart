@@ -89,6 +89,12 @@ RepoEntity _$RepoEntityFromJson(Map<String, dynamic> json) {
     homepage: json['homepage'],
     forksCount: json['forks_count'] as int,
     subscribersCount: json['subscribers_count'] as int,
+    parent: json['parent'] == null
+        ? null
+        : RepoEntity.fromJson(json['parent'] as Map<String, dynamic>),
+    source: json['source'] == null
+        ? null
+        : RepoEntity.fromJson(json['source'] as Map<String, dynamic>),
   );
 }
 
@@ -169,6 +175,8 @@ Map<String, dynamic> _$RepoEntityToJson(RepoEntity instance) =>
       'homepage': instance.homepage,
       'forks_count': instance.forksCount,
       'subscribers_count': instance.subscribersCount,
+      'parent': instance.parent,
+      'source': instance.source,
     };
 
 RepoPermissions _$RepoPermissionsFromJson(Map<String, dynamic> json) {

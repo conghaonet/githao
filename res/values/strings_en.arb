@@ -99,5 +99,6 @@
   "watch": "Watch",
   "watched": "Watched",
   "unwatch": "Unwatch",
-  "unwatched": "Unwatched"
+  "unwatched": "Unwatched",
+  "forkedToViewTheParentRepository": "Forked, to view the parent repository."
 }

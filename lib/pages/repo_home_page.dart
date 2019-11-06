@@ -169,7 +169,6 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
     );
   }
 
-
   List<Widget> _buildActions() {
     return _repoEntity == null ? null : <Widget>[
       if(_isStarred != null)
@@ -257,17 +256,35 @@ class _RepoInfoState extends State<RepoInfo> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('${widget.repo.fullName}',
+                    SelectableText('${widget.repo.fullName}',
                       style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold,),
                     ),
-                    SizedBox(height: 8,),
+                    if(widget.repo.fork)
+                      Container(
+                        padding: EdgeInsets.only(top: 12),
+                        child: InkWell(
+                          child: Text(
+                            S.current.forkedToViewTheParentRepository,
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColorDark,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.pushNamed(context, RepoHomePage.ROUTE_NAME, arguments: widget.repo.parent.fullName);
+                          },
+                        ),
+                      ),
+                    SizedBox(height: 12,),
                     Row(
                       children: <Widget>[
-                        Icon(widget.repo.owner.isUser ? Icons.account_circle : Icons.group, color: Theme.of(context).primaryColorDark,),
+                        Icon(widget.repo.owner.isUser ? Icons.account_circle : Icons.group,),
                         SizedBox(width: 8,),
                         Expanded(
-                          child: Text('${widget.repo.owner.login}${widget.repo.owner.isUser ? '' : '(${S.current.orgUppercase})'}',
-                            style: TextStyle(fontSize: 22, color: Theme.of(context).primaryColorDark),
+                          child: SelectableText('${widget.repo.owner.login}${widget.repo.owner.isUser ? '' : '(${S.current.orgUppercase})'}',
+                            style: TextStyle(fontSize: 22,),
                           ),
                         ),
                       ],
@@ -335,7 +352,7 @@ class _RepoInfoState extends State<RepoInfo> {
                       offstage: widget.repo.description==null || widget.repo.description.isEmpty,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 16.0),
-                        child: Text('${widget.repo.description}',),
+                        child: SelectableText('${widget.repo.description}',),
                       ),
                     ),
                   ],

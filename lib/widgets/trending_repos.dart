@@ -21,7 +21,7 @@ class TrendingReposWidget extends StatefulWidget{
 }
 
 class _StarredReposWidgetState extends State<TrendingReposWidget> {
-  int _timeSpanIndex = 0;
+  int _timeSpanIndex = 1;
   int _languageIndex;
 
   void onClickFilterCallback(String group, int index) {
@@ -118,7 +118,7 @@ class _RepoListState extends BaseListWidgetState<_RepoList, RepoEntity> {
     if(widget._languageIndex != null && widget._languageIndex >= 0 && widget._languageIndex < LANG_COLORS.length) {
       _language = LANG_COLORS.entries.elementAt(widget._languageIndex).key.toLowerCase().replaceAll(' ', '-');
     }
-    return ApiService.getTrending(since:  _since, language: _language);
+    return ApiService.getTrending(since: _since, language: _language);
   }
 }
 

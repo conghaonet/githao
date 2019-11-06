@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/pages/profile_page.dart';
 import 'package:githao/pages/repo_home_page.dart';
 import 'package:githao/routes/profile_page_args.dart';
+import 'package:githao/utils/util.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
@@ -111,7 +113,11 @@ class _AboutPageState extends State<AboutPage> {
                 title: Text(S.current.rateOrCommentInMarket),
                 trailing: Icon(Icons.keyboard_arrow_right),
                 onTap: () {
-                  LaunchReview.launch();
+                  if(Platform.isAndroid) {
+                    LaunchReview.launch();
+                  } else {
+                    Util.showToast(S.current.notYetPublishedToTheAppStore);
+                  }
                 },
               ),
             ],

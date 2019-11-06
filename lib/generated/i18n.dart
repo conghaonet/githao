@@ -67,6 +67,7 @@ class S implements WidgetsLocalizations {
   String get myRepos => "My repos";
   String get news => "News";
   String get noMoreData => "No more data";
+  String get notYetPublishedToTheAppStore => "Not yet published to the App Store.";
   String get notifications => "Notifications";
   String get oopsWrong => "Oops wrong!";
   String get open => "Open";
@@ -219,6 +220,8 @@ class $zh_CN extends S {
   String get searchSortFollowers => "跟随者数";
   @override
   String get share => "分享";
+  @override
+  String get notYetPublishedToTheAppStore => "尚未发布到 App Store";
   @override
   String get email => "邮箱";
   @override

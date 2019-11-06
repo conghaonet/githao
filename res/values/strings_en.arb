@@ -100,5 +100,6 @@
   "watched": "Watched",
   "unwatch": "Unwatch",
   "unwatched": "Unwatched",
-  "forkedToViewTheParentRepository": "Forked, to view the parent repository."
+  "forkedToViewTheParentRepository": "Forked, to view the parent repository.",
+  "notYetPublishedToTheAppStore": "Not yet published to the App Store."
 }

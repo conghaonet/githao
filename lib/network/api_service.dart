@@ -228,7 +228,7 @@ class ApiService {
   }
 
   /// Star or Unstar a repository
-  /// 已评星: statusCode=204, 未评星：statusCode=404
+  /// 评星取消评星成功: statusCode=204
   static Future<bool> startOrUnstarRepo(String repoFullName, bool isStar) async {
     bool actionResult = false;
     try {
@@ -243,4 +243,34 @@ class ApiService {
     }
     return actionResult;
   }
+
+  /// 检查当前登录用户是否订阅该版本库
+  /// 已订阅: statusCode=204, 未订阅：statusCode=404
+  static Future<bool> getSubscriptionsRepo(String repoFullName) async {
+    try {
+      Response<String> response = await dioClient.dio.get("/user/subscriptions/$repoFullName");
+      if(response.statusCode == 204) return true;
+      else return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Subscriptions or Unsubscriptions a repository
+  /// 订阅/取消订阅成功: statusCode=204
+  static Future<bool> subscriptionsOrUnsubscriptionsRepo(String repoFullName, bool isStar) async {
+    bool actionResult = false;
+    try {
+      Response<String> response;
+      if(isStar) {
+        response= await dioClient.dio.put("/user/subscriptions/$repoFullName");
+      } else {
+        response= await dioClient.dio.delete("/user/subscriptions/$repoFullName");
+      }
+      if(response.statusCode == 204) actionResult = true;
+    } catch(e) {
+    }
+    return actionResult;
+  }
+
 }

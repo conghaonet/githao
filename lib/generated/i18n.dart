@@ -109,10 +109,14 @@ class S implements WidgetsLocalizations {
   String get today => "Today";
   String get trending => "Trending";
   String get type => "Type";
+  String get unwatch => "Unwatch";
+  String get unwatched => "Unwatched";
   String get updated => "Updated";
   String get userDataHasBeanRefreshed => "User data has been refreshed.";
   String get users => "Users";
   String get version => "Version";
+  String get watch => "Watch";
+  String get watched => "Watched";
   String get watchers => "Watchers";
   String createdAt(String dateTime) => "Created at ${dateTime}";
   String googlePlayAppUrl(String packageName) => "https://play.google.com/store/apps/details?id=$packageName";
@@ -221,6 +225,8 @@ class $zh_CN extends S {
   @override
   String get stargazers => "星标";
   @override
+  String get watch => "订阅";
+  @override
   String get copyRepoUrl => "拷贝版本库URL";
   @override
   String get closed => "关闭的";
@@ -228,6 +234,8 @@ class $zh_CN extends S {
   String get searchHistory => "搜索历史";
   @override
   String get open => "开放的";
+  @override
+  String get unwatch => "取消订阅";
   @override
   String get noMoreData => "没有更多数据";
   @override
@@ -277,6 +285,8 @@ class $zh_CN extends S {
   @override
   String get license => "许可";
   @override
+  String get watched => "已订阅";
+  @override
   String get starredUppercase => "评星";
   @override
   String get followers => "跟随者";
@@ -296,6 +306,8 @@ class $zh_CN extends S {
   String get loginPasswordHint => "密码";
   @override
   String get oopsWrong => "哎呀，出错啦！";
+  @override
+  String get unwatched => "已取消订阅";
   @override
   String get public => "公开的";
   @override

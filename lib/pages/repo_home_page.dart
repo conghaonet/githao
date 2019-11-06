@@ -34,6 +34,7 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
   RepoEntity _repoEntity;
   StateFlag _loadingState = StateFlag.idle;
   bool _isStarred;
+  bool _isWatched;
 
   List<String> _getTabTitles() {
     return <String>[S.current.infoUppercase, S.current.filesUppercase, S.current.commitsUppercase, S.current.activityUppercase,];
@@ -66,6 +67,11 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
         _isStarred = isStarred;
       });
     });
+    ApiService.getSubscriptionsRepo(widget.repoFullName).then((isWatched) {
+      setState(() {
+        _isWatched = isWatched;
+      });
+    });
 
     return ApiService.getRepo(widget.repoFullName).then((entity) {
       _repoEntity = entity;
@@ -85,6 +91,17 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
 
   void _onClickStar(bool isStar) {
     ApiService.startOrUnstarRepo(widget.repoFullName, isStar);
+  }
+  void _onClickWatch(bool isWatched) {
+    ApiService.subscriptionsOrUnsubscriptionsRepo(widget.repoFullName, isWatched).then((result){
+      if(result) {
+        if(isWatched) {
+          Util.showToast(S.current.watched);
+        } else {
+          Util.showToast(S.current.unwatched);
+        }
+      }
+    });
   }
 
   @override
@@ -168,6 +185,8 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
       PopupMenuButton(
         itemBuilder: (BuildContext context) {
           return <PopupMenuItem<String>>[
+            if(_isWatched != null)
+              PopupMenuItem<String>(child: Text(_isWatched ? S.current.unwatch : S.current.watch), value: "watch",),
             PopupMenuItem<String>(child: Text(S.current.share), value: "share",),
             PopupMenuItem<String>(child: Text(S.current.openInBrowser), value: "browser",),
             PopupMenuItem<String>(child: Text(S.current.copyRepoUrl), value: "copy",),
@@ -187,6 +206,12 @@ class _RepoHomePageState extends State<RepoHomePage> with TickerProviderStateMix
               ClipboardData data = new ClipboardData(text: _repoEntity.htmlUrl);
               Clipboard.setData(data);
               Util.showToast(_repoEntity.htmlUrl);
+              break;
+            case "watch":
+              setState(() {
+                _isWatched = !_isWatched;
+              });
+              _onClickWatch(_isWatched);
               break;
           }
         },

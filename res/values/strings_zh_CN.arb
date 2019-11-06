@@ -95,5 +95,10 @@
   "googlePlayAppUrl": "https://play.google.com/store/apps/details?id=$packageName",
   "copyRepoUrl": "拷贝版本库URL",
   "openInBrowser": "在浏览器中打开",
-  "rateOrCommentInMarket": "在应用市场中评分或评论"
+  "rateOrCommentInMarket": "在应用市场中评分或评论",
+  "watch": "订阅",
+  "watched": "已订阅",
+  "unwatch": "取消订阅",
+  "unwatched": "已取消订阅"
+
 }

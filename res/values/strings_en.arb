@@ -95,5 +95,9 @@
   "googlePlayAppUrl": "https://play.google.com/store/apps/details?id=$packageName",
   "copyRepoUrl": "Copy repo URL",
   "openInBrowser": "Open in browser",
-  "rateOrCommentInMarket": "Rate or comment in market"
+  "rateOrCommentInMarket": "Rate or comment in market",
+  "watch": "Watch",
+  "watched": "Watched",
+  "unwatch": "Unwatch",
+  "unwatched": "Unwatched"
 }

@@ -3,6 +3,7 @@ import 'package:githao/generated/i18n.dart';
 import 'package:githao/pages/profile_page.dart';
 import 'package:githao/pages/repo_home_page.dart';
 import 'package:githao/routes/profile_page_args.dart';
+import 'package:launch_review/launch_review.dart';
 import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -103,6 +104,14 @@ class _AboutPageState extends State<AboutPage> {
                 trailing: Icon(Icons.keyboard_arrow_right),
                 onTap: () {
                   Share.share(S.current.shareText, subject: _packageInfo?.appName);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.star),
+                title: Text(S.current.rateOrCommentInMarket),
+                trailing: Icon(Icons.keyboard_arrow_right),
+                onTap: () {
+                  LaunchReview.launch();
                 },
               ),
             ],

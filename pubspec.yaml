@@ -39,6 +39,7 @@ dependencies:
   async: ^2.3.0
   url_launcher: ^5.2.5
   share: ^0.6.3+1
+  launch_review: ^2.0.0
 
   # 升级到 0.38.3 之后，执行build_runner报错，必须锁定 0.38.2版本。
   # 升级到 0.38.4 之后，已解决0.38.3的bug，故不再直接依赖analyzer

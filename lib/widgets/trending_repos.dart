@@ -21,6 +21,8 @@ class TrendingReposWidget extends StatefulWidget{
 }
 
 class _StarredReposWidgetState extends State<TrendingReposWidget> {
+  /// 当language参数为空（全部语言）时，trending.codehub-app.com没有返回当天的trending数据，
+  /// 故将默认时间范围选项改为：1（本周）。
   int _timeSpanIndex = 1;
   int _languageIndex;
 

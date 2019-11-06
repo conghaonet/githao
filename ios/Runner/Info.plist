@@ -48,5 +48,7 @@
 		<string>en</string>
 		<string>zh</string>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<string>itms</string>
 </dict>
 </plist>

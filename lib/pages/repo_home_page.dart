@@ -263,7 +263,7 @@ class _RepoInfoState extends State<RepoInfo> {
                     SizedBox(height: 8,),
                     Row(
                       children: <Widget>[
-                        Icon(Icons.account_circle, color: Theme.of(context).primaryColorDark,),
+                        Icon(widget.repo.owner.isUser ? Icons.account_circle : Icons.group, color: Theme.of(context).primaryColorDark,),
                         SizedBox(width: 8,),
                         Expanded(
                           child: Text('${widget.repo.owner.login}${widget.repo.owner.isUser ? '' : '(${S.current.orgUppercase})'}',
@@ -281,8 +281,6 @@ class _RepoInfoState extends State<RepoInfo> {
                         child: Wrap(
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: <Widget>[
-                            Text('${widget.repo.language}', style: TextStyle(fontSize: 16),),
-                            SizedBox(width: 4,),
                             Container(
                               width: 14,
                               height: 14,
@@ -291,6 +289,8 @@ class _RepoInfoState extends State<RepoInfo> {
                                 shape: BoxShape.circle,
                               ),
                             ),
+                            SizedBox(width: 4,),
+                            Text('${widget.repo.language}', style: TextStyle(fontSize: 16),),
                           ],
                         ),
                       ),

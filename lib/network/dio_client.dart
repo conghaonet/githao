@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:githao/utils/shared_preferences.dart';
+import 'package:githao/utils/sp_util.dart';
+import 'package:githao/utils/string_util.dart';
 
 class DioClient {
   static const BASE_API = "https://api.github.com";
@@ -35,12 +36,9 @@ class DioClient {
         onRequest:(Options options) async {
           //添加验证头信息
           if(!options.headers.containsKey('Authorization') || (options.headers['Authorization'] as String).isEmpty) {
-            SpUtil spUtil = await SpUtil.getInstance();
-            if(spUtil.hasKey(SharedPreferencesKeys.gitHubAuthorizationBasic)) {
-              String value = spUtil.getString(SharedPreferencesKeys.gitHubAuthorizationBasic);
-              if(value != null && value.isNotEmpty) {
-                options.headers['Authorization'] = value;
-              }
+            String basic = SpUtil.getGitHubAuthorizationBasic();
+            if(StringUtil.isNotEmpty(basic)) {
+              options.headers['Authorization'] = basic;
             }
           }
           return options;

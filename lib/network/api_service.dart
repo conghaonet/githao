@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:githao/network/entity/authorization_entity.dart';
 import 'package:githao/network/entity/authorization_post.dart';

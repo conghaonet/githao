@@ -4,7 +4,8 @@ import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/provide/locale_provide.dart';
 import 'package:githao/provide/theme_provide.dart';
-import 'package:githao/utils/shared_preferences.dart';
+import 'package:githao/utils/sp_util.dart';
+import 'package:githao/utils/string_util.dart';
 import 'package:provide/provide.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -19,24 +20,13 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    SpUtil.instance.then((sp){
-      String lang = sp.getString(SharedPreferencesKeys.language);
-      setState(() {
-        if(lang == null) {
-          selectedLanguage = '';
-        } else {
-          selectedLanguage = lang;
-        }
-      });
-    });
+    selectedLanguage = SpUtil.getLanguage() ?? '';
   }
   void _changeLanguage(String languageCode) {
     setState(() {
       selectedLanguage = languageCode;
-      SpUtil.instance.then((sp) {
-        sp.putString(SharedPreferencesKeys.language, selectedLanguage);
-      });
-      Locale locale = (selectedLanguage==null || selectedLanguage.isEmpty) ? null : Locale(languageCode);
+      SpUtil.setLanguage(selectedLanguage);
+      Locale locale = StringUtil.isNullOrEmpty(selectedLanguage) ? null : Locale(languageCode);
       Provide.value<LocaleProvide>(context).changeLocale(locale);
     });
   }
@@ -120,9 +110,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Provide.value<ThemeProvide>(context).changeTheme(i);
             SystemChrome.setSystemUIOverlayStyle(Provide.value<ThemeProvide>(context).overlayStyle);
             FlutterStatusbarcolor.setStatusBarColor(Colors.primaries[i][700]);
-            SpUtil.getInstance().then((sp) {
-              sp.putInt(SharedPreferencesKeys.themeIndex, i);
-            });
+            SpUtil.setThemeIndex(i);
           });
         },
         child: Container(

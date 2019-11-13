@@ -6,19 +6,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 export 'package:githao/resources/shared_preferences_keys.dart';
 
 /// 用来做shared_preferences的存储
-class SpUtil {
-  static SpUtil _instance;
-  static Future<SpUtil> get instance async {
+
+@Deprecated('Use app_shared_preferences.dart instead.')
+class SharedPreferencesUtil {
+  static SharedPreferencesUtil _instance;
+  static Future<SharedPreferencesUtil> get instance async {
     return await getInstance();
   }
   static SharedPreferences _spf;
-  SpUtil._();
+  SharedPreferencesUtil._();
   Future _init() async {
     _spf = await SharedPreferences.getInstance();
   }
-  static Future<SpUtil> getInstance() async  {
+  static Future<SharedPreferencesUtil> getInstance() async  {
     if (_instance == null) {
-      _instance = new SpUtil._();
+      _instance = new SharedPreferencesUtil._();
       await _instance._init();
     }
     return _instance;

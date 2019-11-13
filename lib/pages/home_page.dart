@@ -14,6 +14,7 @@ import 'package:githao/pages/search_page.dart';
 import 'package:githao/pages/settings_page.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';
+import 'package:githao/utils/sp_util.dart';
 import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/trending_repos.dart';
 import 'package:githao/widgets/user_repos.dart';
@@ -240,7 +241,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
                       leading: Icon(Icons.exit_to_app,),
                       title: Text(S.current.logout,),
                       onTap: () {
-                        UserBiz.logout();
+                        SpUtil.logout();
                         Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
                       },
                     ),

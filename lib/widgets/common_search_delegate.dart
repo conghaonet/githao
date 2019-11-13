@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
-import 'package:githao/utils/shared_preferences.dart';
+import 'package:githao/utils/sp_util.dart';
 import 'package:githao/utils/string_util.dart';
 import 'package:githao/utils/util.dart';
 
@@ -52,24 +52,22 @@ class CommonSearchDelegate extends SearchDelegate<String> {
   }
 
   void _saveHistory() {
-    SpUtil.getInstance().then((sp){
-      List<String> keys = sp.getStringList(SharedPreferencesKeys.searchHistory);
-      if(keys != null) {
-        for(int i=0; i<keys.length; i++) {
-          if(keys[i].toLowerCase() == query.trim().toLowerCase()) {
-            keys.removeAt(i);
-            break;
-          }
+    List<String> keys = SpUtil.getSearchHistory();
+    if(keys != null) {
+      for(int i=0; i<keys.length; i++) {
+        if(keys[i].toLowerCase() == query.trim().toLowerCase()) {
+          keys.removeAt(i);
+          break;
         }
-        if(keys.length >= MAX_HISTORY_ITEMS) {
-          keys.removeAt(0);
-        }
-        keys.add(query.trim());
-      } else {
-        keys = [query.trim()];
       }
-      sp.putStringList(SharedPreferencesKeys.searchHistory, keys);
-    });
+      if(keys.length >= MAX_HISTORY_ITEMS) {
+        keys.removeAt(0);
+      }
+      keys.add(query.trim());
+    } else {
+      keys = [query.trim()];
+    }
+    SpUtil.setSearchHistory(keys);
   }
 
   @override
@@ -95,33 +93,31 @@ class _SearchHistoryWidgetState extends State<SearchHistoryWidget> {
   }
 
   void _loadHistory() {
-    SpUtil.getInstance().then((sp) {
-      List<String> queries = sp.getStringList(SharedPreferencesKeys.searchHistory);
-      if(queries != null) {
-        queries.reversed.forEach((item) {
-          _histories.add(
-              Container(
-                margin: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Color(0XFFcfcfcf),
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
+    List<String> queries = SpUtil.getSearchHistory();
+    if(queries != null) {
+      queries.reversed.forEach((item) {
+        _histories.add(
+            Container(
+              margin: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Color(0XFFcfcfcf),
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+              ),
+              child: InkWell(
+                onTap: () {
+                  widget.onClose(context, item);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: Text(item),
                 ),
-                child: InkWell(
-                  onTap: () {
-                    widget.onClose(context, item);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    child: Text(item),
-                  ),
-                ),
-              )
-          );
-        });
-      }
-      if(mounted) {setState(() {});}
-    });
+              ),
+            )
+        );
+      });
+    }
+    if(mounted) {setState(() {});}
   }
 
   @override
@@ -135,11 +131,9 @@ class _SearchHistoryWidgetState extends State<SearchHistoryWidget> {
             Text(S.current.searchHistory),
             Spacer(),
             IconButton(icon: Icon(Icons.delete, color: Theme.of(context).primaryColor,), onPressed: () {
-              SpUtil.getInstance().then((sp) async {
-                await sp.remove(SharedPreferencesKeys.searchHistory);
-                setState(() {
-                  _histories.clear();
-                });
+              SpUtil.removeSearchHistory();
+              setState(() {
+                _histories.clear();
               });
             },),
           ],

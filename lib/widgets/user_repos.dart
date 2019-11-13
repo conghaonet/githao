@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/resources/repos_filter_parameters.dart';
-import 'package:githao/utils/shared_preferences.dart';
+import 'package:githao/utils/sp_util.dart';
 import 'package:githao/widgets/repo_item.dart';
 import 'package:githao/widgets/base_list.dart';
 import 'package:githao/widgets/my_repos_filter.dart';
@@ -103,12 +103,11 @@ class _RepoListState extends BaseListWidgetState<_RepoList, RepoEntity> {
   }
 
   @override
-  Future<List<RepoEntity>> getDatum(int expectationPage) async {
+  Future<List<RepoEntity>> getDatum(int expectationPage) {
     String _type = ReposFilterParameters.filterTypeValueMap[this.widget.groupTypeIndex];
     String _sort = ReposFilterParameters.filterSortValueMap[this.widget.groupSortIndex][ReposFilterParameters.PARAMETER_NAME_SORT];
     String _direction = ReposFilterParameters.filterSortValueMap[this.widget.groupSortIndex][ReposFilterParameters.PARAMETER_NAME_DIRECTION];
-    SpUtil spUtil = await SpUtil.getInstance();
-    String userName = spUtil.getString(SharedPreferencesKeys.userName);
+    String userName = SpUtil.getUserName();
     if(userName != null && userName == widget.login) {
       return ApiService.getMyRepos(page: expectationPage, type: _type, sort: _sort, direction: _direction);
     } else {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:githao/biz/user_biz.dart';
 import 'package:githao/generated/i18n.dart';
-import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/provide/user_provide.dart';
+import 'package:githao/utils/sp_util.dart';
 import 'package:githao/utils/util.dart';
 import 'package:provide/provide.dart';
 import 'package:githao/widgets/login_wave_clippers.dart';
@@ -43,9 +43,8 @@ class _LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
     //登录前，先移除之前保存的登录信息。
-    UserBiz.logout().then<UserEntity>((_) {
-      return UserBiz.login(_username, _password);
-    }).then((userEntity) async {
+    SpUtil.logout();
+    UserBiz.login(_username, _password).then((userEntity) async {
       if(userEntity != null ) {
         Provide.value<UserProvide>(context).updateUser(userEntity);
         Navigator.of(context).pushReplacementNamed(HomePage.ROUTE_NAME);

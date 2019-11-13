@@ -2,23 +2,16 @@ import 'dart:convert';
 
 import 'package:githao/network/api_service.dart';
 import 'package:githao/network/entity/user_entity.dart';
-import 'package:githao/utils/shared_preferences.dart';
+import 'package:githao/utils/sp_util.dart';
+import 'package:githao/utils/string_util.dart';
 
 class UserBiz {
-  static Future logout() async {
-    SpUtil spUtil = await SpUtil.getInstance();
-    spUtil.remove(SharedPreferencesKeys.userName);
-    spUtil.remove(SharedPreferencesKeys.gitHubAuthorizationBasic);
-    spUtil.remove(SharedPreferencesKeys.gitHubAuthorizationToken);
-    spUtil.remove(SharedPreferencesKeys.userEntity);
-  }
   static Future<UserEntity> login(username, password) async {
     String authBasic = _getCredentialsBasic(username, password);
     return ApiService.login(authBasic).then((authorizationEntity) async {
-      SpUtil spUtil = await SpUtil.getInstance();
-      spUtil.putString(SharedPreferencesKeys.userName, username);
-      spUtil.putString(SharedPreferencesKeys.gitHubAuthorizationBasic, authBasic);
-      spUtil.putString(SharedPreferencesKeys.gitHubAuthorizationToken, 'token ${authorizationEntity.token}');
+      SpUtil.setUserName(username);
+      SpUtil.setGitHubAuthorizationBasic(authBasic);
+      SpUtil.setGitHubAuthorizationToken('token ${authorizationEntity.token}');
     }).then<UserEntity>((_) => getUser(forceRefresh: true));
   }
   static String _getCredentialsBasic(String username, String password) {
@@ -27,21 +20,21 @@ class UserBiz {
     return "Basic " + encoded;
   }
   static Future<UserEntity> getUser({bool forceRefresh = false}) async {
-    SpUtil spUtil = await SpUtil.getInstance();
     if(forceRefresh) {
       return ApiService.getAuthenticatedUser().then<UserEntity>((userEntity) async {
-        await spUtil.putString(SharedPreferencesKeys.userEntity, jsonEncode(userEntity));
+        SpUtil.setUserEntity(userEntity);
         return userEntity;
       });
     } else {
-      if(spUtil.hasKey(SharedPreferencesKeys.userEntity)) {
-        String strJson = spUtil.getString(SharedPreferencesKeys.userEntity);
-        Map<String ,dynamic> map = jsonDecode(strJson);
-        return UserEntity.fromJson(map);
+      UserEntity _entity = SpUtil.getUserEntity();
+
+      if(_entity != null) {
+        return _entity;
       } else {
-        if(spUtil.hasKey(SharedPreferencesKeys.gitHubAuthorizationBasic)) {
+        String _basic = SpUtil.getGitHubAuthorizationBasic();
+        if(StringUtil.isNotEmpty(_basic)) {
           return ApiService.getAuthenticatedUser().then<UserEntity>((userEntity) async {
-            await spUtil.putString(SharedPreferencesKeys.userEntity, jsonEncode(userEntity));
+            SpUtil.setUserEntity(userEntity);
             return userEntity;
           });
         } else {

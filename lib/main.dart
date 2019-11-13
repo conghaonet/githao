@@ -10,7 +10,9 @@ import 'package:githao/provide/locale_provide.dart';
 import 'package:githao/provide/theme_provide.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/app_route.dart';
-import 'package:githao/utils/shared_preferences.dart';
+import 'package:githao/utils/app_shared_preferences.dart';
+import 'package:githao/utils/sp_util.dart';
+import 'package:githao/utils/string_util.dart';
 import 'package:provide/provide.dart';
 
 import 'generated/i18n.dart';
@@ -25,7 +27,8 @@ parseJson(String text) {
 }
 
 
-void main() {
+void main() async {
+  await appSP.init();
   //Custom jsonDecodeCallback
   (dioClient.dio.transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
 
@@ -45,26 +48,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isInitialized = false;
   @override
   void initState() {
     super.initState();
-    SpUtil.getInstance().then((sp) {
-      //theme初始化
-      int themeIndex = sp.getInt(SharedPreferencesKeys.themeIndex);
-      if(themeIndex != null) {
-        Provide.value<ThemeProvide>(context).changeTheme(themeIndex);
-      }
-      String lang = sp.getString(SharedPreferencesKeys.language);
-      if(lang != null && lang.isNotEmpty) {
-        Provide.value<LocaleProvide>(context).changeLocale(Locale(lang));
-      }
-      if(mounted) {
-        setState(() {
-          isInitialized = true;
-        });
-      }
-    });
+    //theme初始化
+    int themeIndex = SpUtil.getThemeIndex();
+    if(themeIndex != null) {
+      Provide.value<ThemeProvide>(context).changeTheme(themeIndex);
+    }
+    //界面语言初始化
+    String lang = SpUtil.getLanguage();
+    if(StringUtil.isNotEmpty(lang)) {
+      Provide.value<LocaleProvide>(context).changeLocale(Locale(lang));
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -94,11 +90,7 @@ class _MyAppState extends State<MyApp> {
             title: 'githao',
             onGenerateTitle: (context) => S.current.appTitle,
             theme: themeProvide.themeData,
-            home: isInitialized
-                ? SplashPage()
-                : Container(
-              color: Colors.transparent,
-            ),
+            home: SplashPage(),
           );
         },
       );

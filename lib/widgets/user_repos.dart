@@ -70,7 +70,9 @@ class _UserReposWidgetState extends State<UserReposWidget> {
   Widget getFilter() {
     return MyReposFilter(
       this._groupTypeIndex,
-      ReposFilterParameters.getFilterTypeTextMap(),
+      widget.login == SpUtil.getUserName()
+          ? ReposFilterParameters.getFilterTypeTextMap()
+          : ReposFilterParameters.getUserFilterTypeTextMap(),
       this._groupSortIndex,
       ReposFilterParameters.getFilterSortTextMap(),
       onClickFilterCallback,

@@ -29,6 +29,13 @@ class ReposFilterParameters {
       S.current.member,
     ];
   }
+  static List<String> getUserFilterTypeTextMap() {
+    return [
+      S.current.all,
+      S.current.owner,
+      S.current.member,
+    ];
+  }
 
   static final List<Map<String, String>> filterSortValueMap = [
     {PARAMETER_NAME_SORT : SORT_FULL_NAME, PARAMETER_NAME_DIRECTION : DIRECTION_ASC},

@@ -36,6 +36,16 @@ class ApiService {
     return RepoEntity.fromJson(response.data);
   }
 
+  /// [page] 取值从1开始，表示请求第几页，每页返回30笔数据
+  /// [type] Can be one of: all, owner, public, private, member
+  /// [sort] Can be one of: created, updated, pushed, full_name
+  /// [direction] Can be one of: asc or desc
+  static Future<List<RepoEntity>> getMyRepos({int page=1, String type='all', String sort='full_name', String direction='asc'}) async {
+    Map<String, dynamic> parameters = {'page': page, 'type': type, 'sort': sort, 'direction': direction};
+    Response<List<dynamic>> response = await dioClient.dio.get("/user/repos", queryParameters: parameters);
+    return response.data.map((item) => RepoEntity.fromJson(item)).toList();
+  }
+
   /// [login] GitHub显示的用户名
   /// [page] 取值从1开始，表示请求第几页，每页返回30笔数据
   /// [type] Can be one of: all, owner, public, private, member
@@ -44,12 +54,6 @@ class ApiService {
   static Future<List<RepoEntity>> getUserRepos(String login, {int page=1, String type='all', String sort='full_name', String direction='asc'}) async {
     Map<String, dynamic> parameters = {'page': page, 'type': type, 'sort': sort, 'direction': direction};
     Response<List<dynamic>> response = await dioClient.dio.get("/users/$login/repos", queryParameters: parameters);
-    return response.data.map((item) => RepoEntity.fromJson(item)).toList();
-  }
-
-  static Future<List<RepoEntity>> getOrgRepos(String org, {int page=1, String type='all', String sort='full_name', String direction='asc'}) async {
-    Map<String, dynamic> parameters = {'page': page, 'type': type, 'sort': sort, 'direction': direction};
-    Response<List<dynamic>> response = await dioClient.dio.get("/orgs/$org/repos", queryParameters: parameters);
     return response.data.map((item) => RepoEntity.fromJson(item)).toList();
   }
 

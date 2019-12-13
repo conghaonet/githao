@@ -48,13 +48,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool _isInitialed = false;
+
   @override
   void initState() {
     super.initState();
     _initSp();
   }
 
-  void _initSp() async {
+  Future _initSp() async {
     await appSP.init();
     //theme初始化
     int themeIndex = SpUtil.getThemeIndex();
@@ -66,6 +68,11 @@ class _MyAppState extends State<MyApp> {
     if(StringUtil.isNotEmpty(lang)) {
       Provide.value<LocaleProvide>(context).changeLocale(Locale(lang));
     }
+    setState(() {
+      _isInitialed = true;
+    });
+//    Navigator.pushReplacementNamed(context, SplashPage.ROUTE_NAME);
+
   }
 
   @override
@@ -96,7 +103,7 @@ class _MyAppState extends State<MyApp> {
             title: 'githao',
             onGenerateTitle: (context) => S.current.appTitle,
             theme: themeProvide.themeData,
-            home: SplashPage(),
+            home: _isInitialed ? SplashPage() : Container(),
           );
         },
       );

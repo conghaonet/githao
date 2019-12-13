@@ -77,3 +77,4 @@ android.iml
 /ios/Podfile.lock
 /ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 /ios/Flutter/flutter_export_environment.sh
+/.flutter-plugins-dependencies

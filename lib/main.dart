@@ -27,8 +27,8 @@ parseJson(String text) {
 }
 
 
-void main() async {
-  await appSP.init();
+void main() {
+//  await appSP.init();
   //Custom jsonDecodeCallback
   (dioClient.dio.transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
 
@@ -51,6 +51,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    _initSp();
+  }
+
+  void _initSp() async {
+    await appSP.init();
     //theme初始化
     int themeIndex = SpUtil.getThemeIndex();
     if(themeIndex != null) {
@@ -62,6 +67,7 @@ class _MyAppState extends State<MyApp> {
       Provide.value<LocaleProvide>(context).changeLocale(Locale(lang));
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Provide<LocaleProvide>(

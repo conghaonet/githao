@@ -26,8 +26,8 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Development environment and tool chain
 * Flutter version v1.12.13+hotfix.5
-* Framework revision 68587a0916, 2019-09-13 19:46:58 -0700
-* Engine revision b863200c37
+* Framework revision 27321ebbad
+* Engine revision 2994f7e1e6
 * Dart version 2.7.0
 * Android Studio (version 3.5)
   - Java version OpenJDK Runtime Environment (build 1.8.0_202-release-1483-b03)

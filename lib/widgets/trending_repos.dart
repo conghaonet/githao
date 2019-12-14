@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/api_service.dart';
@@ -17,10 +18,10 @@ class TrendingReposWidget extends StatefulWidget{
   final String tag;
   TrendingReposWidget(this.user, {this.tag, Key key}): super(key: key);
   @override
-  _StarredReposWidgetState createState() => _StarredReposWidgetState();
+  _TrendingReposWidgetState createState() => _TrendingReposWidgetState();
 }
 
-class _StarredReposWidgetState extends State<TrendingReposWidget> {
+class _TrendingReposWidgetState extends State<TrendingReposWidget> {
   /// 当language参数为空（全部语言）时，trending.codehub-app.com没有返回当天的trending数据，
   /// 故将默认时间范围选项改为：1（本周）。
   int _timeSpanIndex = 1;
@@ -85,6 +86,11 @@ class _StarredReposWidgetState extends State<TrendingReposWidget> {
       ],
     );
   }
+  @override
+  void dispose() {
+    _TrendingFilterState._originalLangKeys = null;
+    super.dispose();
+  }
 }
 
 class _RepoList extends BaseListWidget {
@@ -136,15 +142,35 @@ class TrendingFilter extends StatefulWidget {
 }
 
 class _TrendingFilterState extends State<TrendingFilter> {
-  static final List<String >originalLangKeys = LANG_COLORS.keys.toList();
-  List<String> _filterLanguageKeys = originalLangKeys;
+  static List<String> _originalLangKeys;
+  List<String> _filterLanguageKeys;
   int _filterLanguageIndex;
 
   @override
   void initState() {
     super.initState();
-    _filterLanguageIndex = widget.languageIndex;
+    if(_originalLangKeys == null) _originalLangKeys = [];
+    if(_filterLanguageKeys == null) _filterLanguageKeys = [];
+    _initLanguages();
   }
+
+  void _initLanguages() async {
+    if(_originalLangKeys.isEmpty) {
+      _originalLangKeys = await compute(setLanguages, null);
+    }
+    _filterLanguageKeys = _originalLangKeys;
+    _filterLanguageIndex = widget.languageIndex;
+    if(mounted) {
+      setState(() {
+
+      });
+    }
+  }
+
+  static List<String> setLanguages(dynamic value) {
+    return LANG_COLORS.keys.toList();
+  }
+
 
   List<Widget> _buildTimeSpans() {
     List<Widget> _spans = [];
@@ -195,13 +221,13 @@ class _TrendingFilterState extends State<TrendingFilter> {
 
   void doFilterLanguages(String keyword) {
     if(keyword != null && keyword.trim().isNotEmpty) {
-      _filterLanguageKeys = originalLangKeys.where((item) {
+      _filterLanguageKeys = _originalLangKeys.where((item) {
         return item.toLowerCase().contains(keyword.trim().toLowerCase());
       }).toList();
-      this._filterLanguageIndex = _filterLanguageKeys.indexOf(originalLangKeys.toList()[widget.languageIndex]);
+      this._filterLanguageIndex = _filterLanguageKeys.indexOf(_originalLangKeys.toList()[widget.languageIndex]);
       if(this._filterLanguageIndex == -1) this._filterLanguageIndex = null;
     } else {
-      _filterLanguageKeys = originalLangKeys;
+      _filterLanguageKeys = _originalLangKeys;
       this._filterLanguageIndex = widget.languageIndex;
     }
     if(mounted) {
@@ -247,7 +273,7 @@ class _TrendingFilterState extends State<TrendingFilter> {
                   hint: Text('——${S.current.selectALanguage}——'),
                   items: _buildLanguages(),
                   onChanged: (selected) {
-                    int _originalIndex = _TrendingFilterState.originalLangKeys.indexOf(this._filterLanguageKeys[selected]);
+                    int _originalIndex = _TrendingFilterState._originalLangKeys.indexOf(_filterLanguageKeys[selected]);
                     widget.callback(_FILTER_GROUP_LANGUAGE, _originalIndex);
                     Navigator.pop(context);
                   },

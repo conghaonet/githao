@@ -71,7 +71,6 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _isInitialed = true;
     });
-//    Navigator.pushReplacementNamed(context, SplashPage.ROUTE_NAME);
 
   }
 
@@ -103,7 +102,14 @@ class _MyAppState extends State<MyApp> {
             title: 'githao',
             onGenerateTitle: (context) => S.current.appTitle,
             theme: themeProvide.themeData,
-            home: _isInitialed ? SplashPage() : Container(),
+            home: _isInitialed ? SplashPage() : Container(
+              color: Colors.white,
+              child: Center(
+                child: Image.asset('images/icon_app_1024.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
           );
         },
       );

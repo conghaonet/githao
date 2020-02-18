@@ -33,7 +33,7 @@ class DioClient {
 
     //设置拦截器
     _dio.interceptors.add(InterceptorsWrapper(
-        onRequest:(Options options) async {
+        onRequest:(Options options) {
           //添加验证头信息
           if(!options.headers.containsKey('Authorization') || (options.headers['Authorization'] as String).isEmpty) {
             String basic = SpUtil.getGitHubAuthorizationBasic();

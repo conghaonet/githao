@@ -1,8 +1,10 @@
-nome: Relatório de erro
-sobre: Crie um relatório para nos ajudar a melhorar
-título: ''
-etiquetas: ''
-administrador: ''
+---
+
+Nome: Relatório de erro
+Sobre: Crie um relatório para nos ajudar a melhorar
+Título: ''
+Etiqueta: ''
+Administrador: ''
 
 ---
 
@@ -13,10 +15,10 @@ administrador: ''
 **Reproduzir**
 
  - Etapas para reproduzir o comportamento:
-1. Ir para '...'
-2. Clique em '....'
-3. Role para baixo até '....'
-4. Ver erro
+№ 1. Ir para '...'
+№ 2. Clique em '....'
+№ 3. Role para baixo até '....'
+№ 4. Ver erro
 
 **Comportamento esperado**
 

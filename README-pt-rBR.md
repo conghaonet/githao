@@ -39,7 +39,7 @@ amostras, orientação sobre desenvolvimento móvel e uma referência completa d
 ## - Desenvolver para Android
   - Platform android-29, build-tools 29.0.2
   - Versão Kotlin 1.3.50
-## - Desenvolva para iOS e macOS
+## - Desenvolver para iOS e macOS
   - Mac OS X 10.15.2
   - Xcode 11.3
   - CocoaPods versão 1.8.4

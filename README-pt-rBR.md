@@ -1,6 +1,6 @@
 # GitHao
 
-Aplicativo cliente GitHub Flutter de Android e iOS de código aberto
+Cliente GitHub Flutter para Android e iOS em código aberto
 
 [![Lançamentos](https://img.shields.io/badge/android-4.1%2B-brightgreen.svg)](https://play.google.com/store/apps/details?id=com.app2m.githao)
 [![Lançamentos](https://img.shields.io/github/v/release/conghaonet/GitHao.svg)](https://github.com/conghaonet/GitHao/releases/latest)

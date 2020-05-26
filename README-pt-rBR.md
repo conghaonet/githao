@@ -20,9 +20,7 @@
     - [Laboratório: escreva seu primeiro aplicativo Flutter](https://flutter.dev/docs/get-started/codelab)
     - [Livro de receitas: amostras úteis do Flutter](https://flutter.dev/docs/cookbook)
 
- Para obter ajuda sobre como iniciar o Flutter
-, que oferece tutoriais, amostras, orientação sobre desenvolvimento móvel e uma referência completa da API.
-[documento on-line](https://flutter.dev/docs)
+ Para obter ajuda sobre como iniciar o Flutter selecione o [documento on-line](https://flutter.dev/docs), que oferece tutoriais, amostras, orientação sobre desenvolvimento móvel e uma referência completa da API.
 
 ## Ambiente de desenvolvimento e cadeia de ferramentas:
   
@@ -54,7 +52,7 @@
 ## Obrigado pelo código aberto
 - [OpenHub](https://github.com/ThirtyDegreesRay/OpenHub)
     - Um aplicativo cliente GitHub Android de código aberto, mais rápido e conciso.
--[fluttertoast](https://github.com/PonnamKarthik/FlutterToast)
+- [fluttertoast](https://github.com/PonnamKarthik/FlutterToast)
     - Toast Library para Android e iOS para Flutter.
 - [flutter/plugins](https://github.com/flutter/plugins)
     - [shared_preferences](https://github.com/flutter/plugins/tree/master/packages/shared_preferences): Wraps NSUserDefaults (no iOS) e SharedPreferences (no Android), fornecendo um armazenamento persistente para dados simples.

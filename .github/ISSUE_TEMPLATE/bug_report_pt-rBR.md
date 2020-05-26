@@ -1,5 +1,4 @@
 ---
-
 Nome: ''
 Sobre: ''
 Título: ''
@@ -10,11 +9,11 @@ Administrador: ''
 
 **Descreva o erro**
 
-Uma descrição clara e concisa do que é o erro.
+(Uma descrição clara e concisa do que é o erro.)
 
 **Reproduzir**
 
-Etapas para reproduzir o comportamento:
+(Etapas para reproduzir o comportamento:)
 - № 1: Ir para '...'
 - № 2: Clique em '....'
 - № 3: Role para baixo até '....'
@@ -22,11 +21,11 @@ Etapas para reproduzir o comportamento:
 
 **Comportamento esperado**
 
-Uma descrição clara e concisa do que você esperava que acontecesse.
+(Uma descrição clara e concisa do que você esperava que acontecesse.)
 
 **Capturas de tela**
 
-Se aplicável, adicione capturas de tela para ajudar a explicar seu problema.
+(Se aplicável, adicione capturas de tela para ajudar a explicar seu problema.)
 
 **Smartphone (preencha as seguintes informações):**
 Dispositivo: [e.g. iPhone6]
@@ -35,4 +34,4 @@ Versão [e.g. 22]
 
 **Contexto adicional**
 
-Adicione qualquer outro contexto sobre o problema aqui.
+(Adicione qualquer outro contexto sobre o problema aqui.)

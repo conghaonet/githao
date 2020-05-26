@@ -1,4 +1,3 @@
----
 nome: Relatório de erro
 sobre: Crie um relatório para nos ajudar a melhorar
 título: ''

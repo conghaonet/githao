@@ -25,19 +25,19 @@
 amostras, orientação sobre desenvolvimento móvel e uma referência completa da API.
 
 ## Ambiente de desenvolvimento e cadeia de ferramentas
-## * Versão Flutter v1.12.13+hotfix.5
-## * Revisão da estrutura 27321ebbad
-## * Revisão do motor 2994f7e1e6
-## * Versão Dart 2.7.0
-## * Android Studio (versão 3.5)
+## Versão Flutter v1.12.13+hotfix.5
+## Revisão da estrutura 27321ebbad
+## Revisão do motor 2994f7e1e6
+## Versão Dart 2.7.0
+## Android Studio (versão 3.5)
   - Versão Java OpenJDK Runtime Environment (build 1.8.0_202-release-1483-b03)
   - Versão do plu-gin Flutter 42.1.1
   - Versão do plu-gin Dart 191.8593
   - [Plu-gin Flutter i18n](https://github.com/long1eu/flutter_i18n)
-## * Desenvolver para Android
+## Desenvolver para Android
   - Platform android-29, build-tools 29.0.2
   - Versão Kotlin 1.3.50
-## * Desenvolva para iOS e macOS
+## Desenvolva para iOS e macOS
   - Mac OS X 10.15.2
   - Xcode 11.3
   - CocoaPods versão 1.8.4

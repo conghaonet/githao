@@ -51,18 +51,32 @@ amostras, orientação sobre desenvolvimento móvel e uma referência completa d
 <img height="480px" src="https://i.loli.net/2019/11/05/8mgnNKr27QRwJat.jpg">
 
 ## Obrigado pelo código aberto
-* [OpenHub](https://github.com/ThirtyDegreesRay/OpenHub) Um aplicativo cliente GitHub Android de código aberto, mais rápido e conciso.
-* [fluttertoast](https://github.com/PonnamKarthik/FlutterToast) Toast Library para Android e iOS para Flutter.
+* [OpenHub](https://github.com/ThirtyDegreesRay/OpenHub)
+ - Um aplicativo cliente GitHub Android de código aberto, mais rápido e conciso.
+* [fluttertoast](https://github.com/PonnamKarthik/FlutterToast)
+ - Toast Library para Android e iOS para Flutter.
 * [flutter/plugins](https://github.com/flutter/plugins)
- - [shared_preferences](https://github.com/flutter/plugins/tree/master/packages/shared_preferences) Wraps NSUserDefaults (no iOS) e SharedPreferences (no Android), fornecendo um armazenamento persistente para dados simples.
- - [webview_flutter](https://github.com/flutter/plugins/tree/master/packages/webview_flutter) Um plu-gin do Flutter que fornece um widget do WebView.
- - [connectivity](https://github.com/flutter/plugins/tree/master/packages/connectivity) Esse plug-in permite que os aplicativos Flutter descubram a conectividade de rede e se configurem adequadamente.
-* [json_serializable, json_annotation](https://github.com/dart-lang/json_serializable) Fornece geradores source_gen para criar código para serialização e desserialização JSON.
-* [dio](https://github.com/flutterchina/dio) Um poderoso cliente HTTP para Dart, que suporta interceptores, FormData, solicitação de cancelamento, download de arquivo, tempo limite etc.
-* [intl](https://github.com/dart-lang/intl) Suporte à internacionalização e localização.
-* [provide](https://github.com/google/flutter-provide) Uma estrutura simples para gerenciamento de estado em Flutter.
-* [flutter_cached_network_image](https://github.com/renefloor/flutter_cached_network_image) Baixe, armazene em cache e mostre imagens em um aplicativo de vibração.
-* [dart-event-bus](https://github.com/marcojakob/dart-event-bus) Um barramento de eventos usando o Dart Streams para desacoplar aplicativos.
-* [flutter_syntax_view](https://github.com/BaderEddineOuaich/flutter_syntax_view) Um widget SyntaxView que destaca o texto do código de acordo com a sintaxe da linguagem de programação.
-* [flutter_statusbarcolor](https://github.com/mchome/flutter_statusbarcolor) Um pacote pode ajudá-lo a alterar a cor da barra de status do aplicativo Flutter ou a cor da barra de navegação programaticamente.
-* [build_runner](https://github.com/dart-lang/build) Um sistema de compilação para o Dart.
+ - [shared_preferences](https://github.com/flutter/plugins/tree/master/packages/shared_preferences)
+ - Wraps NSUserDefaults (no iOS) e SharedPreferences (no Android), fornecendo um armazenamento persistente para dados simples.
+ - [webview_flutter](https://github.com/flutter/plugins/tree/master/packages/webview_flutter)
+ - Um plu-gin do Flutter que fornece um widget do WebView.
+ - [connectivity](https://github.com/flutter/plugins/tree/master/packages/connectivity)
+ - Esse plug-in permite que os aplicativos Flutter descubram a conectividade de rede e se configurem adequadamente.
+* [json_serializable, json_annotation](https://github.com/dart-lang/json_serializable)
+ - Fornece geradores source_gen para criar código para serialização e desserialização JSON.
+* [dio](https://github.com/flutterchina/dio)
+ - Um poderoso cliente HTTP para Dart, que suporta interceptores, FormData, solicitação de cancelamento, download de arquivo, tempo limite etc.
+* [intl](https://github.com/dart-lang/intl) 
+ - Suporte à internacionalização e localização.
+* [provide](https://github.com/google/flutter-provide)
+ - Uma estrutura simples para gerenciamento de estado em Flutter.
+* [flutter_cached_network_image](https://github.com/renefloor/flutter_cached_network_image)
+ - Baixe, armazene em cache e mostre imagens em um aplicativo de vibração.
+* [dart-event-bus](https://github.com/marcojakob/dart-event-bus)
+ - Um barramento de eventos usando o Dart Streams para desacoplar aplicativos.
+* [flutter_syntax_view](https://github.com/BaderEddineOuaich/flutter_syntax_view)
+ - Um widget SyntaxView que destaca o texto do código de acordo com a sintaxe da linguagem de programação.
+* [flutter_statusbarcolor](https://github.com/mchome/flutter_statusbarcolor)
+ - Um pacote pode ajudá-lo a alterar a cor da barra de status do aplicativo Flutter ou a cor da barra de navegação programaticamente.
+* [build_runner](https://github.com/dart-lang/build)
+ - Um sistema de compilação para o Dart.

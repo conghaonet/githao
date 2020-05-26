@@ -53,10 +53,10 @@ amostras, orientação sobre desenvolvimento móvel e uma referência completa d
 ## Obrigado pelo código aberto
 * [OpenHub](https://github.com/ThirtyDegreesRay/OpenHub): Um aplicativo cliente GitHub Android de código aberto, mais rápido e conciso.
 * [fluttertoast](https://github.com/PonnamKarthik/FlutterToast): Toast Library para Android e iOS para Flutter.
-* [flutter/plugins](https://github.com/flutter/plugins)
-  [shared_preferences](https://github.com/flutter/plugins/tree/master/packages/shared_preferences): Wraps NSUserDefaults (no iOS) e SharedPreferences (no Android), fornecendo um armazenamento persistente para dados simples.
-  [webview_flutter](https://github.com/flutter/plugins/tree/master/packages/webview_flutter): Um plu-gin do Flutter que fornece um widget do WebView.
-  [connectivity](https://github.com/flutter/plugins/tree/master/packages/connectivity): Esse plug-in permite que os aplicativos Flutter descubram a conectividade de rede e se configurem adequadamente.
+* [flutter/plugins](https://github.com/flutter/plugins):
+ - [shared_preferences](https://github.com/flutter/plugins/tree/master/packages/shared_preferences): Wraps NSUserDefaults (no iOS) e SharedPreferences (no Android), fornecendo um armazenamento persistente para dados simples.
+ - [webview_flutter](https://github.com/flutter/plugins/tree/master/packages/webview_flutter): Um plu-gin do Flutter que fornece um widget do WebView.
+ - [connectivity](https://github.com/flutter/plugins/tree/master/packages/connectivity): Esse plug-in permite que os aplicativos Flutter descubram a conectividade de rede e se configurem adequadamente.
 * [json_serializable, json_annotation](https://github.com/dart-lang/json_serializable): Fornece geradores source_gen para criar código para serialização e desserialização JSON.
 * [dio](https://github.com/flutterchina/dio): Um poderoso cliente HTTP para Dart, que suporta interceptores, FormData, solicitação de cancelamento, download de arquivo, tempo limite etc.
 * [intl](https://github.com/dart-lang/intl): Suporte à internacionalização e localização.

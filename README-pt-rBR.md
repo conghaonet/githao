@@ -20,11 +20,11 @@
   - [Laboratório: escreva seu primeiro aplicativo Flutter](https://flutter.dev/docs/get-started/codelab)
   - [Livro de receitas: amostras úteis do Flutter](https://flutter.dev/docs/cookbook)
 
-## Para obter ajuda sobre como iniciar o Flutter
+## Para obter ajuda sobre como iniciar o Flutter:
 [documento on-line](https://flutter.dev/docs), que oferece tutoriais,
 amostras, orientação sobre desenvolvimento móvel e uma referência completa da API.
 
-## Ambiente de desenvolvimento e cadeia de ferramentas
+## Ambiente de desenvolvimento e cadeia de ferramentas:
 
 
 ## - Versão Flutter v1.12.13+hotfix.5

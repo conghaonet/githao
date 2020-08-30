@@ -107,11 +107,11 @@ class _CommitDetailPageState extends State<CommitDetailPage> {
         lastPath = path;
         Icon icon;
         if(_detailEntity.files[i].status == 'added') {
-          icon = Icon(Icons.add_box, color: Colors.blue,);
+          icon = Icon(Icons.add_box, color: Colors.blue);
         } else if(_detailEntity.files[i].status == 'modified') {
-          icon = Icon(CustomIcons.pencil_squared, color: Colors.green,);
+          icon = Icon(CustomIcons.pencil_squared, color: Colors.green);
         } else {
-          icon = Icon(Icons.indeterminate_check_box, color: Colors.red,);
+          icon = Icon(Icons.indeterminate_check_box, color: Colors.red);
         }
         var file = Container(
           color: Colors.white,

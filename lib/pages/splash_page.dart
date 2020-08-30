@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:githao/biz/user_biz.dart';
+import 'package:githao/generated/i18n.dart';
 import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/provide/theme_provide.dart';
 import 'package:githao/provide/user_provide.dart';
@@ -11,10 +12,10 @@ import 'package:provide/provide.dart';
 
 import 'home_page.dart';
 import 'login_page.dart';
-import 'package:githao/generated/i18n.dart';
 
 class SplashPage extends StatefulWidget {
   static const ROUTE_NAME = "/splash";
+
   @override
   _SplashPageState createState() => _SplashPageState();
 }
@@ -23,6 +24,7 @@ class _SplashPageState extends State<SplashPage> {
   static const ANIMATION_SECONDS = 1;
   bool isShown = false;
   Timer timer;
+
   /// 验证用户是否已登录
   Future hasLogin() async {
     UserEntity userEntity = await UserBiz.getUser();
@@ -33,6 +35,7 @@ class _SplashPageState extends State<SplashPage> {
       Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -40,18 +43,20 @@ class _SplashPageState extends State<SplashPage> {
       hasLogin();
     });
     //界面渲染第一帧时的监听，仅监听一次。
-    WidgetsBinding.instance.addPostFrameCallback((_){
-      if(mounted) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
         setState(() {
           isShown = true;
         });
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     //修改主题后，需要在app的第一个页面设置状态栏。
-    SystemChrome.setSystemUIOverlayStyle(Provide.value<ThemeProvide>(context).overlayStyle);
+    SystemChrome.setSystemUIOverlayStyle(
+        Provide.value<ThemeProvide>(context).overlayStyle);
     FlutterStatusbarcolor.setStatusBarColor(Theme.of(context).primaryColorDark);
     return Scaffold(
       body: Container(
@@ -71,7 +76,8 @@ class _SplashPageState extends State<SplashPage> {
                         fontFamily: 'AGENCYR',
                         fontSize: 36,
                         fontWeight: FontWeight.w200,
-                        color: Colors.blue,),
+                        color: Colors.blue,
+                      ),
                 duration: const Duration(seconds: ANIMATION_SECONDS),
               ),
             ),
@@ -81,11 +87,11 @@ class _SplashPageState extends State<SplashPage> {
               child: FlatButton(
                 child: Text(
                   S.current.skip,
-                  style: TextStyle(color: Theme.of(context).accentColor, fontWeight: FontWeight.w800),
+                  style: TextStyle(
+                      color: Theme.of(context).accentColor,
+                      fontWeight: FontWeight.w800),
                 ),
-                onPressed:() {
-                  hasLogin();
-                },
+                onPressed: () => hasLogin(),
               ),
             ),
           ],
@@ -93,6 +99,7 @@ class _SplashPageState extends State<SplashPage> {
       ),
     );
   }
+
   @override
   void dispose() {
     timer.cancel();

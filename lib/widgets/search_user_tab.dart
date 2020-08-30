@@ -46,7 +46,7 @@ class _SearchUserTabState extends State<SearchUserTab> {
                     duration: const Duration(milliseconds: 100), //时常 （必要）
                     child: SearchUsersFilter(
                       this._sortIndex,
-                      onClickFilterCallback,
+                      onClickFilterCallback
                     ),
                   );
                 },

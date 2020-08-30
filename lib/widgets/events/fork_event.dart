@@ -7,11 +7,13 @@ import 'event_common_avatar.dart';
 class ForkEventItem extends StatelessWidget {
   final EventEntity entity;
   final int index;
-  ForkEventItem(this.entity, this.index, {Key key}): super(key: key);
+
+  ForkEventItem(this.entity, this.index, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if(entity.type != EventTypes.forkEvent) return Text('Not ${EventTypes.forkEvent} !');
+    if (entity.type != EventTypes.forkEvent)
+      return Text('Not ${EventTypes.forkEvent} !');
     EventForkPayload payload = EventForkPayload.fromJson(entity.payload);
 
     return Card(
@@ -23,7 +25,7 @@ class ForkEventItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             EventCommonAvatar(entity, index),
-            SizedBox(height: 4,),
+            SizedBox(height: 4),
             RichText(
               text: TextSpan(
                 text: '',
@@ -31,23 +33,24 @@ class ForkEventItem extends StatelessWidget {
                 children: <TextSpan>[
                   TextSpan(
                     text: 'Forked ',
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor),
                   ),
                   TextSpan(
                     text: entity.repo.name,
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
                   ),
-                  TextSpan(
-                    text: ' to ',
-                  ),
+                  TextSpan(text: ' to '),
                   TextSpan(
                     text: payload.forkee.fullName,
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
                   ),
                 ],
               ),
             ),
-
           ],
         ),
       ),

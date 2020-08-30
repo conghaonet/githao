@@ -130,9 +130,8 @@ abstract class BaseListWidgetState<T extends BaseListWidget, K> extends State<T>
             ),
           ),
           LoadingState(_lastActionIsReload ? _loadingState : StateFlag.idle,
-            onRetry: (){
-              refreshIndicatorKey.currentState.show();
-            },
+            onRetry: ()=>
+              refreshIndicatorKey.currentState.show(),
           ),
         ],
       ),

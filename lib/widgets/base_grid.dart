@@ -134,7 +134,7 @@ abstract class BaseGridWidgetState<T extends BaseGridWidget, K> extends State<T>
                     }
                   }
                   return Row(
-                    children: itemsInRow,
+                    children: itemsInRow
                   );
                 } else {
                   if(_expectHasMoreData && _loadingState == StateFlag.complete) {
@@ -150,9 +150,8 @@ abstract class BaseGridWidgetState<T extends BaseGridWidget, K> extends State<T>
             ),
           ),
           LoadingState(_lastActionIsReload ? _loadingState : StateFlag.idle,
-            onRetry: (){
-              refreshIndicatorKey.currentState.show();
-            },
+            onRetry: ()=>
+              refreshIndicatorKey.currentState.show(),
           ),
         ],
       ),

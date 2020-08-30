@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/biz/user_biz.dart';
-
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/pages/about_page.dart';
 import 'package:githao/pages/issues_page.dart';
@@ -16,15 +15,16 @@ import 'package:githao/provide/user_provide.dart';
 import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/utils/sp_util.dart';
 import 'package:githao/utils/util.dart';
+import 'package:githao/widgets/starred_repos.dart';
 import 'package:githao/widgets/trending_repos.dart';
 import 'package:githao/widgets/user_repos.dart';
-import 'package:githao/widgets/starred_repos.dart';
 import 'package:provide/provide.dart';
 
 import 'login_page.dart';
 
 class HomePage extends StatefulWidget {
   static const ROUTE_NAME = "/home";
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -70,9 +70,9 @@ class _HomePageState extends State<HomePage> {
                   stream: _bodyController.stream,
                   initialData: _defaultMenu,
                   builder: (context, snapshot) {
-                    if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
+                    if (snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
                       return Text(S.current.starredRepos);
-                    } else if(snapshot.data == HomeDrawer.MENU_TRENDING_UP) {
+                    } else if (snapshot.data == HomeDrawer.MENU_TRENDING_UP) {
                       return Text(S.current.trending);
                     } else {
                       return Text(S.current.myRepos);
@@ -81,9 +81,9 @@ class _HomePageState extends State<HomePage> {
                 ),
 //                titleSpacing: NavigationToolbar.kMiddleSpacing, //标题四周间距
 //                primary: true,  //是否预留高度
-                snap:true,   //与floating结合使用
-                floating: true,//是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
-                pinned: false,//为true时，SliverAppBar折叠后不消失
+                snap: true, //与floating结合使用
+                floating: true, //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
+                pinned: false, //为true时，SliverAppBar折叠后不消失
               ),
             ];
           },
@@ -91,12 +91,21 @@ class _HomePageState extends State<HomePage> {
             stream: _bodyController.stream,
             initialData: _defaultMenu,
             builder: (context, snapshot) {
-              if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
-                return StarredReposWidget(Provide.value<UserProvide>(context).user, tag: 'home_starred_repos_$_heroTag',);
-              } else if(snapshot.data == HomeDrawer.MENU_TRENDING_UP) {
-                return TrendingReposWidget(Provide.value<UserProvide>(context).user, tag: 'home_trending_repos_$_heroTag',);
+              if (snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
+                return StarredReposWidget(
+                  Provide.value<UserProvide>(context).user,
+                  tag: 'home_starred_repos_$_heroTag',
+                );
+              } else if (snapshot.data == HomeDrawer.MENU_TRENDING_UP) {
+                return TrendingReposWidget(
+                  Provide.value<UserProvide>(context).user,
+                  tag: 'home_trending_repos_$_heroTag',
+                );
               } else {
-                return UserReposWidget(Provide.value<UserProvide>(context).user.login, tag: 'home_my_repos_$_heroTag',);
+                return UserReposWidget(
+                  Provide.value<UserProvide>(context).user.login,
+                  tag: 'home_my_repos_$_heroTag',
+                );
               }
             },
           ),
@@ -104,6 +113,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
   @override
   void dispose() {
     _bodyController.close();
@@ -111,18 +121,21 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class HomeDrawer extends StatefulWidget{
+class HomeDrawer extends StatefulWidget {
   static const MENU_MY_REPOS = "MY_REPOS";
   static const MENU_STARRED_REPOS = "STARRED_REPOS";
   static const MENU_TRENDING_UP = "TRENDING_UP";
   final Function(String) callback;
   final String lastClickedMenu;
-  HomeDrawer(this.callback, this.lastClickedMenu, {Key key}): super(key: key);
+
+  HomeDrawer(this.callback, this.lastClickedMenu, {Key key}) : super(key: key);
 
   @override
   _HomeDrawerState createState() => _HomeDrawerState();
 }
-class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateMixin {
+
+class _HomeDrawerState extends State<HomeDrawer>
+    with SingleTickerProviderStateMixin {
   AnimationController _refreshController;
   String _clickedMenu;
 
@@ -139,27 +152,25 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
   /// 手动刷新用户数据
   void refreshUserData() {
     _refreshController.repeat();
-    UserBiz.getUser(forceRefresh: true)
-        .then((userEntity) {
-          if(userEntity != null) {
-            Provide.value<UserProvide>(context).updateUser(userEntity);
-            Util.showToast(S.current.userDataHasBeanRefreshed);
-          } else {
-            Util.showToast(S.current.refreshFailedCheckNetwork);
-          }
-          _refreshController.stop(canceled: true);
-        })
-        .catchError((e) {
-          Util.showToast((e as DioError).message);
-          _refreshController.stop(canceled: true);
-        }, test: (e) => e is DioError)
-        .catchError((e) {
-          Util.showToast(e.toString());
-          _refreshController.stop(canceled: true);
-        });
+    UserBiz.getUser(forceRefresh: true).then((userEntity) {
+      if (userEntity != null) {
+        Provide.value<UserProvide>(context).updateUser(userEntity);
+        Util.showToast(S.current.userDataHasBeanRefreshed);
+      } else {
+        Util.showToast(S.current.refreshFailedCheckNetwork);
+      }
+      _refreshController.stop(canceled: true);
+    }).catchError((e) {
+      Util.showToast((e as DioError).message);
+      _refreshController.stop(canceled: true);
+    }, test: (e) => e is DioError).catchError((e) {
+      Util.showToast(e.toString());
+      _refreshController.stop(canceled: true);
+    });
   }
+
   void onClickMenu(String menu) {
-    if(menu != _clickedMenu) {
+    if (menu != _clickedMenu) {
       _clickedMenu = menu;
       widget.callback(menu);
     }
@@ -182,67 +193,64 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
                 child: Column(
                   children: <Widget>[
                     ListTile(
-                      leading: Icon(Icons.info_outline,),
-                      title: Text(S.current.issues,),
+                      leading: Icon(Icons.info_outline),
+                      title: Text(S.current.issues),
                       onTap: () {
                         Navigator.of(context).pop();
                         Navigator.of(context).pushNamed(IssuesPage.ROUTE_NAME);
                       },
                     ),
                     ListTile(
-                      leading: Icon(Icons.storage,),
-                      title: Text(S.current.myRepos,),
-                      onTap: () {
-                        onClickMenu(HomeDrawer.MENU_MY_REPOS);
-                      },
-                      selected: _clickedMenu == null || _clickedMenu == HomeDrawer.MENU_MY_REPOS,
+                      leading: Icon(Icons.storage),
+                      title: Text(S.current.myRepos),
+                      onTap: () => onClickMenu(HomeDrawer.MENU_MY_REPOS),
+                      selected: _clickedMenu == null ||
+                          _clickedMenu == HomeDrawer.MENU_MY_REPOS,
                     ),
                     ListTile(
-                      leading: Icon(Icons.star,),
-                      title: Text(S.current.starredRepos,),
-                      onTap: () {
-                        onClickMenu(HomeDrawer.MENU_STARRED_REPOS);
-                      },
+                      leading: Icon(Icons.star),
+                      title: Text(S.current.starredRepos),
+                      onTap: () => onClickMenu(HomeDrawer.MENU_STARRED_REPOS),
                       selected: _clickedMenu == HomeDrawer.MENU_STARRED_REPOS,
                     ),
                     ListTile(
-                      leading: Icon(Icons.trending_up,),
-                      title: Text(S.current.trending,),
-                      onTap: () {
-                        onClickMenu(HomeDrawer.MENU_TRENDING_UP);
-                      },
+                      leading: Icon(Icons.trending_up),
+                      title: Text(S.current.trending),
+                      onTap: () => onClickMenu(HomeDrawer.MENU_TRENDING_UP),
                       selected: _clickedMenu == HomeDrawer.MENU_TRENDING_UP,
                     ),
                     ListTile(
-                      leading: Icon(Icons.search,),
-                      title: Text(S.current.search,),
+                      leading: Icon(Icons.search),
+                      title: Text(S.current.search),
                       onTap: () {
                         Navigator.of(context).pop();
-                        Navigator.of(context).pushNamed(CommonSearchPage.ROUTE_NAME);
+                        Navigator.of(context)
+                            .pushNamed(CommonSearchPage.ROUTE_NAME);
                       },
                     ),
-                    Divider(height: 1, color: Theme.of(context).primaryColor,),
+                    Divider(height: 1, color: Theme.of(context).primaryColor),
                     ListTile(
-                      leading: Icon(Icons.settings,),
-                      title: Text(S.current.settings,),
+                      leading: Icon(Icons.settings),
+                      title: Text(S.current.settings),
                       onTap: () {
                         Navigator.of(context).pop();
-                        Navigator.of(context).pushNamed(SettingsPage.ROUTE_NAME);
+                        Navigator.of(context)
+                            .pushNamed(SettingsPage.ROUTE_NAME);
                       },
                     ),
                     ListTile(
-                      leading: Icon(Icons.info,),
-                      title: Text(S.current.about,),
-                      onTap: () {
-                        Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
-                      },
+                      leading: Icon(Icons.info),
+                      title: Text(S.current.about),
+                      onTap: () =>
+                          Navigator.pushNamed(context, AboutPage.ROUTE_NAME),
                     ),
                     ListTile(
-                      leading: Icon(Icons.exit_to_app,),
-                      title: Text(S.current.logout,),
+                      leading: Icon(Icons.exit_to_app),
+                      title: Text(S.current.logout),
                       onTap: () {
                         SpUtil.logout();
-                        Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
+                        Navigator.of(context)
+                            .pushReplacementNamed(LoginPage.ROUTE_NAME);
                       },
                     ),
                   ],
@@ -254,6 +262,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
       ),
     );
   }
+
   Widget _drawerHeader() {
     return Provide<UserProvide>(
       builder: (context, child, userProvide) {
@@ -263,7 +272,8 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(
-                context, ProfilePage.ROUTE_NAME,
+                context,
+                ProfilePage.ROUTE_NAME,
                 arguments: ProfilePageArgs(
                   userEntity: userProvide.user,
                   heroTag: heroTag,
@@ -276,7 +286,8 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
               transitionOnUserGestures: true,
               tag: heroTag,
               child: CircleAvatar(
-                backgroundImage: CachedNetworkImageProvider(userProvide.user.avatarUrl),
+                backgroundImage:
+                    CachedNetworkImageProvider(userProvide.user.avatarUrl),
               ),
             ),
           ),
@@ -286,10 +297,8 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
             RotationTransition(
               turns: _refreshController,
               child: IconButton(
-                icon: Icon(Icons.refresh, color: Colors.white,),
-                onPressed: () {
-                  refreshUserData();
-                },
+                icon: Icon(Icons.refresh, color: Colors.white),
+                onPressed: () => refreshUserData(),
               ),
             ),
           ],
@@ -297,6 +306,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
       },
     );
   }
+
   @override
   void dispose() {
     _refreshController.dispose();

@@ -4,13 +4,14 @@ import 'package:githao/generated/i18n.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/utils/sp_util.dart';
 import 'package:githao/utils/util.dart';
-import 'package:provide/provide.dart';
 import 'package:githao/widgets/login_wave_clippers.dart';
+import 'package:provide/provide.dart';
 
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   static const ROUTE_NAME = "/login";
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -45,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
     //登录前，先移除之前保存的登录信息。
     SpUtil.logout();
     UserBiz.login(_username, _password).then((userEntity) async {
-      if(userEntity != null ) {
+      if (userEntity != null) {
         Provide.value<UserProvide>(context).updateUser(userEntity);
         Navigator.of(context).pushReplacementNamed(HomePage.ROUTE_NAME);
       } else {
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
     }).catchError((e) {
       Util.showToast('登录失败：${e.toString()}');
     }).whenComplete(() {
-      if(mounted) {
+      if (mounted) {
         setState(() {
           _isLoading = false;
         });
@@ -79,7 +80,10 @@ class _LoginPageState extends State<LoginPage> {
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          colors: [Theme.of(context).primaryColorDark.withOpacity(0.3), Theme.of(context).primaryColorLight.withOpacity(0.3)])),
+                          colors: [
+                        Theme.of(context).primaryColorDark.withOpacity(0.3),
+                        Theme.of(context).primaryColorLight.withOpacity(0.3)
+                      ])),
                 ),
               ),
               ClipPath(
@@ -92,7 +96,10 @@ class _LoginPageState extends State<LoginPage> {
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          colors: [Theme.of(context).primaryColorDark.withOpacity(0.6), Theme.of(context).primaryColorLight.withOpacity(0.6)])),
+                          colors: [
+                        Theme.of(context).primaryColorDark.withOpacity(0.6),
+                        Theme.of(context).primaryColorLight.withOpacity(0.6)
+                      ])),
                 ),
               ),
               ClipPath(
@@ -100,17 +107,9 @@ class _LoginPageState extends State<LoginPage> {
                 child: Container(
                   child: Column(
                     children: <Widget>[
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Icon(
-                        Icons.developer_mode,
-                        color: Colors.white,
-                        size: 60,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(height: 40),
+                      Icon(Icons.developer_mode, color: Colors.white, size: 60),
+                      SizedBox(height: 20),
                       Text(
                         "GitHao",
                         style: TextStyle(
@@ -126,12 +125,15 @@ class _LoginPageState extends State<LoginPage> {
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          colors: [Theme.of(context).primaryColorDark, Theme.of(context).primaryColorLight])),
+                          colors: [
+                        Theme.of(context).primaryColorDark,
+                        Theme.of(context).primaryColorLight
+                      ])),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 30,),
+          SizedBox(height: 30),
           //登录Form
           Form(
             key: _loginFormKey,
@@ -145,9 +147,12 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextFormField(
                       autofocus: true,
                       //点击完成按钮时，使password输入框自动获得焦点
-                      onEditingComplete: () => FocusScope.of(context).requestFocus(_passwordFocusNode),
+                      onEditingComplete: () => FocusScope.of(context)
+                          .requestFocus(_passwordFocusNode),
                       validator: (value) {
-                        return value.isEmpty ? S.current.thisFieldCanNotBeEmpty : null;
+                        return value.isEmpty
+                            ? S.current.thisFieldCanNotBeEmpty
+                            : null;
                       },
                       onSaved: (value) {
                         this._username = value;
@@ -163,9 +168,8 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           border: InputBorder.none,
-                          contentPadding:
-                          EdgeInsets.symmetric(horizontal: 25, vertical: 13)
-                      ),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 13)),
                     ),
                   ),
                 ),
@@ -180,9 +184,12 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextFormField(
                       focusNode: _passwordFocusNode,
                       //点击完成按钮时，使login按钮自动获得焦点
-                      onEditingComplete: () => FocusScope.of(context).requestFocus(_loginFocusNode),
+                      onEditingComplete: () =>
+                          FocusScope.of(context).requestFocus(_loginFocusNode),
                       validator: (value) {
-                        return value.isEmpty ? S.current.thisFieldCanNotBeEmpty : null;
+                        return value.isEmpty
+                            ? S.current.thisFieldCanNotBeEmpty
+                            : null;
                       },
                       onSaved: (value) {
                         this._password = value;
@@ -192,11 +199,12 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
                               icon: Icon(
-                                _isShowPassWord ? Icons.visibility_off : Icons.visibility,
+                                _isShowPassWord
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 color: Theme.of(context).primaryColor,
                               ),
-                              onPressed: () => _showPassWord()
-                          ),
+                              onPressed: () => _showPassWord()),
                           hintText: S.current.loginPasswordHint,
                           prefixIcon: Material(
                             elevation: 0,
@@ -207,8 +215,8 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 13)
-                      ),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 13)),
                     ),
                   ),
                 ),
@@ -216,13 +224,16 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           SizedBox(
-            height: 30,
+            height: 30
           ),
           //登录按钮及Loading的切换动画
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
             transitionBuilder: (Widget child, Animation<double> animation) {
-              return ScaleTransition(child: child, scale: animation,);
+              return ScaleTransition(
+                child: child,
+                scale: animation,
+              );
             },
             child: _isLoading ? _buildLoginLoading() : _buildLoginButton(),
           ),
@@ -234,6 +245,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildLoginLoading() {
     return CircularProgressIndicator();
   }
+
   Widget _buildLoginButton() {
     return Container(
       width: double.infinity,
@@ -241,17 +253,22 @@ class _LoginPageState extends State<LoginPage> {
         padding: EdgeInsets.symmetric(horizontal: 32),
         child: FlatButton(
           color: Theme.of(context).primaryColor,
-          shape:new RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+          shape: new RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0)),
           focusNode: _loginFocusNode,
           child: Padding(
             padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
             child: Text(
               S.current.login,
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 20,),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 20,
+              ),
             ),
           ),
           onPressed: () {
-            if(_loginFormKey.currentState.validate()) {
+            if (_loginFormKey.currentState.validate()) {
               _doLogin();
             }
           },

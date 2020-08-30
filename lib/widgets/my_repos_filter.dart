@@ -27,13 +27,13 @@ class _MyReposFilterState extends State<MyReposFilter> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding:  EdgeInsets.all(8.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 0),
+            padding:  EdgeInsets.only(left: 16.0, top: 8.0, bottom: 0),
             child: Text(
               S.current.type,
               style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.w700),),
@@ -66,7 +66,7 @@ class _MyReposFilterState extends State<MyReposFilter> {
           ),
           Divider(),
           Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 0),
+            padding:  EdgeInsets.only(left: 16.0, top: 8.0, bottom: 0),
             child: Text(
               S.current.sort,
               style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColorDark, fontWeight: FontWeight.w700),),

@@ -27,9 +27,8 @@ class CommonSearchDelegate extends SearchDelegate<String> {
     return IconButton(
       icon: Icon(Icons.arrow_back),
       // 点击的时候关闭页面（上下文）
-      onPressed: (){
-        close(context, null);
-      },
+      onPressed: ()=>
+        close(context, null),
     );
   }
 
@@ -105,9 +104,8 @@ class _SearchHistoryWidgetState extends State<SearchHistoryWidget> {
                 borderRadius: BorderRadius.all(Radius.circular(16.0)),
               ),
               child: InkWell(
-                onTap: () {
-                  widget.onClose(context, item);
-                },
+                onTap: () =>
+                  widget.onClose(context, item),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Text(item),
@@ -127,7 +125,7 @@ class _SearchHistoryWidgetState extends State<SearchHistoryWidget> {
       children: <Widget>[
         Row(
           children: <Widget>[
-            SizedBox(width: 16,),
+            SizedBox(width: 16),
             Text(S.current.searchHistory),
             Spacer(),
             IconButton(icon: Icon(Icons.delete, color: Theme.of(context).primaryColor,), onPressed: () {
@@ -141,7 +139,7 @@ class _SearchHistoryWidgetState extends State<SearchHistoryWidget> {
         Expanded(
           child: SingleChildScrollView(
             child: Wrap(
-              children: _histories,
+              children: _histories
             ),
           ),
         ),

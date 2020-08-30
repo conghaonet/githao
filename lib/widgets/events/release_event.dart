@@ -34,7 +34,7 @@ class ReleaseEventItem extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
                   ),
                   TextSpan(
-                    text: ' ${payload.release.name} at ',
+                    text: ' ${payload.release.name} at '
                   ),
                   TextSpan(
                     text: entity.repo.name,

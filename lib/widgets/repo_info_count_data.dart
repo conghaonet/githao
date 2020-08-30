@@ -15,9 +15,8 @@ class RepoInfoCountData extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: InkWell(
-            onTap: () {
-              Navigator.pushNamed(context, IssuesPage.ROUTE_NAME, arguments: _repoEntity.fullName);
-            },
+            onTap: () =>
+              Navigator.pushNamed(context, IssuesPage.ROUTE_NAME, arguments: _repoEntity.fullName),
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: Column(
@@ -31,9 +30,8 @@ class RepoInfoCountData extends StatelessWidget {
         ),
         Expanded(
           child: InkWell(
-            onTap: (){
-              Navigator.pushNamed(context, RepoStargazersPage.ROUTE_NAME, arguments: _repoEntity.fullName);
-            },
+            onTap: ()=>
+              Navigator.pushNamed(context, RepoStargazersPage.ROUTE_NAME, arguments: _repoEntity.fullName),
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: Column(
@@ -47,9 +45,8 @@ class RepoInfoCountData extends StatelessWidget {
         ),
         Expanded(
           child: InkWell(
-            onTap: (){
-              Navigator.pushNamed(context, RepoForksPage.ROUTE_NAME, arguments: _repoEntity.fullName);
-            },
+            onTap: ()=>
+              Navigator.pushNamed(context, RepoForksPage.ROUTE_NAME, arguments: _repoEntity.fullName),
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: Column(
@@ -63,9 +60,8 @@ class RepoInfoCountData extends StatelessWidget {
         ),
         Expanded(
           child: InkWell(
-            onTap: (){
-              Navigator.pushNamed(context, RepoWatchersPage.ROUTE_NAME, arguments: _repoEntity.fullName);
-            },
+            onTap: ()=>
+              Navigator.pushNamed(context, RepoWatchersPage.ROUTE_NAME, arguments: _repoEntity.fullName),
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               child: Column(

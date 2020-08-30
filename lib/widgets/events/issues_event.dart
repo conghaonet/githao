@@ -20,7 +20,7 @@ class IssuesEventItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             EventCommonAvatar(entity, index),
-            SizedBox(height: 4,),
+            SizedBox(height: 4),
             RichText(
               text: TextSpan(
                 text: '',
@@ -40,7 +40,7 @@ class IssuesEventItem extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 4,),
+            SizedBox(height: 4),
             RichText(
               maxLines: 4,
               overflow: TextOverflow.ellipsis,

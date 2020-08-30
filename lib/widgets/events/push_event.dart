@@ -27,7 +27,7 @@ class PushEventItem extends StatelessWidget {
                   style: TextStyle(color: Theme.of(context).primaryColor)
               ),
               TextSpan(
-                text: payload.commits[i].message,
+                text: payload.commits[i].message
               ),
             ],
           ),
@@ -40,7 +40,6 @@ class PushEventItem extends StatelessWidget {
       }
       commits.add(richText);
     }
-
     return Card(
       margin: EdgeInsets.all(8),
       child: Padding(
@@ -50,7 +49,7 @@ class PushEventItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             EventCommonAvatar(entity, index),
-            SizedBox(height: 4,),
+            SizedBox(height: 4),
             Row(
               children: <Widget>[
                 Expanded(
@@ -74,12 +73,10 @@ class PushEventItem extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 4,),
+            SizedBox(height: 4),
           ]..addAll(commits),
         ),
       ),
     );
-
   }
-
 }

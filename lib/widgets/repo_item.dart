@@ -20,9 +20,8 @@ class RepoItem extends StatelessWidget {
     return Card(
       child: FlatButton(
         padding: EdgeInsets.all(0),
-        onPressed: (){
-          Navigator.pushNamed(context, RepoHomePage.ROUTE_NAME, arguments: this.repo.fullName);
-        },
+        onPressed: ()=>
+          Navigator.pushNamed(context, RepoHomePage.ROUTE_NAME, arguments: this.repo.fullName),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -49,7 +48,7 @@ class RepoItem extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 16,),
+              SizedBox(width: 16),
               Expanded(
                 flex: 1,
                 child: Column(
@@ -71,7 +70,7 @@ class RepoItem extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 4,),
+                    SizedBox(height: 4),
                     MyVisibility(
                       flag: this.repo.description == null ? MyVisibilityFlag.gone : MyVisibilityFlag.visible,
                       child: Text(this.repo.description ?? '',
@@ -80,7 +79,7 @@ class RepoItem extends StatelessWidget {
                         style: TextStyle(),
                       ),
                     ),
-                    SizedBox(height: 8,),
+                    SizedBox(height: 8),
                     Wrap(
                       spacing: 16,
                       runSpacing: 8,
@@ -110,7 +109,7 @@ class RepoItem extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Icon(Icons.account_circle, color: Theme.of(context).primaryColor, size: 18,),
-        SizedBox(width: 2,),
+        SizedBox(width: 2),
         Text(owner),
       ],
     );
@@ -120,7 +119,7 @@ class RepoItem extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Icon(Icons.info, color: Theme.of(context).primaryColor, size: 18,),
-        SizedBox(width: 2,),
+        SizedBox(width: 2),
         Text('$issues'),
       ],
     );
@@ -130,7 +129,7 @@ class RepoItem extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Icon(Icons.stars, color: Theme.of(context).primaryColor, size: 18,),
-        SizedBox(width: 2,),
+        SizedBox(width: 2),
         Text('$count'),
       ],
     );
@@ -140,7 +139,7 @@ class RepoItem extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Icon(CustomIcons.fork, color: Theme.of(context).primaryColor, size: 18,),
-        SizedBox(width: 2,),
+        SizedBox(width: 2),
         Text('$forks'),
       ],
     );
@@ -158,7 +157,7 @@ class RepoItem extends StatelessWidget {
               shape: BoxShape.circle,
             ),
           ),
-          SizedBox(width: 2,),
+          SizedBox(width: 2),
           Text(language),
         ],
       );
@@ -171,7 +170,7 @@ class RepoItem extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Icon(Icons.access_time, color: Theme.of(context).primaryColor, size: 18,),
-        SizedBox(width: 2,),
+        SizedBox(width: 2),
         Text('Pushed on ${Util.getFriendlyDateTime(time) ?? ''}'),
       ],
     );

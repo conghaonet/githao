@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/pages/profile_page.dart';
@@ -12,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatefulWidget {
   static const ROUTE_NAME = '/about_page';
+
   @override
   _AboutPageState createState() => _AboutPageState();
 }
@@ -27,19 +29,15 @@ class _AboutPageState extends State<AboutPage> {
 
   void _refreshPackageInfo() async {
     _packageInfo = await PackageInfo.fromPlatform();
-    if(mounted) {
-      setState(() {
-
-      });
+    if (mounted) {
+      setState(() {});
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(S.current.about),
-      ),
+      appBar: AppBar(title: Text(S.current.about)),
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -49,12 +47,14 @@ class _AboutPageState extends State<AboutPage> {
                 leading: CircleAvatar(
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
-                    child: Image.asset('images/ic_launcher.png',
-                    ),
+                    child: Image.asset('images/ic_launcher.png'),
                   ),
                   backgroundColor: Color(0X00ffffff),
                 ),
-                title: Text(_packageInfo?.appName ?? '', style: TextStyle(fontSize: 22),),
+                title: Text(
+                  _packageInfo?.appName ?? '',
+                  style: TextStyle(fontSize: 22),
+                ),
                 subtitle: Text(S.current.copyright),
               ),
               ListTile(
@@ -67,14 +67,14 @@ class _AboutPageState extends State<AboutPage> {
                 title: Text(S.current.sourceCode),
                 subtitle: Text(S.current.starToSupportMe),
                 trailing: Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  Navigator.pushNamed(context, RepoHomePage.ROUTE_NAME, arguments: S.current.appRepoFullName);
-                },
+                onTap: () => Navigator.pushNamed(
+                    context, RepoHomePage.ROUTE_NAME,
+                    arguments: S.current.appRepoFullName),
               ),
-              Divider(color: Colors.grey,),
+              Divider(color: Colors.grey),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8,),
-                child: Text(S.current.author, style: TextStyle(fontSize: 20),),
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                child: Text(S.current.author, style: TextStyle(fontSize: 20)),
               ),
               ListTile(
                 leading: Icon(Icons.account_circle),
@@ -82,8 +82,13 @@ class _AboutPageState extends State<AboutPage> {
                 subtitle: Text(S.current.authorLocation),
                 trailing: Icon(Icons.keyboard_arrow_right),
                 onTap: () {
-                  Navigator.pushNamed(context, ProfilePage.ROUTE_NAME,
-                    arguments: ProfilePageArgs(login: S.current.authorGithubLogin, heroTag: 'about_author_conghaonet'),);
+                  Navigator.pushNamed(
+                    context,
+                    ProfilePage.ROUTE_NAME,
+                    arguments: ProfilePageArgs(
+                        login: S.current.authorGithubLogin,
+                        heroTag: 'about_author_conghaonet'),
+                  );
                 },
               ),
               ListTile(
@@ -91,29 +96,26 @@ class _AboutPageState extends State<AboutPage> {
                 title: Text(S.current.email),
                 subtitle: Text(S.current.authorEmail),
                 trailing: Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  launch('mailto:${S.current.authorEmail}');
-                },
+                onTap: () => launch('mailto:${S.current.authorEmail}'),
               ),
-              Divider(color: Colors.grey,),
+              Divider(color: Colors.grey),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8,),
-                child: Text(S.current.share, style: TextStyle(fontSize: 20),),
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                child: Text(S.current.share, style: TextStyle(fontSize: 20)),
               ),
               ListTile(
                 leading: Icon(Icons.share),
                 title: Text(S.current.shareToYourFriends),
                 trailing: Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  Share.share(S.current.shareText, subject: _packageInfo?.appName);
-                },
+                onTap: () => Share.share(S.current.shareText,
+                    subject: _packageInfo?.appName),
               ),
               ListTile(
                 leading: Icon(Icons.star),
                 title: Text(S.current.rateOrCommentInMarket),
                 trailing: Icon(Icons.keyboard_arrow_right),
                 onTap: () {
-                  if(Platform.isAndroid) {
+                  if (Platform.isAndroid) {
                     LaunchReview.launch();
                   } else {
                     Util.showToast(S.current.notYetPublishedToTheAppStore);

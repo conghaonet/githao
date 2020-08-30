@@ -71,7 +71,7 @@ class _RepoListState extends BaseListWidgetState<_RepoList, RepoEntity> {
   @override
   Widget buildItem(RepoEntity entity, int index) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4,),
+      margin: EdgeInsets.symmetric(horizontal: 4),
       child: RepoItem(entity, tag: 'search_repo_tab_list',),
     );
   }

@@ -16,16 +16,20 @@ import 'package:intl/intl.dart';
 class ProfilePage extends StatefulWidget {
   static const ROUTE_NAME = '/profile';
   final ProfilePageArgs args;
-  ProfilePage(this.args, {Key key}): super(key: key);
+
+  ProfilePage(this.args, {Key key}) : super(key: key);
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+class _ProfilePageState extends State<ProfilePage>
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   TabController _tabController;
   UserEntity _userEntity;
   StateFlag _loadingState = StateFlag.idle;
-  final String _profileStarredHeroTag = 'profile_starred_repos_${DateTime.now().millisecondsSinceEpoch.toString()}';
+  final String _profileStarredHeroTag =
+      'profile_starred_repos_${DateTime.now().millisecondsSinceEpoch.toString()}';
   String _login;
   String _avatarHeroTag;
 
@@ -38,28 +42,27 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   void initState() {
     super.initState();
     _login = widget.args.userEntity?.login ?? widget.args.login;
-    _avatarHeroTag = widget.args.heroTag ?? 'default_${DateTime.now().microsecondsSinceEpoch.toString()}';
+    _avatarHeroTag = widget.args.heroTag ??
+        'default_${DateTime.now().microsecondsSinceEpoch.toString()}';
     _loadData();
   }
 
   Future<void> _loadData() async {
-    if(_loadingState == StateFlag.loading) return Future;
+    if (_loadingState == StateFlag.loading) return Future;
     _loadingState = StateFlag.loading;
-    if(mounted) {
-      setState(() {
-
-      });
+    if (mounted) {
+      setState(() {});
     }
-    return ApiService.getUser(this._login).then((user){
+    return ApiService.getUser(this._login).then((user) {
       _tabController = TabController(length: user.isUser ? 3 : 2, vsync: this);
-      if(mounted) {
+      if (mounted) {
         setState(() {
           _loadingState = StateFlag.complete;
           this._userEntity = user;
         });
       }
     }).catchError((e) {
-      if(mounted) {
+      if (mounted) {
         setState(() {
           _loadingState = StateFlag.error;
         });
@@ -69,8 +72,11 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   }
 
   List<String> _getTabTitles() {
-    List<String> titles = [S.current.infoUppercase, S.current.activityUppercase,];
-    if(this._userEntity != null &&  this._userEntity.isUser) {
+    List<String> titles = [
+      S.current.infoUppercase,
+      S.current.activityUppercase,
+    ];
+    if (this._userEntity != null && this._userEntity.isUser) {
       titles.add(S.current.starredUppercase);
     }
     return titles;
@@ -81,11 +87,13 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
       _getInfoTabBarView(),
       EventList(login: this._login),
     ];
-    if(this._userEntity != null &&  this._userEntity.isUser) {
-      widgets.add(StarredReposWidget(
-        this._userEntity,
-        tag: _profileStarredHeroTag,
-        wantKeepAlive: true,),
+    if (this._userEntity != null && this._userEntity.isUser) {
+      widgets.add(
+        StarredReposWidget(
+          this._userEntity,
+          tag: _profileStarredHeroTag,
+          wantKeepAlive: true,
+        ),
       );
     }
     return widgets;
@@ -101,9 +109,12 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
             headerSliverBuilder: (context, innerBoxScrolled) => [
               SliverAppBar(
                 primary: true,
-                floating: true, //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
-                snap:false,   //与floating结合使用
-                pinned: false, //为true时，SliverAppBar折叠后不消失
+                floating: true,
+                //是否随着滑动隐藏标题，为true时，当有下滑手势的时候就会显示SliverAppBar
+                snap: false,
+                //与floating结合使用
+                pinned: false,
+                //为true时，SliverAppBar折叠后不消失
                 expandedHeight: 200,
                 flexibleSpace: FlexibleSpaceBar(
                   title: Text(this._login),
@@ -112,20 +123,24 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                   background: _appBarBackground(),
                 ),
               ),
-              if(this._userEntity != null)
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: _SliverAppBarDelegate(
-                  Container(
-                    color: Theme.of(context).primaryColor,
-                    child: TabBar(
-                      indicatorColor: Theme.of(context).primaryColorLight,
-                      controller: _tabController,
-                      tabs: _getTabTitles().map((title) => Tab(child: Text(title),)).toList(growable: false),
+              if (this._userEntity != null)
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: _SliverAppBarDelegate(
+                    Container(
+                      color: Theme.of(context).primaryColor,
+                      child: TabBar(
+                        indicatorColor: Theme.of(context).primaryColorLight,
+                        controller: _tabController,
+                        tabs: _getTabTitles()
+                            .map((title) => Tab(
+                                  child: Text(title),
+                                ))
+                            .toList(growable: false),
+                      ),
                     ),
                   ),
                 ),
-              ),
             ],
             body: _buildBody(),
           ),
@@ -135,13 +150,18 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   }
 
   Widget _buildBody() {
-    if(this._userEntity == null) {
-      if(_loadingState == StateFlag.loading) {
+    if (this._userEntity == null) {
+      if (_loadingState == StateFlag.loading) {
         return Container(
-          child: Center(child: CircularProgressIndicator(),),
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
         );
       } else {
-        return LoadingState(StateFlag.error, onRetry: _loadData,);
+        return LoadingState(
+          StateFlag.error,
+          onRetry: _loadData,
+        );
       }
     } else {
       return TabBarView(
@@ -150,6 +170,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
       );
     }
   }
+
   Widget _appBarBackground() {
     return Stack(
       alignment: Alignment.center,
@@ -160,7 +181,8 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
             imageUrl: this._userEntity?.avatarUrl ?? '',
             fit: BoxFit.cover,
             color: Colors.black.withOpacity(0.7),
-            colorBlendMode: BlendMode.srcOver,),
+            colorBlendMode: BlendMode.srcOver,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 32.0, right: 32.0),
@@ -177,11 +199,15 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                   height: 80,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(image: CachedNetworkImageProvider(this._userEntity?.avatarUrl ?? '')),
+                    image: DecorationImage(
+                        image: CachedNetworkImageProvider(
+                            this._userEntity?.avatarUrl ?? '')),
                   ),
                 ),
               ),
-              SizedBox(width: 16,),
+              SizedBox(
+                width: 16
+              ),
               Expanded(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -189,8 +215,12 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                   children: <Widget>[
                     Offstage(
                       offstage: this._userEntity?.name == null,
-                      child: Text(this._userEntity?.name ?? '',
-                        style: TextStyle(color: Colors.white, fontSize: 18,),
+                      child: Text(
+                        this._userEntity?.name ?? '',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                     Offstage(
@@ -198,12 +228,20 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Icon(Icons.location_on, color: Colors.white, size: 16,),
+                          Icon(
+                            Icons.location_on,
+                            color: Colors.white,
+                            size: 16,
+                          ),
                           Expanded(
-                            child: Text(this._userEntity?.location ?? '',
+                            child: Text(
+                              this._userEntity?.location ?? '',
                               softWrap: true,
                               maxLines: 3,
-                              style: TextStyle(color: Colors.white, fontSize: 16,),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ],
@@ -220,7 +258,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
   }
 
   Widget _getInfoTabBarView() {
-    if(_userEntity == null) {
+    if (_userEntity == null) {
       return Container(
         child: Center(
           child: CircularProgressIndicator(),
@@ -232,76 +270,110 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
       DateFormat dateFormat = DateFormat('yyyy-MM-dd');
       return Container(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Offstage(
-                offstage: this._userEntity.login == null,
-                child: Wrap(
-                  children: <Widget>[
-                    Icon(this._userEntity.isUser ? Icons.account_circle : Icons.group),
-                    SizedBox(width: 4,),
-                    Text(this._userEntity.login ?? '',
-                      style: TextStyle(fontSize: 18,),
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Offstage(
+                  offstage: this._userEntity.login == null,
+                  child: Wrap(
+                    children: <Widget>[
+                      Icon(this._userEntity.isUser
+                          ? Icons.account_circle
+                          : Icons.group),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        this._userEntity.login ?? '',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  S.current.createdAt(dateFormat.format(createdAt)),
+                  style: TextStyle(fontSize: 14, color: Colors.black54),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  S.current.updatedAt(dateFormat.format(updatedAt)),
+                  style: TextStyle(fontSize: 14, color: Colors.black54),
+                ),
+                Offstage(
+                  offstage: this._userEntity.email == null,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.email,
+                            color: Theme.of(context).primaryColorDark),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Expanded(
+                          child: Text(
+                            this._userEntity.email ?? '',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Theme.of(context).primaryColor),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 8,),
-              Text(S.current.createdAt(dateFormat.format(createdAt)),
-                style: TextStyle(fontSize: 14, color: Colors.black54),
-              ),
-              SizedBox(height: 8,),
-              Text(S.current.updatedAt(dateFormat.format(updatedAt)),
-                style: TextStyle(fontSize: 14, color: Colors.black54),
-              ),
-              Offstage(
-                offstage: this._userEntity.email == null,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(Icons.email, color: Theme.of(context).primaryColorDark),
-                      SizedBox(width: 8,),
-                      Expanded(
-                        child: Text(this._userEntity.email ?? '',
-                          style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
-              ),
-              Offstage(
-                offstage: this._userEntity.blog == null || this._userEntity.blog.isEmpty,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(Icons.link, color: Theme.of(context).primaryColorDark),
-                      SizedBox(width: 8,),
-                      Expanded(
-                        child: Text(this._userEntity.blog ?? '',
-                          style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor),
+                Offstage(
+                  offstage: this._userEntity.blog == null ||
+                      this._userEntity.blog.isEmpty,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.link,
+                            color: Theme.of(context).primaryColorDark),
+                        SizedBox(
+                          width: 8,
                         ),
-                      ),
-                    ],
+                        Expanded(
+                          child: Text(
+                            this._userEntity.blog ?? '',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Theme.of(context).primaryColor),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 16,),
-              ProfileInfoCountData(this._userEntity),
-              SizedBox(height: 16,),
-              Text(_userEntity.bio == null ? '' : '${_userEntity.bio}', maxLines: 5, style: TextStyle(fontSize: 16),),
-            ],
-          )
-        ),
+                SizedBox(
+                  height: 16,
+                ),
+                ProfileInfoCountData(this._userEntity),
+                SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  _userEntity.bio == null ? '' : '${_userEntity.bio}',
+                  maxLines: 5,
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            )),
       );
     }
   }
+
   void dispose() {
     _tabController?.dispose();
     super.dispose();
@@ -311,15 +383,23 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
 /// 定义tab栏高度
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final Container _tabBar;
+
   _SliverAppBarDelegate(this._tabBar);
+
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(child: _tabBar,);
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      child: _tabBar,
+    );
   }
+
   @override
   double get maxExtent => AppConst.TAB_HEIGHT;
+
   @override
   double get minExtent => AppConst.TAB_HEIGHT;
+
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
     return false;

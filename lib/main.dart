@@ -18,19 +18,15 @@ import 'package:provide/provide.dart';
 import 'generated/i18n.dart';
 
 // Must be top-level function
-_parseAndDecode(String response) {
-  return jsonDecode(response);
-}
+_parseAndDecode(String response) => jsonDecode(response);
 
-parseJson(String text) {
-  return compute(_parseAndDecode, text);
-}
-
+parseJson(String text) => compute(_parseAndDecode, text);
 
 void main() {
 //  await appSP.init();
   //Custom jsonDecodeCallback
-  (dioClient.dio.transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
+  (dioClient.dio.transformer as DefaultTransformer).jsonDecodeCallback =
+      parseJson;
 
   final providers = Providers()
     ..provide(Provider.value(UserProvide()))
@@ -60,25 +56,23 @@ class _MyAppState extends State<MyApp> {
     await appSP.init();
     //theme初始化
     int themeIndex = SpUtil.getThemeIndex();
-    if(themeIndex != null) {
+    if (themeIndex != null) {
       Provide.value<ThemeProvide>(context).changeTheme(themeIndex);
     }
     //界面语言初始化
     String lang = SpUtil.getLanguage();
-    if(StringUtil.isNotEmpty(lang)) {
+    if (StringUtil.isNotEmpty(lang)) {
       Provide.value<LocaleProvide>(context).changeLocale(Locale(lang));
     }
     setState(() {
       _isInitialed = true;
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
-    return Provide<LocaleProvide>(
-        builder: (context, child, localeProvide) {
-          return Provide<ThemeProvide>(
+    return Provide<LocaleProvide>(builder: (context, child, localeProvide) {
+      return Provide<ThemeProvide>(
         builder: (context, child, themeProvide) {
           return MaterialApp(
             locale: localeProvide.locale,
@@ -86,9 +80,7 @@ class _MyAppState extends State<MyApp> {
             routes: appRoute.routes,
             //动态路由，可传递参数
             onGenerateRoute: appRoute.generateRoute,
-            navigatorObservers: [
-              appRoute,
-            ],
+            navigatorObservers: [appRoute],
             // 国际化设置
             localizationsDelegates: const [
               S.delegate,
@@ -102,18 +94,20 @@ class _MyAppState extends State<MyApp> {
             title: 'githao',
             onGenerateTitle: (context) => S.current.appTitle,
             theme: themeProvide.themeData,
-            home: _isInitialed ? SplashPage() : Container(
-              color: Colors.white,
-              child: Center(
-                child: Image.asset('images/icon_app_1024.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
+            home: _isInitialed
+                ? SplashPage()
+                : Container(
+                    color: Colors.white,
+                    child: Center(
+                      child: Image.asset(
+                        'images/icon_app_1024.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
           );
         },
       );
-  }
-    );
+    });
   }
 }

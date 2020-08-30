@@ -123,9 +123,8 @@ class _CommitListState extends State<CommitList> with AutomaticKeepAliveClientMi
           ),
         ),
         LoadingState(_lastActionIsReload ? _loadingState : StateFlag.idle,
-          onRetry: (){
-            _refreshIndicatorKey.currentState.show();
-          },
+          onRetry: ()=>
+            _refreshIndicatorKey.currentState.show(),
         ),
       ],
     );
@@ -175,7 +174,7 @@ class _CommitListState extends State<CommitList> with AutomaticKeepAliveClientMi
                       ),
                     ),
                   ),
-                  SizedBox(width: 8,),
+                  SizedBox(width: 8),
                   Text(
                     entity.committer != null ? entity.committer.login : entity.commit.committer.name,
                     style: TextStyle(color: Theme.of(context).primaryColor),
@@ -192,8 +191,8 @@ class _CommitListState extends State<CommitList> with AutomaticKeepAliveClientMi
                 children: <Widget>[
                   Text(entity.sha.substring(0,7), style: TextStyle(color: Colors.black54),),
                   Spacer(),
-                  Icon(Icons.comment, color: Colors.black54,),
-                  SizedBox(width: 4.0,),
+                  Icon(Icons.comment, color: Colors.black54),
+                  SizedBox(width: 4.0),
                   Text('${entity.commit.commentCount}'),
                 ],
               ),

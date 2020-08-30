@@ -38,7 +38,7 @@ class LoadMoreDataFooter extends StatelessWidget {
                 width: 16,
                 height: 16,
                 child: CircularProgressIndicator(
-                  strokeWidth: 2,
+                  strokeWidth: 2
                 ),
               ),
             ],

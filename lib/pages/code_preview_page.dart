@@ -67,7 +67,7 @@ class _CodePreviewPageState extends State<CodePreviewPage> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: Text(_title),
+          title: Text(_title)
         ),
         body: Container(
           child: SyntaxView(
@@ -82,7 +82,6 @@ class _CodePreviewPageState extends State<CodePreviewPage> {
     }
   }
   @override
-  void dispose() {
+  void dispose() =>
     super.dispose();
-  }
 }

@@ -1,6 +1,6 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class Util {
@@ -19,11 +19,12 @@ class Util {
     }
   }
 
-  static Future<bool> showToast(dynamic message, {Toast length = Toast.LENGTH_SHORT}) async {
-    if(message == null || message.toString() == null || message.toString().isEmpty) {
-      return false;
-    }
-    return await Fluttertoast.showToast(msg: message.toString(), toastLength: length, );
+  static CancelFunc showToast(String message,) {
+    return BotToast.showText(
+      text: message ?? 'null',
+      contentColor: Colors.black87,
+      textStyle: const TextStyle(fontSize: 14, color: Colors.white,),
+    );
   }
 
   static Future<ConnectivityResult> networkIsConnective() async {

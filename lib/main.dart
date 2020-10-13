@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +19,9 @@ import 'package:provide/provide.dart';
 import 'generated/i18n.dart';
 
 // Must be top-level function
-_parseAndDecode(String response) {
-  return jsonDecode(response);
-}
+_parseAndDecode(String response) => jsonDecode(response);
 
-parseJson(String text) {
-  return compute(_parseAndDecode, text);
-}
+parseJson(String text) => compute(_parseAndDecode, text);
 
 
 void main() {
@@ -81,6 +78,7 @@ class _MyAppState extends State<MyApp> {
           return Provide<ThemeProvide>(
         builder: (context, child, themeProvide) {
           return MaterialApp(
+            builder: BotToastInit(),
             locale: localeProvide.locale,
             // 定义静态路由，不能传递参数
             routes: appRoute.routes,
@@ -88,6 +86,7 @@ class _MyAppState extends State<MyApp> {
             onGenerateRoute: appRoute.generateRoute,
             navigatorObservers: [
               appRoute,
+              BotToastNavigatorObserver(),
             ],
             // 国际化设置
             localizationsDelegates: const [

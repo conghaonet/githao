@@ -1,3 +1,4 @@
+Language: [English](README.md) | [Portugues (Brasil)](README-pt-rBR.md)
 # GitHao
 
 ## Cliente GitHub Flutter para Android e iOS em código aberto

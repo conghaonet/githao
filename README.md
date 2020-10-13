@@ -1,5 +1,6 @@
-# GitHao
+Language: [English](README.md) | [Portugues (Brasil)](README-pt-rBR.md)
 
+# GitHao
 Android and iOS open-source GitHub Flutter client app
 
 [![Releases](https://img.shields.io/badge/android-4.1%2B-brightgreen.svg)](https://play.google.com/store/apps/details?id=com.app2m.githao)

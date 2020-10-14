@@ -67,7 +67,7 @@ Language: [English](README.md) | [Portugues (Brasil)](README-pt-rBR.md)
     - Suporte à internacionalização e localização.
 - [provide](https://github.com/google/flutter-provide)
     - Uma estrutura simples para gerenciamento de estado em Flutter.
-- [flutter_cached_network_image](https://github.com/renefloor/flutter_cached_network_image)
+- [cached_network_image](https://github.com/renefloor/flutter_cached_network_image)
     - Baixe, armazene em cache e mostre imagens em um aplicativo de vibração.
 - [dart-event-bus](https://github.com/marcojakob/dart-event-bus)
     - Um barramento de eventos usando o Dart Streams para desacoplar aplicativos.

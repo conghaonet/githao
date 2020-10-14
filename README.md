@@ -62,7 +62,7 @@ samples, guidance on mobile development, and a full API reference.
 * [dio](https://github.com/flutterchina/dio) A powerful Http client for Dart, which supports Interceptors, FormData, Request Cancellation, File Downloading, Timeout etc.
 * [intl](https://github.com/dart-lang/intl) Internationalization and localization support.
 * [provide](https://github.com/google/flutter-provide) A simple framework for state management in Flutter.
-* [flutter_cached_network_image](https://github.com/renefloor/flutter_cached_network_image) Download, cache and show images in a flutter app.
+* [cached_network_image](https://github.com/renefloor/flutter_cached_network_image) Download, cache and show images in a flutter app.
 * [dart-event-bus](https://github.com/marcojakob/dart-event-bus) An Event Bus using Dart Streams for decoupling applications.
 * [flutter_syntax_view](https://github.com/BaderEddineOuaich/flutter_syntax_view) A SyntaxView Widget which highlights code text according to the programming language syntax.
 * [flutter_statusbarcolor](https://github.com/mchome/flutter_statusbarcolor) A package can help you to change your flutter app's statusbar's color or navigationbar's color programmatically.

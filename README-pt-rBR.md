@@ -54,7 +54,7 @@ Language: [English](README.md) | [Portugues (Brasil)](README-pt-rBR.md)
 - [OpenHub](https://github.com/ThirtyDegreesRay/OpenHub)
     - Um aplicativo cliente GitHub Android de código aberto, mais rápido e conciso.
 - [BotToast](https://github.com/MMMzq/bot_toast)
-    - Uma biblioteca de brindes vibrante realmente fácil de usar.
+    - Uma biblioteca de torradas vibrante realmente fácil de usar.
 - [flutter/plugins](https://github.com/flutter/plugins)
     - [shared_preferences](https://github.com/flutter/plugins/tree/master/packages/shared_preferences): Wraps NSUserDefaults (no iOS) e SharedPreferences (no Android), fornecendo um armazenamento persistente para dados simples.
     - [webview_flutter](https://github.com/flutter/plugins/tree/master/packages/webview_flutter): Um plu-gin do Flutter que fornece um widget do WebView.

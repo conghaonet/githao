@@ -154,14 +154,15 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
     return Stack(
       alignment: Alignment.center,
       children: <Widget>[
-        SizedBox(
-          width: double.infinity,
-          child: CachedNetworkImage(
-            imageUrl: this._userEntity?.avatarUrl ?? '',
-            fit: BoxFit.cover,
-            color: Colors.black.withOpacity(0.7),
-            colorBlendMode: BlendMode.srcOver,),
-        ),
+        if(this._userEntity?.avatarUrl?.isNotEmpty ?? false)
+          SizedBox(
+            width: double.infinity,
+            child: CachedNetworkImage(
+              imageUrl: this._userEntity?.avatarUrl,
+              fit: BoxFit.cover,
+              color: Colors.black.withOpacity(0.7),
+              colorBlendMode: BlendMode.srcOver,),
+          ),
         Padding(
           padding: const EdgeInsets.only(left: 32.0, right: 32.0),
           child: Row(
@@ -177,7 +178,7 @@ class _ProfilePageState extends State<ProfilePage> with TickerProviderStateMixin
                   height: 80,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(image: CachedNetworkImageProvider(this._userEntity?.avatarUrl ?? '')),
+                    image: this._userEntity?.avatarUrl == null ? null : DecorationImage(image: CachedNetworkImageProvider(this._userEntity?.avatarUrl)),
                   ),
                 ),
               ),

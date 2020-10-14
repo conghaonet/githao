@@ -53,7 +53,7 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Thanks for open source
 * [OpenHub](https://github.com/ThirtyDegreesRay/OpenHub) An open source GitHub Android client app, faster and concise.
-* [fluttertoast](https://github.com/PonnamKarthik/FlutterToast) Android and iOS Toast Library for Flutter.
+* [BotToast](https://github.com/MMMzq/bot_toast) A really easy to use flutter toast library.
 * [flutter/plugins](https://github.com/flutter/plugins)
   - [shared_preferences](https://github.com/flutter/plugins/tree/master/packages/shared_preferences) Wraps NSUserDefaults (on iOS) and SharedPreferences (on Android), providing a persistent store for simple data.
   - [webview_flutter](https://github.com/flutter/plugins/tree/master/packages/webview_flutter) A Flutter plugin that provides a WebView widget.

@@ -120,10 +120,10 @@ class S implements WidgetsLocalizations {
   String get watch => "Watch";
   String get watched => "Watched";
   String get watchers => "Watchers";
-  String createdAt(String dateTime) => "Created at ${dateTime}";
+  String createdAt(String dateTime) => "Created at $dateTime";
   String googlePlayAppUrl(String packageName) => "https://play.google.com/store/apps/details?id=$packageName";
-  String pushedAt(String dateTime) => "Pushed at ${dateTime}";
-  String updatedAt(String dateTime) => "Updated at ${dateTime}";
+  String pushedAt(String dateTime) => "Pushed at $dateTime";
+  String updatedAt(String dateTime) => "Updated at $dateTime";
 }
 
 class $en extends S {
@@ -335,11 +335,11 @@ class $zh_CN extends S {
   @override
   String get pushed => "推送";
   @override
-  String createdAt(String dateTime) => "创建于 ${dateTime}";
+  String createdAt(String dateTime) => "创建于 $dateTime";
   @override
-  String updatedAt(String dateTime) => "更新于 ${dateTime}";
+  String updatedAt(String dateTime) => "更新于 $dateTime";
   @override
-  String pushedAt(String dateTime) => "推送于 ${dateTime}";
+  String pushedAt(String dateTime) => "推送于 $dateTime";
   @override
   String googlePlayAppUrl(String packageName) => "https://play.google.com/store/apps/details?id=$packageName";
 }

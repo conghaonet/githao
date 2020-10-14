@@ -25,22 +25,20 @@ Language: [English](README.md) | [Portugues (Brasil)](README-pt-rBR.md)
 
 ## Ambiente de desenvolvimento e cadeia de ferramentas:
   
-- Versão Flutter v1.12.13+hotfix.5
-- Revisão da estrutura 27321ebbad
-- Revisão do motor 2994f7e1e6
-- Versão Dart 2.7.0
-- Android Studio (versão 3.5)
-    - Versão Java OpenJDK Runtime Environment (build 1.8.0_202-release-1483-b03)
-    - Versão do plu-gin Flutter 42.1.1
-    - Versão do plu-gin Dart 191.8593
+- Versão Flutter v1.22.1
+- Versão Dart 2.10.1
+- Android Studio (versão 4.1)
+    - Versão Java 1.8.0_241
+    - Versão do plu-gin Flutter 50.0.2
+    - Versão do plu-gin Dart 201.9002
     - [Plu-gin Flutter i18n](https://github.com/long1eu/flutter_i18n)
 - Desenvolver para Android
     - Platform android-29, build-tools 29.0.2
     - Versão Kotlin 1.3.50
 - Desenvolver para iOS e macOS
-    - Mac OS X 10.15.2
-    - Xcode 11.3
-    - CocoaPods versão 1.8.4
+    - Mac OS X 10.15.7
+    - Xcode 12
+    - CocoaPods versão 1.9.1
 
 ## Capturas de tela
 <img height="480px" src="https://i.loli.net/2019/11/05/AkG4ZdigaXKNbI9.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/S5tzWDnIAoUXlmJ.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/n7VkI9eaufEShTU.gif">

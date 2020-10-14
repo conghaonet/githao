@@ -30,7 +30,7 @@ dependencies:
   connectivity: ^0.4.6+1
   provide: ^1.0.2
   cached_network_image: ^2.0.0-rc.1
-  webview_flutter: ^0.3.18+1
+  webview_flutter: ^1.0.1
   event_bus: ^1.1.0
   flutter_statusbarcolor: ^0.2.3
   package_info: ^0.4.0+13

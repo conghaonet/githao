@@ -297,7 +297,7 @@ packages:
       name: flutter_syntax_view
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.2"
+    version: "2.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -809,7 +809,7 @@ packages:
       name: webview_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.24"
+    version: "1.0.1"
   win32:
     dependency: transitive
     description:
@@ -833,4 +833,4 @@ packages:
     version: "2.2.1"
 sdks:
   dart: ">=2.10.0-110 <2.11.0"
-  flutter: ">=1.20.0 <2.0.0"
+  flutter: ">=1.22.0 <2.0.0"

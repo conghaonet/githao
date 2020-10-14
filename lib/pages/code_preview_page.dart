@@ -26,17 +26,27 @@ class _CodePreviewPageState extends State<CodePreviewPage> {
     if(_title.lastIndexOf('.') != -1 && (_title.lastIndexOf('.') + 1) != _title.length) {
       _fileSuffix = _title.substring(_title.lastIndexOf('.')+1, _title.length).toLowerCase();
     }
-    if(_fileSuffix == 'java') {
-      _syntax = Syntax.JAVA;
-    } else if(_fileSuffix == 'dart') {
-      _syntax = Syntax.DART;
-    } else if(_fileSuffix == 'kt') {
-      _syntax = Syntax.KOTLIN;
-    } else if(_fileSuffix == 'js') {
-      _syntax = Syntax.JAVASCRIPT;
-    } else if(_fileSuffix == 'swift') {
-      _syntax = Syntax.SWIFT;
+    if(_fileSuffix?.isNotEmpty ?? false) {
+      if(_fileSuffix == 'java') {
+        _syntax = Syntax.JAVA;
+      } else if(_fileSuffix == 'dart') {
+        _syntax = Syntax.DART;
+      } else if(_fileSuffix == 'kt') {
+        _syntax = Syntax.KOTLIN;
+      } else if(_fileSuffix == 'js') {
+        _syntax = Syntax.JAVASCRIPT;
+      } else if(_fileSuffix == 'swift') {
+        _syntax = Syntax.SWIFT;
+      } else if(_fileSuffix == 'yaml') {
+        _syntax = Syntax.YAML;
+      } else if(_fileSuffix == 'c') {
+        _syntax = Syntax.C;
+      } else if(_fileSuffix == 'cpp' || _fileSuffix == 'cc'
+          || _fileSuffix == 'C' || _fileSuffix == 'cxx' || _fileSuffix.toLowerCase() == 'c++') {
+        _syntax = Syntax.CPP;
+      }
     }
+
     if(_syntax != null) {
       ApiService.getRepoContentRaw(
         widget.args.repoEntity.owner.login,

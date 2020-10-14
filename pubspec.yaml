@@ -23,7 +23,7 @@ dependencies:
     sdk: flutter
 #  flutter_cupertino_localizations: ^1.0.1
   bot_toast: ^3.0.4
-  shared_preferences: ^0.5.6
+  shared_preferences: ^0.5.12
   json_annotation: ^3.1.0
   dio: ^3.0.10
   intl: ^0.16.1
@@ -36,7 +36,6 @@ dependencies:
   package_info: ^0.4.3
   image_picker: ^0.6.7+11
   flutter_syntax_view: ^2.1.0
-  async: ^2.4.0
   url_launcher: ^5.7.2
   share: ^0.6.5+2
   launch_review: ^2.0.0
@@ -52,8 +51,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.10.3
-  json_serializable: ^3.5.0
+  build_runner: ^1.7.2
+  json_serializable: ^3.2.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

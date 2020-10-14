@@ -23,22 +23,21 @@ dependencies:
     sdk: flutter
 #  flutter_cupertino_localizations: ^1.0.1
   bot_toast: ^3.0.4
-  shared_preferences: ^0.5.6
-  json_annotation: ^3.0.0
-  dio: ^3.0.7
-  intl: ^0.16.0
-  connectivity: ^0.4.6+1
+  shared_preferences: ^0.5.12
+  json_annotation: ^3.1.0
+  dio: ^3.0.10
+  intl: ^0.16.1
+  connectivity: ^0.4.9+3
   provide: ^1.0.2
-  cached_network_image: ^2.0.0-rc.1
+  cached_network_image: ^2.3.2+1
   webview_flutter: ^1.0.1
   event_bus: ^1.1.0
   flutter_statusbarcolor: ^0.2.3
-  package_info: ^0.4.0+13
-  image_picker: ^0.6.2+3
+  package_info: ^0.4.3
+  image_picker: ^0.6.7+11
   flutter_syntax_view: ^2.1.0
-  async: ^2.4.0
-  url_launcher: ^5.4.1
-  share: ^0.6.3+5
+  url_launcher: ^5.7.2
+  share: ^0.6.5+2
   launch_review: ^2.0.0
 
   # 升级到 0.38.3 之后，执行build_runner报错，必须锁定 0.38.2版本。

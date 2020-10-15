@@ -58,7 +58,7 @@ samples, guidance on mobile development, and a full API reference.
 * [json_serializable, json_annotation](https://github.com/dart-lang/json_serializable) Provides source_gen Generators to create code for JSON serialization and deserialization.
 * [dio](https://github.com/flutterchina/dio) A powerful Http client for Dart, which supports Interceptors, FormData, Request Cancellation, File Downloading, Timeout etc.
 * [intl](https://github.com/dart-lang/intl) Internationalization and localization support.
-* [provide](https://github.com/google/flutter-provide) A simple framework for state management in Flutter.
+* [provider](https://github.com/rrousselGit/provider) A wrapper around InheritedWidget to make them easier to use and more reusable.
 * [cached_network_image](https://github.com/renefloor/flutter_cached_network_image) Download, cache and show images in a flutter app.
 * [dart-event-bus](https://github.com/marcojakob/dart-event-bus) An Event Bus using Dart Streams for decoupling applications.
 * [flutter_syntax_view](https://github.com/BaderEddineOuaich/flutter_syntax_view) A SyntaxView Widget which highlights code text according to the programming language syntax.

@@ -6,7 +6,7 @@ import 'package:githao/provide/locale_provide.dart';
 import 'package:githao/provide/theme_provide.dart';
 import 'package:githao/utils/sp_util.dart';
 import 'package:githao/utils/string_util.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
   static const ROUTE_NAME = "/settings";
@@ -27,7 +27,7 @@ class _SettingsPageState extends State<SettingsPage> {
       selectedLanguage = languageCode;
       SpUtil.setLanguage(selectedLanguage);
       Locale locale = StringUtil.isNullOrEmpty(selectedLanguage) ? null : Locale(languageCode);
-      Provide.value<LocaleProvide>(context).changeLocale(locale);
+      context.read<LocaleProvide>().changeLocale(locale);
     });
   }
   @override
@@ -107,8 +107,8 @@ class _SettingsPageState extends State<SettingsPage> {
       themeChildren.add(InkWell(
         onTap: () {
           setState(() {
-            Provide.value<ThemeProvide>(context).changeTheme(i);
-            SystemChrome.setSystemUIOverlayStyle(Provide.value<ThemeProvide>(context).overlayStyle);
+            context.read<ThemeProvide>().changeTheme(i);
+            SystemChrome.setSystemUIOverlayStyle(context.read<ThemeProvide>().overlayStyle);
             FlutterStatusbarcolor.setStatusBarColor(Colors.primaries[i][700]);
             SpUtil.setThemeIndex(i);
           });
@@ -118,7 +118,7 @@ class _SettingsPageState extends State<SettingsPage> {
           height: 55,
           decoration: BoxDecoration(
             color: Colors.primaries[i],
-            border: Provide.value<ThemeProvide>(context).themeIndex == i ? _currentThemeBorder : null,
+            border: context.watch<ThemeProvide>().themeIndex == i ? _currentThemeBorder : null,
           ),
         ),
       ));

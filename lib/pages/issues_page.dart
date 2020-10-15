@@ -10,7 +10,7 @@ import 'package:githao/routes/profile_page_args.dart';
 import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/load_more_data_footer.dart';
 import 'package:githao/widgets/loading_state.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 
 class IssuesPage extends StatefulWidget {
   static const ROUTE_NAME = '/issues';
@@ -67,7 +67,7 @@ class _IssuesPageState extends State<IssuesPage> {
     Future apiFuture;
     if(widget.repoName == null) {
       apiFuture = ApiService.searchIssues(
-          login: Provide.value<UserProvide>(context).user.login,
+          login: context.read<UserProvide>().user.login,
           state: _filterStates[_indexFilterState],
           sort: _filterSorts[_indexFilterSort]['sort'],
           order: _filterSorts[_indexFilterSort]['order'],

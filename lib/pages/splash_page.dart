@@ -7,7 +7,7 @@ import 'package:githao/biz/user_biz.dart';
 import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/provide/theme_provide.dart';
 import 'package:githao/provide/user_provide.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 
 import 'home_page.dart';
 import 'login_page.dart';
@@ -27,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
   Future hasLogin() async {
     UserEntity userEntity = await UserBiz.getUser();
     if (userEntity != null) {
-      Provide.value<UserProvide>(context).updateUser(userEntity);
+      context.read<UserProvide>().updateUser(userEntity);
       Navigator.of(context).pushReplacementNamed(HomePage.ROUTE_NAME);
     } else {
       Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
@@ -51,7 +51,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     //修改主题后，需要在app的第一个页面设置状态栏。
-    SystemChrome.setSystemUIOverlayStyle(Provide.value<ThemeProvide>(context).overlayStyle);
+    SystemChrome.setSystemUIOverlayStyle(context.watch<ThemeProvide>().overlayStyle);
     FlutterStatusbarcolor.setStatusBarColor(Theme.of(context).primaryColorDark);
     return Scaffold(
       body: Container(

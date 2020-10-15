@@ -26,7 +26,8 @@ dependencies:
   json_annotation: ^3.1.0
   dio: ^3.0.10
   connectivity: ^0.4.9+3
-  provide: ^1.0.2
+#  provide: ^1.0.2
+  provider: ^4.3.2+2
   cached_network_image: ^2.3.2+1
   webview_flutter: ^1.0.1
   event_bus: ^1.1.0

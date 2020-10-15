@@ -4,7 +4,7 @@ import 'package:githao/generated/i18n.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:githao/utils/sp_util.dart';
 import 'package:githao/utils/util.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 import 'package:githao/widgets/login_wave_clippers.dart';
 
 import 'home_page.dart';
@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
     SpUtil.logout();
     UserBiz.login(_username, _password).then((userEntity) async {
       if(userEntity != null ) {
-        Provide.value<UserProvide>(context).updateUser(userEntity);
+        context.read<UserProvide>().updateUser(userEntity);
         Navigator.of(context).pushReplacementNamed(HomePage.ROUTE_NAME);
       } else {
         throw Exception("获取用户信息出错！");

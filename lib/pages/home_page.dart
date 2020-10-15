@@ -19,7 +19,7 @@ import 'package:githao/utils/util.dart';
 import 'package:githao/widgets/trending_repos.dart';
 import 'package:githao/widgets/user_repos.dart';
 import 'package:githao/widgets/starred_repos.dart';
-import 'package:provide/provide.dart';
+import 'package:provider/provider.dart';
 
 import 'login_page.dart';
 
@@ -92,11 +92,11 @@ class _HomePageState extends State<HomePage> {
             initialData: _defaultMenu,
             builder: (context, snapshot) {
               if(snapshot.data == HomeDrawer.MENU_STARRED_REPOS) {
-                return StarredReposWidget(Provide.value<UserProvide>(context).user, tag: 'home_starred_repos_$_heroTag',);
+                return StarredReposWidget(context.watch<UserProvide>().user, tag: 'home_starred_repos_$_heroTag',);
               } else if(snapshot.data == HomeDrawer.MENU_TRENDING_UP) {
-                return TrendingReposWidget(Provide.value<UserProvide>(context).user, tag: 'home_trending_repos_$_heroTag',);
+                return TrendingReposWidget(context.watch<UserProvide>().user, tag: 'home_trending_repos_$_heroTag',);
               } else {
-                return UserReposWidget(Provide.value<UserProvide>(context).user.login, tag: 'home_my_repos_$_heroTag',);
+                return UserReposWidget(context.watch<UserProvide>().user.login, tag: 'home_my_repos_$_heroTag',);
               }
             },
           ),
@@ -142,7 +142,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
     UserBiz.getUser(forceRefresh: true)
         .then((userEntity) {
           if(userEntity != null) {
-            Provide.value<UserProvide>(context).updateUser(userEntity);
+            context.read<UserProvide>().updateUser(userEntity);
             Util.showToast(S.current.userDataHasBeanRefreshed);
           } else {
             Util.showToast(S.current.refreshFailedCheckNetwork);
@@ -255,8 +255,8 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
     );
   }
   Widget _drawerHeader() {
-    return Provide<UserProvide>(
-      builder: (context, child, userProvide) {
+    return Consumer<UserProvide>(
+      builder: (context, userProvide, child) {
         String heroTag = userProvide.user.login;
         return UserAccountsDrawerHeader(
           currentAccountPicture: InkWell(

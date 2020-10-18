@@ -26,7 +26,7 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 ## Development environment and tool chain
-* Flutter version v1.22.1
+* Flutter version v1.22.2
 * Dart version 2.10.1
 * Android Studio (version 4.1)
   - Java version 1.8.0_241

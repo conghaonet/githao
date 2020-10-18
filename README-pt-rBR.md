@@ -25,7 +25,7 @@ Language: [English](README.md) | [Portugues (Brasil)](README-pt-rBR.md)
 
 ## Ambiente de desenvolvimento e cadeia de ferramentas:
   
-- Versão Flutter v1.22.1
+- Versão Flutter v1.22.2
 - Versão Dart 2.10.1
 - Android Studio (versão 4.1)
     - Versão Java 1.8.0_241

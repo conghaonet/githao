@@ -31,6 +31,8 @@ dependencies:
   webview_flutter: ^2.0.10
   retrofit: ^2.0.1
   json_annotation: ^4.0.1
+  github: ^8.1.1
+  shared_preferences: ^2.0.6
 
 dev_dependencies:
   flutter_test:

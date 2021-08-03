@@ -3,7 +3,11 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:githao_v2/entity/token_request_model.dart';
+import 'package:githao_v2/network/dio_client.dart';
+import 'package:githao_v2/network/git_hub_service.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatefulWidget {
@@ -29,19 +33,34 @@ class _WebViewPageState extends State<WebViewPage> {
 
   void _accessToken(String code) async {
     try {
-      var response = await Dio().post(
-          'https://github.com/login/oauth/access_token',
-          data: {
-            'client_id': clientId,
-            'client_secret': clientSecret,
-            'code': code
-          },
+      GitHubService(dioClient.dio).accessToken(
+          TokenRequestModel(clientId, clientSecret, code, null),
           cancelToken: cancelToken
-      );
-      showToast(response.headers.toString());
+      ).then((value) async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token', value.accessToken);
+        showToast(prefs.getString('token') ?? 'no token');
+        GitHubService(dioClient.dio).getUser('token ${value.accessToken}').then((value) {
+          showToast(value.login!);
+        }).catchError((exception) {
+          showToast(exception.toString());
+        });
+      }).catchError((exception) {
+        showToast(exception.toString());
+      });
+      // var response = await Dio().post(
+      //     'https://github.com/login/oauth/access_token',
+      //     data: {
+      //       'client_id': clientId,
+      //       'client_secret': clientSecret,
+      //       'code': code
+      //     },
+      //     cancelToken: cancelToken
+      // );
+      // showToast(response.headers.toString());
       // access_token=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&scope=&token_type=bearer
 
-      print(response);
+      // print(response);
     } catch (e) {
       print(e);
     }
@@ -55,8 +74,8 @@ class _WebViewPageState extends State<WebViewPage> {
 
       ),
       body: WebView(
-        initialUrl: 'https://m.baidu.com',
-        // initialUrl: authorizeUrl,
+        // initialUrl: 'https://m.baidu.com',
+        initialUrl: authorizeUrl,
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) {
           _controller.complete(webViewController);
@@ -71,7 +90,11 @@ class _WebViewPageState extends State<WebViewPage> {
           if (request.url.startsWith(redirectUri)) {
             // http://localhost/oauth/redirect?code=514107b8ccd509ed8c48
             final code = Uri.parse(request.url).queryParameters['code'];
-            _accessToken(code ?? '');
+            if(code!.isNotEmpty) {
+              _accessToken(code);
+            } else {
+              showToast('token is empty!');
+            }
             return NavigationDecision.navigate;
           } else {
             print('allowing navigation to $request');

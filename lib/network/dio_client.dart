@@ -12,7 +12,7 @@ class DioClient {
     baseUrl: BASE_API,
     connectTimeout: 30000,
     receiveTimeout: 20000,
-    headers:{"Accept": 'application/json'},
+    headers:{"Accept": API_VERSION},
   );
   Dio _dio = new Dio(baseOptions);
   Dio get dio => _dio;
@@ -21,7 +21,7 @@ class DioClient {
   static final DioClient _dioClient = DioClient._internal();
   DioClient._internal() {
     // setProxy("192.168.2.100", 8888);
-//    _dio.interceptors.add(LogInterceptor(responseBody: false));
+   _dio.interceptors.add(LogInterceptor(responseBody: true));
     _dio.interceptors.add(GitHubInterceptors());
   }
 

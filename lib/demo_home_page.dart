@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '/entity/git_hub_api_entity.dart';
 import '/network/dio_client.dart';
 import '/network/git_hub_service.dart';
@@ -54,6 +55,25 @@ class _DemoHomePageState extends State<DemoHomePage> {
     }
   }
 
+  void _getUser() async {
+    final token = (await SharedPreferences.getInstance()).getString('token');
+    if(token!.isNotEmpty) {
+      GitHubService(dioClient.dio).getUser('token $token').then((value) {
+        showToast(value.login!);
+      }).catchError((exception) {
+        showToast(exception.toString());
+      });
+    }
+  }
+
+  void _getOtherUser() async {
+    GitHubService(dioClient.dio).getOtherUser('ThirtyDegreesRay').then((value) {
+      showToast(value.login!);
+    }).catchError((exception) {
+      showToast(exception.toString());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +82,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
       ),
       body: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ElevatedButton(
               onPressed: () => _tryBaidu(),
@@ -74,6 +95,14 @@ class _DemoHomePageState extends State<DemoHomePage> {
             ElevatedButton(
               onPressed: () => _tryRetrofit(),
               child: Text('_tryRetrofit'),
+            ),
+            ElevatedButton(
+              onPressed: () => _getUser(),
+              child: Text('_getUser'),
+            ),
+            ElevatedButton(
+              onPressed: () => _getOtherUser(),
+              child: Text('_getOtherUser'),
             ),
             ElevatedButton(
               onPressed: () {

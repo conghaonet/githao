@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:githao_v2/entities/git_hub_api_entity.dart';
-import 'package:githao_v2/network/dio_client.dart';
-import 'package:githao_v2/network/git_hub_service.dart';
-import 'package:githao_v2/web_view_page.dart';
+import '/entity/git_hub_api_entity.dart';
+import '/network/dio_client.dart';
+import '/network/git_hub_service.dart';
+import 'web_view_page.dart';
 import 'package:oktoast/oktoast.dart';
 
 class DemoHomePage extends StatefulWidget {
@@ -48,14 +48,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
       }).catchError((exception){
         showToast(exception.toString());
       });
-      
-      // var response = await dioClient.dio.get("");
-      // if(response.statusCode == HttpStatus.ok) {
-      //   final data = jsonDecode(response.toString());
-      //   final entity = GitHubApiEntity.fromJson(data);
-      //   showToast(entity.authorizationsUrl);
-      //   print(response);
-      // }
+
     } catch (e) {
       print(e);
     }
@@ -65,8 +58,6 @@ class _DemoHomePageState extends State<DemoHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text('Demo Home Page'),
       ),
       body: Center(

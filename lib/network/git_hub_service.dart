@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:githao_v2/entities/git_hub_api_entity.dart';
+import '/entity/git_hub_api_entity.dart';
 import 'package:retrofit/retrofit.dart';
 
 import 'dio_client.dart';

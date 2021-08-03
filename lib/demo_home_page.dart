@@ -3,8 +3,9 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:githao_v2/entities/github_api_entity.dart';
-import 'package:githao_v2/generated/json/github_api_entity_helper.dart';
+import 'package:githao_v2/entities/git_hub_api_entity.dart';
+import 'package:githao_v2/network/dio_client.dart';
+import 'package:githao_v2/network/git_hub_service.dart';
 import 'package:githao_v2/web_view_page.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -28,12 +29,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
 
   void _tryGithubApi() async {
     try {
-      var response = await Dio().get('https://api.github.com');
+      var response = await dioClient.dio.get("");
       if(response.statusCode == HttpStatus.ok) {
         final data = jsonDecode(response.toString());
-        final entity = GithubApiEntity();
-        githubApiEntityFromJson(entity, data);
-
+        final entity = GitHubApiEntity.fromJson(data);
         showToast(entity.authorizationsUrl);
         print(response);
       }
@@ -42,15 +41,23 @@ class _DemoHomePageState extends State<DemoHomePage> {
     }
   }
 
-  void _tryAuthorize() async {
-    final clientId = 'c868cf1dc9c48103bb55';
-    final redirectUri = 'http://localhost/oauth/redirect';
-    final authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri';
+  void _tryRetrofit() async {
     try {
-      final response = await Dio().get(authorizeUrl);
-      print(response.data.toString());
-    } catch(e) {
-      print(e.toString());
+      GitHubService(dioClient.dio).getApiMenu().then((value) {
+        showToast(value.authorizationsUrl);
+      }).catchError((exception){
+        showToast(exception.toString());
+      });
+      
+      // var response = await dioClient.dio.get("");
+      // if(response.statusCode == HttpStatus.ok) {
+      //   final data = jsonDecode(response.toString());
+      //   final entity = GitHubApiEntity.fromJson(data);
+      //   showToast(entity.authorizationsUrl);
+      //   print(response);
+      // }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -74,7 +81,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
               child: Text('_tryGithubApi'),
             ),
             ElevatedButton(
-              // onPressed: () => _tryAuthorize(),
+              onPressed: () => _tryRetrofit(),
+              child: Text('_tryRetrofit'),
+            ),
+            ElevatedButton(
               onPressed: () {
                 Navigator.push(
                     context,
@@ -83,7 +93,6 @@ class _DemoHomePageState extends State<DemoHomePage> {
               },
               child: Text('_tryAuthorize'),
             )
-
           ],
         ),
       ),

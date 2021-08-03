@@ -29,9 +29,15 @@ dependencies:
   dio: ^4.0.0
   oktoast: ^3.1.0
   webview_flutter: ^2.0.10
+  retrofit: ^2.0.1
+  json_annotation: ^4.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  retrofit_generator: ^2.0.1
+  build_runner: ^2.1.0
+  json_serializable: ^4.1.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

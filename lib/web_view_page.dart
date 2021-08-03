@@ -15,7 +15,7 @@ class WebViewPage extends StatefulWidget {
 
 class _WebViewPageState extends State<WebViewPage> {
   static const clientId = 'c868cf1dc9c48103bb55';
-  final clientSecret = '';
+  final clientSecret = '20bf38742868ad776331c718d98b4670c0eddb8b';
   static const redirectUri = 'http://localhost/oauth/redirect';
   static const login = 'conghaonet';
   CancelToken cancelToken = CancelToken();

@@ -26,48 +26,26 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
-    lintOptions {
-        disable 'InvalidPackage'
-    }
-
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.app2m.githao"
-        minSdkVersion 16
-        targetSdkVersion 28
+        minSdkVersion 21
+        targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    if (localProperties.getProperty('key.storeFile') != null) {
-        signingConfigs {
-            app2m {
-                storeFile file(localProperties.getProperty('key.storeFile'))
-                storePassword localProperties.getProperty('key.storePassword')
-                keyAlias localProperties.getProperty('key.keyAlias')
-                keyPassword localProperties.getProperty('key.keyPassword')
-            }
-        }
-    }
+
     buildTypes {
-        debug {
-            debuggable true
-            minifyEnabled false
-            if (localProperties.getProperty('key.storeFile') != null) {
-                signingConfig signingConfigs.app2m
-            }
-        }
         release {
-            minifyEnabled false
-            if (localProperties.getProperty('key.storeFile') != null) {
-                signingConfig signingConfigs.app2m
-            }
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.debug
         }
     }
 }
@@ -78,36 +56,4 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-}
-
-configurations.all{
-//    resolutionStrategy.force 'androidx.lifecycle:lifecycle-runtime:2.0.0'
-}
-
-
-configurations.all {
-    resolutionStrategy {
-        resolutionStrategy.eachDependency { details ->
-/*
-            if (details.requested.group == 'androidx.lifecycle') {
-                details.useVersion "2.0.0"
-            }
-            if (details.requested.group == 'androidx.core') {
-                details.useVersion "1.0.1"
-            }
-            if (details.requested.group == 'androidx.versionedparcelable') {
-                details.useVersion "1.0.0"
-            }
-            if (details.requested.group == 'androidx.fragment') {
-                details.useVersion "1.0.0"
-            }
-            if (details.requested.group == 'androidx.appcompat') {
-                details.useVersion "1.0.1"
-            }
-*/
-        }
-    }
 }

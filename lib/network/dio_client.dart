@@ -5,11 +5,11 @@ import 'package:dio/dio.dart';
 import 'package:githao_v2/network/git_hub_interceptors.dart';
 
 class DioClient {
-  static const BASE_API = "https://api.github.com";
+  static const BASE_URL = "https://api.github.com";
   static const API_VERSION = "application/vnd.github.v3+json";
   static const DEFAULT_CHARSET = "UTF-8";
   static BaseOptions baseOptions = BaseOptions(
-    baseUrl: BASE_API,
+    baseUrl: BASE_URL,
     connectTimeout: 30000,
     receiveTimeout: 20000,
     headers:{"Accept": API_VERSION},

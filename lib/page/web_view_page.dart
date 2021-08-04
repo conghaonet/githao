@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:githao_v2/entity/token_request_model.dart';
 import 'package:githao_v2/network/dio_client.dart';
 import 'package:githao_v2/network/git_hub_service.dart';
+import 'package:githao_v2/util/const.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -40,7 +41,7 @@ class _WebViewPageState extends State<WebViewPage> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', value.accessToken);
         showToast(prefs.getString('token') ?? 'no token');
-        GitHubService(dioClient.dio).getUser('token ${value.accessToken}').then((value) {
+        GitHubService(dioClient.dio).getUser().then((value) {
           showToast(value.login!);
         }).catchError((exception) {
           showToast(exception.toString());
@@ -68,7 +69,7 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&login=$login';
+    final authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&login=$login&scope=${Const.scope}';
     return Scaffold(
       appBar: AppBar(
 

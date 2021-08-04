@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:githao_v2/app_manager.dart';
 import 'package:oktoast/oktoast.dart';
 
-import 'demo_home_page.dart';
+import 'page/demo_home_page.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    appManager.init();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return OKToast(

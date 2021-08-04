@@ -10,7 +10,7 @@ import 'dio_client.dart';
 
 part 'git_hub_service.g.dart';
 
-@RestApi(baseUrl: DioClient.BASE_API)
+@RestApi(baseUrl: DioClient.BASE_URL)
 abstract class GitHubService {
   factory GitHubService(Dio dio, {String baseUrl}) = _GitHubService;
 
@@ -25,7 +25,7 @@ abstract class GitHubService {
   );
 
   @GET("/user")
-  Future<UserEntity> getUser(@Header('Authorization') String token);
+  Future<UserEntity> getUser();
 
   @GET("/users/{username}")
   Future<UserEntity> getOtherUser(@http.Path("username") String username);

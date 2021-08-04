@@ -3,12 +3,13 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:githao_v2/util/prefs_manager.dart';
 import '/entity/git_hub_api_entity.dart';
 import '/network/dio_client.dart';
 import '/network/git_hub_service.dart';
 import 'web_view_page.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:githao_v2/util/string_extension.dart';
 
 class DemoHomePage extends StatefulWidget {
   const DemoHomePage({Key? key}) : super(key: key);
@@ -55,11 +56,16 @@ class _DemoHomePageState extends State<DemoHomePage> {
     }
   }
 
-  void _getUser() async {
-    final token = (await SharedPreferences.getInstance()).getString('token');
-    if(token!.isNotEmpty) {
-      GitHubService(dioClient.dio).getUser('token $token').then((value) {
+  void _getUser() {
+    final token = prefsManager.getToken();
+    if(!token.isNullOrEmpty()) {
+      GitHubService(dioClient.dio).getUser().then((value) async {
         showToast(value.login!);
+        await prefsManager.setUser(value);
+        final userEntity = prefsManager.getUser();
+        if(userEntity != null) {
+          print('userEntity ====>' + userEntity.toJson().toString());
+        }
       }).catchError((exception) {
         showToast(exception.toString());
       });

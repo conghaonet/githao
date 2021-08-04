@@ -79,6 +79,13 @@ class _DemoHomePageState extends State<DemoHomePage> {
       showToast(exception.toString());
     });
   }
+  void _getRepos() async {
+    GitHubService(dioClient.dio).getRepos(sinceId: 9999).then((value) {
+      showToast(value.length.toString());
+    }).catchError((exception) {
+      showToast(exception.toString());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +116,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
             ElevatedButton(
               onPressed: () => _getOtherUser(),
               child: Text('_getOtherUser'),
+            ),
+            ElevatedButton(
+              onPressed: () => _getRepos(),
+              child: Text('_getRepos'),
             ),
             ElevatedButton(
               onPressed: () {

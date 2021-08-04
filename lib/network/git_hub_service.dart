@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:githao_v2/entity/repos/repo_entity.dart';
 import 'package:githao_v2/entity/token_entity.dart';
 import 'package:githao_v2/entity/token_request_model.dart';
 import 'package:githao_v2/entity/user_entity.dart';
+import 'package:githao_v2/util/const.dart';
 import '/entity/git_hub_api_entity.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:retrofit/http.dart' as http;
@@ -28,6 +30,11 @@ abstract class GitHubService {
   Future<UserEntity> getUser();
 
   @GET("/users/{username}")
-  Future<UserEntity> getOtherUser(@http.Path("username") String username);
+  Future<UserEntity> getOtherUser(@Path("username") String username);
+
+  /// [since] A repository ID. Only return repositories with an ID greater than this ID.
+  @GET('/repositories')
+  Future<List<RepoEntity>> getRepos({@Query("since") int? sinceId});
+
 
 }

@@ -21,8 +21,8 @@ class DioClient {
   static final DioClient _dioClient = DioClient._internal();
   DioClient._internal() {
     // setProxy("192.168.2.100", 8888);
-   _dio.interceptors.add(LogInterceptor(responseBody: true));
     _dio.interceptors.add(GitHubInterceptors());
+    _dio.interceptors.add(LogInterceptor(responseBody: true));
   }
 
   void setProxy(String proxyServer, int port) {

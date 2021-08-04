@@ -33,14 +33,15 @@ dependencies:
   json_annotation: ^4.0.1
   github: ^8.1.1
   shared_preferences: ^2.0.6
-
+  intl: ^0.17.0
+  flutter_localizations:
+    sdk: flutter
 dev_dependencies:
   flutter_test:
     sdk: flutter
   retrofit_generator: ^2.0.1
   build_runner: ^2.1.0
   json_serializable: ^4.1.4
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -82,3 +83,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true

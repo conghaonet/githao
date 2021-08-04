@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:githao_v2/app_manager.dart';
+import 'package:githao_v2/generated/l10n.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'page/demo_home_page.dart';
@@ -25,7 +27,18 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return OKToast(
       child: MaterialApp(
-        title: 'Flutter Demo',
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        localeListResolutionCallback: (locales, supportedLocales) {
+          print(locales);
+          return;
+        },
+        title: 'GitHao v2',
         theme: ThemeData(
           // This is the theme of your application.
           //

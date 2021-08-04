@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:githao_v2/generated/l10n.dart';
 import 'package:githao_v2/util/prefs_manager.dart';
 import '/entity/git_hub_api_entity.dart';
 import '/network/dio_client.dart';
@@ -97,6 +98,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Text(
+              '国际化测试：'+S.of(context).app_title,
+            ),
             ElevatedButton(
               onPressed: () => _tryBaidu(),
               child: Text('try baidu'),

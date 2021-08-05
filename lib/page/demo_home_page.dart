@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao_v2/generated/l10n.dart';
+import 'package:githao_v2/page/launch_page.dart';
 import 'package:githao_v2/util/prefs_manager.dart';
 import '../network/entity/github_api_entity.dart';
 import '/network/dio_client.dart';
@@ -133,7 +134,16 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 );
               },
               child: Text('_tryAuthorize'),
-            )
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LaunchPage())
+                );
+              },
+              child: Text('动画'),
+            ),
           ],
         ),
       ),

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:githao_v2/network/git_hub_interceptors.dart';
+import 'package:githao_v2/network/github_interceptors.dart';
 
 class DioClient {
   static const BASE_URL = "https://api.github.com";
@@ -21,7 +21,7 @@ class DioClient {
   static final DioClient _dioClient = DioClient._internal();
   DioClient._internal() {
     // setProxy("192.168.2.100", 8888);
-    _dio.interceptors.add(GitHubInterceptors());
+    _dio.interceptors.add(GithubInterceptors());
     _dio.interceptors.add(LogInterceptor(responseBody: true));
   }
 

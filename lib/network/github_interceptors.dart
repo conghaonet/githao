@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:githao_v2/network/dio_client.dart';
-import 'package:githao_v2/network/git_hub_dio_error.dart';
+import 'package:githao_v2/network/github_dio_error.dart';
 import 'package:githao_v2/util/prefs_manager.dart';
 import 'package:githao_v2/util/string_extension.dart';
 
-class GitHubInterceptors extends Interceptor {
+class GithubInterceptors extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if(options.path.startsWith('/') && options.baseUrl == DioClient.BASE_URL) {
@@ -32,6 +32,6 @@ class GitHubInterceptors extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     print('ERROR[${err.response?.statusCode}] => MESSAGE: ${err.message}');
-    return super.onError(GitHubDioError(err), handler);
+    return super.onError(GithubDioError(err), handler);
   }
 }

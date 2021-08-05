@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 
 /// .g.dart 将在我们运行生成命令后自动生成
-part 'git_hub_api_entity.g.dart';
+part 'github_api_entity.g.dart';
 
 /// 这个标注是告诉生成器，这个类是需要生成Model类的，[参考链接](https://flutterchina.club/json/)
 @JsonSerializable(explicitToJson: true)
-class GitHubApiEntity {
+class GithubApiEntity {
 	@JsonKey(name: "current_user_url")
 	final String currentUserUrl;
 	@JsonKey(name: "current_user_authorizations_html_url")
@@ -71,7 +71,7 @@ class GitHubApiEntity {
 	@JsonKey(name: "user_search_url")
 	final String userSearchUrl;
 
-	GitHubApiEntity(
+	GithubApiEntity(
       this.currentUserUrl,
       this.currentUserAuthorizationsHtmlUrl,
       this.authorizationsUrl,
@@ -105,7 +105,7 @@ class GitHubApiEntity {
       this.userRepositoriesUrl,
       this.userSearchUrl);
 
-	factory GitHubApiEntity.fromJson(Map<String, dynamic> json) => _$GitHubApiEntityFromJson(json);
-	Map<String, dynamic> toJson() => _$GitHubApiEntityToJson(this);
+	factory GithubApiEntity.fromJson(Map<String, dynamic> json) => _$GithubApiEntityFromJson(json);
+	Map<String, dynamic> toJson() => _$GithubApiEntityToJson(this);
 
 }

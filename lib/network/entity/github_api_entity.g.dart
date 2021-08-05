@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'git_hub_api_entity.dart';
+part of 'github_api_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-GitHubApiEntity _$GitHubApiEntityFromJson(Map<String, dynamic> json) {
-  return GitHubApiEntity(
+GithubApiEntity _$GithubApiEntityFromJson(Map<String, dynamic> json) {
+  return GithubApiEntity(
     json['current_user_url'] as String,
     json['current_user_authorizations_html_url'] as String,
     json['authorizations_url'] as String,
@@ -43,7 +43,7 @@ GitHubApiEntity _$GitHubApiEntityFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$GitHubApiEntityToJson(GitHubApiEntity instance) =>
+Map<String, dynamic> _$GithubApiEntityToJson(GithubApiEntity instance) =>
     <String, dynamic>{
       'current_user_url': instance.currentUserUrl,
       'current_user_authorizations_html_url':

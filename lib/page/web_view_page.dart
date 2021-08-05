@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao_v2/network/entity/token_request_model.dart';
 import 'package:githao_v2/network/dio_client.dart';
-import 'package:githao_v2/network/git_hub_service.dart';
+import 'package:githao_v2/network/github_service.dart';
 import 'package:githao_v2/util/const.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,14 +34,14 @@ class _WebViewPageState extends State<WebViewPage> {
 
   void _accessToken(String code) async {
     try {
-      GitHubService(dioClient.dio).accessToken(
+      GithubService(dioClient.dio).accessToken(
           TokenRequestModel(clientId, clientSecret, code, null),
           cancelToken: cancelToken
       ).then((value) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', value.accessToken);
         showToast(prefs.getString('token') ?? 'no token');
-        GitHubService(dioClient.dio).getUser().then((value) {
+        GithubService(dioClient.dio).getUser().then((value) {
           showToast(value.login!);
         }).catchError((exception) {
           showToast(exception.toString());

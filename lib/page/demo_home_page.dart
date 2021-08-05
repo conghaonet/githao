@@ -5,9 +5,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao_v2/generated/l10n.dart';
 import 'package:githao_v2/util/prefs_manager.dart';
-import '../network/entity/git_hub_api_entity.dart';
+import '../network/entity/github_api_entity.dart';
 import '/network/dio_client.dart';
-import '/network/git_hub_service.dart';
+import '/network/github_service.dart';
 import 'web_view_page.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:githao_v2/util/string_extension.dart';
@@ -35,7 +35,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
       var response = await dioClient.dio.get("");
       if(response.statusCode == HttpStatus.ok) {
         final data = jsonDecode(response.toString());
-        final entity = GitHubApiEntity.fromJson(data);
+        final entity = GithubApiEntity.fromJson(data);
         showToast(entity.authorizationsUrl);
         print(response);
       }
@@ -46,7 +46,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
 
   void _tryRetrofit() async {
     try {
-      GitHubService(dioClient.dio).getApiMenu().then((value) {
+      GithubService(dioClient.dio).getApiMenu().then((value) {
         showToast(value.authorizationsUrl);
       }).catchError((exception){
         showToast(exception.toString());
@@ -60,7 +60,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
   void _getUser() {
     final token = prefsManager.getToken();
     if(!token.isNullOrEmpty()) {
-      GitHubService(dioClient.dio).getUser().then((value) async {
+      GithubService(dioClient.dio).getUser().then((value) async {
         showToast(value.login!);
         await prefsManager.setUser(value);
         final userEntity = prefsManager.getUser();
@@ -74,14 +74,14 @@ class _DemoHomePageState extends State<DemoHomePage> {
   }
 
   void _getOtherUser() async {
-    GitHubService(dioClient.dio).getOtherUser('ThirtyDegreesRay').then((value) {
+    GithubService(dioClient.dio).getOtherUser('ThirtyDegreesRay').then((value) {
       showToast(value.login!);
     }).catchError((exception) {
       showToast(exception.toString());
     });
   }
   void _getRepos() async {
-    GitHubService(dioClient.dio).getRepos(sinceId: 9999).then((value) {
+    GithubService(dioClient.dio).getRepos(sinceId: 9999).then((value) {
       showToast(value.length.toString());
     }).catchError((exception) {
       showToast(exception.toString());

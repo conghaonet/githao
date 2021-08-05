@@ -7,7 +7,7 @@ import 'package:githao_v2/util/string_extension.dart';
 class GithubInterceptors extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    if (options.path.startsWith('/') && options.baseUrl == DioClient.BASE_URL) {
+    if (isGithubApiRequest(options)) {
       final token = prefsManager.getToken();
       if (!token.isNullOrEmpty()) {
         options.headers['Authorization'] = 'token $token';
@@ -31,13 +31,15 @@ class GithubInterceptors extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    if (err.requestOptions.path.startsWith('/') &&
-        err.requestOptions.baseUrl == DioClient.BASE_URL &&
+    if (isGithubApiRequest(err.requestOptions) &&
         err.type == DioErrorType.response &&
         err.response?.data is Map<String, dynamic>) {
       return super.onError(GithubDioError(err), handler);
     }
     return super.onError(err, handler);
   }
+
+  // It's a github api request.
+  bool isGithubApiRequest(RequestOptions options) => options.path.startsWith('/') && options.baseUrl == DioClient.BASE_URL;
 }
 

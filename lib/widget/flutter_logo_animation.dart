@@ -29,7 +29,7 @@ class _FlutterLogoAnimationState extends State<FlutterLogoAnimation> with Single
     return RotationTransition(
       turns: _animation,
       alignment: Alignment.topCenter,
-      child: Image.asset('assets/images/flutter_top.png',
+      child: Image.asset('assets/images/flutter_top.webp',
         color: Colors.white,
         colorBlendMode: BlendMode.srcIn,
         width: 160,

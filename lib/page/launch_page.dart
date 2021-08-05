@@ -40,7 +40,7 @@ class _LogoState extends State<Logo> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.asset('assets/images/github.png',
+        Image.asset('assets/images/github.webp',
           color: Colors.white.withOpacity(0.9),
           width: 160,
           height: 160,

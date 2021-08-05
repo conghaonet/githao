@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao_v2/generated/l10n.dart';
 import 'package:githao_v2/util/prefs_manager.dart';
-import '/entity/git_hub_api_entity.dart';
+import '../network/entity/git_hub_api_entity.dart';
 import '/network/dio_client.dart';
 import '/network/git_hub_service.dart';
 import 'web_view_page.dart';

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:githao_v2/entity/user_entity.dart';
+import 'package:githao_v2/network/entity/user_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefsManager {

@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:githao_v2/entity/repos/repo_entity.dart';
-import 'package:githao_v2/entity/token_entity.dart';
-import 'package:githao_v2/entity/token_request_model.dart';
-import 'package:githao_v2/entity/user_entity.dart';
+import 'package:githao_v2/network/entity/repos/repo_entity.dart';
+import 'package:githao_v2/network/entity/token_entity.dart';
+import 'package:githao_v2/network/entity/token_request_model.dart';
+import 'package:githao_v2/network/entity/user_entity.dart';
 import 'package:githao_v2/util/const.dart';
-import '/entity/git_hub_api_entity.dart';
+import 'entity/git_hub_api_entity.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:retrofit/http.dart' as http;
 

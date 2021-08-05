@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:githao_v2/entity/token_request_model.dart';
+import 'package:githao_v2/network/entity/token_request_model.dart';
 import 'package:githao_v2/network/dio_client.dart';
 import 'package:githao_v2/network/git_hub_service.dart';
 import 'package:githao_v2/util/const.dart';

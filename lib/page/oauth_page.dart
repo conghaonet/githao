@@ -11,14 +11,14 @@ import 'package:githao_v2/util/prefs_manager.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class WebViewPage extends StatefulWidget {
-  const WebViewPage({Key? key}) : super(key: key);
+class OAuthPage extends StatefulWidget {
+  const OAuthPage({Key? key}) : super(key: key);
 
   @override
-  _WebViewPageState createState() => _WebViewPageState();
+  _OAuthPageState createState() => _OAuthPageState();
 }
 
-class _WebViewPageState extends State<WebViewPage> {
+class _OAuthPageState extends State<OAuthPage> {
   static const clientId = 'c868cf1dc9c48103bb55';
   final clientSecret = '20bf38742868ad776331c718d98b4670c0eddb8b';
   static const redirectUri = 'http://localhost/oauth/redirect';
@@ -44,6 +44,7 @@ class _WebViewPageState extends State<WebViewPage> {
           prefsManager.setToken(tokenEntity.accessToken, userName: userEntity.login);
           prefsManager.setUser(userEntity);
           showToast(userEntity.login!);
+          Navigator.pop(context);
         }).catchError((exception) {
           showToast(exception.toString());
         });
@@ -57,8 +58,8 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&scope=${Const.scope}&login=flutter-lib';
-    // final authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&scope=${Const.scope}&login=conghaonet';
+    // final authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&scope=${Const.scope}&login=flutter-lib';
+    final authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&scope=${Const.scope}&login=conghaonet';
     return Scaffold(
       appBar: AppBar(
 
@@ -79,13 +80,15 @@ class _WebViewPageState extends State<WebViewPage> {
         navigationDelegate: (NavigationRequest request) {
           if (request.url.startsWith(redirectUri)) {
             // http://localhost/oauth/redirect?code=514107b8ccd509ed8c48
-            final code = Uri.parse(request.url).queryParameters['code'];
-            if(code!.isNotEmpty) {
+            final code = Uri.parse(request.url).queryParameters['code'] ?? '';
+            if(code.isNotEmpty) {
               _accessToken(code);
             } else {
-              showToast('token is empty!');
+              // http://localhost/oauth/redirect?error=access_denied
+              final error = Uri.parse(request.url).queryParameters['error'];
+              showToast(error ?? 'token is empty!');
             }
-            return NavigationDecision.navigate;
+            return NavigationDecision.prevent;
           } else {
             print('allowing navigation to $request');
             return NavigationDecision.navigate;

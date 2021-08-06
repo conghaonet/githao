@@ -9,7 +9,7 @@ import 'package:githao_v2/util/prefs_manager.dart';
 import '../network/entity/github_api_entity.dart';
 import '/network/dio_client.dart';
 import '/network/github_service.dart';
-import 'web_view_page.dart';
+import 'oauth_page.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:githao_v2/util/string_extension.dart';
 
@@ -147,7 +147,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
               onPressed: () {
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => WebViewPage())
+                    MaterialPageRoute(builder: (context) => OAuthPage())
                 );
               },
               child: Text('_tryAuthorize'),

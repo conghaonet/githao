@@ -58,7 +58,13 @@ class _DemoHomePageState extends State<DemoHomePage> {
     }
   }
 
-  void _getUser() {
+  void _getUser({String? username}) async {
+    if(!username.isNullOrEmpty()) {
+      final token = prefsManager.getToken(userName: username);
+      if(!token.isNullOrEmpty()) {
+        await prefsManager.setToken(token!);
+      }
+    }
     final token = prefsManager.getToken();
     if(!token.isNullOrEmpty()) {
       GithubService(dioClient.dio).getUser().then((value) async {
@@ -102,6 +108,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
             Text(
               '国际化测试：'+S.of(context).app_title,
             ),
+            Text(
+              'usernames：'+prefsManager.getUsernames().toString(),
+            ),
             ElevatedButton(
               onPressed: () => _tryBaidu(),
               child: Text('try baidu'),
@@ -116,7 +125,15 @@ class _DemoHomePageState extends State<DemoHomePage> {
             ),
             ElevatedButton(
               onPressed: () => _getUser(),
-              child: Text('_getUser'),
+              child: Text('_getUser()'),
+            ),
+            ElevatedButton(
+              onPressed: () => _getUser(username: 'conghaonet'),
+              child: Text('_getUser(conghaonet)'),
+            ),
+            ElevatedButton(
+              onPressed: () => _getUser(username: 'flutter-lib'),
+              child: Text('_getUser(flutter-lib)'),
             ),
             ElevatedButton(
               onPressed: () => _getOtherUser(),

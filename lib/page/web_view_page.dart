@@ -7,8 +7,8 @@ import 'package:githao_v2/network/entity/token_request_model.dart';
 import 'package:githao_v2/network/dio_client.dart';
 import 'package:githao_v2/network/github_service.dart';
 import 'package:githao_v2/util/const.dart';
+import 'package:githao_v2/util/prefs_manager.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatefulWidget {
@@ -22,7 +22,6 @@ class _WebViewPageState extends State<WebViewPage> {
   static const clientId = 'c868cf1dc9c48103bb55';
   final clientSecret = '20bf38742868ad776331c718d98b4670c0eddb8b';
   static const redirectUri = 'http://localhost/oauth/redirect';
-  static const login = 'conghaonet';
   CancelToken cancelToken = CancelToken();
   final Completer<WebViewController> _controller = Completer<WebViewController>();
   @override
@@ -37,31 +36,20 @@ class _WebViewPageState extends State<WebViewPage> {
       GithubService(dioClient.dio).accessToken(
           TokenRequestModel(clientId, clientSecret, code, null),
           cancelToken: cancelToken
-      ).then((value) async {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('token', value.accessToken);
-        showToast(prefs.getString('token') ?? 'no token');
-        GithubService(dioClient.dio).getUser().then((value) {
-          showToast(value.login!);
+      ).then((tokenEntity) async {
+        await prefsManager.setToken(tokenEntity.accessToken);
+        showToast(prefsManager.getToken() ?? 'no token');
+        GithubService(dioClient.dio).getUser().then((userEntity) async {
+          prefsManager.addUsername(userEntity.login!);
+          prefsManager.setToken(tokenEntity.accessToken, userName: userEntity.login);
+          prefsManager.setUser(userEntity);
+          showToast(userEntity.login!);
         }).catchError((exception) {
           showToast(exception.toString());
         });
       }).catchError((exception) {
         showToast(exception.toString());
       });
-      // var response = await Dio().post(
-      //     'https://github.com/login/oauth/access_token',
-      //     data: {
-      //       'client_id': clientId,
-      //       'client_secret': clientSecret,
-      //       'code': code
-      //     },
-      //     cancelToken: cancelToken
-      // );
-      // showToast(response.headers.toString());
-      // access_token=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&scope=&token_type=bearer
-
-      // print(response);
     } catch (e) {
       print(e);
     }
@@ -69,7 +57,8 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&login=$login&scope=${Const.scope}';
+    final authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&scope=${Const.scope}&login=flutter-lib';
+    // final authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&scope=${Const.scope}&login=conghaonet';
     return Scaffold(
       appBar: AppBar(
 

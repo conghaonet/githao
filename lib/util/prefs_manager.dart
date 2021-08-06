@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:githao_v2/network/entity/user_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'string_extension.dart';
 
 class PrefsManager {
+  static const keyUsernames = 'usernames';
   static const keyToken = 'token';
   static const keyUser = 'user_entity';
   /// 请求限制次数
@@ -27,8 +29,37 @@ class PrefsManager {
     }
   }
 
-  String? getToken() => _prefs.getString(keyToken);
-  Future<bool> setUserName(String token) => _prefs.setString(keyToken, token);
+  String? getToken({String? userName}) {
+    if(userName.isNullOrEmpty()) {
+      return _prefs.getString(keyToken);
+    } else {
+      return _prefs.getString('$userName-$keyToken');
+    }
+  }
+
+  Future<bool> setToken(String token, {String? userName}) {
+    if(userName.isNullOrEmpty()) {
+      return _prefs.setString(keyToken, token);
+    } else {
+      return _prefs.setString('$userName-$keyToken', token);
+    }
+  }
+
+  List<String> getUsernames() => prefs.getStringList(keyUsernames) ?? [];
+  Future<bool> _setUsernames(List<String> usernames) => _prefs.setStringList(keyUsernames, usernames);
+  Future<bool> addUsername(String userName) {
+    final List<String> usernames = getUsernames();
+    if(!usernames.contains(userName)) {
+      usernames.add(userName);
+      return _setUsernames(usernames);
+    }
+    return Future.value(true);
+  }
+  Future<bool> removeUsername(String userName) {
+    final List<String> usernames = getUsernames();
+    usernames.remove(userName);
+    return _setUsernames(usernames);
+  }
 
   UserEntity? getUser() {
     String? value = _prefs.getString(keyUser);

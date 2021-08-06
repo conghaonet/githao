@@ -21,8 +21,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    appManager.init();
     super.initState();
+    appManager.init();
   }
   @override
   Widget build(BuildContext context) {

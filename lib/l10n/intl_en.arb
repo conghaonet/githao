@@ -1,4 +1,6 @@
 {
-  "app_name": "GitHao v2",
-  "app_title":"Flutter for Github"
+  "app_name": "GitHao",
+  "app_title": "Flutter for Github",
+  "app_desc": "Flutter for GitHub",
+  "sing_in_with_github": "Sign in with GitHub"
 }

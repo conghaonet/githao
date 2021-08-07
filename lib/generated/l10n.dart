@@ -50,10 +50,10 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `GitHao v2`
+  /// `GitHao`
   String get app_name {
     return Intl.message(
-      'GitHao v2',
+      'GitHao',
       name: 'app_name',
       desc: '',
       args: [],
@@ -65,6 +65,26 @@ class S {
     return Intl.message(
       'Flutter for Github',
       name: 'app_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Flutter for GitHub`
+  String get app_desc {
+    return Intl.message(
+      'Flutter for GitHub',
+      name: 'app_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in with GitHub`
+  String get sing_in_with_github {
+    return Intl.message(
+      'Sign in with GitHub',
+      name: 'sing_in_with_github',
       desc: '',
       args: [],
     );

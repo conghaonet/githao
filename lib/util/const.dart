@@ -48,4 +48,5 @@ class Const {
   static const perPageMax = 100;
   /// Github api 推荐的每页最行数
   static const perPageNormal = 30;
+  static const font1 = 'NotoSerifSC';
 }

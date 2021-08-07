@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class FlutterLogoAnimation extends StatefulWidget {
-  const FlutterLogoAnimation({Key? key}) : super(key: key);
+  final double? width;
+  final double? height;
+  const FlutterLogoAnimation({this.width, this.height, Key? key}) : super(key: key);
   @override
   _FlutterLogoAnimationState createState() => _FlutterLogoAnimationState();
 }
@@ -30,9 +32,9 @@ class _FlutterLogoAnimationState extends State<FlutterLogoAnimation> with Single
       turns: _animation,
       alignment: Alignment.topCenter,
       child: Image.asset('assets/images/flutter_top.webp',
-        color: Colors.white,
         colorBlendMode: BlendMode.srcIn,
-        width: 160,
+        width: widget.width,
+        height: widget.height,
       ),
     );
   }

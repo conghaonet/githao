@@ -51,7 +51,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
 
   void _tryRetrofit() async {
     try {
-      GithubService(dioClient.dio).getApiMenu().then((value) {
+      githubService.getApiMenu().then((value) {
         showToast(value.authorizationsUrl);
       }).catchError((exception){
         showToast(exception.toString());
@@ -73,7 +73,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
         await prefsManager.setToken(token!);
       }
     }
-    GithubService(dioClient.dio).getUser().then((value) async {
+    githubService.getUser().then((value) async {
       showToast(value.login!);
       await prefsManager.setUser(value);
       final userEntity = prefsManager.getUser();
@@ -86,14 +86,14 @@ class _DemoHomePageState extends State<DemoHomePage> {
   }
 
   void _getOtherUser() async {
-    GithubService(dioClient.dio).getOtherUser('ThirtyDegreesRay').then((value) {
+    githubService.getOtherUser('ThirtyDegreesRay').then((value) {
       showToast(value.login!);
     }).catchError((exception) {
       showToast(exception.toString());
     });
   }
   void _getRepos() async {
-    GithubService(dioClient.dio).getRepos(sinceId: 9999).then((value) {
+    githubService.getRepos(sinceId: 9999).then((value) {
       showToast(value.length.toString());
     }).catchError((exception) {
       showToast(exception.toString());

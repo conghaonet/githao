@@ -37,3 +37,5 @@ abstract class GithubService {
 
 
 }
+
+GithubService githubService = GithubService(dioClient.dio);

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:githao/app_manager.dart';
 import 'package:githao/generated/l10n.dart';
-import 'package:githao/network/github_service.dart';
 import 'package:githao/util/const.dart';
 import 'package:githao/util/prefs_manager.dart';
 import 'package:githao/widget/flutter_logo_animation.dart';

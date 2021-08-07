@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/network/entity/token_request_model.dart';
-import 'package:githao/network/dio_client.dart';
 import 'package:githao/network/github_service.dart';
 import 'package:githao/util/const.dart';
 import 'package:githao/util/prefs_manager.dart';
@@ -33,13 +32,13 @@ class _OAuthPageState extends State<OAuthPage> {
 
   void _accessToken(String code) async {
     try {
-      GithubService(dioClient.dio).accessToken(
+      githubService.accessToken(
           TokenRequestModel(clientId, clientSecret, code, null),
           cancelToken: cancelToken
       ).then((tokenEntity) async {
         await prefsManager.setToken(tokenEntity.accessToken);
         showToast(prefsManager.getToken() ?? 'no token');
-        GithubService(dioClient.dio).getUser().then((userEntity) async {
+        githubService.getUser().then((userEntity) async {
           await prefsManager.setUser(userEntity, token: tokenEntity.accessToken);
           showToast(userEntity.login!);
           Navigator.pop(context);

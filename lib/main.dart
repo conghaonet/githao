@@ -132,6 +132,8 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            Image.asset('assets/images/github_small.webp',),
+
             ElevatedButton(
                 onPressed: () {
                   Navigator.push(

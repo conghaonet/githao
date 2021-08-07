@@ -9,10 +9,12 @@ import 'package:githao/util/const.dart';
 import 'package:githao/util/prefs_manager.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:githao/util/string_extension.dart';
 
 class OAuthPage extends StatefulWidget {
-  const OAuthPage({Key? key}) : super(key: key);
-
+  final String? username;
+  const OAuthPage({this.username, Key? key}) : super(key: key);
+  static getPageArgs({String? username}) => username;
   @override
   _OAuthPageState createState() => _OAuthPageState();
 }
@@ -55,8 +57,10 @@ class _OAuthPageState extends State<OAuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&scope=${Const.scope}&login=flutter-lib';
-    final authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&scope=${Const.scope}&login=conghaonet';
+    String authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&scope=${Const.scope}';
+    if(!widget.username.isNullOrEmpty()) {
+      authorizeUrl += '&login=${widget.username}';
+    }
     return Scaffold(
       appBar: AppBar(
 
@@ -100,4 +104,5 @@ class _OAuthPageState extends State<OAuthPage> {
     cancelToken.cancel();
     super.dispose();
   }
+
 }

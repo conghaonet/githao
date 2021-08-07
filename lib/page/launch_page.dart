@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:githao/app_manager.dart';
 import 'package:githao/generated/l10n.dart';
+import 'package:githao/network/github_service.dart';
+import 'package:githao/page/oauth_page.dart';
 import 'package:githao/util/const.dart';
 import 'package:githao/util/prefs_manager.dart';
 import 'package:githao/widget/flutter_logo_animation.dart';
@@ -27,13 +29,18 @@ class _LaunchPageState extends State<LaunchPage> {
       validateUser();
     });
   }
-  void validateUser() {
+  Future<void> validateUser() async {
     if(prefsManager.getToken().isNullOrEmpty()) {
       setState(() {
         stackIndex = 1;
       });
     } else {
-      Navigator.pushNamed(context, AppRoute.routeHome);
+      githubService.getUser().then((userEntity) async {
+        await prefsManager.setUser(userEntity);
+        Navigator.pushNamed(context, AppRoute.routeHome);
+      }).catchError((e) {
+
+      });
     }
 
   }
@@ -68,6 +75,8 @@ class _LaunchPageState extends State<LaunchPage> {
                   CupertinoButton(
                     color: Theme.of(context).primaryColor,
                     onPressed: () {
+                      Navigator.pushNamed(context, AppRoute.routeOAuth,
+                        arguments: OAuthPage.getPageArgs(),);
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,

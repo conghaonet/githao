@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:githao/page/launch_page.dart';
+import 'package:githao/page/oauth_page.dart';
 
 import 'home_page.dart';
 
 class AppRoute extends NavigatorObserver {
   static const routeLaunch = '/launch';
   static const routeHome = '/home';
+  static const routeOAuth = '/oauth_page';
 
   factory AppRoute() => _appRoute;
   AppRoute._internal();
@@ -20,10 +22,15 @@ class AppRoute extends NavigatorObserver {
 
   /// 带参数路由
   Route<dynamic> generateRoute(RouteSettings settings) {
-    MaterialPageRoute? targetPage;
-    return targetPage ?? MaterialPageRoute(builder: (context) {
-      return HomePage();
-    });
+    switch(settings.name) {
+      case routeOAuth: {
+        return MaterialPageRoute(settings: settings,
+          builder: (context) => OAuthPage(username: settings.arguments?.toString()),
+        );
+      }
+      default:
+        return MaterialPageRoute(builder: (context) {return HomePage();});
+    }
   }
 }
 AppRoute appRoute = AppRoute();

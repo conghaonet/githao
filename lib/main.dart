@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:githao_v2/app_manager.dart';
-import 'package:githao_v2/generated/l10n.dart';
-import 'package:githao_v2/page/launch_page.dart';
+import 'package:githao/app_manager.dart';
+import 'package:githao/generated/l10n.dart';
+import 'package:githao/page/launch_page.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'page/demo_home_page.dart';

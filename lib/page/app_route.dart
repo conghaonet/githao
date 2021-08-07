@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:githao_v2/page/launch_page.dart';
+import 'package:githao/page/launch_page.dart';
 
 class AppRoute extends NavigatorObserver {
   static const routeLaunch = '/launch';

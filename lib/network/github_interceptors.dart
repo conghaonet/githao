@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:githao_v2/network/dio_client.dart';
-import 'package:githao_v2/network/github_dio_error.dart';
-import 'package:githao_v2/util/prefs_manager.dart';
-import 'package:githao_v2/util/string_extension.dart';
+import 'package:githao/network/dio_client.dart';
+import 'package:githao/network/github_dio_error.dart';
+import 'package:githao/util/prefs_manager.dart';
+import 'package:githao/util/string_extension.dart';
 
 class GithubInterceptors extends Interceptor {
   @override

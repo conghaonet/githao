@@ -3,11 +3,11 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:githao_v2/network/entity/token_request_model.dart';
-import 'package:githao_v2/network/dio_client.dart';
-import 'package:githao_v2/network/github_service.dart';
-import 'package:githao_v2/util/const.dart';
-import 'package:githao_v2/util/prefs_manager.dart';
+import 'package:githao/network/entity/token_request_model.dart';
+import 'package:githao/network/dio_client.dart';
+import 'package:githao/network/github_service.dart';
+import 'package:githao/util/const.dart';
+import 'package:githao/util/prefs_manager.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

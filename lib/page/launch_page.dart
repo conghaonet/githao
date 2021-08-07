@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:githao_v2/generated/l10n.dart';
-import 'package:githao_v2/util/const.dart';
-import 'package:githao_v2/widget/flutter_logo_animation.dart';
+import 'package:githao/generated/l10n.dart';
+import 'package:githao/util/const.dart';
+import 'package:githao/widget/flutter_logo_animation.dart';
 
 class LaunchPage extends StatefulWidget {
   const LaunchPage({Key? key}) : super(key: key);

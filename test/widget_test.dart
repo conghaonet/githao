@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:githao_v2/main.dart';
+import 'package:githao/main.dart';
 
 
 void main() {

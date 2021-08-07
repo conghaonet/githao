@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:githao_v2/network/github_interceptors.dart';
+import 'package:githao/network/github_interceptors.dart';
 
 class DioClient {
   static const BASE_URL = "https://api.github.com";

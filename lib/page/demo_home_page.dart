@@ -3,15 +3,15 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:githao_v2/generated/l10n.dart';
-import 'package:githao_v2/page/launch_page.dart';
-import 'package:githao_v2/util/prefs_manager.dart';
+import 'package:githao/generated/l10n.dart';
+import 'package:githao/page/launch_page.dart';
+import 'package:githao/util/prefs_manager.dart';
 import '../network/entity/github_api_entity.dart';
 import '/network/dio_client.dart';
 import '/network/github_service.dart';
 import 'oauth_page.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:githao_v2/util/string_extension.dart';
+import 'package:githao/util/string_extension.dart';
 
 class DemoHomePage extends StatefulWidget {
   const DemoHomePage({Key? key}) : super(key: key);

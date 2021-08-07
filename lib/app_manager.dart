@@ -1,4 +1,4 @@
-import 'package:githao_v2/util/prefs_manager.dart';
+import 'package:githao/util/prefs_manager.dart';
 
 class AppManager {
   static final AppManager _appManager = AppManager._internal();

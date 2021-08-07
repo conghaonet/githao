@@ -21,6 +21,10 @@ class DemoHomePage extends StatefulWidget {
 }
 
 class _DemoHomePageState extends State<DemoHomePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
   void _tryBaidu() async {
     try {
       var response = await Dio().get('http://baidu.com');
@@ -59,25 +63,26 @@ class _DemoHomePageState extends State<DemoHomePage> {
   }
 
   void _getUser({String? username}) async {
+    if(prefsManager.getUser(username: username) == null) {
+      showToast('$username is not exist.');
+      return;
+    }
     if(!username.isNullOrEmpty()) {
-      final token = prefsManager.getToken(userName: username);
+      final token = prefsManager.getUsernames()[username!];
       if(!token.isNullOrEmpty()) {
         await prefsManager.setToken(token!);
       }
     }
-    final token = prefsManager.getToken();
-    if(!token.isNullOrEmpty()) {
-      GithubService(dioClient.dio).getUser().then((value) async {
-        showToast(value.login!);
-        await prefsManager.setUser(value);
-        final userEntity = prefsManager.getUser();
-        if(userEntity != null) {
-          print('userEntity ====>' + userEntity.toJson().toString());
-        }
-      }).catchError((exception) {
-        showToast(exception.toString());
-      });
-    }
+    GithubService(dioClient.dio).getUser().then((value) async {
+      showToast(value.login!);
+      await prefsManager.setUser(value);
+      final userEntity = prefsManager.getUser();
+      if(userEntity != null) {
+        print('userEntity ====>' + userEntity.toJson().toString());
+      }
+    }).catchError((exception) {
+      showToast(exception.toString());
+    });
   }
 
   void _getOtherUser() async {
@@ -109,7 +114,13 @@ class _DemoHomePageState extends State<DemoHomePage> {
               '国际化测试：'+S.of(context).app_title,
             ),
             Text(
-              'usernames：'+prefsManager.getUsernames().toString(),
+              'usernames：' + prefsManager.getUsernames().toString(),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await prefsManager.prefs.clear();
+              },
+              child: Text('clear prefs'),
             ),
             ElevatedButton(
               onPressed: () => _tryBaidu(),

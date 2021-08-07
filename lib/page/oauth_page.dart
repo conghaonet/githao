@@ -40,9 +40,7 @@ class _OAuthPageState extends State<OAuthPage> {
         await prefsManager.setToken(tokenEntity.accessToken);
         showToast(prefsManager.getToken() ?? 'no token');
         GithubService(dioClient.dio).getUser().then((userEntity) async {
-          prefsManager.addUsername(userEntity.login!);
-          prefsManager.setToken(tokenEntity.accessToken, userName: userEntity.login);
-          prefsManager.setUser(userEntity);
+          await prefsManager.setUser(userEntity, token: tokenEntity.accessToken);
           showToast(userEntity.login!);
           Navigator.pop(context);
         }).catchError((exception) {

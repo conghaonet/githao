@@ -5,6 +5,7 @@ import 'package:githao/generated/l10n.dart';
 import 'package:githao/page/launch_page.dart';
 import 'package:oktoast/oktoast.dart';
 
+import 'page/app_route.dart';
 import 'page/demo_home_page.dart';
 
 void main() {
@@ -28,6 +29,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return OKToast(
       child: MaterialApp(
+        // 定义静态路由，不能传递参数
+        routes: appRoute.routes,
+        //动态路由，可传递参数
+        onGenerateRoute: appRoute.generateRoute,
+        navigatorObservers: [
+          appRoute,
+        ],
         localizationsDelegates: const [
           S.delegate,
           GlobalMaterialLocalizations.delegate,

@@ -39,7 +39,11 @@ class _LaunchPageState extends State<LaunchPage> {
         await prefsManager.setUser(userEntity);
         Navigator.pushNamed(context, AppRoute.routeHome);
       }).catchError((e) {
-
+        if(mounted) {
+          setState(() {
+            stackIndex = 1;
+          });
+        }
       });
     }
 

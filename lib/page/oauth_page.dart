@@ -32,7 +32,7 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
   late final Animation _animation = Tween(begin: 0.0, end: 2*pi).animate(_animController);
 
   CancelToken cancelToken = CancelToken();
-  final Completer<WebViewController> _controller = Completer<WebViewController>();
+  final Completer<WebViewController> _webController = Completer<WebViewController>();
 
   @override
   void initState() {
@@ -71,8 +71,8 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
   void _onClickRefresh() async {
     if(!_animController.isAnimating) {
       _animController..reset()..repeat();
-      if(_controller.isCompleted) {
-        (await _controller.future).reload();
+      if(_webController.isCompleted) {
+        (await _webController.future).reload();
       }
     }
   }
@@ -113,7 +113,7 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
         initialUrl: authorizeUrl,
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) {
-          _controller.complete(webViewController);
+          _webController.complete(webViewController);
         },
         onPageStarted: (String url) {
           print('Page started loading: $url');
@@ -151,10 +151,10 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
   }
 }
 
-typedef Callback = void Function();
+// typedef Callback = void Function();
 class RefreshIconAnimateWidget extends StatelessWidget {
   final Animation animation;
-  final Callback callback;
+  final VoidCallback callback;
   RefreshIconAnimateWidget(this.animation, this.callback, {Key? key}) : super(key: key);
 
   @override

@@ -86,11 +86,13 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    String authorizeUrl = 'https://github.com/login/oauth/authorize?'
-        'client_id=${Const.clientId}&redirect_uri=${Const.redirectUri}&scope=${Const.scope}';
+    String authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=${Const.clientId}'
+        '&redirect_uri=${Uri.encodeFull(Const.redirectUri)}'
+        '&scope=${Uri.encodeFull(Const.scope)}';
     if (!widget.username.isNullOrEmpty()) {
-      authorizeUrl += '&login=${widget.username}';
+      authorizeUrl += '&login=${Uri.encodeFull(widget.username!)}';
     }
+    // authorizeUrl = 'https://github.com';
     return Scaffold(
       appBar: AppBar(
         title: Text('github.com'),

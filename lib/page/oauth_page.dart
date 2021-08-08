@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:githao/generated/l10n.dart';
 import 'package:githao/network/entity/token_request_model.dart';
 import 'package:githao/network/github_service.dart';
 import 'package:githao/util/const.dart';
@@ -13,18 +15,25 @@ import 'package:githao/util/string_extension.dart';
 
 class OAuthPage extends StatefulWidget {
   final String? username;
+
   const OAuthPage({this.username, Key? key}) : super(key: key);
+
   static getPageArgs({String? username}) => username;
+
   @override
   _OAuthPageState createState() => _OAuthPageState();
 }
 
-class _OAuthPageState extends State<OAuthPage> {
-  static const clientId = 'c868cf1dc9c48103bb55';
-  final clientSecret = '20bf38742868ad776331c718d98b4670c0eddb8b';
-  static const redirectUri = 'http://localhost/oauth/redirect';
+class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMixin {
+  late final AnimationController _animController = AnimationController(
+    duration: const Duration(seconds: 1),
+    vsync: this,
+  )..repeat();
+  late final Animation _animation = Tween(begin: 0.0, end: 2*pi).animate(_animController);
+
   CancelToken cancelToken = CancelToken();
   final Completer<WebViewController> _controller = Completer<WebViewController>();
+
   @override
   void initState() {
     super.initState();
@@ -32,12 +41,17 @@ class _OAuthPageState extends State<OAuthPage> {
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
+  @override
+  void didUpdateWidget(OAuthPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // _animController.duration = const Duration(seconds: 1);
+  }
+
   void _accessToken(String code) async {
     try {
-      githubService.accessToken(
-          TokenRequestModel(clientId, clientSecret, code, null),
-          cancelToken: cancelToken
-      ).then((tokenEntity) async {
+      githubService
+          .accessToken(TokenRequestModel(Const.clientId, Const.clientSecret, code, null), cancelToken: cancelToken)
+          .then((tokenEntity) async {
         await prefsManager.setToken(tokenEntity.accessToken);
         showToast(prefsManager.getToken() ?? 'no token');
         githubService.getUser().then((userEntity) async {
@@ -54,19 +68,48 @@ class _OAuthPageState extends State<OAuthPage> {
       print(e);
     }
   }
+  void _onClickRefresh() async {
+    if(!_animController.isAnimating) {
+      _animController..reset()..repeat();
+      if(_controller.isCompleted) {
+        (await _controller.future).reload();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    String authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&scope=${Const.scope}';
-    if(!widget.username.isNullOrEmpty()) {
+    String authorizeUrl = 'https://github.com/login/oauth/authorize?'
+        'client_id=${Const.clientId}&redirect_uri=${Const.redirectUri}&scope=${Const.scope}';
+    if (!widget.username.isNullOrEmpty()) {
       authorizeUrl += '&login=${widget.username}';
     }
     return Scaffold(
       appBar: AppBar(
-
+        title: Text('github.com'),
+        centerTitle: true,
+        leadingWidth: 80,
+        leading: Container(
+          margin: EdgeInsets.only(left: 8),
+          child: TextButton(
+            onPressed: () {
+              showToast('aaaaa');
+            },
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                S.of(context).cancel_in_title,
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+        actions: [
+          // IconButton(onPressed: (){}, icon: Icon(Icons.refresh)),
+          RefreshIconAnimateWidget(this._animation, _onClickRefresh),
+        ],
       ),
       body: WebView(
-        // initialUrl: 'https://m.baidu.com',
         initialUrl: authorizeUrl,
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) {
@@ -77,12 +120,13 @@ class _OAuthPageState extends State<OAuthPage> {
         },
         onPageFinished: (String url) {
           print('Page finished loading: $url');
+          _animController.stop();
         },
         navigationDelegate: (NavigationRequest request) {
-          if (request.url.startsWith(redirectUri)) {
+          if (request.url.startsWith(Const.redirectUri)) {
             // http://localhost/oauth/redirect?code=514107b8ccd509ed8c48
             final code = Uri.parse(request.url).queryParameters['code'] ?? '';
-            if(code.isNotEmpty) {
+            if (code.isNotEmpty) {
               _accessToken(code);
             } else {
               // http://localhost/oauth/redirect?error=access_denied
@@ -102,7 +146,31 @@ class _OAuthPageState extends State<OAuthPage> {
   @override
   void dispose() {
     cancelToken.cancel();
+    _animController.dispose();
     super.dispose();
   }
+}
 
+typedef Callback = void Function();
+class RefreshIconAnimateWidget extends StatelessWidget {
+  final Animation animation;
+  final Callback callback;
+  RefreshIconAnimateWidget(this.animation, this.callback, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: animation,
+      child: IconButton(
+        onPressed: () => this.callback(),
+        icon: Icon(Icons.refresh),
+      ),
+      builder: (BuildContext context, Widget? child) {
+        return Transform.rotate(
+          angle: animation.value,
+          child: child,
+        );
+      },
+    );
+  }
 }

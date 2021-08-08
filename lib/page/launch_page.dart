@@ -56,7 +56,7 @@ class _LaunchPageState extends State<LaunchPage> {
                 style: TextStyle(fontFamily: Const.font1, fontSize: 48, fontWeight: FontWeight.w900),
               ),
               Text(S.of(context).app_desc,
-                style: TextStyle(fontFamily: Const.font1),
+                style: TextStyle(fontFamily: Const.font1, fontSize: 20),
               ),
               Expanded(child: Container(),),
               Column(

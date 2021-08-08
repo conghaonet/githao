@@ -13,6 +13,8 @@ import 'package:oktoast/oktoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:githao/util/string_extension.dart';
 
+import 'app_route.dart';
+
 class OAuthPage extends StatefulWidget {
   final String? username;
 
@@ -31,7 +33,7 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
   )..repeat();
   late final Animation _animation = Tween(begin: 0.0, end: 2*pi).animate(_animController);
 
-  CancelToken cancelToken = CancelToken();
+  CancelToken _cancelToken = CancelToken();
   final Completer<WebViewController> _webController = Completer<WebViewController>();
 
   @override
@@ -50,22 +52,27 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
   void _accessToken(String code) async {
     try {
       githubService
-          .accessToken(TokenRequestModel(Const.clientId, Const.clientSecret, code, null), cancelToken: cancelToken)
+          .accessToken(TokenRequestModel(Const.clientId, Const.clientSecret, code, null), cancelToken: _cancelToken)
           .then((tokenEntity) async {
         await prefsManager.setToken(tokenEntity.accessToken);
         showToast(prefsManager.getToken() ?? 'no token');
         githubService.getUser().then((userEntity) async {
           await prefsManager.setUser(userEntity, token: tokenEntity.accessToken);
           showToast(userEntity.login!);
-          Navigator.pop(context);
+          Navigator.pushNamed(context, AppRoute.routeHome);
         }).catchError((exception) {
-          showToast(exception.toString());
+          showError(exception);
         });
       }).catchError((exception) {
-        showToast(exception.toString());
+        showError(exception);
       });
     } catch (e) {
       print(e);
+    }
+  }
+  void showError(Object e) {
+    if(mounted) {
+      showToast(e.toString());
     }
   }
   void _onClickRefresh() async {
@@ -93,7 +100,7 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
           margin: EdgeInsets.only(left: 8),
           child: TextButton(
             onPressed: () {
-              showToast('aaaaa');
+              Navigator.pop(context);
             },
             child: Align(
               alignment: Alignment.centerLeft,
@@ -145,7 +152,7 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
 
   @override
   void dispose() {
-    cancelToken.cancel();
+    if(!_cancelToken.isCancelled) _cancelToken.cancel();
     _animController.dispose();
     super.dispose();
   }

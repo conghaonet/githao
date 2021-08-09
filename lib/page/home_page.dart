@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:githao/app_manager.dart';
 import 'package:githao/generated/l10n.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/notifier/theme_notifier.dart';
 import 'package:githao/util/const.dart';
 import 'package:githao/util/prefs_manager.dart';
 import 'package:githao/widget/app_logo.dart';
@@ -43,7 +45,7 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const AppLogo(height: 52,),
+                  SizedBox(width: 32, child: const AppLogo()),
                   const SizedBox(width: 16,),
                   Text(S.of(context).app_name, style: TextStyle(fontSize: 32, fontFamily: Const.font1),),
                 ],
@@ -61,6 +63,27 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.settings),
               title: Text('Settings'),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('System theme'),
+              onTap: () {
+                prefsManager.setThemeMode(ThemeMode.system);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Light theme'),
+              onTap: () {
+                prefsManager.setThemeMode(ThemeMode.light);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Dark theme'),
+              onTap: () {
+                prefsManager.setThemeMode(ThemeMode.dark);
+              },
             ),
           ],
         ),

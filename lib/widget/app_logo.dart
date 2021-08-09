@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppLogo extends StatefulWidget {
-  final double? width;
-  final double? height;
-  const AppLogo({this.width, this.height, Key? key}) : super(key: key);
+  const AppLogo({Key? key}) : super(key: key);
 
   @override
   _AppLogoState createState() => _AppLogoState();
@@ -18,23 +16,16 @@ class _AppLogoState extends State<AppLogo> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: widget.height,
-      width: widget.width,
-      child: FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset('assets/images/github.webp'),
-            RotationTransition(
-              turns: _animation,
-              alignment: Alignment.topCenter,
-              child: Image.asset('assets/images/flutter_top.webp',),
-            )
-          ],
-        ),
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Image.asset('assets/images/github.webp'),
+        RotationTransition(
+          turns: _animation,
+          alignment: Alignment.topCenter,
+          child: Image.asset('assets/images/flutter_top.webp',),
+        )
+      ],
     );
   }
   @override

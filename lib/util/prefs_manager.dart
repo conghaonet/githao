@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/notifier/theme_notifier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'string_extension.dart';
 
@@ -8,18 +10,17 @@ class PrefsManager {
   static const _keyUsernames = 'usernames';
   static const _keyToken = 'token';
   static const _keyUserPrefix = 'user_entity_';
-
+  static const _keyThemeMode = 'theme_mode';
   /// 请求限制次数
   static const _keyRateLimit = 'x-ratelimit-limit';
-
   /// 请求限制使用次数
   static const _keyRateLimitUsed = 'x-ratelimit-used';
-
   /// 请求次数的重置时间
   static const _keyRateLimitReset = 'x-ratelimit-reset';
 
   late SharedPreferences _prefs;
-  bool initialized = false;
+  bool _initialized = false;
+  bool get initialized => _initialized;
 
   SharedPreferences get prefs => _prefs;
   static final PrefsManager _prefsManager = PrefsManager._internal();
@@ -29,9 +30,9 @@ class PrefsManager {
   PrefsManager._internal();
 
   Future<void> init() async {
-    if (initialized == false) {
+    if (_initialized == false) {
       _prefs = await SharedPreferences.getInstance();
-      initialized = true;
+      _initialized = true;
     }
   }
 
@@ -82,6 +83,22 @@ class PrefsManager {
     }
     usernames.remove(username);
     return _setUsernames(usernames);
+  }
+
+  ThemeMode getThemeMode() {
+    final themeModeName = _prefs.getString(_keyThemeMode);
+    if(themeModeName == ThemeMode.light.toString()) {
+      return ThemeMode.light;
+    } else if(themeModeName == ThemeMode.dark.toString()) {
+      return ThemeMode.dark;
+    } else {
+      return ThemeMode.system;
+    }
+  }
+  Future<bool> setThemeMode(ThemeMode themeMode, {bool needNotify = true}) async {
+    await _prefs.setString(_keyThemeMode, themeMode.toString());
+    if(needNotify) themeNotifier.notify();
+    return Future.value(true);
   }
 
   int? getRateLimit() => _prefs.getInt(_keyRateLimit);

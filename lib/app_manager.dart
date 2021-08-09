@@ -1,3 +1,4 @@
+import 'package:githao/notifier/theme_notifier.dart';
 import 'package:githao/util/prefs_manager.dart';
 
 class AppManager {

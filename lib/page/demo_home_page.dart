@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/generated/l10n.dart';
+import 'package:githao/page/home_page.dart';
 import 'package:githao/page/launch_page.dart';
 import 'package:githao/util/prefs_manager.dart';
 import '../network/entity/github_api_entity.dart';
@@ -167,10 +168,19 @@ class _DemoHomePageState extends State<DemoHomePage> {
               onPressed: () {
                 Navigator.push(
                     context,
+                    MaterialPageRoute(builder: (context) => HomePage())
+                );
+              },
+              child: Text('主页'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
                     MaterialPageRoute(builder: (context) => LaunchPage())
                 );
               },
-              child: Text('动画'),
+              child: Text('启动页'),
             ),
           ],
         ),

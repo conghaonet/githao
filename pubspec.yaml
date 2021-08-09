@@ -43,8 +43,16 @@ dev_dependencies:
   retrofit_generator: ^2.0.1
   build_runner: ^2.1.0
   json_serializable: ^4.1.4
+  flutter_native_splash: ^1.2.1
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_native_splash:
+  color: "#ffffff"
+  image: "images/icon_app_1024.png"
+#  fullscreen: true
+  info_plist_files:
+    - 'ios/Runner/Info-Debug.plist'
+    - 'ios/Runner/Info-Release.plist'
 
 # The following section is specific to Flutter.
 flutter:

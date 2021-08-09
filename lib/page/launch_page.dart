@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:githao/app_manager.dart';
 import 'package:githao/generated/l10n.dart';
 import 'package:githao/network/github_service.dart';
+import 'package:githao/notifier/theme_notifier.dart';
 import 'package:githao/page/oauth_page.dart';
 import 'package:githao/util/const.dart';
 import 'package:githao/util/prefs_manager.dart';
@@ -24,11 +25,18 @@ class _LaunchPageState extends State<LaunchPage> {
   @override
   void initState() {
     super.initState();
-    Future(() async {
-      await appManager.init();
+    if(prefsManager.initialized) {
+      themeNotifier.notify();
       validateUser();
-    });
+    } else {
+      Future(() async {
+        await prefsManager.init();
+        themeNotifier.notify();
+        validateUser();
+      });
+    }
   }
+
   Future<void> validateUser() async {
     if(prefsManager.getToken().isNullOrEmpty) {
       setState(() {

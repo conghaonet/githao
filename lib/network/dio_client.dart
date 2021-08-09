@@ -20,7 +20,7 @@ class DioClient {
   factory DioClient() => _dioClient;
   static final DioClient _dioClient = DioClient._internal();
   DioClient._internal() {
-    // setProxy("192.168.2.100", 8888);
+    // setProxy("127.0.0.1", 7890);
     _dio.interceptors.add(GithubInterceptors());
     _dio.interceptors.add(LogInterceptor(responseBody: true));
   }

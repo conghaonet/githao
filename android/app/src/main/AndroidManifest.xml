@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.app2m.githao">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="GitHao v2"
+        android:label="GitHao"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

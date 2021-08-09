@@ -89,7 +89,7 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
     String authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=${Const.clientId}'
         '&redirect_uri=${Uri.encodeFull(Const.redirectUri)}'
         '&scope=${Uri.encodeFull(Const.scope)}';
-    if (!widget.username.isNullOrEmpty()) {
+    if (!widget.username.isNullOrEmpty) {
       authorizeUrl += '&login=${Uri.encodeFull(widget.username!)}';
     }
     // authorizeUrl = 'https://github.com';

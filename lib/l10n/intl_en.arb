@@ -3,5 +3,7 @@
   "app_title": "Flutter for Github",
   "app_desc": "Flutter for GitHub",
   "sing_in_with_github": "Sign in with GitHub",
-  "cancel_in_title": "Cancel"
+  "cancel_in_title": "Cancel",
+  "followers": "followers",
+  "following": "following"
 }

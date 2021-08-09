@@ -7,7 +7,7 @@ import 'package:githao/network/github_service.dart';
 import 'package:githao/page/oauth_page.dart';
 import 'package:githao/util/const.dart';
 import 'package:githao/util/prefs_manager.dart';
-import 'package:githao/widget/flutter_logo_animation.dart';
+import 'package:githao/widget/app_logo.dart';
 import 'package:githao/util/string_extension.dart';
 
 import 'app_route.dart';
@@ -30,14 +30,14 @@ class _LaunchPageState extends State<LaunchPage> {
     });
   }
   Future<void> validateUser() async {
-    if(prefsManager.getToken().isNullOrEmpty()) {
+    if(prefsManager.getToken().isNullOrEmpty) {
       setState(() {
         stackIndex = 1;
       });
     } else {
       githubService.getUser().then((userEntity) async {
         await prefsManager.setUser(userEntity);
-        Navigator.pushNamed(context, AppRoute.routeHome);
+        Navigator.pushNamedAndRemoveUntil(context, AppRoute.routeHome, (Route<dynamic> route) => false);
       }).catchError((e) {
         if(mounted) {
           setState(() {
@@ -63,13 +63,7 @@ class _LaunchPageState extends State<LaunchPage> {
                 style: TextStyle(fontFamily: Const.font1, fontSize: 20),
               ),
               Expanded(child: Container(),),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset('assets/images/github.webp'),
-                  const FlutterLogoAnimation(),
-                ],
-              ),
+              AppLogo(),
               Expanded(child: Container(),),
               IndexedStack(
                 index: this.stackIndex,

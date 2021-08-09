@@ -66,7 +66,7 @@ class PrefsManager {
   }
 
   Future<bool> setUser(UserEntity userEntity, {String? token}) async {
-    if (!token.isNullOrEmpty()) {
+    if (!token.isNullOrEmpty) {
       final Map<String, String> usernames = getUsernames();
       usernames[userEntity.login!] = token!;
       await _setUsernames(usernames);

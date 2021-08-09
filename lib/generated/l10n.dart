@@ -99,6 +99,26 @@ class S {
       args: [],
     );
   }
+
+  /// `followers`
+  String get followers {
+    return Intl.message(
+      'followers',
+      name: 'followers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `following`
+  String get following {
+    return Intl.message(
+      'following',
+      name: 'following',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

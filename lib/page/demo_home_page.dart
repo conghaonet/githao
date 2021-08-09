@@ -67,9 +67,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
       showToast('$username is not exist.');
       return;
     }
-    if(!username.isNullOrEmpty()) {
+    if(!username.isNullOrEmpty) {
       final token = prefsManager.getUsernames()[username!];
-      if(!token.isNullOrEmpty()) {
+      if(!token.isNullOrEmpty) {
         await prefsManager.setToken(token!);
       }
     }

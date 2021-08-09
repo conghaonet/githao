@@ -25,6 +25,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "app_name": MessageLookupByLibrary.simpleMessage("GitHao"),
         "app_title": MessageLookupByLibrary.simpleMessage("Flutter for Github"),
         "cancel_in_title": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "followers": MessageLookupByLibrary.simpleMessage("followers"),
+        "following": MessageLookupByLibrary.simpleMessage("following"),
         "sing_in_with_github":
             MessageLookupByLibrary.simpleMessage("Sign in with GitHub")
       };

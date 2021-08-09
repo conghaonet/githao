@@ -9,7 +9,7 @@ class GithubInterceptors extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (isGithubApiRequest(options)) {
       final token = prefsManager.getToken();
-      if (!token.isNullOrEmpty()) {
+      if (!token.isNullOrEmpty) {
         options.headers['Authorization'] = 'token $token';
       }
     }

@@ -1,4 +1,5 @@
 {
   "app_name": "GitHao",
-  "app_title":"Flutter for GitHub"
+  "app_title":"Flutter for GitHub",
+  "sing_in_with_github": "使用 GitHub 登录"
 }

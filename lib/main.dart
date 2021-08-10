@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:githao/app_manager.dart';
 import 'package:githao/generated/l10n.dart';
+import 'package:githao/notifier/locale_notifier.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'notifier/theme_notifier.dart';
@@ -28,6 +29,9 @@ class _MyAppState extends State<MyApp> {
     themeNotifier.addListener(() {
       setState(() {});
     });
+    localeNotifier.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -42,6 +46,7 @@ class _MyAppState extends State<MyApp> {
         navigatorObservers: [
           appRoute,
         ],
+        locale: localeNotifier.locale,
         localizationsDelegates: const [
           S.delegate,
           GlobalMaterialLocalizations.delegate,

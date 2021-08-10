@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/notifier/locale_notifier.dart';
 import 'package:githao/notifier/theme_notifier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'string_extension.dart';
@@ -11,6 +12,7 @@ class PrefsManager {
   static const _keyToken = 'token';
   static const _keyUserPrefix = 'user_entity_';
   static const _keyThemeMode = 'theme_mode';
+  static const _keyLocale ='language_locale';
   /// 请求限制次数
   static const _keyRateLimit = 'x-ratelimit-limit';
   /// 请求限制使用次数
@@ -96,8 +98,38 @@ class PrefsManager {
     }
   }
   Future<bool> setThemeMode(ThemeMode themeMode, {bool needNotify = true}) async {
-    await _prefs.setString(_keyThemeMode, themeMode.toString());
-    if(needNotify) themeNotifier.notify();
+    if(themeMode.toString() != getThemeMode().toString()) {
+      await _prefs.setString(_keyThemeMode, themeMode.toString());
+      if(needNotify) themeNotifier.notify();
+    }
+    return Future.value(true);
+  }
+
+  Locale? getLocale() {
+    final localeStr = _prefs.getString(_keyLocale) ?? '';
+    if(localeStr.isEmpty) {
+      return null;
+    } else {
+      final localeArray = localeStr.split('_');
+      if(localeArray.length == 1) return Locale(localeArray[0]);
+      else if(localeArray.length == 2) return Locale(localeArray[0], localeArray[1]);
+      else return null;
+    }
+  }
+  Future<bool> setLocale(Locale? locale, {bool needNotify = true}) async {
+    bool changed = false;
+    if(locale == null) {
+      if(_prefs.containsKey(_keyLocale)) {
+        await _prefs.remove(_keyLocale);
+        changed = true;
+      }
+    } else {
+      if(locale.toString() != getLocale().toString()) {
+        await _prefs.setString(_keyLocale, locale.toString());
+        changed = true;
+      }
+    }
+    if(needNotify && changed) localeNotifier.notify();
     return Future.value(true);
   }
 

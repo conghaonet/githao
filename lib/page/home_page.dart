@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/app_manager.dart';
 import 'package:githao/generated/l10n.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/notifier/locale_notifier.dart';
 import 'package:githao/notifier/theme_notifier.dart';
 import 'package:githao/util/const.dart';
 import 'package:githao/util/prefs_manager.dart';
@@ -89,9 +90,23 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               leading: Icon(Icons.settings),
-              title: Text('Icon color'),
+              title: Text(S.of(context).sing_in_with_github+" system"),
               onTap: () {
-                showToast(Theme.of(context).iconTheme.color.toString());
+                prefsManager.setLocale(null);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text(S.of(context).sing_in_with_github+" zh"),
+              onTap: () {
+                prefsManager.setLocale(Const.zhLocale);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text(S.of(context).sing_in_with_github+" en"),
+              onTap: () {
+                prefsManager.setLocale(Const.enLocale);
               },
             ),
           ],

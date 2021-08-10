@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class Const {
   /// OAuth 应用程序的作用域
   /// https://docs.github.com/cn/developers/apps/building-oauth-apps/scopes-for-oauth-apps
@@ -48,11 +50,17 @@ class Const {
   static const perPageMax = 100;
   /// Github api 推荐的每页最行数
   static const perPageNormal = 30;
-  static const font1 = 'NotoSerifSC';
   /// github app client id
   static const clientId = 'c868cf1dc9c48103bb55';
   /// github app callback url
   static const redirectUri = 'http://localhost/oauth/redirect';
   static final clientSecret = '20bf38742868ad776331c718d98b4670c0eddb8b';
+
+  static const font1 = 'NotoSerifSC';
+
+  static const zhLocale = const Locale('zh');
+  static const enLocale = const Locale('en');
+
+
 
 }

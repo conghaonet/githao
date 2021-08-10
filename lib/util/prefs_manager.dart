@@ -146,4 +146,4 @@ class PrefsManager {
   Future<bool> setRateLimitReset(int reset) => _prefs.setInt(_keyRateLimitReset, reset);
 }
 
-PrefsManager prefsManager = PrefsManager();
+final PrefsManager prefsManager = PrefsManager();

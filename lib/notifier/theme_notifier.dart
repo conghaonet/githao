@@ -11,4 +11,4 @@ class ThemeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 }
-ThemeNotifier themeNotifier = ThemeNotifier();
+final ThemeNotifier themeNotifier = ThemeNotifier();

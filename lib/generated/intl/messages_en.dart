@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add_account": MessageLookupByLibrary.simpleMessage("Add Account"),
+        "app_desc": MessageLookupByLibrary.simpleMessage("Flutter for GitHub"),
         "app_language": MessageLookupByLibrary.simpleMessage("App Language"),
         "app_name": MessageLookupByLibrary.simpleMessage("GitHao"),
         "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),

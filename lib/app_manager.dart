@@ -1,10 +1,11 @@
-import 'package:githao/notifier/theme_notifier.dart';
+import 'package:flutter/material.dart';
 import 'package:githao/util/prefs_manager.dart';
 
 class AppManager {
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
   static final AppManager _appManager = AppManager._internal();
+
   factory AppManager() {
     return _appManager;
   }
@@ -19,4 +20,6 @@ class AppManager {
   }
 }
 
-AppManager appManager = AppManager();
+final AppManager appManager = AppManager();
+final GlobalKey<NavigatorState> navigatorState = new GlobalKey();
+

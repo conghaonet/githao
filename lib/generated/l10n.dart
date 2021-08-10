@@ -60,6 +60,16 @@ class S {
     );
   }
 
+  /// `Flutter for GitHub`
+  String get app_desc {
+    return Intl.message(
+      'Flutter for GitHub',
+      name: 'app_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sign in with GitHub`
   String get sing_in_with_github {
     return Intl.message(

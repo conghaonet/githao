@@ -35,4 +35,4 @@ class DioClient {
   }
 }
 
-DioClient dioClient = DioClient();
+final DioClient dioClient = DioClient();

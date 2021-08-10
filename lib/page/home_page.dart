@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:githao/app_manager.dart';
 import 'package:githao/generated/l10n.dart';
 import 'package:githao/network/entity/user_entity.dart';
@@ -6,6 +7,7 @@ import 'package:githao/notifier/locale_notifier.dart';
 import 'package:githao/notifier/theme_notifier.dart';
 import 'package:githao/util/const.dart';
 import 'package:githao/util/prefs_manager.dart';
+import 'package:githao/util/util.dart';
 import 'package:githao/widget/app_logo.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:githao/util/string_extension.dart';
@@ -38,6 +40,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Drawer _buildDrawer() {
+    // SvgPicture.asset('asset/github/repo-24.svg')
+
     return Drawer(
       child: SafeArea(
         child: ListView(
@@ -56,15 +60,18 @@ class _HomePageState extends State<HomePage> {
             ),
             const Divider(thickness: 0.5, height: 0.5,),
             ListTile(
-              leading: Icon(Icons.message),
+              leading: SizedBox.fromSize(
+                size: Size(Theme.of(context).iconTheme.size ?? 24, Theme.of(context).iconTheme.size ?? 24),
+                child: Util.getSvgIcon('assets/github/repo-24.svg',),
+              ),
               title: Text('Messages'),
             ),
             ListTile(
-              leading: Icon(Icons.account_circle),
+              leading: Util.getSvgIcon('assets/github/archive-24.svg'),
               title: Text('Profile'),
             ),
             ListTile(
-              leading: Icon(Icons.settings),
+              leading: Icon(Icons.settings, size: 24,),
               title: Text('Settings'),
             ),
             ListTile(

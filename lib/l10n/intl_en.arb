@@ -1,5 +1,6 @@
 {
   "app_name": "GitHao",
+  "app_desc": "Flutter for GitHub",
   "sing_in_with_github": "Sign in with GitHub",
   "cancel": "Cancel",
   "followers": "followers",

@@ -39,6 +39,7 @@ class _MyAppState extends State<MyApp> {
     return OKToast(
       dismissOtherOnShow: true,
       child: MaterialApp(
+        navigatorKey: navigatorState,
         // 定义静态路由，不能传递参数
         routes: appRoute.routes,
         //动态路由，可传递参数

@@ -11,4 +11,4 @@ class LocaleNotifier extends ChangeNotifier {
   }
 }
 
-LocaleNotifier localeNotifier = LocaleNotifier();
+final LocaleNotifier localeNotifier = LocaleNotifier();

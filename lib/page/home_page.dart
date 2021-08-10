@@ -11,6 +11,7 @@ import 'package:githao/util/util.dart';
 import 'package:githao/widget/app_logo.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:githao/util/string_extension.dart';
+import 'package:githao/util/number_extension.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -60,10 +61,11 @@ class _HomePageState extends State<HomePage> {
             ),
             const Divider(thickness: 0.5, height: 0.5,),
             ListTile(
-              leading: SizedBox.fromSize(
-                size: Size(Theme.of(context).iconTheme.size ?? 24, Theme.of(context).iconTheme.size ?? 24),
-                child: Util.getSvgIcon('assets/github/repo-24.svg',),
-              ),
+              leading: Util.getSvgIcon('assets/github/repo-24.svg',),
+              title: Text(999999999.getFriendly(fractionDigits: 1)),
+            ),
+            ListTile(
+              leading: Util.getSvgIcon('assets/github/repo-24.svg',),
               title: Text('Messages'),
             ),
             ListTile(

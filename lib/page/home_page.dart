@@ -6,6 +6,8 @@ import 'package:githao/notifier/theme_notifier.dart';
 import 'package:githao/util/const.dart';
 import 'package:githao/util/prefs_manager.dart';
 import 'package:githao/widget/app_logo.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:githao/util/string_extension.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -83,6 +85,13 @@ class _HomePageState extends State<HomePage> {
               title: Text('Dark theme'),
               onTap: () {
                 prefsManager.setThemeMode(ThemeMode.dark);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Icon color'),
+              onTap: () {
+                showToast(Theme.of(context).iconTheme.color.toString());
               },
             ),
           ],

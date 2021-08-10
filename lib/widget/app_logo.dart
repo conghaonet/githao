@@ -19,7 +19,7 @@ class _AppLogoState extends State<AppLogo> with SingleTickerProviderStateMixin {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.asset('assets/images/github.webp'),
+        Image.asset('assets/images/github.webp', color: Theme.of(context).iconTheme.color,),
         RotationTransition(
           turns: _animation,
           alignment: Alignment.topCenter,

@@ -21,8 +21,13 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "app_name": MessageLookupByLibrary.simpleMessage("GitHao"),
-        "app_title": MessageLookupByLibrary.simpleMessage("Flutter for GitHub"),
+        "cancel": MessageLookupByLibrary.simpleMessage("取消"),
+        "discussions": MessageLookupByLibrary.simpleMessage("讨论"),
+        "followers": MessageLookupByLibrary.simpleMessage("关注者"),
+        "following": MessageLookupByLibrary.simpleMessage("关注"),
+        "notifications": MessageLookupByLibrary.simpleMessage("通知"),
+        "organizations": MessageLookupByLibrary.simpleMessage("组织"),
+        "repositories": MessageLookupByLibrary.simpleMessage("仓库"),
         "sing_in_with_github":
             MessageLookupByLibrary.simpleMessage("使用 GitHub 登录")
       };

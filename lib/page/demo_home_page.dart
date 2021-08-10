@@ -112,9 +112,6 @@ class _DemoHomePageState extends State<DemoHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              '国际化测试：'+S.of(context).app_title,
-            ),
-            Text(
               'usernames：' + prefsManager.getUsernames().toString(),
             ),
             ElevatedButton(

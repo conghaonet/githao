@@ -1,5 +1,10 @@
 {
-  "app_name": "GitHao",
-  "app_title":"Flutter for GitHub",
-  "sing_in_with_github": "使用 GitHub 登录"
+  "sing_in_with_github": "使用 GitHub 登录",
+  "cancel": "取消",
+  "followers": "关注者",
+  "following": "关注",
+  "discussions": "讨论",
+  "repositories": "仓库",
+  "organizations": "组织",
+  "notifications": "通知"
 }

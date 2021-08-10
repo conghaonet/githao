@@ -107,7 +107,7 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                S.of(context).cancel_in_title,
+                S.of(context).cancel,
                 style: TextStyle(color: Colors.white),
               ),
             ),

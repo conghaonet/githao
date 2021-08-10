@@ -60,26 +60,6 @@ class S {
     );
   }
 
-  /// `Flutter for Github`
-  String get app_title {
-    return Intl.message(
-      'Flutter for Github',
-      name: 'app_title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Flutter for GitHub`
-  String get app_desc {
-    return Intl.message(
-      'Flutter for GitHub',
-      name: 'app_desc',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Sign in with GitHub`
   String get sing_in_with_github {
     return Intl.message(
@@ -91,10 +71,10 @@ class S {
   }
 
   /// `Cancel`
-  String get cancel_in_title {
+  String get cancel {
     return Intl.message(
       'Cancel',
-      name: 'cancel_in_title',
+      name: 'cancel',
       desc: '',
       args: [],
     );
@@ -115,6 +95,206 @@ class S {
     return Intl.message(
       'following',
       name: 'following',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Issues`
+  String get issues {
+    return Intl.message(
+      'Issues',
+      name: 'issues',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pull Requests`
+  String get pull_requests {
+    return Intl.message(
+      'Pull Requests',
+      name: 'pull_requests',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discussions`
+  String get discussions {
+    return Intl.message(
+      'Discussions',
+      name: 'discussions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Repositories`
+  String get repositories {
+    return Intl.message(
+      'Repositories',
+      name: 'repositories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Organizations`
+  String get organizations {
+    return Intl.message(
+      'Organizations',
+      name: 'organizations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message(
+      'Search',
+      name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Favorites`
+  String get favorites {
+    return Intl.message(
+      'Favorites',
+      name: 'favorites',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get edit {
+    return Intl.message(
+      'Edit',
+      name: 'edit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Popular`
+  String get popular {
+    return Intl.message(
+      'Popular',
+      name: 'popular',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Starred`
+  String get starred {
+    return Intl.message(
+      'Starred',
+      name: 'starred',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recent Searches`
+  String get recent_searches {
+    return Intl.message(
+      'Recent Searches',
+      name: 'recent_searches',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear`
+  String get clear {
+    return Intl.message(
+      'Clear',
+      name: 'clear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Watchers`
+  String get watchers {
+    return Intl.message(
+      'Watchers',
+      name: 'watchers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `License`
+  String get license {
+    return Intl.message(
+      'License',
+      name: 'license',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get settings {
+    return Intl.message(
+      'Settings',
+      name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Appearance`
+  String get appearance {
+    return Intl.message(
+      'Appearance',
+      name: 'appearance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App Language`
+  String get app_language {
+    return Intl.message(
+      'App Language',
+      name: 'app_language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manage Accounts`
+  String get manage_accounts {
+    return Intl.message(
+      'Manage Accounts',
+      name: 'manage_accounts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Account`
+  String get add_account {
+    return Intl.message(
+      'Add Account',
+      name: 'add_account',
       desc: '',
       args: [],
     );

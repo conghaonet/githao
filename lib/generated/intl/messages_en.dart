@@ -21,13 +21,33 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "app_desc": MessageLookupByLibrary.simpleMessage("Flutter for GitHub"),
+        "add_account": MessageLookupByLibrary.simpleMessage("Add Account"),
+        "app_language": MessageLookupByLibrary.simpleMessage("App Language"),
         "app_name": MessageLookupByLibrary.simpleMessage("GitHao"),
-        "app_title": MessageLookupByLibrary.simpleMessage("Flutter for Github"),
-        "cancel_in_title": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "clear": MessageLookupByLibrary.simpleMessage("Clear"),
+        "discussions": MessageLookupByLibrary.simpleMessage("Discussions"),
+        "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
         "followers": MessageLookupByLibrary.simpleMessage("followers"),
         "following": MessageLookupByLibrary.simpleMessage("following"),
+        "issues": MessageLookupByLibrary.simpleMessage("Issues"),
+        "license": MessageLookupByLibrary.simpleMessage("License"),
+        "manage_accounts":
+            MessageLookupByLibrary.simpleMessage("Manage Accounts"),
+        "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "organizations": MessageLookupByLibrary.simpleMessage("Organizations"),
+        "popular": MessageLookupByLibrary.simpleMessage("Popular"),
+        "pull_requests": MessageLookupByLibrary.simpleMessage("Pull Requests"),
+        "recent_searches":
+            MessageLookupByLibrary.simpleMessage("Recent Searches"),
+        "repositories": MessageLookupByLibrary.simpleMessage("Repositories"),
+        "search": MessageLookupByLibrary.simpleMessage("Search"),
+        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "sing_in_with_github":
-            MessageLookupByLibrary.simpleMessage("Sign in with GitHub")
+            MessageLookupByLibrary.simpleMessage("Sign in with GitHub"),
+        "starred": MessageLookupByLibrary.simpleMessage("Starred"),
+        "watchers": MessageLookupByLibrary.simpleMessage("Watchers")
       };
 }

@@ -11,7 +11,7 @@ class ReposQueriesEntity {
   late String sort;
   late int page;
 
-  ReposQueriesEntity({this.sort = updatedSort, this.page = 1});
+  ReposQueriesEntity({this.sort = pushedSort, this.page = 1});
 
   factory ReposQueriesEntity.fromJson(Map<String, dynamic> json) => _$ReposQueriesEntityFromJson(json);
   Map<String, dynamic> toJson() => _$ReposQueriesEntityToJson(this);

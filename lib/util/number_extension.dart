@@ -1,5 +1,5 @@
 extension IntExtension on int {
-  String getFriendly({int fractionDigits = 1}) {
+  String toFriendly({int fractionDigits = 1}) {
     int billion = 1000000000;
     int million = 1000000;
     int kilo = 1000;

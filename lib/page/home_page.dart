@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
             const Divider(thickness: 0.5, height: 0.5,),
             ListTile(
               leading: Util.getSvgIcon('assets/github/repo-24.svg',),
-              title: Text(999999999.getFriendly(fractionDigits: 1)),
+              title: Text(999999999.toFriendly(fractionDigits: 1)),
             ),
             ListTile(
               leading: Util.getSvgIcon('assets/github/repo-24.svg',),

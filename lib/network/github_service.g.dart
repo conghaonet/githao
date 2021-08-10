@@ -101,9 +101,11 @@ class _GithubService implements GithubService {
   }
 
   @override
-  Future<List<RepoEntity>> getMyRepos() async {
+  Future<List<RepoEntity>> getMyRepos({queries}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries ?? <String, dynamic>{});
+    queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<List<dynamic>>(
         _setStreamType<List<RepoEntity>>(

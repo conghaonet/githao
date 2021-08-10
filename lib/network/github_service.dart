@@ -42,7 +42,7 @@ abstract class GithubService {
 
   /// https://docs.github.com/cn/rest/reference/repos#list-repositories-for-the-authenticated-user
   @GET('/user/repos')
-  Future<List<RepoEntity>> getMyRepos();
+  Future<List<RepoEntity>> getMyRepos({@Queries() Map<String, dynamic>? queries});
 
 }
 

@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:githao/app_manager.dart';
 import 'package:githao/generated/l10n.dart';
 import 'package:githao/network/entity/repos/repo_entity.dart';
+import 'package:githao/network/entity/repos/repos_queries_entity.dart';
 import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/network/github_service.dart';
 import 'package:githao/notifier/locale_notifier.dart';
@@ -70,7 +71,9 @@ class _HomePageState extends State<HomePage> {
               leading: Util.getSvgIcon('assets/github/repo-24.svg',),
               title: Text(S.of(context).repositories),
               onTap: () async {
-                List<RepoEntity> repos = await githubService.getMyRepos();
+                List<RepoEntity> repos = await githubService.getMyRepos(
+                  queries: ReposQueriesEntity().toJson(),
+                );
                 Navigator.pop(context);
               },
             ),

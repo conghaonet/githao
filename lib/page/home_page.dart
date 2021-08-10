@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:githao/app_manager.dart';
 import 'package:githao/generated/l10n.dart';
+import 'package:githao/network/entity/repos/repo_entity.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/network/github_service.dart';
 import 'package:githao/notifier/locale_notifier.dart';
 import 'package:githao/notifier/theme_notifier.dart';
 import 'package:githao/util/const.dart';
@@ -66,7 +68,11 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               leading: Util.getSvgIcon('assets/github/repo-24.svg',),
-              title: Text('Messages'),
+              title: Text(S.of(context).repositories),
+              onTap: () async {
+                List<RepoEntity> repos = await githubService.getMyRepos();
+                Navigator.pop(context);
+              },
             ),
             ListTile(
               leading: Util.getSvgIcon('assets/github/archive-24.svg'),

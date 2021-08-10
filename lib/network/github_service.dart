@@ -15,9 +15,11 @@ part 'github_service.g.dart';
 abstract class GithubService {
   factory GithubService(Dio dio, {String baseUrl}) = _GithubService;
 
+  /// https://api.github.com
   @GET("")
   Future<GithubApiEntity> getApiMenu();
 
+  /// https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps
   @POST("https://github.com/login/oauth/access_token")
   @http.Headers(<String, dynamic>{"Accept" : "application/json"})
   Future<TokenEntity> accessToken(
@@ -25,16 +27,22 @@ abstract class GithubService {
       {@CancelRequest() CancelToken? cancelToken}
   );
 
+  /// https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
   @GET("/user")
   Future<UserEntity> getUser();
 
+  /// https://docs.github.com/en/rest/reference/users#get-a-user
   @GET("/users/{username}")
   Future<UserEntity> getOtherUser(@Path("username") String username);
 
+  /// https://docs.github.com/en/rest/reference/repos#list-public-repositories
   /// [since] A repository ID. Only return repositories with an ID greater than this ID.
   @GET('/repositories')
   Future<List<RepoEntity>> getRepos({@Query("since") int? sinceId});
 
+  /// https://docs.github.com/cn/rest/reference/repos#list-repositories-for-the-authenticated-user
+  @GET('/user/repos')
+  Future<List<RepoEntity>> getMyRepos();
 
 }
 

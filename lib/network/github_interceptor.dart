@@ -4,7 +4,7 @@ import 'package:githao/network/github_dio_error.dart';
 import 'package:githao/util/prefs_manager.dart';
 import 'package:githao/util/string_extension.dart';
 
-class GithubInterceptors extends Interceptor {
+class GithubInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     if (isGithubApiRequest(options)) {

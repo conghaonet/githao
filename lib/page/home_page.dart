@@ -15,6 +15,7 @@ import 'package:githao/widget/app_logo.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:githao/util/string_extension.dart';
 import 'package:githao/util/number_extension.dart';
+import 'package:retrofit/dio.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -73,6 +74,18 @@ class _HomePageState extends State<HomePage> {
               onTap: () async {
                 List<RepoEntity> repos = await githubService.getMyRepos(
                   queries: ReposQueriesEntity().toJson(),
+                  cacheable: true,
+                );
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Util.getSvgIcon('assets/github/repo-24.svg',),
+              title: Text(S.of(context).repositories + '(noCache)'),
+              onTap: () async {
+                List<RepoEntity> repos = await githubService.getMyRepos(
+                  queries: ReposQueriesEntity().toJson(),
+                  cacheable: false,
                 );
                 Navigator.pop(context);
               },

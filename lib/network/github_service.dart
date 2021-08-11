@@ -6,7 +6,6 @@ import 'package:githao/network/entity/user_entity.dart';
 import 'entity/github_api_entity.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:retrofit/http.dart' as http;
-
 import 'dio_client.dart';
 
 part 'github_service.g.dart';
@@ -16,10 +15,14 @@ abstract class GithubService {
   factory GithubService(Dio dio, {String baseUrl}) = _GithubService;
 
   /// https://api.github.com
+  /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @GET("")
-  Future<GithubApiEntity> getApiMenu();
+  Future<GithubApiEntity> getApiMenu({
+    @http.Header(DioClient.EXTRA_CACHEABLE) bool cacheable = false,
+  });
 
   /// https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps
+  /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @POST("https://github.com/login/oauth/access_token")
   @http.Headers(<String, dynamic>{"Accept" : "application/json"})
   Future<TokenEntity> accessToken(
@@ -28,21 +31,35 @@ abstract class GithubService {
   );
 
   /// https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
+  /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @GET("/user")
-  Future<UserEntity> getUser();
+  Future<UserEntity> getUser({
+    @http.Header(DioClient.EXTRA_CACHEABLE) bool cacheable = false,
+  });
 
   /// https://docs.github.com/en/rest/reference/users#get-a-user
+  /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @GET("/users/{username}")
-  Future<UserEntity> getOtherUser(@Path("username") String username);
+  Future<UserEntity> getOtherUser(@Path("username") String username, {
+    @http.Header(DioClient.EXTRA_CACHEABLE) bool cacheable = false,
+  });
 
   /// https://docs.github.com/en/rest/reference/repos#list-public-repositories
   /// [since] A repository ID. Only return repositories with an ID greater than this ID.
+  /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @GET('/repositories')
-  Future<List<RepoEntity>> getRepos({@Query("since") int? sinceId});
+  Future<List<RepoEntity>> getRepos({
+    @Query("since") int? sinceId,
+    @http.Header(DioClient.EXTRA_CACHEABLE) bool cacheable = false,
+  });
 
   /// https://docs.github.com/cn/rest/reference/repos#list-repositories-for-the-authenticated-user
+  /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @GET('/user/repos')
-  Future<List<RepoEntity>> getMyRepos({@Queries() Map<String, dynamic>? queries});
+  Future<List<RepoEntity>> getMyRepos({
+    @Queries() Map<String, dynamic>? queries,
+    @http.Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
+  });
 
 }
 

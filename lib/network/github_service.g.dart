@@ -89,7 +89,7 @@ class _GithubService implements GithubService {
   }
 
   @override
-  Future<List<RepoEntity>> getRepos({sinceId, cacheable = false}) async {
+  Future<List<RepoEntity>> getAllRepos({sinceId, cacheable = false}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'since': sinceId};
     queryParameters.removeWhere((k, v) => v == null);
@@ -109,7 +109,8 @@ class _GithubService implements GithubService {
   }
 
   @override
-  Future<List<RepoEntity>> getMyRepos({queries, cacheable = false}) async {
+  Future<List<RepoEntity>> getRepos(username,
+      {queries, cacheable = false}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(queries ?? <String, dynamic>{});
@@ -120,7 +121,7 @@ class _GithubService implements GithubService {
                 method: 'GET',
                 headers: <String, dynamic>{r'cacheable': cacheable},
                 extra: _extra)
-            .compose(_dio.options, '/user/repos',
+            .compose(_dio.options, '/users/$username/repos',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = _result.data!

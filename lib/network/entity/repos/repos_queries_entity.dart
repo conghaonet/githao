@@ -10,8 +10,13 @@ class ReposQueriesEntity {
   static const fullNameSort = 'full_name';
   late String sort;
   late int page;
+  late String type;
 
-  ReposQueriesEntity({this.sort = pushedSort, this.page = 1});
+  ReposQueriesEntity({
+    this.sort = pushedSort,
+    this.type = 'all',
+    this.page = 1
+  });
 
   factory ReposQueriesEntity.fromJson(Map<String, dynamic> json) => _$ReposQueriesEntityFromJson(json);
   Map<String, dynamic> toJson() => _$ReposQueriesEntityToJson(this);

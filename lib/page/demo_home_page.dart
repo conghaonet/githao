@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:githao/generated/l10n.dart';
 import 'package:githao/page/home_page.dart';
 import 'package:githao/page/launch_page.dart';
 import 'package:githao/util/prefs_manager.dart';
@@ -94,7 +93,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     });
   }
   void _getRepos() async {
-    githubService.getRepos(sinceId: 9999).then((value) {
+    githubService.getAllRepos(sinceId: 9999).then((value) {
       showToast(value.length.toString());
     }).catchError((exception) {
       showToast(exception.toString());

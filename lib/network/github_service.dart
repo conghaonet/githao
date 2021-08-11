@@ -48,15 +48,15 @@ abstract class GithubService {
   /// [since] A repository ID. Only return repositories with an ID greater than this ID.
   /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @GET('/repositories')
-  Future<List<RepoEntity>> getRepos({
+  Future<List<RepoEntity>> getAllRepos({
     @Query("since") int? sinceId,
     @http.Header(DioClient.EXTRA_CACHEABLE) bool cacheable = false,
   });
 
-  /// https://docs.github.com/cn/rest/reference/repos#list-repositories-for-the-authenticated-user
+  /// https://docs.github.com/cn/rest/reference/repos#list-repositories-for-a-user
   /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
-  @GET('/user/repos')
-  Future<List<RepoEntity>> getMyRepos({
+  @GET('/users/{username}/repos')
+  Future<List<RepoEntity>> getRepos(@Path('username') String username, {
     @Queries() Map<String, dynamic>? queries,
     @http.Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
   });

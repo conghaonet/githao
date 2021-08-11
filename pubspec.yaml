@@ -37,7 +37,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   cached_network_image: ^3.1.0
-  flutter_svg: ^0.22.0
+  flutter_svg_provider: ^0.1.10
 
 dev_dependencies:
   flutter_test:

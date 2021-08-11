@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:githao/network/entity/repos/repo_entity.dart';
+import 'package:githao/network/entity/repos/repos_queries_entity.dart';
 import 'package:githao/network/entity/token_entity.dart';
 import 'package:githao/network/entity/token_request_model.dart';
 import 'package:githao/network/entity/user_entity.dart';
@@ -57,15 +58,23 @@ abstract class GithubService {
   /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @GET('/users/{username}/repos')
   Future<List<RepoEntity>> getRepos(@Path('username') String username, {
-    @Queries() Map<String, dynamic>? queries,
+    @Queries() ReposQueriesEntity? queries,
     @http.Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
   });
 
-  /// https://docs.github.com/cn/rest/reference/repos#list-repositories-for-a-user
+  /// https://docs.github.com/cn/rest/reference/repos#list-repositories-for-the-authenticated-user
   /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @GET('/user/repos')
   Future<List<RepoEntity>> getMyRepos({
-    @Queries() Map<String, dynamic>? queries,
+    @Queries() ReposQueriesEntity? queries,
+    @http.Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
+  });
+
+  /// https://docs.github.com/cn/rest/reference/repos#list-organization-repositories
+  /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
+  @GET('/orgs/{org}/repos')
+  Future<List<RepoEntity>> getOrgRepos(@http.Path('org') String org, {
+    @Queries() ReposQueriesEntity? queries,
     @http.Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
   });
 

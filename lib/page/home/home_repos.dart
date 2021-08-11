@@ -22,9 +22,17 @@ class _HomeReposState extends State<HomeRepos> {
     _initData();
   }
   void _initData() async {
-    final result = await githubService.getRepos(
-      prefsManager.getUser()!.login!,
-      queries: ReposQueriesEntity().toJson(),
+    // final result = await githubService.getMyRepos(
+    //   // prefsManager.getUser()!.login!,
+    //   queries: ReposQueriesEntity.authedUser(),
+    // );
+    // final result = await githubService.getRepos(
+    //   prefsManager.getUser()!.login!,
+    //   queries: ReposQueriesEntity.userOrOrg(),
+    // );
+    final result = await githubService.getOrgRepos(
+      'app2m',
+      queries: ReposQueriesEntity.userOrOrg(),
     );
     _repos.addAll(result);
     if(mounted) {

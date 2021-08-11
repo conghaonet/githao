@@ -18,10 +18,16 @@ class ReposQueriesEntity {
   String? affiliation;
   ReposQueriesEntity({
     this.sort = pushedSort,
-    this.type = 'all',
+    this.type,
     this.visibility,
     this.affiliation,
-
+    this.page = 1
+  });
+  ReposQueriesEntity.userOrOrg({this.sort = pushedSort, this.type = 'all', this.page = 1});
+  ReposQueriesEntity.authedUser({
+    this.sort = pushedSort,
+    this.visibility = 'all',
+    this.affiliation = 'owner,collaborator,organization_member',
     this.page = 1
   });
 

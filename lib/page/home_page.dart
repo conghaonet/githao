@@ -1,13 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:githao/app_manager.dart';
 import 'package:githao/generated/l10n.dart';
 import 'package:githao/network/entity/repos/repo_entity.dart';
 import 'package:githao/network/entity/repos/repos_queries_entity.dart';
 import 'package:githao/network/entity/user_entity.dart';
 import 'package:githao/network/github_service.dart';
-import 'package:githao/notifier/locale_notifier.dart';
-import 'package:githao/notifier/theme_notifier.dart';
+import 'package:githao/page/home/home_organizations.dart';
+import 'package:githao/page/home/home_settings.dart';
+import 'package:githao/page/home/home_repos.dart';
 import 'package:githao/util/const.dart';
 import 'package:githao/util/prefs_manager.dart';
 import 'package:githao/util/util.dart';
@@ -15,7 +17,6 @@ import 'package:githao/widget/app_logo.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:githao/util/string_extension.dart';
 import 'package:githao/util/number_extension.dart';
-import 'package:retrofit/dio.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,27 +27,83 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late UserEntity _user;
+  late HomeMenuKey _selectedMenu;
   @override
   void initState() {
     super.initState();
+    _selectedMenu = HomeMenuKey.repos;
     _user = prefsManager.getUser()!;
   }
+  void _onClickDrawer(HomeMenuKey menuKey) async {
+    Navigator.pop(context);
+    setState(() {
+      _selectedMenu = menuKey;
+    });
+    // switch(menuItemKey) {
+    //   case HomeDrawerMenuKey.userRepos: {
+    //     List<RepoEntity> repos = await githubService.getMyRepos(
+    //         queries: ReposQueriesEntity().toJson(),
+    //         cacheable: false,
+    //     );
+    //     break;
+    //   }
+    //   default:
+    //     break;
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
+        title: _buildTitle(),
       ),
-      drawer: _buildDrawer(),
-      body: Container(
-        child: AppLogo(),
-      ),
+      drawer: HomeDrawer(_onClickDrawer, _selectedMenu),
+      body: _buildBody(),
     );
   }
 
-  Drawer _buildDrawer() {
-    // SvgPicture.asset('asset/github/repo-24.svg')
+  Widget _buildTitle() {
+    String titleString;
+    switch(_selectedMenu) {
+      case HomeMenuKey.repos:
+        titleString = S.of(context).repositories;
+        break;
+      case HomeMenuKey.settings:
+        titleString = S.of(context).settings;
+        break;
+      case HomeMenuKey.organizations:
+        titleString = S.of(context).organizations;
+        break;
+    }
+    return Text(titleString);
+  }
 
+  Widget _buildBody() {
+    switch(_selectedMenu) {
+      case HomeMenuKey.repos:
+        return HomeRepos();
+      case HomeMenuKey.settings:
+        return HomeSettings();
+      case HomeMenuKey.organizations:
+        return HomeOrganizations();
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+}
+
+
+class HomeDrawer extends StatelessWidget {
+  final HomeMenuKey selectedMenu;
+  final ValueChanged<HomeMenuKey> valueChanged;
+  const HomeDrawer(this.valueChanged, this.selectedMenu, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Drawer(
       child: SafeArea(
         child: ListView(
@@ -66,37 +123,21 @@ class _HomePageState extends State<HomePage> {
             const Divider(thickness: 0.5, height: 0.5,),
             ListTile(
               leading: Util.getSvgIcon('assets/github/repo-24.svg',),
-              title: Text(999999999.toFriendly(fractionDigits: 1)),
-            ),
-            ListTile(
-              leading: Util.getSvgIcon('assets/github/repo-24.svg',),
               title: Text(S.of(context).repositories),
-              onTap: () async {
-                List<RepoEntity> repos = await githubService.getMyRepos(
-                  queries: ReposQueriesEntity().toJson(),
-                  cacheable: true,
-                );
-                Navigator.pop(context);
-              },
+              selected: this.selectedMenu == HomeMenuKey.repos,
+              onTap: () => valueChanged(HomeMenuKey.repos),
             ),
             ListTile(
-              leading: Util.getSvgIcon('assets/github/repo-24.svg',),
-              title: Text(S.of(context).repositories + '(noCache)'),
-              onTap: () async {
-                List<RepoEntity> repos = await githubService.getMyRepos(
-                  queries: ReposQueriesEntity().toJson(),
-                  cacheable: false,
-                );
-                Navigator.pop(context);
-              },
+              leading: Util.getSvgIcon('assets/github/organization-24.svg',),
+              title: Text(S.of(context).organizations),
+              selected: this.selectedMenu == HomeMenuKey.organizations,
+              onTap: () => valueChanged(HomeMenuKey.organizations),
             ),
             ListTile(
-              leading: Util.getSvgIcon('assets/github/archive-24.svg'),
-              title: Text('Profile'),
-            ),
-            ListTile(
-              leading: Icon(Icons.settings, size: 24,),
-              title: Text('Settings'),
+              leading: Icon(Icons.settings_outlined,),
+              title: Text(S.of(context).settings),
+              selected: this.selectedMenu == HomeMenuKey.settings,
+              onTap: () => valueChanged(HomeMenuKey.settings),
             ),
             ListTile(
               leading: Icon(Icons.settings),
@@ -145,4 +186,14 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+// class HomeDrawerMenuKey {
+//   static const repos = 'repos';
+//   static const settings = 'settings';
+//   static const organizations = 'organizations';
+// }
+
+enum HomeMenuKey {
+  repos, settings, organizations
 }

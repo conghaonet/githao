@@ -61,6 +61,14 @@ abstract class GithubService {
     @http.Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
   });
 
+  /// https://docs.github.com/cn/rest/reference/repos#list-repositories-for-a-user
+  /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
+  @GET('/user/repos')
+  Future<List<RepoEntity>> getMyRepos({
+    @Queries() Map<String, dynamic>? queries,
+    @http.Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
+  });
+
 }
 
 final GithubService githubService = GithubService(dioClient.dio);

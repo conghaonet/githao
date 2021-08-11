@@ -10,11 +10,18 @@ class ReposQueriesEntity {
   static const fullNameSort = 'full_name';
   late String sort;
   late int page;
-  late String type;
-
+  // Can be one of all, owner, public, private, member.
+  String? type;
+  // Can be one of all, public, or private.
+  String? visibility;
+  // Default: owner,collaborator,organization_member
+  String? affiliation;
   ReposQueriesEntity({
     this.sort = pushedSort,
     this.type = 'all',
+    this.visibility,
+    this.affiliation,
+
     this.page = 1
   });
 

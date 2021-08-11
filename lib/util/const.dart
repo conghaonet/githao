@@ -44,7 +44,7 @@ class Const {
   /// read:gpg_key：列出和查看 GPG 密钥的详细信息。
   /// workflow：授予添加和更新 GitHub Actions 工作流程文件的权限。 如果在同一仓库中的另一个分支上存在相同的文件(具有相同的路径和内容)，则工作流程文件可以在没有此作用域的情况下提交。 工作流程文件可以暴露可能有不同范围集的 GITHUB_TOKEN。 更多信息请参阅“工作流程中的身份验证。
   static const allScope = 'repo repo:status repo_deployment public_repo repo:invite security_events admin:repo_hook write:repo_hook read:repo_hook admin:org write:org read:org admin:public_key	write:public_key read:public_key admin:org_hook gist notifications user read:user user:email user:follow delete_repo write:discussion read:discussion write:packages read:packages delete:packages admin:gpg_key write:gpg_key read:gpg_key workflow';
-  static const scope = 'repo repo:status public_repo repo:invite security_events read:org gist notifications user read:user user:email user:follow write:discussion read:discussion read:packages workflow';
+  static const scope = 'repo security_events read:org gist notifications user read:user user:email user:follow write:discussion read:discussion read:packages workflow';
 
   /// Github api 支持的每页最大行数
   static const perPageMax = 100;

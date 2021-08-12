@@ -27,21 +27,18 @@ class _HomeReposState extends State<HomeRepos> {
   }
 
   Future<void> _loadData({bool isLoadMore = false}) async {
-    if(_isLoading) return;
+    if (_isLoading) return;
     _isLoading = true;
-    if(isLoadMore) {
+    if (isLoadMore) {
       _queries.page += 1;
     } else {
       _queries.page = 1;
     }
     try {
-      final result = await githubService.getMyRepos(
-          queries: _queries,
-          cacheable: _stackIndex == 0
-      );
-      if(_queries.page == 1) {
+      final result = await githubService.getMyRepos(queries: _queries, cacheable: _stackIndex == 0);
+      if (_queries.page == 1) {
         _repos.clear();
-      } else if(_queries.page > 1 && result.isEmpty) {
+      } else if (_queries.page > 1 && result.isEmpty) {
         _queries.page -= 1;
       }
       _repos.addAll(result);
@@ -51,9 +48,7 @@ class _HomeReposState extends State<HomeRepos> {
           _stackIndex = 1;
         });
       }
-    } catch(e) {
-
-    } finally {
+    } catch (e) {} finally {
       _isLoading = false;
     }
     return Future.value();
@@ -65,21 +60,26 @@ class _HomeReposState extends State<HomeRepos> {
       child: IndexedStack(
         index: _stackIndex,
         children: [
-          Center(child: CupertinoActivityIndicator(
+          Center(
+              child: CupertinoActivityIndicator(
             radius: 20,
           )),
           RefreshIndicator(
             onRefresh: _loadData,
             child: ListView.separated(
-              itemCount: (_repos.length % _queries.perPage) == 0 ? _repos.length + 1: _repos.length,
+              itemCount: _repos.isNotEmpty && (_repos.length % _queries.perPage) == 0
+                  ? _repos.length + 1
+                  : _repos.length,
               itemBuilder: (context, index) {
-                if(index < _repos.length) {
+                if (index < _repos.length) {
                   return _buildItem(_repos[index]);
                 } else {
                   Future.delayed(const Duration(milliseconds: 100), () {
                     _loadData(isLoadMore: true);
                   });
-                  return Center(child: CupertinoActivityIndicator(),);
+                  return Center(
+                    child: CupertinoActivityIndicator(),
+                  );
                 }
               },
               separatorBuilder: (context, index) {

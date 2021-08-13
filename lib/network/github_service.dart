@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:githao/network/entity/org/org_entity.dart';
 import 'package:githao/network/entity/repo/repo_entity.dart';
 import 'package:githao/network/entity/repo/repos_queries_entity.dart';
 import 'package:githao/network/entity/token_entity.dart';
@@ -19,7 +20,7 @@ abstract class GithubService {
   /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @GET("")
   Future<GithubApiEntity> getApiMenu({
-    @http.Header(DioClient.EXTRA_CACHEABLE) bool cacheable = false,
+    @Header(DioClient.EXTRA_CACHEABLE) bool cacheable = false,
   });
 
   /// https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps
@@ -35,14 +36,14 @@ abstract class GithubService {
   /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @GET("/user")
   Future<UserEntity> getUser({
-    @http.Header(DioClient.EXTRA_CACHEABLE) bool cacheable = false,
+    @Header(DioClient.EXTRA_CACHEABLE) bool cacheable = false,
   });
 
   /// https://docs.github.com/en/rest/reference/users#get-a-user
   /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @GET("/users/{username}")
   Future<UserEntity> getOtherUser(@Path("username") String username, {
-    @http.Header(DioClient.EXTRA_CACHEABLE) bool cacheable = false,
+    @Header(DioClient.EXTRA_CACHEABLE) bool cacheable = false,
   });
 
   /// https://docs.github.com/en/rest/reference/repos#list-public-repositories
@@ -51,7 +52,7 @@ abstract class GithubService {
   @GET('/repositories')
   Future<List<RepoEntity>> getAllRepos({
     @Query("since") int? sinceId,
-    @http.Header(DioClient.EXTRA_CACHEABLE) bool cacheable = false,
+    @Header(DioClient.EXTRA_CACHEABLE) bool cacheable = false,
   });
 
   /// https://docs.github.com/cn/rest/reference/repos#list-repositories-for-a-user
@@ -59,7 +60,7 @@ abstract class GithubService {
   @GET('/users/{username}/repos')
   Future<List<RepoEntity>> getRepos(@Path('username') String username, {
     @Queries() ReposQueriesEntity? queries,
-    @http.Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
+    @Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
   });
 
   /// https://docs.github.com/cn/rest/reference/repos#list-repositories-for-the-authenticated-user
@@ -67,15 +68,23 @@ abstract class GithubService {
   @GET('/user/repos')
   Future<List<RepoEntity>> getMyRepos({
     @Queries() ReposQueriesEntity? queries,
-    @http.Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
+    @Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
   });
 
   /// https://docs.github.com/cn/rest/reference/repos#list-organization-repositories
   /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @GET('/orgs/{org}/repos')
-  Future<List<RepoEntity>> getOrgRepos(@http.Path('org') String org, {
+  Future<List<RepoEntity>> getOrgRepos(@Path('org') String org, {
     @Queries() ReposQueriesEntity? queries,
-    @http.Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
+    @Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
+  });
+
+  /// https://docs.github.com/en/rest/reference/orgs#list-organizations-for-the-authenticated-user
+  /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
+  @GET('/user/orgs')
+  Future<List<OrgEntity>> getMyOrgs({
+    @Query("page") int page = 1,
+    @Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
   });
 
 }

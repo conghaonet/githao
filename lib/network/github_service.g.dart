@@ -173,6 +173,26 @@ class _GithubService implements GithubService {
     return value;
   }
 
+  @override
+  Future<List<OrgEntity>> getMyOrgs({page = 1, cacheable = false}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<List<dynamic>>(
+        _setStreamType<List<OrgEntity>>(Options(
+                method: 'GET',
+                headers: <String, dynamic>{r'cacheable': cacheable},
+                extra: _extra)
+            .compose(_dio.options, '/user/orgs',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    var value = _result.data!
+        .map((dynamic i) => OrgEntity.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

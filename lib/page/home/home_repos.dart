@@ -1,11 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/network/entity/repos/repos_queries_entity.dart';
 import 'package:githao/network/github_service.dart';
-import 'package:githao/util/prefs_manager.dart';
-import 'package:githao/util/string_extension.dart';
 import 'package:githao/network/entity/repos/repo_entity.dart';
+import 'package:githao/widget/repo_item_view.dart';
 
 class HomeRepos extends StatefulWidget {
   const HomeRepos({Key? key}) : super(key: key);
@@ -17,7 +15,7 @@ class HomeRepos extends StatefulWidget {
 class _HomeReposState extends State<HomeRepos> {
   final List<RepoEntity> _repos = [];
   int _stackIndex = 0;
-  ReposQueriesEntity _queries = ReposQueriesEntity.authedUser();
+  ReposQueriesEntity _queries = ReposQueriesEntity();
   bool _isLoading = false;
 
   @override
@@ -35,7 +33,11 @@ class _HomeReposState extends State<HomeRepos> {
       _queries.page = 1;
     }
     try {
-      final result = await githubService.getMyRepos(queries: _queries, cacheable: _stackIndex == 0);
+      final result = await githubService.getMyRepos(
+        // 'conghaonet',
+        queries: _queries,
+        cacheable: _stackIndex == 0,
+      );
       if (_queries.page == 1) {
         _repos.clear();
       } else if (_queries.page > 1 && result.isEmpty) {
@@ -72,7 +74,7 @@ class _HomeReposState extends State<HomeRepos> {
                   : _repos.length,
               itemBuilder: (context, index) {
                 if (index < _repos.length) {
-                  return _buildItem(_repos[index]);
+                  return RepoItemView(_repos[index]);
                 } else {
                   Future.delayed(const Duration(milliseconds: 100), () {
                     _loadData(isLoadMore: true);
@@ -92,29 +94,6 @@ class _HomeReposState extends State<HomeRepos> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildItem(RepoEntity repoEntity) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            CircleAvatar(
-              radius: 24.0,
-              backgroundImage: CachedNetworkImageProvider(repoEntity.owner!.avatarUrl!),
-            ),
-            SizedBox(
-              width: 8,
-            ),
-            Text(repoEntity.private.toString()),
-            Text('/' + repoEntity.name!),
-            Expanded(child: Text('/' + repoEntity.owner!.login.nullSafety)),
-          ],
-        ),
-      ],
     );
   }
 }

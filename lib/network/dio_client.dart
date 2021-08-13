@@ -15,7 +15,7 @@ class DioClient {
     baseUrl: BASE_URL,
     connectTimeout: 30000,
     receiveTimeout: 20000,
-    headers:{"Accept": API_PREVIEW_VERSION},
+    headers:{"Accept": API_VERSION},
   );
   Dio _dio = new Dio(baseOptions);
   Dio get dio => _dio;

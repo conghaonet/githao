@@ -20,25 +20,12 @@ class ReposQueriesEntity {
   // Default: owner,collaborator,organization_member
   String? affiliation;
   ReposQueriesEntity({
-    this.sort = pushedSort,
+    this.sort = updatedSort,
     this.page = 1,
     this.perPage = Const.perPageNormal,
-    this.type,
+    this.type = 'all',
     this.visibility,
     this.affiliation
-  });
-  ReposQueriesEntity.userOrOrg({
-    this.sort = pushedSort,
-    this.page = 1,
-    this.perPage = Const.perPageNormal,
-    this.type = 'all'
-  });
-
-  ReposQueriesEntity.authedUser({
-    this.sort = pushedSort,
-    this.page = 1,
-    this.perPage = Const.perPageNormal,
-    this.visibility = 'all',
   });
 
   factory ReposQueriesEntity.fromJson(Map<String, dynamic> json) => _$ReposQueriesEntityFromJson(json);

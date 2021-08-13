@@ -309,6 +309,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Collaborator`
+  String get collaborator {
+    return Intl.message(
+      'Collaborator',
+      name: 'collaborator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Owner`
+  String get owner {
+    return Intl.message(
+      'Owner',
+      name: 'owner',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

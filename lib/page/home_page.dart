@@ -86,15 +86,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-
-
-
-// class HomeDrawerMenuKey {
-//   static const repos = 'repos';
-//   static const settings = 'settings';
-//   static const organizations = 'organizations';
-// }
-
 enum HomeMenuKey {
   repos, settings, organizations
 }

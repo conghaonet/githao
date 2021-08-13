@@ -28,6 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "clear": MessageLookupByLibrary.simpleMessage("Clear"),
+        "collaborator": MessageLookupByLibrary.simpleMessage("Collaborator"),
         "discussions": MessageLookupByLibrary.simpleMessage("Discussions"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
@@ -39,6 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Manage Accounts"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "organizations": MessageLookupByLibrary.simpleMessage("Organizations"),
+        "owner": MessageLookupByLibrary.simpleMessage("Owner"),
         "popular": MessageLookupByLibrary.simpleMessage("Popular"),
         "pull_requests": MessageLookupByLibrary.simpleMessage("Pull Requests"),
         "recent_searches":

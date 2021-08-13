@@ -24,5 +24,7 @@
   "appearance": "Appearance",
   "app_language": "App Language",
   "manage_accounts": "Manage Accounts",
-  "add_account": "Add Account"
+  "add_account": "Add Account",
+  "collaborator": "Collaborator",
+  "owner": "Owner"
 }

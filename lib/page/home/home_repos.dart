@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:githao/network/entity/repos/repos_queries_entity.dart';
+import 'package:githao/network/entity/repo/repos_queries_entity.dart';
 import 'package:githao/network/github_service.dart';
-import 'package:githao/network/entity/repos/repo_entity.dart';
+import 'package:githao/network/entity/repo/repo_entity.dart';
 import 'package:githao/widget/repo_item_view.dart';
 
 class HomeRepos extends StatefulWidget {

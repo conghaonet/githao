@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
-import 'package:githao/network/entity/repos/repo_entity.dart';
+import 'package:githao/network/entity/repo/repo_entity.dart';
 
 class RepoItemView extends StatelessWidget {
   final RepoEntity repoEntity;

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:githao/network/entity/repos/repo_entity.dart';
-import 'package:githao/network/entity/repos/repos_queries_entity.dart';
+import 'package:githao/network/entity/repo/repo_entity.dart';
+import 'package:githao/network/entity/repo/repos_queries_entity.dart';
 import 'package:githao/network/entity/token_entity.dart';
 import 'package:githao/network/entity/token_request_model.dart';
 import 'package:githao/network/entity/user_entity.dart';

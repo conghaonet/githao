@@ -13,8 +13,8 @@ class DioClient {
   static const EXTRA_CACHEABLE = 'cacheable';
   static BaseOptions baseOptions = BaseOptions(
     baseUrl: BASE_URL,
-    connectTimeout: 30000,
-    receiveTimeout: 20000,
+    connectTimeout: 10000,
+    receiveTimeout: 5000,
     headers:{"Accept": API_VERSION},
   );
   Dio _dio = new Dio(baseOptions);

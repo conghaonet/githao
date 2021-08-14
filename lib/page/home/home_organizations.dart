@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:githao/network/entity/org/org_entity.dart';
 import 'package:githao/network/github_service.dart';
 import 'package:githao/util/const.dart';
+import 'package:githao/widget/load_more_footer.dart';
 import 'package:githao/widget/org_item_view.dart';
 
 class HomeOrganizations extends StatefulWidget {
@@ -78,9 +79,7 @@ class _HomeOrganizationsState extends State<HomeOrganizations> {
                   Future.delayed(const Duration(milliseconds: 100), () {
                     _loadData(isLoadMore: true);
                   });
-                  return Center(
-                    child: CupertinoActivityIndicator(),
-                  );
+                  return LoadMoreFooter();
                 }
               },
               separatorBuilder: (context, index) {

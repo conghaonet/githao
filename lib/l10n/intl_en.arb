@@ -26,5 +26,7 @@
   "manage_accounts": "Manage Accounts",
   "add_account": "Add Account",
   "collaborator": "Collaborator",
-  "owner": "Owner"
+  "owner": "Owner",
+  "something_went_wrong": "Something went wrong.",
+  "try_again": "Try Again"
 }

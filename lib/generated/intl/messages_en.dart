@@ -50,7 +50,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "sing_in_with_github":
             MessageLookupByLibrary.simpleMessage("Sign in with GitHub"),
+        "something_went_wrong":
+            MessageLookupByLibrary.simpleMessage("Something went wrong."),
         "starred": MessageLookupByLibrary.simpleMessage("Starred"),
+        "try_again": MessageLookupByLibrary.simpleMessage("Try Again"),
         "watchers": MessageLookupByLibrary.simpleMessage("Watchers")
       };
 }

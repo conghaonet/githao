@@ -329,6 +329,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Something went wrong.`
+  String get something_went_wrong {
+    return Intl.message(
+      'Something went wrong.',
+      name: 'something_went_wrong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try Again`
+  String get try_again {
+    return Intl.message(
+      'Try Again',
+      name: 'try_again',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

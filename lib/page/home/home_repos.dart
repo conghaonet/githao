@@ -22,16 +22,14 @@ class _HomeReposState extends State<HomeRepos> {
   final List<RepoEntity> _repos = [];
   int _pageNo = 1;
   int _stackIndex = 0;
-  ReposQueriesEntity _queries = ReposQueriesEntity();
+  final ReposQueriesEntity _queries = ReposQueriesEntity();
   bool _cacheEnable = true;
   final ScrollController _scrollController = ScrollController();
   LoadState _loadState = LoadState.idle;
-  late final StreamController<LoadState> _streamController;
 
   @override
   void initState() {
     super.initState();
-    _streamController = StreamController<LoadState>();
     _scrollController.addListener(() {
       if(_loadState == LoadState.error && _scrollController.offset == _scrollController.position.maxScrollExtent) {
         setState(() {
@@ -135,7 +133,6 @@ class _HomeReposState extends State<HomeRepos> {
   @override
   void dispose() {
     _scrollController.dispose();
-    _streamController.close();
     super.dispose();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:githao/generated/l10n.dart';
 import 'package:githao/network/entity/user_entity.dart';
-import 'package:githao/page/home/home_organizations.dart';
+import 'package:githao/page/home/home_orgs.dart';
 import 'package:githao/page/home/home_settings.dart';
 import 'package:githao/page/home/home_repos.dart';
 import 'package:githao/util/prefs_manager.dart';
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
       case HomeMenuKey.settings:
         return HomeSettings();
       case HomeMenuKey.organizations:
-        return HomeOrganizations();
+        return HomeOrgs();
     }
   }
 

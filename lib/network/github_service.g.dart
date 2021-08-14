@@ -110,9 +110,9 @@ class _GithubService implements GithubService {
 
   @override
   Future<List<RepoEntity>> getRepos(username,
-      {queries, cacheable = false}) async {
+      {queries, page = 1, cacheable = false}) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     queryParameters.addAll(queries?.toJson() ?? <String, dynamic>{});
     queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
@@ -131,9 +131,10 @@ class _GithubService implements GithubService {
   }
 
   @override
-  Future<List<RepoEntity>> getMyRepos({queries, cacheable = false}) async {
+  Future<List<RepoEntity>> getMyRepos(
+      {queries, page = 1, cacheable = false}) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     queryParameters.addAll(queries?.toJson() ?? <String, dynamic>{});
     queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
@@ -153,9 +154,9 @@ class _GithubService implements GithubService {
 
   @override
   Future<List<RepoEntity>> getOrgRepos(org,
-      {queries, cacheable = false}) async {
+      {queries, page = 1, cacheable = false}) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     queryParameters.addAll(queries?.toJson() ?? <String, dynamic>{});
     queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};

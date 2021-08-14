@@ -61,6 +61,13 @@ class Const {
   static const zhLocale = const Locale('zh');
   static const enLocale = const Locale('en');
 
+}
 
-
+/// 数据加载状态
+/// [idle] 空闲
+/// [loading] 数据加载中
+/// [finished] 数据加载完成
+/// [error] 数据加载失败
+enum LoadState {
+  idle, loading, finished, error
 }

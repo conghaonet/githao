@@ -6,10 +6,10 @@ import 'package:githao/generated/l10n.dart';
 import 'package:githao/network/entity/repo/repos_queries_entity.dart';
 import 'package:githao/network/github_service.dart';
 import 'package:githao/network/entity/repo/repo_entity.dart';
+import 'package:githao/util/const.dart';
 import 'package:githao/widget/error_view.dart';
 import 'package:githao/widget/load_more_footer.dart';
 import 'package:githao/widget/repo_item_view.dart';
-import 'package:oktoast/oktoast.dart';
 
 class HomeRepos extends StatefulWidget {
   const HomeRepos({Key? key}) : super(key: key);
@@ -71,7 +71,10 @@ class _HomeReposState extends State<HomeRepos> {
           duration: Duration(milliseconds: 300),
           curve: Curves.decelerate,
         );
-        showToast(S.of(context).something_went_wrong);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(S.of(context).something_went_wrong),
+          duration: const Duration(seconds: 2),
+        ));
       } else {
         _stackIndex = 1;
       }
@@ -135,8 +138,4 @@ class _HomeReposState extends State<HomeRepos> {
     _streamController.close();
     super.dispose();
   }
-}
-
-enum LoadState {
-  idle, loading, finished, error
 }

@@ -5,6 +5,7 @@ import 'package:githao/network/entity/repo/repos_queries_entity.dart';
 import 'package:githao/network/entity/token_entity.dart';
 import 'package:githao/network/entity/token_request_model.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/util/const.dart';
 import 'entity/github_api_entity.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:retrofit/http.dart' as http;
@@ -60,6 +61,7 @@ abstract class GithubService {
   @GET('/users/{username}/repos')
   Future<List<RepoEntity>> getRepos(@Path('username') String username, {
     @Queries() ReposQueriesEntity? queries,
+    @Query("page") int page = 1,
     @Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
   });
 
@@ -68,6 +70,7 @@ abstract class GithubService {
   @GET('/user/repos')
   Future<List<RepoEntity>> getMyRepos({
     @Queries() ReposQueriesEntity? queries,
+    @Query("page") int page = 1,
     @Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
   });
 
@@ -76,6 +79,7 @@ abstract class GithubService {
   @GET('/orgs/{org}/repos')
   Future<List<RepoEntity>> getOrgRepos(@Path('org') String org, {
     @Queries() ReposQueriesEntity? queries,
+    @Query("page") int page = 1,
     @Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
   });
 

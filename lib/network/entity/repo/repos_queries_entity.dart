@@ -10,7 +10,6 @@ class ReposQueriesEntity {
   static const pushedSort = 'pushed';
   static const fullNameSort = 'full_name';
   late String sort;
-  late int page;
   @JsonKey(name: 'per_page')
   late final int perPage;
   // Can be one of all, owner, public, private, member.
@@ -21,7 +20,6 @@ class ReposQueriesEntity {
   String? affiliation;
   ReposQueriesEntity({
     this.sort = updatedSort,
-    this.page = 1,
     this.perPage = Const.perPageNormal,
     this.type = 'all',
     this.visibility,

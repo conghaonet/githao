@@ -20,6 +20,7 @@ class HomeRepos extends StatefulWidget {
 
 class _HomeReposState extends State<HomeRepos> {
   final List<RepoEntity> _repos = [];
+  int _pageNo = 1;
   int _stackIndex = 0;
   ReposQueriesEntity _queries = ReposQueriesEntity();
   bool _cacheEnable = true;
@@ -44,29 +45,27 @@ class _HomeReposState extends State<HomeRepos> {
   Future<void> _loadData({bool isLoadMore = false}) async {
     if (_loadState == LoadState.loading) return;
     _loadState = LoadState.loading;
-    if (isLoadMore) {
-      _queries.page += 1;
-    } else {
-      _queries.page = 1;
-    }
+    int tempPageNo = _pageNo;
+    if (isLoadMore) ++tempPageNo;
 
     try {
       final result = await githubService.getMyRepos(
         queries: _queries,
+        page: tempPageNo,
         cacheable: _cacheEnable,
       );
-      if (_queries.page == 1) {
+      if (tempPageNo == 1) {
         _repos.clear();
-      } else if (_queries.page > 1 && result.isEmpty) {
-        _queries.page -= 1;
+      } else if (tempPageNo > 1 && result.isEmpty) {
+        --tempPageNo;
       }
+      _pageNo = tempPageNo;
       _repos.addAll(result);
       _loadState = LoadState.finished;
       _stackIndex = 2;
     } catch (e) {
       _loadState = LoadState.error;
       if(isLoadMore) {
-        _queries.page -= 1;
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent - 60,
           duration: Duration(milliseconds: 300),

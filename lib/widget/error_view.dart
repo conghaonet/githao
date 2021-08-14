@@ -11,6 +11,7 @@ class ErrorView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(S.of(context).something_went_wrong),
+        SizedBox(height: 16,),
         if(this.callback != null)
           ElevatedButton(
             onPressed: callback,

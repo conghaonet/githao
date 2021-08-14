@@ -10,8 +10,13 @@ class OrgItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: CachedNetworkImageProvider(orgEntity.avatarUrl!),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          child: CachedNetworkImage(
+            imageUrl:orgEntity.avatarUrl!,
+            width: 40,
+            height: 40,
+          ),
         ),
         title: Row(
           children: [

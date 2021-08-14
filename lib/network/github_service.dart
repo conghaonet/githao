@@ -5,7 +5,6 @@ import 'package:githao/network/entity/repo/repos_queries_entity.dart';
 import 'package:githao/network/entity/token_entity.dart';
 import 'package:githao/network/entity/token_request_model.dart';
 import 'package:githao/network/entity/user_entity.dart';
-import 'package:githao/util/const.dart';
 import 'entity/github_api_entity.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:retrofit/http.dart' as http;
@@ -81,6 +80,15 @@ abstract class GithubService {
     @Queries() ReposQueriesEntity? queries,
     @Query("page") int page = 1,
     @Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
+  });
+
+  /// https://docs.github.com/cn/rest/reference/repos#list-repositories-for-the-authenticated-user
+  /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
+  @GET('/repos/{owner}/{repo}')
+  Future<RepoEntity> getRepo({
+      @Path("owner") required String owner,
+      @Query("repo") required String repoName,
+      @Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false
   });
 
   /// https://docs.github.com/en/github/setting-up-and-managing-your-github-user-account/managing-your-membership-in-organizations/requesting-organization-approval-for-oauth-apps

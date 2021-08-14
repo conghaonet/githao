@@ -175,6 +175,25 @@ class _GithubService implements GithubService {
   }
 
   @override
+  Future<RepoEntity> getRepo(
+      {required owner, required repoName, cacheable = false}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'repo': repoName};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<RepoEntity>(Options(
+                method: 'GET',
+                headers: <String, dynamic>{r'cacheable': cacheable},
+                extra: _extra)
+            .compose(_dio.options, '/repos/$owner/{repo}',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = RepoEntity.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<List<OrgEntity>> getMyOrgs({page = 1, cacheable = false}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page};

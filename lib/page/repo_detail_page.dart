@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:githao/generated/l10n.dart';
@@ -10,6 +11,7 @@ import 'package:githao/network/entity/repo/repo_entity.dart';
 import 'package:githao/network/github_service.dart';
 import 'package:githao/util/string_extension.dart';
 import 'package:githao/util/util.dart';
+import 'package:githao/widget/error_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:githao/util/number_extension.dart';
 
@@ -25,6 +27,7 @@ class RepoDetailPage extends StatefulWidget {
 }
 
 class _RepoDetailPageState extends State<RepoDetailPage> {
+  int _stackIndex = 0;
   RepoEntity? _repo;
   bool _isStarred = false;
   RepoSubscriptionEntity? _subscription;
@@ -38,15 +41,27 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
   Future<void> _loadData() async {
     _getStarred();
     _getRepoSubscription();
-    _repo = await githubService.getRepo(
-        owner: widget.pageArgs.owner,
-        repoName: widget.pageArgs.repoName
-    );
-    if(mounted) {
-      setState(() {
-
-      });
+    try {
+      _repo = await githubService.getRepo(
+          owner: widget.pageArgs.owner,
+          repoName: widget.pageArgs.repoName
+      );
+      _stackIndex = 2;
+    } catch(e) {
+      _stackIndex = 1;
+    } finally {
+      if(mounted) {
+        setState(() {
+        });
+      }
     }
+  }
+
+  void tryAgain() {
+    setState(() {
+      _stackIndex = 0;
+      _loadData();
+    });
   }
 
   void _getStarred() {
@@ -85,19 +100,25 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
       appBar: AppBar(
       ),
       body: IndexedStack(
-        index: 0,
+        index: _stackIndex,
         children: [
+          Center(child: CupertinoActivityIndicator(radius: 16,),),
+          Center(child: ErrorView(callback: tryAgain,)),
           if(_repo != null)
-            SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(),
-                    SizedBox(height: 8,),
-                    _buildStarAndWatch(),
-                  ],
+            RefreshIndicator(
+              onRefresh: _loadData,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Container(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildHeader(),
+                      SizedBox(height: 8,),
+                      _buildStarAndWatch(),
+                    ],
+                  ),
                 ),
               ),
             ),

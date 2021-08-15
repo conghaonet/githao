@@ -92,6 +92,7 @@ class _HomeReposState extends State<HomeRepos> {
       _loadData();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -103,6 +104,7 @@ class _HomeReposState extends State<HomeRepos> {
           RefreshIndicator(
             onRefresh: _loadData,
             child: ListView.separated(
+              physics: const AlwaysScrollableScrollPhysics(),
               controller: _scrollController,
               itemCount: (_repos.isNotEmpty && (_repos.length % _queries.perPage) == 0) ? _repos.length + 1 : _repos.length,
               itemBuilder: (context, index) {

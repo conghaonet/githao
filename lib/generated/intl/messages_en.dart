@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
         "followers": MessageLookupByLibrary.simpleMessage("followers"),
         "following": MessageLookupByLibrary.simpleMessage("following"),
+        "forks": MessageLookupByLibrary.simpleMessage("Forks"),
         "issues": MessageLookupByLibrary.simpleMessage("Issues"),
         "license": MessageLookupByLibrary.simpleMessage("License"),
         "manage_accounts":
@@ -42,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "organizations": MessageLookupByLibrary.simpleMessage("Organizations"),
         "owner": MessageLookupByLibrary.simpleMessage("Owner"),
         "popular": MessageLookupByLibrary.simpleMessage("Popular"),
+        "private": MessageLookupByLibrary.simpleMessage("Private"),
         "pull_requests": MessageLookupByLibrary.simpleMessage("Pull Requests"),
         "recent_searches":
             MessageLookupByLibrary.simpleMessage("Recent Searches"),
@@ -52,8 +54,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sign in with GitHub"),
         "something_went_wrong":
             MessageLookupByLibrary.simpleMessage("Something went wrong."),
+        "star": MessageLookupByLibrary.simpleMessage("Star"),
         "starred": MessageLookupByLibrary.simpleMessage("Starred"),
+        "stars": MessageLookupByLibrary.simpleMessage("Stars"),
         "try_again": MessageLookupByLibrary.simpleMessage("Try Again"),
-        "watchers": MessageLookupByLibrary.simpleMessage("Watchers")
+        "watchers": MessageLookupByLibrary.simpleMessage("Watchers"),
+        "watching": MessageLookupByLibrary.simpleMessage("Watching")
       };
 }

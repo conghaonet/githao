@@ -178,7 +178,7 @@ class _GithubService implements GithubService {
   Future<RepoEntity> getRepo(
       {required owner, required repoName, cacheable = false}) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'repo': repoName};
+    final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
@@ -186,7 +186,7 @@ class _GithubService implements GithubService {
                 method: 'GET',
                 headers: <String, dynamic>{r'cacheable': cacheable},
                 extra: _extra)
-            .compose(_dio.options, '/repos/$owner/{repo}',
+            .compose(_dio.options, '/repos/$owner/$repoName',
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = RepoEntity.fromJson(_result.data!);

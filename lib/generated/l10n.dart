@@ -349,6 +349,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Private`
+  String get private {
+    return Intl.message(
+      'Private',
+      name: 'private',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stars`
+  String get stars {
+    return Intl.message(
+      'Stars',
+      name: 'stars',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forks`
+  String get forks {
+    return Intl.message(
+      'Forks',
+      name: 'forks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Star`
+  String get star {
+    return Intl.message(
+      'Star',
+      name: 'star',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Watching`
+  String get watching {
+    return Intl.message(
+      'Watching',
+      name: 'watching',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

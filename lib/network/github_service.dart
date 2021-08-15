@@ -87,7 +87,7 @@ abstract class GithubService {
   @GET('/repos/{owner}/{repo}')
   Future<RepoEntity> getRepo({
       @Path("owner") required String owner,
-      @Query("repo") required String repoName,
+      @Path("repo") required String repoName,
       @Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false
   });
 

@@ -49,5 +49,10 @@
 		<string>Allow Flutter tools on your computer to connect and debug your application.</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
+        <key>LSApplicationQueriesSchemes</key>
+        <array>
+          <string>https</string>
+          <string>http</string>
+        </array>
 	</dict>
 </plist>

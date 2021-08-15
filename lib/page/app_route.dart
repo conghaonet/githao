@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:githao/page/launch_page.dart';
 import 'package:githao/page/oauth_page.dart';
+import 'package:githao/page/repo_detail_page.dart';
 
 import 'home_page.dart';
 
@@ -8,6 +9,7 @@ class AppRoute extends NavigatorObserver {
   static const routeLaunch = '/launch';
   static const routeHome = '/home';
   static const routeOAuth = '/oauth_page';
+  static const routeRepoDetail = '/repo_detail';
 
   factory AppRoute() => _appRoute;
   AppRoute._internal();
@@ -26,6 +28,11 @@ class AppRoute extends NavigatorObserver {
       case routeOAuth: {
         return MaterialPageRoute(settings: settings,
           builder: (context) => OAuthPage(username: settings.arguments?.toString()),
+        );
+      }
+      case routeRepoDetail: {
+        return MaterialPageRoute(settings: settings,
+          builder: (context) => RepoDetailPage(pageArgs: settings.arguments as RepoDetailPageArgs),
         );
       }
       default:

@@ -28,5 +28,10 @@
   "collaborator": "Collaborator",
   "owner": "Owner",
   "something_went_wrong": "Something went wrong.",
-  "try_again": "Try Again"
+  "try_again": "Try Again",
+  "private": "Private",
+  "stars": "Stars",
+  "forks": "Forks",
+  "star": "Star",
+  "watching": "Watching"
 }

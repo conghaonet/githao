@@ -258,6 +258,53 @@ class _GithubService implements GithubService {
     return httpResponse;
   }
 
+  @override
+  Future<RepoSubscriptionEntity> getRepoSubscription(owner, repo) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<RepoSubscriptionEntity>(
+            Options(method: 'GET', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/repos/$owner/$repo/subscription',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = RepoSubscriptionEntity.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<RepoSubscriptionEntity> setRepoSubscription(owner, repo,
+      {required queries}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(queries.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<RepoSubscriptionEntity>(
+            Options(method: 'PUT', headers: <String, dynamic>{}, extra: _extra)
+                .compose(_dio.options, '/repos/$owner/$repo/subscription',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = RepoSubscriptionEntity.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<HttpResponse<dynamic>> delRepoSubscription(owner, repo) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(
+        Options(method: 'DELETE', headers: <String, dynamic>{}, extra: _extra)
+            .compose(_dio.options, '/repos/$owner/$repo/subscription',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data;
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

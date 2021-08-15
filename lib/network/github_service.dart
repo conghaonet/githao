@@ -5,6 +5,8 @@ import 'package:githao/network/entity/repo/repos_queries_entity.dart';
 import 'package:githao/network/entity/token_entity.dart';
 import 'package:githao/network/entity/token_request_model.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'entity/activity/repo_subscription_entity.dart';
+import 'entity/activity/repo_subscription_queries_entity.dart';
 import 'entity/github_api_entity.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:retrofit/http.dart' as http;
@@ -111,6 +113,20 @@ abstract class GithubService {
   /// https://docs.github.com/cn/rest/reference/activity#unstar-a-repository-for-the-authenticated-user
   @DELETE('/user/starred/{owner}/{repo}')
   Future<HttpResponse> delStarredRepo(@Path("owner") String owner, @Path("repo") String repo);
+
+  /// https://docs.github.com/en/rest/reference/activity#get-a-repository-subscription
+  @GET('/repos/{owner}/{repo}/subscription')
+  Future<RepoSubscriptionEntity> getRepoSubscription(@Path("owner") String owner, @Path("repo") String repo);
+
+  /// https://docs.github.com/en/rest/reference/activity#set-a-repository-subscription
+  @PUT('/repos/{owner}/{repo}/subscription')
+  Future<RepoSubscriptionEntity> setRepoSubscription(@Path("owner") String owner, @Path("repo") String repo, {
+    @Body() required RepoSubscriptionQueriesEntity queries,
+  });
+
+  /// https://docs.github.com/en/rest/reference/activity#delete-a-repository-subscription
+  @DELETE('/repos/{owner}/{repo}/subscription')
+  Future<HttpResponse> delRepoSubscription(@Path("owner") String owner, @Path("repo") String repo);
 }
 
 final GithubService githubService = GithubService(dioClient.dio);

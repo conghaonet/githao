@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:githao/network/entity/repo/repo_entity.dart';
+import 'package:githao/page/app_route.dart';
+import 'package:githao/page/repo_detail_page.dart';
 
 class RepoItemView extends StatelessWidget {
   final RepoEntity repoEntity;
@@ -36,6 +38,14 @@ class RepoItemView extends StatelessWidget {
         ),
         subtitle: Text(repoEntity.owner!.login!,),
         trailing: Icon(Icons.keyboard_arrow_right),
+        onTap: () {
+          Navigator.pushNamed(context, AppRoute.routeRepoDetail,
+            arguments: RepoDetailPage.getPageArgs(
+              repoName: repoEntity.name!,
+              owner: repoEntity.owner!.login!,
+            ),
+          );
+        },
       ),
     );
   }

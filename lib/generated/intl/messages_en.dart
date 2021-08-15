@@ -58,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "starred": MessageLookupByLibrary.simpleMessage("Starred"),
         "stars": MessageLookupByLibrary.simpleMessage("Stars"),
         "try_again": MessageLookupByLibrary.simpleMessage("Try Again"),
+        "watch": MessageLookupByLibrary.simpleMessage("Watch"),
         "watchers": MessageLookupByLibrary.simpleMessage("Watchers"),
         "watching": MessageLookupByLibrary.simpleMessage("Watching")
       };

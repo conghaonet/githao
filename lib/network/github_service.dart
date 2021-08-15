@@ -100,6 +100,17 @@ abstract class GithubService {
     @Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false,
   });
 
+  /// https://docs.github.com/cn/rest/reference/activity#check-if-a-repository-is-starred-by-the-authenticated-user
+  @GET('/user/starred/{owner}/{repo}')
+  Future<HttpResponse> getStarredRepo(@Path("owner") String owner, @Path("repo") String repo);
+
+  /// https://docs.github.com/cn/rest/reference/activity#star-a-repository-for-the-authenticated-user
+  @PUT('/user/starred/{owner}/{repo}')
+  Future<HttpResponse> starRepo(@Path("owner") String owner, @Path("repo") String repo);
+
+  /// https://docs.github.com/cn/rest/reference/activity#unstar-a-repository-for-the-authenticated-user
+  @DELETE('/user/starred/{owner}/{repo}')
+  Future<HttpResponse> delStarredRepo(@Path("owner") String owner, @Path("repo") String repo);
 }
 
 final GithubService githubService = GithubService(dioClient.dio);

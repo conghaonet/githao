@@ -390,6 +390,16 @@ class S {
     );
   }
 
+  /// `Watch`
+  String get watch {
+    return Intl.message(
+      'Watch',
+      name: 'watch',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Watching`
   String get watching {
     return Intl.message(

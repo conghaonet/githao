@@ -22,12 +22,14 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "add_account": MessageLookupByLibrary.simpleMessage("Add Account"),
+        "all_activity": MessageLookupByLibrary.simpleMessage("All Activity"),
         "app_desc": MessageLookupByLibrary.simpleMessage("Flutter for GitHub"),
         "app_language": MessageLookupByLibrary.simpleMessage("App Language"),
         "app_name": MessageLookupByLibrary.simpleMessage("GitHao"),
         "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "clear": MessageLookupByLibrary.simpleMessage("Clear"),
+        "close": MessageLookupByLibrary.simpleMessage("Close"),
         "collaborator": MessageLookupByLibrary.simpleMessage("Collaborator"),
         "discussions": MessageLookupByLibrary.simpleMessage("Discussions"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
@@ -35,13 +37,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "followers": MessageLookupByLibrary.simpleMessage("followers"),
         "following": MessageLookupByLibrary.simpleMessage("following"),
         "forks": MessageLookupByLibrary.simpleMessage("Forks"),
+        "ignore": MessageLookupByLibrary.simpleMessage("Ignore"),
         "issues": MessageLookupByLibrary.simpleMessage("Issues"),
         "license": MessageLookupByLibrary.simpleMessage("License"),
         "manage_accounts":
             MessageLookupByLibrary.simpleMessage("Manage Accounts"),
+        "msg_repo_no_watch": MessageLookupByLibrary.simpleMessage(
+            "Only receive notifications frm this repository when participation or @mentions."),
+        "msg_repo_watch_all": MessageLookupByLibrary.simpleMessage(
+            "Notified of all notifications on this repository."),
+        "msg_repo_watch_ignore":
+            MessageLookupByLibrary.simpleMessage("Never be notified."),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "organizations": MessageLookupByLibrary.simpleMessage("Organizations"),
         "owner": MessageLookupByLibrary.simpleMessage("Owner"),
+        "participating_and_mentions":
+            MessageLookupByLibrary.simpleMessage("Participating and @mentions"),
         "popular": MessageLookupByLibrary.simpleMessage("Popular"),
         "private": MessageLookupByLibrary.simpleMessage("Private"),
         "pull_requests": MessageLookupByLibrary.simpleMessage("Pull Requests"),

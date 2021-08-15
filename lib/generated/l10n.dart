@@ -409,6 +409,76 @@ class S {
       args: [],
     );
   }
+
+  /// `Ignore`
+  String get ignore {
+    return Intl.message(
+      'Ignore',
+      name: 'ignore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close`
+  String get close {
+    return Intl.message(
+      'Close',
+      name: 'close',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Participating and @mentions`
+  String get participating_and_mentions {
+    return Intl.message(
+      'Participating and @mentions',
+      name: 'participating_and_mentions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Only receive notifications frm this repository when participation or @mentions.`
+  String get msg_repo_no_watch {
+    return Intl.message(
+      'Only receive notifications frm this repository when participation or @mentions.',
+      name: 'msg_repo_no_watch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Activity`
+  String get all_activity {
+    return Intl.message(
+      'All Activity',
+      name: 'all_activity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notified of all notifications on this repository.`
+  String get msg_repo_watch_all {
+    return Intl.message(
+      'Notified of all notifications on this repository.',
+      name: 'msg_repo_watch_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Never be notified.`
+  String get msg_repo_watch_ignore {
+    return Intl.message(
+      'Never be notified.',
+      name: 'msg_repo_watch_ignore',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

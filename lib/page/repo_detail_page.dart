@@ -4,6 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:githao/generated/l10n.dart';
+import 'package:githao/network/entity/activity/repo_subscription_entity.dart';
+import 'package:githao/network/entity/activity/repo_subscription_queries_entity.dart';
 import 'package:githao/network/entity/repo/repo_entity.dart';
 import 'package:githao/network/github_service.dart';
 import 'package:githao/util/string_extension.dart';
@@ -25,6 +27,7 @@ class RepoDetailPage extends StatefulWidget {
 class _RepoDetailPageState extends State<RepoDetailPage> {
   RepoEntity? _repo;
   bool _isStarred = false;
+  RepoSubscriptionEntity? _subscription;
 
   @override
   void initState() {
@@ -34,6 +37,7 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
 
   Future<void> _loadData() async {
     _getStarred();
+    _getRepoSubscription();
     _repo = await githubService.getRepo(
         owner: widget.pageArgs.owner,
         repoName: widget.pageArgs.repoName
@@ -58,7 +62,21 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
     }).catchError((e) {
       print(e.toString());
     });
+  }
 
+  void _getRepoSubscription() {
+    githubService.getRepoSubscription(
+      widget.pageArgs.owner,
+      widget.pageArgs.repoName,
+    ).then((entity) {
+      if(mounted) {
+        setState(() {
+          _subscription = entity;
+        });
+      }
+    }).catchError((e) {
+      print(e.toString());
+    });
   }
 
   @override
@@ -219,13 +237,128 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
         SizedBox(width: 16,),
         Expanded(
           child: OutlinedButton(
-            child: Text(S.of(context).watch),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if(_subscription?.subscribed == true) ...[
+                  ImageIcon(getSvgProvider('assets/github/eye-16.svg'), color: Colors.red,),
+                  Text(S.of(context).watching, style: TextStyle(color: Colors.grey),),
+                  Icon(Icons.arrow_drop_down, color: Colors.grey,),
+                ]
+                else if(_subscription?.ignored == true) ...[
+                  ImageIcon(getSvgProvider('assets/github/bell-slash-16.svg'),),
+                  Text(S.of(context).ignore, style: TextStyle(color: Colors.grey),),
+                  Icon(Icons.arrow_drop_down, color: Colors.grey,),
+                ]
+                else ...[
+                  ImageIcon(getSvgProvider('assets/github/eye-16.svg'),),
+                  Text(S.of(context).watch,),
+                    Icon(Icons.arrow_drop_down,),
+                ],
+              ],
+            ),
             onPressed: () {
-
+              showModalBottomSheet(context: context,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16),),
+                ),
+                builder: (context) {
+                  return _buildBottomWatchMenu();
+                },
+              );
             },
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildBottomWatchMenu() {
+    return Container(
+      padding: EdgeInsets.all(8),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              TextButton(
+                onPressed: () {},
+                child: Text(S.of(context).close, style: TextStyle(color: Colors.transparent),),
+              ),
+              Expanded(child: Center(child: Text(S.of(context).notifications))),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(S.of(context).close,),
+              ),
+            ],
+          ),
+          Divider(height: 0.5, thickness: 0.5,),
+          ListTile(
+            title: Text(S.of(context).participating_and_mentions),
+            subtitle: Text(S.of(context).msg_repo_no_watch),
+            trailing: Icon(Icons.check, color: _subscription == null ? null : Colors.transparent,),
+            onTap: () {
+              githubService.delRepoSubscription(widget.pageArgs.owner, widget.pageArgs.repoName).then((httpResponse) {
+                if(httpResponse.response.statusCode == HttpStatus.noContent) {
+                  if(mounted) {
+                    setState(() {
+                      _subscription = null;
+                    });
+                    Navigator.pop(context);
+                  }
+                }
+              }).catchError((e) {
+                print(e.toString());
+              });
+            },
+          ),
+          Divider(height: 0.5, thickness: 0.5,),
+          ListTile(
+            title: Text(S.of(context).all_activity),
+            subtitle: Text(S.of(context).msg_repo_watch_all),
+            trailing: Icon(Icons.check,
+              color: _subscription?.subscribed == true ? null : Colors.transparent,
+            ),
+            onTap: () {
+              githubService.setRepoSubscription(widget.pageArgs.owner, widget.pageArgs.repoName,
+                queries: RepoSubscriptionQueriesEntity(true, false),
+              ).then((entity) {
+                if(mounted) {
+                  setState(() {
+                    _subscription = entity;
+                  });
+                  Navigator.pop(context);
+                }
+              }).catchError((e) {
+                print(e.toString());
+              });
+            },
+          ),
+          Divider(height: 0.5, thickness: 0.5,),
+          ListTile(
+            title: Text(S.of(context).ignore),
+            subtitle: Text(S.of(context).msg_repo_watch_ignore),
+            trailing: Icon(Icons.check,
+              color: _subscription?.ignored == true ? null : Colors.transparent,
+            ),
+            onTap: () {
+              githubService.setRepoSubscription(widget.pageArgs.owner, widget.pageArgs.repoName,
+                queries: RepoSubscriptionQueriesEntity(false, true),
+              ).then((entity) {
+                if(mounted) {
+                  setState(() {
+                    _subscription = entity;
+                  });
+                  Navigator.pop(context);
+                }
+              }).catchError((e) {
+                print(e.toString());
+              });
+            },
+          ),
+          Divider(height: 0.5, thickness: 0.5,),
+        ],
+      ),
     );
   }
 }

@@ -41,5 +41,6 @@
   "msg_repo_no_watch": "Only receive notifications frm this repository when participation or @mentions.",
   "all_activity": "All Activity",
   "msg_repo_watch_all": "Notified of all notifications on this repository.",
-  "msg_repo_watch_ignore": "Never be notified."
+  "msg_repo_watch_ignore": "Never be notified.",
+  "forked_from": "Forked from"
 }

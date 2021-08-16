@@ -13,6 +13,7 @@ import 'package:githao/network/github_service.dart';
 import 'package:githao/util/string_extension.dart';
 import 'package:githao/util/util.dart';
 import 'package:githao/widget/error_view.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:githao/util/number_extension.dart';
 
@@ -157,13 +158,19 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Container(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.symmetric(vertical: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildHeader(),
-                        SizedBox(height: 8,),
-                        _buildStarAndWatch(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: _buildHeader(),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                          child: _buildStarAndWatch(),
+                        ),
+                        _buildMenu(),
                       ],
                     ),
                   ),
@@ -176,91 +183,136 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
   }
 
   Widget _buildHeader() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            ClipRRect(
-              child: CachedNetworkImage(
-                imageUrl: _repo!.owner!.avatarUrl!,
-                fit: BoxFit.contain,
-                height: 32,
+    return Theme(
+      data: ThemeData(
+        iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.grey),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              ClipRRect(
+                child: CachedNetworkImage(
+                  imageUrl: _repo!.owner!.avatarUrl!,
+                  fit: BoxFit.contain,
+                  height: 32,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(16)),
               ),
-              borderRadius: BorderRadius.all(Radius.circular(16)),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: Text(_repo!.owner!.login!, style: TextStyle(fontSize: 17),),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Text(_repo!.name!,
-            key: _repoNameKey,
-            style: TextStyle(fontSize: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(_repo!.owner!.login!, style: TextStyle(fontSize: 17),),
+              ),
+            ],
           ),
-        ),
-        if(!_repo!.description.isNullOrEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(_repo!.description.nullSafety),
+            child: Text(_repo!.name!,
+              key: _repoNameKey,
+              style: TextStyle(fontSize: 20),
+            ),
           ),
-        if(!_repo!.homepage.isNullOrEmpty)
-          TextButton(
-            onPressed: () async {
-              if(await canLaunch(_repo!.homepage!)){
-                await launch(_repo!.homepage!);
-              }
-            },
+          if(!_repo!.description.isNullOrEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(_repo!.description.nullSafety),
+            ),
+          if(!_repo!.homepage.isNullOrEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                children: [
+                  ImageIcon(getSvgProvider('assets/github/link-16.svg',),),
+                  InkWell(
+                    onTap: () async {
+                      if(await canLaunch(_repo!.homepage!)){
+                        await launch(_repo!.homepage!);
+                      }
+                    },
+                    child: Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: Text(_repo!.homepage!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          if(_repo!.fork == true)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ImageIcon(getSvgProvider('assets/github/repo-forked-16.svg')),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    child: Text(S.of(context).forked_from, style: TextStyle(fontSize: 14, color: Colors.grey),),
+                  ),
+                  Flexible(
+                    child: InkWell(
+                      onTap: () {
+                      },
+                      child: Text(_repo!.source!.fullName!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 14),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          if(_repo!.private == true)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                children: [
+                  ImageIcon(getSvgProvider('assets/github/lock-16.svg',),),
+                  SizedBox(width: 8,),
+                  Text(S.of(context).private, style: TextStyle(fontSize: 14, color: Colors.grey,),),
+                ],
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
             child: Row(
-              // mainAxisSize: MainAxisSize.min,
               children: [
-                ImageIcon(getSvgProvider('assets/github/link-16.svg',),),
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 4.0),
-                    child: Text(_repo!.homepage!, maxLines: 1, overflow: TextOverflow.ellipsis,),
+                ImageIcon(getSvgProvider('assets/github/star-16.svg'),),
+                InkWell(
+                  onTap: (_repo?.stargazersCount ?? 0) <= 0 ? null : () {
+
+                  },
+                  child: Text('${_repo!.stargazersCount!.toFriendly()} ${S.of(context).stars}',
+                    style: TextStyle(fontSize: 14,
+                      color: (_repo?.stargazersCount ?? 0) <= 0 ? Colors.grey : Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 12,),
+                ImageIcon(getSvgProvider('assets/github/repo-forked-16.svg'),),
+                InkWell(
+                  onTap: (_repo?.forksCount ?? 0) <= 0 ? null : () {
+
+                  },
+                  child: Text('${_repo!.forksCount!.toFriendly()} ${S.of(context).forks}',
+                    style: TextStyle(fontSize: 14,
+                      color: (_repo?.forksCount ?? 0) <= 0 ? Colors.grey : Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-        if(_repo!.private == true)
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Row(
-              children: [
-                ImageIcon(Svg('assets/github/lock-16.svg',), size: 16,),
-                SizedBox(width: 8,),
-                Text(S.of(context).private),
-              ],
-            ),
-          ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Row(
-            children: [
-              ImageIcon(getSvgProvider('assets/github/star-16.svg')),
-              Padding(
-                padding: const EdgeInsets.only(left: 4.0, right: 8.0),
-                child: Text('${_repo!.stargazersCount!.toFriendly()} ${S.of(context).stars}',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ),
-              ImageIcon(getSvgProvider('assets/github/repo-forked-16.svg')),
-              Padding(
-                padding: const EdgeInsets.only(left: 4.0),
-                child: Text('${_repo!.forksCount!.toFriendly()} ${S.of(context).forks}',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
+        ],
+      ),
     );
   }
 
@@ -429,6 +481,39 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
             },
           ),
           Divider(height: 0.5, thickness: 0.5,),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenu() {
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: ImageIcon(getSvgProvider('assets/github/issue-opened-16.svg'), color: Colors.green,),
+            title: Text(S.of(context).issues),
+            trailing: Icon(Icons.keyboard_arrow_right),
+          ),
+          Divider(height: 0.5, thickness: 0.5,),
+          ListTile(
+            leading: ImageIcon(getSvgProvider('assets/github/git-pull-request-16.svg'), color: Colors.blue,),
+            title: Text(S.of(context).pull_requests),
+            trailing: Icon(Icons.keyboard_arrow_right),
+          ),
+          Divider(height: 0.5, thickness: 0.5,),
+          ListTile(
+            leading: ImageIcon(getSvgProvider('assets/github/eye-16.svg'), color: Colors.yellow,),
+            title: Text(S.of(context).watchers),
+            trailing: Icon(Icons.keyboard_arrow_right),
+          ),
+          Divider(height: 0.5, thickness: 0.5,),
+          ListTile(
+            leading: ImageIcon(getSvgProvider('assets/github/law-16.svg'), color: Colors.red),
+            title: Text(S.of(context).license),
+            trailing: Icon(Icons.keyboard_arrow_right),
+          ),
         ],
       ),
     );

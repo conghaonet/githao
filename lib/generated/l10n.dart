@@ -479,6 +479,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Forked from`
+  String get forked_from {
+    return Intl.message(
+      'Forked from',
+      name: 'forked_from',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

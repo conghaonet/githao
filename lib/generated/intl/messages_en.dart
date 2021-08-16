@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
         "followers": MessageLookupByLibrary.simpleMessage("followers"),
         "following": MessageLookupByLibrary.simpleMessage("following"),
+        "forked_from": MessageLookupByLibrary.simpleMessage("Forked from"),
         "forks": MessageLookupByLibrary.simpleMessage("Forks"),
         "ignore": MessageLookupByLibrary.simpleMessage("Ignore"),
         "issues": MessageLookupByLibrary.simpleMessage("Issues"),

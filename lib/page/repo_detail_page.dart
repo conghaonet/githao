@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -27,14 +28,21 @@ class RepoDetailPage extends StatefulWidget {
 }
 
 class _RepoDetailPageState extends State<RepoDetailPage> {
+  final GlobalKey _repoNameKey = GlobalKey();
+  final GlobalKey _appBarKey = GlobalKey();
   int _stackIndex = 0;
   RepoEntity? _repo;
   bool _isStarred = false;
   RepoSubscriptionEntity? _subscription;
+  RenderObject? _repoNameViewAncestor;
+  RenderBox? _repoNameViewRenderBox;
+  double? _repoNameViewHeight;
+  late StreamController<double> _titleOpacityController;
 
   @override
   void initState() {
     super.initState();
+    _titleOpacityController = StreamController<double>.broadcast();
     _loadData();
   }
 
@@ -47,6 +55,15 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
           repoName: widget.pageArgs.repoName
       );
       _stackIndex = 2;
+      if(_repoNameViewHeight == null) {
+        WidgetsBinding.instance?.addPostFrameCallback((_) {
+          if(mounted) {
+            _repoNameViewAncestor = _appBarKey.currentContext?.findRenderObject();
+            _repoNameViewRenderBox = _repoNameKey.currentContext?.findRenderObject() as RenderBox;
+            _repoNameViewHeight = _repoNameViewRenderBox?.size.height;
+          }
+        });
+      }
     } catch(e) {
       _stackIndex = 1;
     } finally {
@@ -98,8 +115,20 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: StreamBuilder<double>(
+          stream: _titleOpacityController.stream,
+          initialData: 0.0,
+          builder: (context, snapshot) {
+            return Opacity(
+              opacity: snapshot.data ?? 0.0,
+              child: Text(widget.pageArgs.repoName, style: TextStyle(fontSize: 14),),
+            );
+          },
+        ),
+        centerTitle: true,
       ),
       body: IndexedStack(
+        key: _appBarKey,
         index: _stackIndex,
         children: [
           Center(child: CupertinoActivityIndicator(radius: 16,),),
@@ -107,17 +136,36 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
           if(_repo != null)
             RefreshIndicator(
               onRefresh: _loadData,
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Container(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildHeader(),
-                      SizedBox(height: 8,),
-                      _buildStarAndWatch(),
-                    ],
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (notification) {
+                  if(_repoNameViewHeight != null) {
+                    final offsetY = _repoNameViewRenderBox?.localToGlobal(Offset.zero, ancestor: _repoNameViewAncestor).dy;
+                    if(offsetY != null) {
+                      if(offsetY >= 0 ) {
+                        _titleOpacityController.add(0);
+                      } else {
+                        if(offsetY.abs() >= _repoNameViewHeight!) {
+                          _titleOpacityController.add(1);
+                        } else {
+                          _titleOpacityController.add(offsetY.abs() / _repoNameViewHeight!);
+                        }
+                      }
+                    }
+                  }
+                  return false;
+                },
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildHeader(),
+                        SizedBox(height: 8,),
+                        _buildStarAndWatch(),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -150,7 +198,10 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
-          child: Text(_repo!.name!, style: TextStyle(fontSize: 20),),
+          child: Text(_repo!.name!,
+            key: _repoNameKey,
+            style: TextStyle(fontSize: 20),
+          ),
         ),
         if(!_repo!.description.isNullOrEmpty)
           Padding(
@@ -381,6 +432,11 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
         ],
       ),
     );
+  }
+  @override
+  void dispose() {
+    _titleOpacityController.close();
+    super.dispose();
   }
 }
 

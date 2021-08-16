@@ -26,7 +26,7 @@ class DioClient {
     // setProxy("127.0.0.1", 7890);
     _dio.interceptors.add(GithubInterceptor());
     _dio.interceptors.add(CacheInterceptor());
-    _dio.interceptors.add(LogInterceptor(responseBody: true));
+    _dio.interceptors.add(LogInterceptor(responseBody: false));
   }
 
   void setProxy(String proxyServer, int port) {

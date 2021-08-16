@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:githao/generated/l10n.dart';
 import 'package:githao/network/entity/activity/repo_subscription_entity.dart';
 import 'package:githao/network/entity/activity/repo_subscription_queries_entity.dart';
@@ -13,7 +12,6 @@ import 'package:githao/network/github_service.dart';
 import 'package:githao/util/string_extension.dart';
 import 'package:githao/util/util.dart';
 import 'package:githao/widget/error_view.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:githao/util/number_extension.dart';
 
@@ -225,13 +223,13 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
               child: Row(
                 children: [
                   ImageIcon(getSvgProvider('assets/github/link-16.svg',),),
-                  InkWell(
-                    onTap: () async {
-                      if(await canLaunch(_repo!.homepage!)){
-                        await launch(_repo!.homepage!);
-                      }
-                    },
-                    child: Flexible(
+                  Flexible(
+                    child: InkWell(
+                      onTap: () async {
+                        if(await canLaunch(_repo!.homepage!)){
+                          await launch(_repo!.homepage!);
+                        }
+                      },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 4.0),
                         child: Text(_repo!.homepage!,
@@ -487,35 +485,35 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
   }
 
   Widget _buildMenu() {
-    return Card(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            leading: ImageIcon(getSvgProvider('assets/github/issue-opened-16.svg'), color: Colors.green,),
-            title: Text(S.of(context).issues),
-            trailing: Icon(Icons.keyboard_arrow_right),
-          ),
-          Divider(height: 0.5, thickness: 0.5,),
-          ListTile(
-            leading: ImageIcon(getSvgProvider('assets/github/git-pull-request-16.svg'), color: Colors.blue,),
-            title: Text(S.of(context).pull_requests),
-            trailing: Icon(Icons.keyboard_arrow_right),
-          ),
-          Divider(height: 0.5, thickness: 0.5,),
-          ListTile(
-            leading: ImageIcon(getSvgProvider('assets/github/eye-16.svg'), color: Colors.yellow,),
-            title: Text(S.of(context).watchers),
-            trailing: Icon(Icons.keyboard_arrow_right),
-          ),
-          Divider(height: 0.5, thickness: 0.5,),
-          ListTile(
-            leading: ImageIcon(getSvgProvider('assets/github/law-16.svg'), color: Colors.red),
-            title: Text(S.of(context).license),
-            trailing: Icon(Icons.keyboard_arrow_right),
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Divider(height: 0.5, thickness: 0.5,),
+        ListTile(
+          leading: ImageIcon(getSvgProvider('assets/github/issue-opened-16.svg'), color: Colors.green,),
+          title: Text(S.of(context).issues),
+          trailing: Icon(Icons.keyboard_arrow_right),
+        ),
+        Divider(height: 0.5, thickness: 0.5,),
+        ListTile(
+          leading: ImageIcon(getSvgProvider('assets/github/git-pull-request-16.svg'), color: Colors.blue,),
+          title: Text(S.of(context).pull_requests),
+          trailing: Icon(Icons.keyboard_arrow_right),
+        ),
+        Divider(height: 0.5, thickness: 0.5,),
+        ListTile(
+          leading: ImageIcon(getSvgProvider('assets/github/eye-16.svg'), color: Colors.yellow,),
+          title: Text(S.of(context).watchers),
+          trailing: Icon(Icons.keyboard_arrow_right),
+        ),
+        Divider(height: 0.5, thickness: 0.5,),
+        ListTile(
+          leading: ImageIcon(getSvgProvider('assets/github/law-16.svg'), color: Colors.red),
+          title: Text(S.of(context).license),
+          trailing: Icon(Icons.keyboard_arrow_right),
+        ),
+        Divider(height: 0.5, thickness: 0.5,),
+      ],
     );
   }
   @override

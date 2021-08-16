@@ -14,6 +14,7 @@ import 'package:githao/util/util.dart';
 import 'package:githao/widget/error_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:githao/util/number_extension.dart';
+import 'app_route.dart';
 
 class RepoDetailPage extends StatefulWidget {
   final RepoDetailPageArgs pageArgs;
@@ -257,6 +258,12 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
                   Flexible(
                     child: InkWell(
                       onTap: () {
+                        Navigator.pushNamed(context, AppRoute.routeRepoDetail,
+                          arguments: RepoDetailPage.getPageArgs(
+                            repoName: _repo!.source!.name!,
+                            owner: _repo!.source!.owner!.login!,
+                          ),
+                        );
                       },
                       child: Text(_repo!.source!.fullName!,
                         maxLines: 1,
@@ -491,26 +498,59 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
         Divider(height: 0.5, thickness: 0.5,),
         ListTile(
           leading: ImageIcon(getSvgProvider('assets/github/issue-opened-16.svg'), color: Colors.green,),
-          title: Text(S.of(context).issues),
+          title: Row(
+            children: [
+              Expanded(child: Text(S.of(context).issues)),
+              Text('${_repo?.openIssuesCount ?? 0}',
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
+          ),
           trailing: Icon(Icons.keyboard_arrow_right),
+          onTap: () {
+
+          },
         ),
         Divider(height: 0.5, thickness: 0.5,),
         ListTile(
           leading: ImageIcon(getSvgProvider('assets/github/git-pull-request-16.svg'), color: Colors.blue,),
           title: Text(S.of(context).pull_requests),
           trailing: Icon(Icons.keyboard_arrow_right),
+          onTap: () {
+
+          },
         ),
         Divider(height: 0.5, thickness: 0.5,),
         ListTile(
           leading: ImageIcon(getSvgProvider('assets/github/eye-16.svg'), color: Colors.yellow,),
-          title: Text(S.of(context).watchers),
-          trailing: Icon(Icons.keyboard_arrow_right),
+          title: Row(
+            children: [
+              Expanded(child: Text(S.of(context).watchers)),
+              Text('${_repo?.subscribersCount ?? 0}',
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
+          ),
+          trailing: _repo?.subscribersCount == 0 ? null : Icon(Icons.keyboard_arrow_right),
+          onTap: _repo?.subscribersCount == 0 ? null : () {
+
+          },
         ),
         Divider(height: 0.5, thickness: 0.5,),
         ListTile(
           leading: ImageIcon(getSvgProvider('assets/github/law-16.svg'), color: Colors.red),
-          title: Text(S.of(context).license),
-          trailing: Icon(Icons.keyboard_arrow_right),
+          title: Row(
+            children: [
+              Expanded(child: Text(S.of(context).license)),
+              Text(_repo?.license != null ? _repo!.license!.spdxId! : S.of(context).none,
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
+          ),
+          trailing: _repo?.license != null ? Icon(Icons.keyboard_arrow_right) : null,
+          onTap: _repo?.license == null ? null : () {
+
+          },
         ),
         Divider(height: 0.5, thickness: 0.5,),
       ],

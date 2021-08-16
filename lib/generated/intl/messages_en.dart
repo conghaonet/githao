@@ -49,8 +49,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Notified of all notifications on this repository."),
         "msg_repo_watch_ignore":
             MessageLookupByLibrary.simpleMessage("Never be notified."),
+        "none": MessageLookupByLibrary.simpleMessage("None"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "organizations": MessageLookupByLibrary.simpleMessage("Organizations"),
+        "other": MessageLookupByLibrary.simpleMessage("Other"),
         "owner": MessageLookupByLibrary.simpleMessage("Owner"),
         "participating_and_mentions":
             MessageLookupByLibrary.simpleMessage("Participating and @mentions"),

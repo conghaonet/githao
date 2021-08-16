@@ -88,9 +88,9 @@ abstract class GithubService {
   /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
   @GET('/repos/{owner}/{repo}')
   Future<RepoEntity> getRepo({
-      @Path("owner") required String owner,
-      @Path("repo") required String repoName,
-      @Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false
+    @Path("owner") required String owner,
+    @Path("repo") required String repoName,
+    @Header(DioClient.EXTRA_CACHEABLE) bool? cacheable = false
   });
 
   /// https://docs.github.com/en/github/setting-up-and-managing-your-github-user-account/managing-your-membership-in-organizations/requesting-organization-approval-for-oauth-apps

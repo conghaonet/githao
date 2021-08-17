@@ -509,6 +509,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Change`
+  String get change {
+    return Intl.message(
+      'Change',
+      name: 'change',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Browse code`
+  String get browse_code {
+    return Intl.message(
+      'Browse code',
+      name: 'browse_code',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Commits`
+  String get commits {
+    return Intl.message(
+      'Commits',
+      name: 'commits',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

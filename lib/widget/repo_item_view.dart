@@ -43,6 +43,8 @@ class RepoItemView extends StatelessWidget {
             arguments: RepoDetailPage.getPageArgs(
               repoName: repoEntity.name!,
               owner: repoEntity.owner!.login!,
+              // repoName: 'flutter',
+              // owner: 'flutter',
             ),
           );
         },

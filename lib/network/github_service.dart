@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:githao/network/entity/org/org_entity.dart';
 import 'package:githao/network/entity/repo/repo_entity.dart';
 import 'package:githao/network/entity/repo/repos_queries_entity.dart';
+import 'package:githao/network/entity/repo_content_entity.dart';
 import 'package:githao/network/entity/token_entity.dart';
 import 'package:githao/network/entity/token_request_model.dart';
 import 'package:githao/network/entity/user_entity.dart';
@@ -127,6 +128,17 @@ abstract class GithubService {
   /// https://docs.github.com/en/rest/reference/activity#delete-a-repository-subscription
   @DELETE('/repos/{owner}/{repo}/subscription')
   Future<HttpResponse> delRepoSubscription(@Path("owner") String owner, @Path("repo") String repo);
+
+  /// https://docs.github.com/cn/rest/reference/repos#get-repository-content
+  @GET("/repos/{owner}/{repo}/contents/{path}")
+  Future<RepoContentEntity> getRepoContent(@Path("owner") String owner,
+      @Path("repo") String repo, @Path("path") String path, @Query('ref') String branch,);
+
+  /// https://docs.github.com/cn/rest/reference/repos#get-repository-content
+  @GET("/repos/{owner}/{repo}/contents/{path}")
+  @http.Headers(<String, dynamic>{"Accept" : "application/vnd.github.v3.html"})
+  Future<HttpResponse> getRepoContentHtml(@Path("owner") String owner,
+      @Path("repo") String repo, @Path("path") String path, @Query('ref') String branch,);
 }
 
 final GithubService githubService = GithubService(dioClient.dio);

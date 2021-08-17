@@ -44,5 +44,8 @@
   "msg_repo_watch_ignore": "Never be notified.",
   "forked_from": "Forked from",
   "none": "None",
-  "other": "Other"
+  "other": "Other",
+  "change": "Change",
+  "browse_code": "Browse code",
+  "commits": "Commits"
 }

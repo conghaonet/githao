@@ -39,6 +39,7 @@ dependencies:
   cached_network_image: ^3.1.0
   flutter_svg_provider: ^0.1.10
   url_launcher: ^6.0.9
+  flutter_markdown: ^0.6.4
 
 dev_dependencies:
   flutter_test:

@@ -12,6 +12,7 @@ import 'package:githao/network/github_service.dart';
 import 'package:githao/util/string_extension.dart';
 import 'package:githao/util/util.dart';
 import 'package:githao/widget/error_view.dart';
+import 'package:githao/widget/select_notifications_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:githao/util/number_extension.dart';
 import 'app_route.dart';
@@ -108,6 +109,21 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
       }
     }).catchError((e) {
       print(e.toString());
+    });
+  }
+
+  void onSelectNotifications(RepoSubscriptionQueriesEntity? queriesEntity) {
+    setState(() {
+      if(queriesEntity == null) {
+        _subscription = null;
+      } else {
+        if(_subscription != null) {
+          _subscription!.subscribed = queriesEntity.subscribed;
+          _subscription!.ignored = queriesEntity.ignored;
+        } else {
+          _subscription = RepoSubscriptionEntity(queriesEntity.subscribed, queriesEntity.ignored, null, null, null, null);
+        }
+      }
     });
   }
 
@@ -392,102 +408,18 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16),),
                 ),
                 builder: (context) {
-                  return _buildBottomWatchMenu();
+                  return SelectNotificationsView(
+                    owner: widget.pageArgs.owner,
+                    repoName: widget.pageArgs.repoName,
+                    subscription: this._subscription,
+                    callback: onSelectNotifications,
+                  );
                 },
               );
             },
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildBottomWatchMenu() {
-    return Container(
-      padding: EdgeInsets.all(8),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              TextButton(
-                onPressed: () {},
-                child: Text(S.of(context).close, style: TextStyle(color: Colors.transparent),),
-              ),
-              Expanded(child: Center(child: Text(S.of(context).notifications))),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(S.of(context).close,),
-              ),
-            ],
-          ),
-          Divider(height: 0.5, thickness: 0.5,),
-          ListTile(
-            title: Text(S.of(context).participating_and_mentions),
-            subtitle: Text(S.of(context).msg_repo_no_watch),
-            trailing: Icon(Icons.check, color: _subscription == null ? null : Colors.transparent,),
-            onTap: () {
-              githubService.delRepoSubscription(widget.pageArgs.owner, widget.pageArgs.repoName).then((httpResponse) {
-                if(httpResponse.response.statusCode == HttpStatus.noContent) {
-                  if(mounted) {
-                    setState(() {
-                      _subscription = null;
-                    });
-                    Navigator.pop(context);
-                  }
-                }
-              }).catchError((e) {
-                print(e.toString());
-              });
-            },
-          ),
-          Divider(height: 0.5, thickness: 0.5,),
-          ListTile(
-            title: Text(S.of(context).all_activity),
-            subtitle: Text(S.of(context).msg_repo_watch_all),
-            trailing: Icon(Icons.check,
-              color: _subscription?.subscribed == true ? null : Colors.transparent,
-            ),
-            onTap: () {
-              githubService.setRepoSubscription(widget.pageArgs.owner, widget.pageArgs.repoName,
-                queries: RepoSubscriptionQueriesEntity(true, false),
-              ).then((entity) {
-                if(mounted) {
-                  setState(() {
-                    _subscription = entity;
-                  });
-                  Navigator.pop(context);
-                }
-              }).catchError((e) {
-                print(e.toString());
-              });
-            },
-          ),
-          Divider(height: 0.5, thickness: 0.5,),
-          ListTile(
-            title: Text(S.of(context).ignore),
-            subtitle: Text(S.of(context).msg_repo_watch_ignore),
-            trailing: Icon(Icons.check,
-              color: _subscription?.ignored == true ? null : Colors.transparent,
-            ),
-            onTap: () {
-              githubService.setRepoSubscription(widget.pageArgs.owner, widget.pageArgs.repoName,
-                queries: RepoSubscriptionQueriesEntity(false, true),
-              ).then((entity) {
-                if(mounted) {
-                  setState(() {
-                    _subscription = entity;
-                  });
-                  Navigator.pop(context);
-                }
-              }).catchError((e) {
-                print(e.toString());
-              });
-            },
-          ),
-          Divider(height: 0.5, thickness: 0.5,),
-        ],
-      ),
     );
   }
 

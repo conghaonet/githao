@@ -12,6 +12,7 @@ import 'package:githao/network/github_service.dart';
 import 'package:githao/util/string_extension.dart';
 import 'package:githao/util/util.dart';
 import 'package:githao/widget/error_view.dart';
+import 'package:githao/widget/repo_detail_main_menu.dart';
 import 'package:githao/widget/select_notifications_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:githao/util/number_extension.dart';
@@ -185,7 +186,8 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
                           padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
                           child: _buildStarAndWatch(),
                         ),
-                        _buildMenu(),
+                        // _buildMenu(),
+                        RepoDetailMainMenu(_repo!),
                       ],
                     ),
                   ),
@@ -423,71 +425,6 @@ class _RepoDetailPageState extends State<RepoDetailPage> {
     );
   }
 
-  Widget _buildMenu() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Divider(height: 0.5, thickness: 0.5,),
-        ListTile(
-          leading: ImageIcon(getSvgProvider('assets/github/issue-opened-16.svg'), color: Colors.green,),
-          title: Row(
-            children: [
-              Expanded(child: Text(S.of(context).issues)),
-              Text('${_repo?.openIssuesCount ?? 0}',
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
-          ),
-          trailing: Icon(Icons.keyboard_arrow_right),
-          onTap: () {
-
-          },
-        ),
-        Divider(height: 0.5, thickness: 0.5,),
-        ListTile(
-          leading: ImageIcon(getSvgProvider('assets/github/git-pull-request-16.svg'), color: Colors.blue,),
-          title: Text(S.of(context).pull_requests),
-          trailing: Icon(Icons.keyboard_arrow_right),
-          onTap: () {
-
-          },
-        ),
-        Divider(height: 0.5, thickness: 0.5,),
-        ListTile(
-          leading: ImageIcon(getSvgProvider('assets/github/eye-16.svg'), color: Colors.yellow,),
-          title: Row(
-            children: [
-              Expanded(child: Text(S.of(context).watchers)),
-              Text('${_repo?.subscribersCount ?? 0}',
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
-          ),
-          trailing: _repo?.subscribersCount == 0 ? null : Icon(Icons.keyboard_arrow_right),
-          onTap: _repo?.subscribersCount == 0 ? null : () {
-
-          },
-        ),
-        Divider(height: 0.5, thickness: 0.5,),
-        ListTile(
-          leading: ImageIcon(getSvgProvider('assets/github/law-16.svg'), color: Colors.red),
-          title: Row(
-            children: [
-              Expanded(child: Text(S.of(context).license)),
-              Text(_repo?.license != null ? _repo!.license!.spdxId! : S.of(context).none,
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
-          ),
-          trailing: _repo?.license != null ? Icon(Icons.keyboard_arrow_right) : null,
-          onTap: _repo?.license == null ? null : () {
-
-          },
-        ),
-        Divider(height: 0.5, thickness: 0.5,),
-      ],
-    );
-  }
   @override
   void dispose() {
     _titleOpacityController.close();

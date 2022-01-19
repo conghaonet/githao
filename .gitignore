@@ -11,6 +11,8 @@
 
 # IntelliJ related
 #*.iml
+/android/android.iml
+/android/app/app.iml
 *.ipr
 *.iws
 .idea/

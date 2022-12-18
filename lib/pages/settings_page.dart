@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+// import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/provide/locale_provide.dart';
 import 'package:githao/provide/theme_provide.dart';
@@ -109,7 +109,7 @@ class _SettingsPageState extends State<SettingsPage> {
           setState(() {
             context.read<ThemeProvide>().changeTheme(i);
             SystemChrome.setSystemUIOverlayStyle(context.read<ThemeProvide>().overlayStyle);
-            FlutterStatusbarcolor.setStatusBarColor(Colors.primaries[i][700]);
+            // FlutterStatusbarcolor.setStatusBarColor(Colors.primaries[i][700]);
             SpUtil.setThemeIndex(i);
           });
         },

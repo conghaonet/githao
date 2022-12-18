@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:githao/network/entity/repo_entity.dart';
 import 'package:githao/pages/profile_page.dart';
@@ -18,8 +17,7 @@ class RepoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     String avatarHeroTag = 'repoitem_${this.tag ?? ''}_${this.repo.fullName}';
     return Card(
-      child: FlatButton(
-        padding: EdgeInsets.all(0),
+      child: ElevatedButton(
         onPressed: (){
           Navigator.pushNamed(context, RepoHomePage.ROUTE_NAME, arguments: this.repo.fullName);
         },

@@ -239,9 +239,9 @@ class _LoginPageState extends State<LoginPage> {
       width: double.infinity,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 32),
-        child: FlatButton(
-          color: Theme.of(context).primaryColor,
-          shape:new RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+        child: ElevatedButton(
+          // color: Theme.of(context).primaryColor,
+          // shape:new RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
           focusNode: _loginFocusNode,
           child: Padding(
             padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),

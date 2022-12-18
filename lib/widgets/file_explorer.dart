@@ -189,8 +189,8 @@ class _FileExplorerState extends State<FileExplorer> with AutomaticKeepAliveClie
 /// 定义tab栏高度
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final Widget _tabBar;
-  final int tabIndex;
-  _SliverAppBarDelegate(this._tabBar, {this.tabIndex});
+  // final int tabIndex;
+  _SliverAppBarDelegate(this._tabBar);
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return _tabBar;

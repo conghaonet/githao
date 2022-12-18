@@ -331,8 +331,7 @@ class _RepoInfoState extends State<RepoInfo> {
                       ),
                     ),
                     SizedBox(height: 8,),
-                    FlatButton(
-                      padding: EdgeInsets.all(0),
+                    ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamed(context, WebViewPage.ROUTE_NAME,
                             arguments: WebViewPageArgs(url: 'https://github.com/${widget.repo.fullName}/blob/${widget.repo.defaultBranch}/README.md'),
@@ -369,9 +368,9 @@ class _RepoInfoState extends State<RepoInfo> {
 /// 定义tab栏高度
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final Container _tabBar;
-  final int tabIndex;
+  // final int tabIndex;
   final StateFlag _loadingState;
-  _SliverAppBarDelegate(this._loadingState, this._tabBar, {this.tabIndex});
+  _SliverAppBarDelegate(this._loadingState, this._tabBar);
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(child: _tabBar,);

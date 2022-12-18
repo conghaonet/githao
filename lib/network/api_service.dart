@@ -177,7 +177,7 @@ class ApiService {
     if(searchEntity != null && searchEntity.items != null && searchEntity.items.isNotEmpty) {
       return searchEntity.items.map((item) => IssueEntity.fromJson(item)).toList();
     } else {
-      return List<IssueEntity>();
+      return [];
     }
   }
 
@@ -192,7 +192,7 @@ class ApiService {
     if(searchEntity != null && searchEntity.items != null && searchEntity.items.isNotEmpty) {
       return searchEntity.items.map((item) => RepoEntity.fromJson(item)).toList();
     } else {
-      return List<RepoEntity>();
+      return [];
     }
   }
 
@@ -207,7 +207,7 @@ class ApiService {
     if(searchEntity != null && searchEntity.items != null && searchEntity.items.isNotEmpty) {
       return searchEntity.items.map((item) => UserEntity.fromJson(item)).toList();
     } else {
-      return List<UserEntity>();
+      return [];
     }
   }
 

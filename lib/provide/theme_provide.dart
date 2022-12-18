@@ -7,8 +7,7 @@ class ThemeProvide with ChangeNotifier {
   int get themeIndex => _themeIndex;
 
   ThemeData _themeData = ThemeData(
-    primarySwatch: Colors.primaries[DEFAULT_THEME_INDEX],
-    cursorColor: Colors.primaries[DEFAULT_THEME_INDEX], //光标颜色
+    primarySwatch: Colors.primaries[DEFAULT_THEME_INDEX], textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.primaries[DEFAULT_THEME_INDEX]), //光标颜色
   );
   ThemeData get themeData => _themeData;
 
@@ -33,8 +32,7 @@ class ThemeProvide with ChangeNotifier {
     if(themeIndex >= 0 && themeIndex < Colors.primaries.length) {
       this._themeIndex = themeIndex;
       this._themeData = ThemeData(
-        primarySwatch: Colors.primaries[themeIndex],
-        cursorColor: Colors.primaries[themeIndex], //光标颜色
+        primarySwatch: Colors.primaries[themeIndex], textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.primaries[themeIndex]), //光标颜色
       );
       _overlayStyle = SystemUiOverlayStyle.light.copyWith(
         statusBarColor: Colors.primaries[themeIndex], //状态栏背景色

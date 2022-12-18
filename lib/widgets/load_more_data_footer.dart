@@ -15,7 +15,7 @@ class LoadMoreDataFooter extends StatelessWidget {
         height: footerHeight,
         alignment: Alignment.center,
         color: Colors.white,
-        child: FlatButton(
+        child: ElevatedButton(
           onPressed: () => onRetry(),
           child: Text(S.current.tapToRetry, style: TextStyle(color: Colors.red, fontWeight: FontWeight.w600),),
         ),

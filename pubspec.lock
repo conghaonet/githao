@@ -399,6 +399,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.5.2"
+  launch_review:
+    dependency: "direct main"
+    description:
+      name: launch_review
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.1"
   logging:
     dependency: transitive
     description:

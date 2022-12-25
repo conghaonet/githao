@@ -1,0 +1,6 @@
+# https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps
+github:
+  oauth_app:
+    client_id: "YOUR_CLIENT_ID"
+    client_secret: "YOUR_CLIENT_SECRET"
+    callback_url: "YOUR_AUTHORIZATION_CALLBACK_URL"

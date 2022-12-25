@@ -92,6 +92,7 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
     if (!widget.username.isNullOrEmpty) {
       authorizeUrl += '&login=${Uri.encodeFull(widget.username!)}';
     }
+    debugPrint(authorizeUrl);
     // authorizeUrl = 'https://github.com';
     return Scaffold(
       appBar: AppBar(
@@ -125,10 +126,10 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
           _webController.complete(webViewController);
         },
         onPageStarted: (String url) {
-          print('Page started loading: $url');
+          debugPrint('onPageStarted: $url');
         },
         onPageFinished: (String url) {
-          print('Page finished loading: $url');
+          debugPrint('onPageFinished: $url');
           _animController.stop();
         },
         navigationDelegate: (NavigationRequest request) {

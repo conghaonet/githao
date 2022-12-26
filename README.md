@@ -40,6 +40,19 @@ samples, guidance on mobile development, and a full API reference.
   - Xcode 12
   - CocoaPods version 1.9.1
 
+## Setup your OAuth App
+
+Create a file named 'github.yaml' in the root directory of the project and fill it with your OAuth App information.
+
+For security reasons, I cannot upload my 'github.yaml'.
+```yaml
+github:
+  oauth_app:
+    client_id: "YOUR-CLIENT-ID"
+    client_secret: "YOUR-CLIENT-SECRET"
+    callback_url: "YOUR-AUTHORIZATION-CALLBACK-URL"
+```
+
 ## Screenshots
 <img height="480px" src="https://i.loli.net/2019/11/05/AkG4ZdigaXKNbI9.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/S5tzWDnIAoUXlmJ.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/n7VkI9eaufEShTU.gif">
 <img height="480px" src="https://i.loli.net/2019/11/05/EFavRCkn3etfzwD.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/goTxX2OaY37eyQ8.gif">

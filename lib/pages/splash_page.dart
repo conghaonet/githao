@@ -77,12 +77,12 @@ class _SplashPageState extends State<SplashPage> {
             Positioned(
               bottom: 16,
               right: 16,
-              child: ElevatedButton(
+              child: InkWell(
                 child: Text(
                   S.current.skip,
                   style: TextStyle(color: Theme.of(context).colorScheme.secondary, fontWeight: FontWeight.w800),
                 ),
-                onPressed:() {
+                onTap:() {
                   hasLogin();
                 },
               ),

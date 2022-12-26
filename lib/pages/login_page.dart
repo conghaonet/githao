@@ -217,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
       width: double.infinity,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 32),
-        child: ElevatedButton(
+        child: InkWell(
           // color: Theme.of(context).primaryColor,
           // shape:new RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
           focusNode: _loginFocusNode,
@@ -228,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 20,),
             ),
           ),
-          onPressed: () {
+          onTap: () {
             if(_loginFormKey.currentState.validate()) {
               _doLogin();
             }

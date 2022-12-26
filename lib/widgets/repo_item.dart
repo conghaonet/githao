@@ -17,8 +17,8 @@ class RepoItem extends StatelessWidget {
   Widget build(BuildContext context) {
     String avatarHeroTag = 'repoitem_${this.tag ?? ''}_${this.repo.fullName}';
     return Card(
-      child: ElevatedButton(
-        onPressed: (){
+      child: InkWell(
+        onTap: (){
           Navigator.pushNamed(context, RepoHomePage.ROUTE_NAME, arguments: this.repo.fullName);
         },
         child: Padding(

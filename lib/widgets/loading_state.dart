@@ -29,9 +29,9 @@ class LoadingState extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(_tipMsg, style: TextStyle(color: Theme.of(context).primaryColor),),
-              ElevatedButton(
+              InkWell(
                 child: Text(S.current.tapToRetry, style: TextStyle(color: Colors.red, fontWeight: FontWeight.w600),),
-                onPressed: () => onRetry(),
+                onTap: () => onRetry(),
               ),
             ],
           ),

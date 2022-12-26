@@ -331,8 +331,8 @@ class _RepoInfoState extends State<RepoInfo> {
                       ),
                     ),
                     SizedBox(height: 8,),
-                    ElevatedButton(
-                      onPressed: () {
+                    InkWell(
+                      onTap: () {
                         Navigator.pushNamed(context, WebViewPage.ROUTE_NAME,
                             arguments: WebViewPageArgs(url: 'https://github.com/${widget.repo.fullName}/blob/${widget.repo.defaultBranch}/README.md'),
                         );

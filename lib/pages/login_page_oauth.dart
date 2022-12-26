@@ -129,7 +129,7 @@ class _LoginPageOAuthState extends State<LoginPageOAuth> with SingleTickerProvid
           RefreshIconAnimateWidget(this._animation, _onClickRefresh),
         ],
       ),
-      body: authorizeUrl == null ? Container() : WebView(
+      body: authorizeUrl == null ? _buildNoGitHubYaml() : WebView(
         initialUrl: authorizeUrl,
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) {
@@ -159,6 +159,38 @@ class _LoginPageOAuthState extends State<LoginPageOAuth> with SingleTickerProvid
             return NavigationDecision.navigate;
           }
         },
+      ),
+    );
+  }
+  
+  Widget _buildNoGitHubYaml() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(child: Text('Setup your OAuth App', style: TextStyle(fontSize: 22),)),
+          SizedBox(height: 8,),
+          Text("Create a file named 'github.yaml' in the root directory of the project and fill it with your OAuth App information."),
+          SizedBox(height: 8,),
+          Text('For example:'),
+
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Container(
+              color: Colors.grey.shade300,
+              child: Text('''
+github:
+  oauth_app:
+      client_id: "YOUR-CLIENT-ID"
+      client_secret: "YOUR-CLIENT-SECRET"
+      callback_url: "YOUR-AUTHORIZATION-CALLBACK-URL"
+              ''',
+                softWrap: false,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

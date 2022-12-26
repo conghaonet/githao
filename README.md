@@ -43,8 +43,6 @@ samples, guidance on mobile development, and a full API reference.
 ## Setup your OAuth App
 
 Create a file named 'github.yaml' in the root directory of the project and fill it with your [OAuth App](https://github.com/settings/developers) information.
-
-For security reasons, I cannot upload my 'github.yaml'.
 ```yaml
 github:
   oauth_app:
@@ -52,6 +50,7 @@ github:
     client_secret: "YOUR-CLIENT-SECRET"
     callback_url: "YOUR-AUTHORIZATION-CALLBACK-URL"
 ```
+For security reasons, I cannot upload my 'github.yaml'.
 
 ## Screenshots
 <img height="480px" src="https://i.loli.net/2019/11/05/AkG4ZdigaXKNbI9.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/S5tzWDnIAoUXlmJ.gif"> <img height="480px" src="https://i.loli.net/2019/11/05/n7VkI9eaufEShTU.gif">

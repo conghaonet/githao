@@ -43,6 +43,7 @@ samples, guidance on mobile development, and a full API reference.
 ## Setup your OAuth App
 
 Create a file named 'github.yaml' in the root directory of the project and fill it with your [OAuth App](https://github.com/settings/developers) information.
+
 For security reasons, I cannot upload my 'github.yaml'.
 ```yaml
 github:

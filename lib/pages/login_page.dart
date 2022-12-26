@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:githao/biz/user_biz.dart';
 import 'package:githao/generated/i18n.dart';
-import 'package:githao/provide/user_provide.dart';
 import 'package:githao/utils/sp_util.dart';
-import 'package:githao/utils/util.dart';
-import 'package:provider/provider.dart';
 import 'package:githao/widgets/login_wave_clippers.dart';
-
-import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   static const ROUTE_NAME = "/login";
@@ -44,22 +38,6 @@ class _LoginPageState extends State<LoginPage> {
     });
     //登录前，先移除之前保存的登录信息。
     SpUtil.logout();
-    UserBiz.login(_username, _password).then((userEntity) async {
-      if(userEntity != null ) {
-        context.read<UserProvide>().updateUser(userEntity);
-        Navigator.of(context).pushReplacementNamed(HomePage.ROUTE_NAME);
-      } else {
-        throw Exception("获取用户信息出错！");
-      }
-    }).catchError((e) {
-      Util.showToast('登录失败：${e.toString()}');
-    }).whenComplete(() {
-      if(mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    });
   }
 
   @override

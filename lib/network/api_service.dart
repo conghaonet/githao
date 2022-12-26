@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 
-import 'package:githao/network/entity/authorization_entity.dart';
-import 'package:githao/network/entity/authorization_post.dart';
 import 'package:githao/network/entity/commit_detail_entity.dart';
 import 'package:githao/network/entity/issue_entity.dart';
 import 'package:githao/network/entity/search_entity.dart';
+import 'package:githao/network/entity/token_entity.dart';
+import 'package:githao/network/entity/token_request_model.dart';
 import 'codehub_client.dart';
 import 'entity/commit_entity.dart';
 import 'entity/event_entity.dart';
@@ -14,10 +14,16 @@ import 'entity/user_entity.dart';
 import 'dio_client.dart';
 
 class ApiService {
-  static Future<AuthorizationEntity> login(String credentialsBasic) async {
-    Options options = Options(headers: {"Authorization": credentialsBasic});
-    Response<Map<String, dynamic>> response = await dioClient.dio.post("/authorizations", data: AuthorizationPost().toJson(), options: options);
-    return AuthorizationEntity.fromJson(response.data);
+  /// https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps
+  /// [cacheable] false: 不实用缓存数据；true：使用缓存数据
+  static Future<TokenEntity> accessToken(TokenRequestModel model) async {
+    Options options = Options(headers: {"Accept": "application/json"});
+    Response<Map<String, dynamic>> response = await dioClient.dio.post(
+      "https://github.com/login/oauth/access_token",
+      data: model.toJson(),
+      options: options,
+    );
+    return TokenEntity.fromJson(response.data);
   }
 
   static Future<UserEntity> getUser(String username) async {

@@ -8,6 +8,7 @@ import 'package:githao/biz/user_biz.dart';
 import 'package:githao/generated/i18n.dart';
 import 'package:githao/pages/about_page.dart';
 import 'package:githao/pages/issues_page.dart';
+import 'package:githao/pages/login_page_oauth.dart';
 import 'package:githao/pages/profile_page.dart';
 import 'package:githao/pages/search_page.dart';
 import 'package:githao/pages/settings_page.dart';
@@ -19,8 +20,6 @@ import 'package:githao/widgets/trending_repos.dart';
 import 'package:githao/widgets/user_repos.dart';
 import 'package:githao/widgets/starred_repos.dart';
 import 'package:provider/provider.dart';
-
-import 'login_page.dart';
 
 class HomePage extends StatefulWidget {
   static const ROUTE_NAME = "/home";
@@ -241,7 +240,7 @@ class _HomeDrawerState extends State<HomeDrawer> with SingleTickerProviderStateM
                       title: Text(S.current.logout,),
                       onTap: () {
                         SpUtil.logout();
-                        Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
+                        Navigator.of(context).pushReplacementNamed(LoginPageOAuth.ROUTE_NAME);
                       },
                     ),
                   ],

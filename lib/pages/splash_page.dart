@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:githao/biz/user_biz.dart';
 import 'package:githao/network/entity/user_entity.dart';
+import 'package:githao/pages/login_page_oauth.dart';
 import 'package:githao/provide/theme_provide.dart';
 import 'package:githao/provide/user_provide.dart';
 import 'package:provider/provider.dart';
 
 import 'home_page.dart';
-import 'login_page.dart';
 import 'package:githao/generated/i18n.dart';
 
 class SplashPage extends StatefulWidget {
@@ -30,7 +29,7 @@ class _SplashPageState extends State<SplashPage> {
       context.read<UserProvide>().updateUser(userEntity);
       Navigator.of(context).pushReplacementNamed(HomePage.ROUTE_NAME);
     } else {
-      Navigator.of(context).pushReplacementNamed(LoginPage.ROUTE_NAME);
+      Navigator.of(context).pushReplacementNamed(LoginPageOAuth.ROUTE_NAME);
     }
   }
   @override

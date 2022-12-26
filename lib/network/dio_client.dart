@@ -36,9 +36,9 @@ class DioClient {
         onRequest:(Options options) {
           //添加验证头信息
           if(!options.headers.containsKey('Authorization') || (options.headers['Authorization'] as String).isEmpty) {
-            String basic = SpUtil.getGitHubAuthorizationBasic();
-            if(StringUtil.isNotEmpty(basic)) {
-              options.headers['Authorization'] = basic;
+            String token = SpUtil.getToken();
+            if(StringUtil.isNotEmpty(token)) {
+              options.headers['Authorization'] = 'token $token';
             }
           }
           return options;

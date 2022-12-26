@@ -9,7 +9,7 @@ import 'package:githao/pages/commit_file_comparison_page.dart';
 import 'package:githao/pages/home_page.dart';
 import 'package:githao/pages/image_preview_page.dart';
 import 'package:githao/pages/issues_page.dart';
-import 'package:githao/pages/login_page.dart';
+import 'package:githao/pages/login_page_oauth.dart';
 import 'package:githao/pages/profile_page.dart';
 import 'package:githao/pages/repo_forks_page.dart';
 import 'package:githao/pages/repo_home_page.dart';
@@ -37,7 +37,7 @@ class AppRoute extends NavigatorObserver {
   /// 静态路由（无参数）
   static final Map<String, WidgetBuilder> _routes = {
     SplashPage.ROUTE_NAME: (_) => SplashPage(),
-    LoginPage.ROUTE_NAME: (_) => LoginPage(),
+    LoginPageOAuth.ROUTE_NAME: (_) => LoginPageOAuth(),
     HomePage.ROUTE_NAME: (_) => HomePage(),
     SettingsPage.ROUTE_NAME: (_) => SettingsPage(),
     CommonSearchPage.ROUTE_NAME: (_) => CommonSearchPage(),

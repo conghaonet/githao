@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:githao/generated/l10n.dart';
 import 'package:githao/network/entity/token_request_model.dart';
 import 'package:githao/network/github_service.dart';
@@ -12,6 +13,7 @@ import 'package:githao/util/prefs_manager.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:githao/util/string_extension.dart';
+import 'package:yaml/yaml.dart';
 
 import 'app_route.dart';
 
@@ -36,11 +38,36 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
   CancelToken _cancelToken = CancelToken();
   final Completer<WebViewController> _webController = Completer<WebViewController>();
 
+  late final String? clientId;
+  late final String? clientSecret;
+  late final String? callbackUrl;
+  late final String? authorizeUrl;
   @override
   void initState() {
     super.initState();
     // Enable hybrid composition.
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+
+    Future(() async {
+      String str = await rootBundle.loadString('github.yaml');
+      var doc = loadYaml(str);
+      clientId = doc['github']['oauth_app']['client_id'];
+      clientSecret = doc['github']['oauth_app']['client_secret'];
+      callbackUrl = doc['github']['oauth_app']['callback_url'];
+
+      if(clientId != null && callbackUrl != null) {
+        authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=$clientId'
+            '&redirect_uri=${Uri.encodeFull(callbackUrl!)}'
+            '&scope=${Uri.encodeFull(Const.scope)}'
+            '${!widget.username.isNullOrEmpty ? "&login=${Uri.encodeFull(widget.username!)}" : ""}';
+
+        debugPrint(authorizeUrl);
+      }
+
+      setState(() {
+
+      });
+    });
   }
 
   @override
@@ -52,7 +79,7 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
   void _accessToken(String code) async {
     try {
       githubService
-          .accessToken(TokenRequestModel(Const.clientId, Const.clientSecret, code, null), cancelToken: _cancelToken)
+          .accessToken(TokenRequestModel(clientId!, clientSecret!, code, null), cancelToken: _cancelToken)
           .then((tokenEntity) async {
         await prefsManager.setToken(tokenEntity.accessToken);
         showToast(prefsManager.getToken() ?? 'no token');
@@ -86,13 +113,6 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    String authorizeUrl = 'https://github.com/login/oauth/authorize?client_id=${Const.clientId}'
-        '&redirect_uri=${Uri.encodeFull(Const.redirectUri)}'
-        '&scope=${Uri.encodeFull(Const.scope)}';
-    if (!widget.username.isNullOrEmpty) {
-      authorizeUrl += '&login=${Uri.encodeFull(widget.username!)}';
-    }
-    debugPrint(authorizeUrl);
     // authorizeUrl = 'https://github.com';
     return Scaffold(
       appBar: AppBar(
@@ -119,7 +139,7 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
           RefreshIconAnimateWidget(this._animation, _onClickRefresh),
         ],
       ),
-      body: WebView(
+      body: authorizeUrl.isNullOrEmpty ? Container() : WebView(
         initialUrl: authorizeUrl,
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) {
@@ -133,7 +153,7 @@ class _OAuthPageState extends State<OAuthPage> with SingleTickerProviderStateMix
           _animController.stop();
         },
         navigationDelegate: (NavigationRequest request) {
-          if (request.url.startsWith(Const.redirectUri)) {
+          if (request.url.startsWith(callbackUrl!)) {
             // http://localhost/oauth/redirect?code=514107b8ccd509ed8c48
             final code = Uri.parse(request.url).queryParameters['code'] ?? '';
             if (code.isNotEmpty) {
